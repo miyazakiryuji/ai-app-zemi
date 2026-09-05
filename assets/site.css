@@ -314,3 +314,78 @@ table.tbl tr:last-child td { border-bottom: 0; }
   .now__actions { margin-left: 0; width: 100%; }
   .btn { flex: 1 1 100%; text-align: center; padding: 12px 18px; }
 }
+
+/* ==== 動き（assets/site.js と対。html に .js が付いたときだけ効く） ====
+   JS 無効：何も隠さない。OS の「視差効果を減らす」：.reduce が付き、動かさない */
+
+/* ---- 読み込み直後：ヒーローが順に出てくる ---- */
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes pop  { 0% { opacity: 0; transform: scale(.6); } 70% { transform: scale(1.08); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes sweep { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
+@keyframes float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-10px) rotate(1.5deg); } }
+@keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
+
+.js:not(.reduce) .hero__kicker,
+.js:not(.reduce) .hero__title,
+.js:not(.reduce) .hero__sub,
+.js:not(.reduce) .hero__facts li { opacity: 0; animation: rise .8s var(--ease) forwards; }
+.js:not(.reduce) .hero__kicker { animation-delay: .05s; }
+.js:not(.reduce) .hero__title { animation-delay: .15s; }
+.js:not(.reduce) .hero__sub { animation-delay: .3s; }
+.js:not(.reduce) .hero__facts li { animation-delay: calc(.45s + var(--i, 0) * .08s); }
+.js:not(.reduce) .hero__facts li:nth-child(2) { --i: 1; }
+.js:not(.reduce) .hero__facts li:nth-child(3) { --i: 2; }
+.js:not(.reduce) .hero__facts li:nth-child(4) { --i: 3; }
+.js:not(.reduce) .hero__facts li:nth-child(5) { --i: 4; }
+/* タイトルのマーカーは、文字が出たあとに左から引く */
+.js:not(.reduce) .hero__title em { background-repeat: no-repeat; background-size: 0% 100%;
+  animation: sweep .7s var(--ease) .75s forwards; }
+.js:not(.reduce) .hero__mascot img { opacity: 0; animation: pop .7s var(--ease) .35s forwards, float 4.5s ease-in-out 1.1s infinite; }
+.js:not(.reduce) .hero__mascot img:hover { animation: wiggle .6s ease-in-out; }
+.js:not(.reduce) .message__mascot { animation: float 5s ease-in-out infinite; }
+
+/* ---- スクロールで要素が出てくる（対象一覧は site.js の REVEAL と同じ） ---- */
+.js:not(.reduce) .section__kicker, .js:not(.reduce) .section__title, .js:not(.reduce) .section__lead,
+.js:not(.reduce) .now__inner, .js:not(.reduce) .instructor, .js:not(.reduce) .message,
+.js:not(.reduce) .card, .js:not(.reduce) .cycle__step, .js:not(.reduce) .lesson-card, .js:not(.reduce) .steps > li,
+.js:not(.reduce) .stepcard, .js:not(.reduce) .contrast__col, .js:not(.reduce) .agenda__item, .js:not(.reduce) .meta-card,
+.js:not(.reduce) .app-card, .js:not(.reduce) .career > li, .js:not(.reduce) .note, .js:not(.reduce) .table-wrap,
+.js:not(.reduce) .section__inner > p, .js:not(.reduce) .section__inner > ul {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .75s var(--ease), transform .75s var(--ease),
+              box-shadow .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease), color .2s var(--ease);
+}
+.js:not(.reduce) .section__title { transition-delay: .08s; }
+.js:not(.reduce) .section__lead { transition-delay: .16s; }
+/* .is-visible を2回重ねて優先度を上げる（.career > li のように要素名を含む「隠す」側に負けないため） */
+.js:not(.reduce) .is-visible.is-visible { opacity: 1; transform: none; }
+/* 出現後にホバーの浮き上がりが効くよう、transform の指定を外す */
+.js:not(.reduce) a.lesson-card.is-visible.is-visible:hover { transform: translateY(-3px); }
+/* 番号つき手順：カードが出たあとに丸番号が弾む */
+.js:not(.reduce) .steps > li.is-visible .steps__n { animation: pop .55s var(--ease) .25s both; }
+.js:not(.reduce) .stepcard.is-visible .stepcard__n { animation: pop .55s var(--ease) .3s both; }
+/* カードは出現後、ホバーでわずかに浮く */
+.js:not(.reduce) .card.is-visible.is-visible:hover, .js:not(.reduce) .cycle__step.is-visible.is-visible:hover,
+.js:not(.reduce) .stepcard.is-visible.is-visible:hover, .js:not(.reduce) .steps > li.is-visible.is-visible:hover {
+  transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: #FFD1A6; }
+
+/* ---- 固定ヘッダ：スクロールで影／読み進みバー／いま見ている節 ---- */
+.site-header { transition: box-shadow .3s var(--ease); }
+.site-header.is-scrolled { box-shadow: 0 6px 24px rgba(255, 140, 66, .14); }
+.progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--accent-orange), var(--accent-pink)); pointer-events: none; }
+.site-header__nav a.is-active { background: var(--bg-soft); color: var(--text-accent); box-shadow: inset 0 -2px 0 var(--accent-orange); }
+
+/* ---- 上へ戻る ---- */
+.totop { position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; text-decoration: none; font-weight: 900; font-size: 18px; color: #fff;
+  background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink)); box-shadow: var(--shadow-md);
+  opacity: 0; transform: translateY(14px) scale(.9); pointer-events: none; transition: opacity .3s var(--ease), transform .3s var(--ease); }
+.totop.is-shown { opacity: 1; transform: none; pointer-events: auto; }
+.totop:hover { transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .js * { animation: none !important; transition: none !important; }
+  .js .hero__kicker, .js .hero__title, .js .hero__sub, .js .hero__facts li, .js .hero__mascot img { opacity: 1; }
+  .js .hero__title em { background-size: 100% 100%; }
+}
