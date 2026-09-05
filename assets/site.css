@@ -14,6 +14,12 @@
   --accent-pink: #FF9EC3;
   --accent-green: #6FD49D;
   --accent-yellow: #FFD166;
+  /* 白抜き文字を乗せる用（上の色そのままだと白が読めない） */
+  --on-orange: #C25A0C;
+  --on-blue: #1F6FB8;
+  --on-pink: #C74B7B;
+  --on-green: #1F7A55;
+  --on-gray: #6C7386;
   --border: #FFE2C7;
   --shadow-sm: 0 4px 16px rgba(255, 140, 66, 0.08);
   --shadow-md: 0 12px 32px rgba(255, 140, 66, 0.12);
@@ -111,7 +117,7 @@ a { color: var(--text-accent); }
 .app-card__name { font-size: 14px; font-weight: 800; margin: 0 0 4px; }
 .app-card__desc { font-size: 12px; color: var(--text-sub); margin: 0; line-height: 1.65; }
 .app-card__store { display: inline-block; margin-top: 8px; font-size: 10.5px; font-weight: 700;
-  padding: 3px 8px; border-radius: 100px; background: rgba(77, 168, 255, .15); color: var(--accent-blue); }
+  padding: 3px 8px; border-radius: 100px; background: rgba(31, 111, 184, .12); color: var(--on-blue); }
 .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .tech-stack li { font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 100px;
   background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-main); }
@@ -148,8 +154,8 @@ a { color: var(--text-accent); }
   padding: 18px 20px; box-shadow: var(--shadow-sm); border-top: 4px solid var(--accent-orange); }
 .cycle__step--live { border-top-color: var(--accent-blue); }
 .cycle__badge { display: inline-block; font-size: 11px; font-weight: 900; letter-spacing: .08em;
-  padding: 3px 10px; border-radius: 100px; background: var(--accent-orange); color: #fff; margin-bottom: 8px; }
-.cycle__step--live .cycle__badge { background: var(--accent-blue); }
+  padding: 3px 10px; border-radius: 100px; background: var(--on-orange); color: #fff; margin-bottom: 8px; }
+.cycle__step--live .cycle__badge { background: var(--on-blue); }
 .cycle__name { font-size: 15px; font-weight: 800; margin: 0 0 4px; }
 .cycle__desc { font-size: 13px; color: var(--text-sub); margin: 0; }
 
@@ -164,7 +170,10 @@ a.lesson-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md);
 .lesson-card__desc { font-size: 13px; color: var(--text-sub); margin: 0 0 10px; }
 .lesson-card__meta { font-size: 12px; font-weight: 700; color: var(--text-mute); margin: 0; }
 .lesson-card__cta { display: inline-block; margin-top: 10px; font-size: 12.5px; font-weight: 800; color: var(--text-accent); }
-.lesson-card.is-locked { opacity: .58; border-left-color: #C9CEDB; background: #FBFAF7; box-shadow: none; cursor: default; }
+.lesson-card.is-locked { border-left-color: #C9CEDB; background: #FBFAF7; box-shadow: none; cursor: default; }
+.lesson-card.is-locked .lesson-card__title { color: #565D71; }
+.lesson-card.is-locked .lesson-card__desc,
+.lesson-card.is-locked .lesson-card__meta { color: #6C7386; }
 .lesson-card.is-locked .lesson-card__no { color: var(--text-mute); }
 .badge-soon { display: inline-block; margin-top: 10px; font-size: 11px; font-weight: 800;
   padding: 3px 10px; border-radius: 100px; background: #EDEFF4; color: #6C7386; }
@@ -200,11 +209,11 @@ table.tbl tr:last-child td { border-bottom: 0; }
 .agenda__title { font-weight: 800; margin: 0 0 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 16px; }
 .agenda__desc { color: var(--text-sub); font-size: 14px; margin: 0; }
 .agenda__badge { display: inline-flex; align-items: center; font-size: 10.5px; font-weight: 900; letter-spacing: .08em;
-  padding: 3px 9px; background: var(--accent-blue); color: #fff; border-radius: 999px; line-height: 1.4; white-space: nowrap; }
-.ag-open { border-left-color: #8C93A8; } .ag-open .agenda__badge { background: #8C93A8; }
-.ag-review { border-left-color: var(--accent-pink); } .ag-review .agenda__badge { background: var(--accent-pink); }
-.ag-lecture { border-left-color: var(--accent-blue); } .ag-lecture .agenda__badge { background: var(--accent-blue); }
-.ag-next { border-left-color: var(--accent-green); } .ag-next .agenda__badge { background: var(--accent-green); }
+  padding: 3px 9px; background: var(--on-blue); color: #fff; border-radius: 999px; line-height: 1.4; white-space: nowrap; }
+.ag-open { border-left-color: var(--on-gray); } .ag-open .agenda__badge { background: var(--on-gray); }
+.ag-review { border-left-color: var(--on-pink); } .ag-review .agenda__badge { background: var(--on-pink); }
+.ag-lecture { border-left-color: var(--on-blue); } .ag-lecture .agenda__badge { background: var(--on-blue); }
+.ag-next { border-left-color: var(--on-green); } .ag-next .agenda__badge { background: var(--on-green); }
 
 /* ---- フッタ ---- */
 .site-footer { padding: 34px 20px 46px; border-top: 1px solid var(--border); background: var(--bg-soft); }
@@ -215,6 +224,17 @@ table.tbl tr:last-child td { border-bottom: 0; }
 .backlink { display: inline-block; font-size: 13px; font-weight: 700; text-decoration: none;
   color: var(--text-sub); margin-bottom: 12px; }
 .backlink:hover { color: var(--text-accent); }
+
+@media (max-width: 760px) {
+  /* 固定ヘッダのメニューは横1行に収め、はみ出す分は横スクロールで見せる。
+     折り返すと3段になり、画面の上3割が常時メニューで埋まってしまうため */
+  .site-header__inner { flex-wrap: nowrap; gap: 10px; padding: 10px 14px; }
+  .site-header__name { flex: none; font-size: 13.5px; }
+  .site-header__nav { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; mask-image: linear-gradient(90deg, #000 88%, transparent); }
+  .site-header__nav::-webkit-scrollbar { display: none; }
+  .site-header__nav a { white-space: nowrap; padding: 4px 9px; }
+}
 
 @media (max-width: 900px) {
   .hero__inner { grid-template-columns: 1fr; }
@@ -227,4 +247,7 @@ table.tbl tr:last-child td { border-bottom: 0; }
   .message__body { max-width: 100%; }
   .message__mascot { position: static; display: block; width: 90px; margin-top: 10px; }
   .section__title { font-size: 24px; }
+  .section { padding: 40px 18px; }
+  .hero { padding: 40px 18px 36px; }
+  .card, .steps li, .agenda__item { padding: 16px 18px; }
 }
