@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIアプリ開発入門ゼミ ｜ 第2回 要件定義</title>
+<meta name="description" content="AIアプリ開発入門ゼミ 第2回 要件定義。アプリのフォルダを作って Claude デスクトップアプリで開き、AI と壁打ちして要件を噛み砕き、仕様書（docs/spec.md）と作業の順番（docs/tasks.md）をフォルダに残すまでの手順。">
+<link rel="stylesheet" href="../../assets/site.css">
+<script>document.documentElement.classList.add("js");</script>
+<script src="../../assets/site.js" defer></script>
+</head>
+<body class="lesson">
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
+    <nav class="site-header__nav">
+      <a href="#what">要件定義とは</a>
+      <a href="#folder">フォルダを作る</a>
+      <a href="#open">アプリで開く</a>
+      <a href="#brainstorm">AIと壁打ち</a>
+      <a href="#decide">削る・決める</a>
+      <a href="#spec">仕様書</a>
+      <a href="#tasks">作る順番</a>
+      <a href="#deliverables">この回で作るもの</a>
+      <a href="#pitfalls">つまずき</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ヒーロー -->
+<section class="hero hero--lesson">
+  <div class="hero__inner">
+    <div>
+      <p class="crumbs"><a href="../../">Home</a> ／ 第2回</p>
+      <p class="hero__kicker">LESSON 02 ／ 決めるフェーズ</p>
+      <h1 class="hero__title">要件定義 ― 作るものを決めて、<em>仕様書と作業の順番</em>にする</h1>
+      <p class="hero__sub">～ フォルダを作り、AIと壁打ちし、docs/spec.md と docs/tasks.md をフォルダに残す ～</p>
+      <ul class="hero__facts">
+        <li>Claude デスクトップアプリを使います</li>
+        <li>成果物：docs/spec.md</li>
+        <li>成果物：docs/tasks.md</li>
+        <li>まだコードは書きません</li>
+      </ul>
+    </div>
+    <div class="hero__mascot">
+      <img src="../../assets/penguins/penguin_puzzle.png" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="now">
+  <div class="now__inner">
+    <div>
+      <p class="now__label">この回の前に用意しておくもの</p>
+      <p class="now__title">Claude デスクトップアプリ ＋ Claude の有料プラン</p>
+      <p class="now__meta">Claude デスクトップアプリ（＝PCにインストールして使う Claude の公式アプリ。この中から Claude Code＝指示を出すと、PCのファイルを実際に作ったり書き換えたりしてくれるツール、を呼び出します）で、アプリのフォルダを開くところから始めます。
+        Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。
+        第3回からは Node.js（＝作った Web アプリを自分のPCで動かすための土台のソフト）も使います。入れ方は第3回のページでご案内します。
+        間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
+    </div>
+    <div class="now__actions">
+      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--ghost" href="../../">Home へ戻る</a>
+    </div>
+  </div>
+</div>
+
+<!-- 1. 要件定義とは -->
+<section class="section" id="what">
+  <div class="section__inner">
+    <p class="section__kicker">01</p>
+    <h2 class="section__title">要件定義とは</h2>
+    <p class="section__lead">
+      <strong>要件定義</strong>＝作り始める前に「誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか」を文章で決めることです。この回で作るのは Web アプリ（＝ブラウザで開いて使うアプリ。ブラウザ＝Safari や Chrome など、Web ページを見るソフト）です。
+      このゼミではその文章を <code>docs/spec.md</code>（仕様書）として残し、さらに「どの順番で作るか」を <code>docs/tasks.md</code> に残します。
+      <strong>7回で完走できるかどうかは、この回の削り込みでほぼ決まります。</strong>
+    </p>
+
+    <h3 class="sub">なぜ作り始める前に決めるのか</h3>
+    <ul>
+      <li>Claude Code（＝指示を出すと、PCのファイルを実際に作ったり書き換えたりしてくれるツール）は、指示が曖昧なところを自分で埋めて作ります。決めていない部分は、指示のたびに違う形で作られやすく、前に作ったものが書き換わることがあります</li>
+      <li>作りながら決めると、途中で「やっぱりこの項目も要る」となり、そこまでに保存したデータや画面を作り直すことになります</li>
+      <li>文章になっていれば、自分のアプリを作り始める第4回以降「<code>docs/spec.md</code> に従って作って」と一言で指示できます。チャットに毎回同じ説明を貼り直さなくてすみます</li>
+    </ul>
+
+    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
+    <div class="flow">
+      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">フォルダを作る</p><p class="flow__desc">アプリ1つにつき1つ</p></div>
+      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">Claude Code で開く</p><p class="flow__desc">デスクトップアプリから</p></div>
+      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">AI と壁打ち</p><p class="flow__desc">誰が・何を・どんな機能を</p></div>
+      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">削る・決める</p><p class="flow__desc">テーマの3条件／MVP／型／画面</p></div>
+      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">仕様書</p><p class="flow__desc">docs/spec.md</p></div>
+      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">作業の順番</p><p class="flow__desc">docs/tasks.md</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. フォルダを作る -->
+<section class="section section--soft" id="folder">
+  <div class="section__inner">
+    <p class="section__kicker">02</p>
+    <h2 class="section__title">最初に、アプリの<em>フォルダ</em>を作る</h2>
+    <p class="section__lead">
+      要件定義の前に、<strong>アプリ用のフォルダ</strong>（＝そのアプリのファイルをすべて入れる入れ物）を1つ作ります。
+    </p>
+
+    <h3 class="sub">なぜフォルダから始めるのか</h3>
+    <ul>
+      <li>Claude Code は「開いたフォルダの中」でファイルを作ったり書き換えたりします。フォルダを開かずに始めると、どこにファイルができるか分かりません</li>
+      <li>この回で作る仕様書と作業の順番は、このフォルダの中に置きます。自分のアプリを作り始めるとき（第4回から。第3回は全員共通の題材で1周します）、Claude Code がその場で読めます</li>
+      <li><strong>アプリ1つにつきフォルダ1つ</strong>にします。分けないと、別のアプリのファイルまで書き換えられることがあります</li>
+    </ul>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson02/diagram_folder.svg" alt="デスクトップの my-app フォルダの中に docs/spec.md と docs/tasks.md があり、Claude Code がそのフォルダを読んで、作る・書き換える図" loading="lazy">
+      <figcaption>開いたフォルダと Claude Code の関係。この回で作るのは docs の中の2ファイルで、アプリ本体（app）は第3回から増えていきます</figcaption>
+    </figure>
+
+    <h3 class="sub">置き場所と名前</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+      <table class="tbl">
+        <thead><tr><th>決めること</th><th>このゼミでの決まり</th><th>なぜ</th></tr></thead>
+        <tbody>
+          <tr><td>置き場所</td><td><strong>デスクトップ</strong></td><td>いつでも目に入り、Finder／エクスプローラーですぐ見つかるためです</td></tr>
+          <tr><td>名前</td><td><strong>半角英数字とハイフンだけ</strong>（例：<code>my-app</code>）</td><td>日本語やスペースが入った名前は、開発の道具の一部で扱いが難しくなります。トラブルを減らすため、最初から半角英数字にそろえます</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <div class="note note--warn">
+      <strong>デスクトップが iCloud Drive や OneDrive（＝PCのファイルをインターネット上にも自動で写す仕組み）と同期されている方へ：</strong>
+      第3回以降、使う技術によってはアプリのフォルダに多数の小さなファイルができます。同期の対象になると同期が終わらなくなったり、PCが遅くなったりすることがあります。
+      心当たりがある方は、最初から同期されない場所に作ってください。Mac なら Finder のメニュー「移動」→「ホーム」で開くホームフォルダ（＝自分のユーザ名が付いたフォルダ）の直下、Windows なら <code>C:\Users\（自分のユーザ名）</code> の直下に <code>apps</code> フォルダを作り、その中に <code>my-app</code> を作ります。
+      デスクトップに作ってしまった場合は、<code>my-app</code> をそこへドラッグして移し、Claude デスクトップアプリで開き直せば大丈夫です。
+    </div>
+
+    <h3 class="sub">Mac での作り方</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">Finder を開き、左の一覧から「デスクトップ」を選ぶ</h3><p class="steps__desc">Finder＝Mac でファイルやフォルダを見たり動かしたりするソフト。Dock（画面下の帯）の左端にある顔のアイコンです。Windows では「エクスプローラー」が同じ役割です。<span class="why">なぜ：</span>作る場所を先に開いておかないと、別の場所にフォルダができて見失います。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">メニューの「ファイル」→「新規フォルダ」（<kbd>⇧⌘N</kbd>）</h3><p class="steps__desc">何もない場所で右クリック →「新規フォルダ」でも同じです。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">できた「名称未設定フォルダ」の名前を <code>my-app</code> のように打ち直して Enter</h3><p class="steps__desc"><span class="why">なぜ：</span>「名称未設定フォルダ」のままだと、あとで増える別のフォルダと区別がつきません。</p></div></li>
+    </ol>
+    <div class="figures">
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_finder_menu.png" alt="Finder の「ファイル」メニューを開いたところ" loading="lazy">
+        <figcaption>Finder の「ファイル」メニュー。「新規フォルダ」を選びます（右クリックからでも同じ）</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_finder_my_app.png" alt="デスクトップに my-app というフォルダができた状態" loading="lazy">
+        <figcaption>デスクトップに my-app というフォルダができた状態</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">Windows での作り方</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">デスクトップの何もない場所で右クリック →「新規作成」→「フォルダー」</h3></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">名前を <code>my-app</code> のように打ち直して Enter</h3></div></li>
+    </ol>
+
+    <div class="note">
+      次の節で出てくる Claude デスクトップアプリの「フォルダを選ぶ画面」にも「新規フォルダ」ボタンがあります。そこで作っても同じです。
+    </div>
+  </div>
+</section>
+
+<!-- 3. アプリで開く -->
+<section class="section" id="open">
+  <div class="section__inner">
+    <p class="section__kicker">03</p>
+    <h2 class="section__title">Claude デスクトップアプリで<em>フォルダを開く</em></h2>
+    <p class="section__lead">作ったフォルダを、Claude デスクトップアプリの中の Claude Code で開きます。</p>
+    <div class="note">
+      <strong>始める前の4つの確認：</strong>① アプリが最新版になっている ② ゼミで使う有料プランのアカウントでログインしている ③ 画面左上に <code>&lt;/&gt;</code>（Claude Code）が出ている ④ 下の手順でフォルダを開ける。
+      ③ が出ない場合は、契約の種類か、ログインしているアカウントが違います。
+    </div>
+
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<span class="why">なぜ：</span>新しいセッション（＝1つの会話のまとまり）で始めると、前の会話の内容と混ざりません。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">画面の下にある、いまのフォルダ名が書かれたボタンを押す</h3><p class="steps__desc">最近開いたフォルダの一覧と <strong>「フォルダを開く…」</strong> が出ます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">「フォルダを開く…」→ デスクトップ → <code>my-app</code> を選んで「開く」</h3><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。デスクトップそのものを選ぶと、デスクトップ全体が対象になってしまいます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">画面の下のボタンが <code>my-app</code> になっていれば開けています</h3></div></li>
+    </ol>
+
+    <div class="figures">
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_new_session.png" alt="「＋ 新規」を押した直後の画面" loading="lazy">
+        <figcaption>「＋ 新規」を押した直後。画面の下にフォルダ名のボタンがあります</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_folder_menu.png" alt="フォルダ名のボタンを押すと出るメニュー" loading="lazy">
+        <figcaption>フォルダ名のボタンを押すと出るメニュー。いちばん下の「フォルダを開く…」を選びます</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_folder_dialog.png" alt="フォルダを選ぶ画面で my-app を選んだところ" loading="lazy">
+        <figcaption>フォルダを選ぶ画面。デスクトップの中の my-app を選んで「開く」</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_opened.png" alt="フォルダを開いた直後の画面。下に my-app と出ている" loading="lazy">
+        <figcaption>開いた直後。画面の下に my-app と出ていれば、この中で Claude Code が動きます</figcaption>
+      </figure>
+    </div>
+
+    <p><span class="why">なぜ「下のボタンが my-app か」を毎回見るのか：</span>Claude Code は、ここに出ているフォルダの中でファイルを作ります。別のフォルダのまま指示すると、そちらにファイルができたり、そちらのファイルが書き換えられたりします。</p>
+
+    <div class="note note--key">
+      <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
+      <strong>「このワークスペースを信頼しますか？」と聞かれたら：</strong>
+      ワークスペース＝Claude Code が作業する場所として開いたフォルダのことです。表示されたフォルダの場所が、いま自分で作った <code>my-app</code> であることを見てから「信頼」を押してください。
+      この確認は「そのフォルダの中のファイルを Claude Code が読み書きしてよいか」を聞いています。知らないフォルダなら押さないでください。
+    </div>
+    <div class="note">
+      ボタンの名前や配置は、アプリの更新で変わることがあります。ここに書いた文言と違うときは「フォルダを開く」に相当するものを探してください。
+    </div>
+
+    <p>入力欄の下に <strong>「手動」</strong> と出ています。これは<strong>権限モード</strong>（＝Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定）で、「手動」は、そうした操作の前に確認画面が出る設定です。<strong>この回はこのまま</strong>にします。理由は「仕様書」の節で説明します。表示される名前や選べる設定は、アプリの更新や契約の種類で変わることがあります。</p>
+  </div>
+</section>
+
+<!-- 4. AIと壁打ち -->
+<section class="section section--soft" id="brainstorm">
+  <div class="section__inner">
+    <p class="section__kicker">04</p>
+    <h2 class="section__title">要件を噛み砕く：<em>AI と壁打ち</em>する</h2>
+    <p class="section__lead">
+      いきなり仕様書を書かせません。最初は「誰が・何を・どんな機能を」を自分の言葉で書き、それを AI に読ませて<strong>質問と提案をもらいます</strong>。
+      このやり取りを<strong>壁打ち</strong>と呼びます（AI に送る指示の文章を<strong>プロンプト</strong>と言います）。
+    </p>
+
+    <h3 class="sub">まず自分で書く4つ</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+      <table class="tbl">
+        <thead><tr><th>書くこと</th><th>例（食費メモ）</th><th>なぜ先に自分で書くのか</th></tr></thead>
+        <tbody>
+          <tr><td><strong>誰が使うか</strong></td><td>自分だけ。週に何回か、PC のブラウザから</td><td>使う人が決まらないと、機能の要・不要を判断できません</td></tr>
+          <tr><td><strong>どんなアプリか（ひとこと）</strong></td><td>毎日の食費をメモして、月ごとの合計を見る</td><td>一文で言えないものは、AI にも伝わりません</td></tr>
+          <tr><td><strong>欲しい機能（思いつくもの）</strong></td><td>金額・日付・メモを保存／一覧を新しい順に見る／月の合計</td><td>AI の提案と見比べる土台になります</td></tr>
+          <tr><td><strong>やらないこと</strong></td><td>家族との共有・ログイン・レシート読み取り</td><td>書いておかないと AI が足してきます</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">次に AI に頼む3つ</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">分かりにくいところを<strong>質問</strong>してもらう（3つまで）</h3></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">「このアプリなら、こういう機能はいかがですか」という<strong>提案</strong>を出してもらう（3〜5個、理由つき）</h3></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">提案を「<strong>無いと1回も使えない（必須）</strong>」と「<strong>無くても1回使える（あとまわし）</strong>」に<strong>仕分け</strong>してもらう</h3></div></li>
+    </ol>
+
+    <h3 class="sub">壁打ちの指示の型</h3>
+    <p>（ ）の中を自分のアプリに差し替えて、さっき開いた <code>my-app</code> の入力欄に貼って送ります。</p>
+<pre class="prompt" data-label="指示①（壁打ち）― （ ）の中を自分のアプリに差し替えて貼る">これから、自分専用の小さなWebアプリを作ります。まだコードは書かないでください。
+先に、要件を一緒に整理してください。
+
+■ 誰が使うか
+（自分だけ。週に何回か、PCのブラウザから使う）
+
+■ どんなアプリか（ひとこと）
+（毎日の食費をメモして、月ごとの合計を見るアプリ）
+
+■ 自分が欲しいと思っている機能
+- （金額・日付・ひとことメモを入力して保存する）
+- （入力した一覧を新しい順に見る）
+- （月ごとの合計金額を見る）
+
+■ やらないこと
+- （家族との共有やログインはしない）
+- （レシートの写真の読み取りはしない）
+
+■ お願い
+1. 上の内容で分かりにくいところがあれば、質問を3つまで出してください
+2. 「このアプリなら、こういう機能はいかがですか」という提案を3〜5個出してください。それぞれ、なぜあると良いかを1行で添えてください
+3. 提案は「無いと1回も使えない（必須）」と「無くても1回使える（あとまわし）」に分けてください。質問の答えによって変わるものは、その旨を書いてください
+4. ファイルは作らず、コマンドも実行しないでください</pre>
+
+    <p><span class="why">なぜ最初に「まだコードは書かないでください」と書くのか：</span>Claude Code はフォルダを開いた状態なので、頼めばその場でファイルを作り始めます。この回は決める回で、作る回ではありません。書いておかないと、要件が固まる前にアプリの骨組みができてしまいます。</p>
+
+    <div class="figures">
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_prompt1_typed.png" alt="壁打ちの指示を入力欄に貼った状態" loading="lazy">
+        <figcaption>指示を入力欄に貼った状態。Enter で送ります</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_reply_questions.png" alt="AI から返ってきた質問3つ" loading="lazy">
+        <figcaption>返ってきた質問（例：食費メモ）。保存先・月の区切り・分類の有無のように、答えで作りが変わるものを聞いてきます</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_reply_proposals.png" alt="AI から返ってきた提案5つと、必須／あとまわしの仕分け" loading="lazy">
+        <figcaption>続けて返ってきた提案と、必須／あとまわしの仕分け</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">返ってきたら、自分で決める</h3>
+    <ul>
+      <li><strong>質問には全部答えます。</strong>上の例では「保存先はどこか」「月の区切りはいつからいつまでか」「分類は要るか」が返ってきました。答えによって作りが変わる質問なので、ここで決めます</li>
+      <li><strong>提案は、採用するものと、あとまわしにするものを自分で決めます。</strong>AI の仕分けは参考であって、決めるのは自分です</li>
+      <li>あとまわしにしたものは、仕様書の「やらないこと」に「今回は作らない」として残します。上の例に出てくる <strong>CSV</strong>＝表の中身をカンマ区切りの文字で書き出したファイル（Excel などで開けます）で、これも「あとまわし」にしています</li>
+    </ul>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson02/diagram_mvp.svg" alt="自分が書いた4つを元に AI が出した提案5つを、必須（MVP に入れる）とあとまわし（やらないことへ）に仕分ける図" loading="lazy">
+      <figcaption>AI の提案を「必須」と「あとまわし」に仕分けて MVP を決めます。判断の基準は「① 目的の流れに必要か」「② 無いと、間違った結果が出る・データが消える・危ない、が起きるか」の2つ。決めるのは自分です</figcaption>
+    </figure>
+    <div class="note note--key">
+      <img class="note__mascot" src="../../assets/penguins/penguin_teaching.png" alt="">
+      <strong>AI の提案を全部採用しない。</strong>提案はどれも「あると良い」ものなので、全部入れると最初に作る範囲（次の節で説明する MVP）が膨らみ、7回で終わらなくなります。
+      採用するかどうかの判断基準は、次の節で扱います。
+    </div>
+  </div>
+</section>
+
+<!-- 5. 削る・決める -->
+<section class="section" id="decide">
+  <div class="section__inner">
+    <p class="section__kicker">05</p>
+    <h2 class="section__title">削って、決める：<em>テーマ・MVP・型・画面</em></h2>
+    <p class="section__lead">壁打ちで出てきた内容を、次の基準に当てて削り込みます。LIVE講義の中で、講師も一緒に1つずつ見ていきます。</p>
+
+    <h3 class="sub">良いテーマの3条件</h3>
+    <p>1つでも外れるなら、テーマを変えるか、条件に合う形に寄せます。</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+      <table class="tbl">
+        <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
+        <tbody>
+          <tr><td><strong>自分が困っている</strong>（他人の困りごとではない）</td><td>他人向けだと、仕様を決めるたびに相手に確認が要り、返事待ちで自分の進行が止まります</td></tr>
+          <tr><td><strong>週1回以上やっている作業</strong></td><td>頻度が低いと作っても使いません。使わないものは、第7回で機能を足すときに直す動機が湧きません</td></tr>
+          <tr><td><strong>正解を自分で判断できる</strong></td><td>出てきた結果が合っているかを自分で判定できないと、自分のアプリを確認する第4回以降の「動作確認」が成立しません</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">業務データを扱う場合の確認</h3>
+    <p>社外に出せない情報（業務の実データ・顧客の個人情報・秘密情報）を扱うテーマは、次の3つを守ってください。</p>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">開発中は、実データを入れない</h3><p class="steps__desc">架空のデータか、名前や金額を置き換えた（匿名化した）データで作ります。<span class="why">なぜ：</span>Claude Code は自分の PC で動きますが、指示に必要なファイルの中身やエラー（＝プログラムが処理を続けられなくなったときに出す知らせ）の内容は AI のサービス（クラウド＝インターネット経由で使う、他社のコンピュータ上のサービス）に送られます。「自分の PC 内で動いているから外に出ない」とは言えません。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">完成後のアプリのデータの保存先と、開発中に AI へ渡る情報は、別の話として確認する</h3><p class="steps__desc">第5回で AI 機能を組み込むと、アプリが扱うデータもその場で AI サービスに送られるようになります。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">業務で使うなら、所属先の AI 利用ルールを確認する</h3><p class="steps__desc">確認できないうちは、社外に出せない情報を含まない範囲で作ります。</p></div></li>
+    </ol>
+    <p><span class="why">なぜ最初に確認するのか：</span>第5回で AI 機能を組み込む段になって気づくと、そこまで作ったものが使えなくなります。</p>
+
+    <h3 class="sub">MVP の考え方と削り方</h3>
+    <ul>
+      <li><strong>MVP</strong>（Minimum Viable Product の頭文字）＝1つの流れが最初から最後まで通る、いちばん小さい状態</li>
+      <li>残す基準は2つ。<strong>① 目的の流れを最初から最後まで通すのに必要か</strong>、<strong>② 無いと、間違った結果が出る・データが消える・危ない、のどれかが起きるか</strong>。どちらにも当てはまらない機能は「無くても1回使える」ので、今は要りません。AI に仕分けさせた「あとまわし」は、この基準で見直します（上の例で「入力の修正・削除」が必須になったのは ② に当たるためです）</li>
+      <li><span class="why">なぜ削るのか：</span>機能を10個並べたまま作り始めると、どれも半分できた状態で7回が終わります</li>
+      <li><strong>この回の LIVE講義の中で削り切ります。</strong>「やらないこと」は仕様書の必須項目です</li>
+    </ul>
+
+    <h3 class="sub">3類型への当てはめ</h3>
+    <p>主たる型を1つ選びます（記録型／変換型／相談型）。両方の性格を持つ場合も<strong>主たる型を1つ</strong>に決めます。<span class="why">なぜ：</span>第4回以降の解説を型ごとに進めるためです。型が決まらないと、自分がどの例を見ればよいか分からなくなります。</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+      <table class="tbl">
+        <thead><tr><th>型</th><th>何をするアプリか</th><th>例</th></tr></thead>
+        <tbody>
+          <tr><td><strong>記録型</strong></td><td>入れて、ためて、見返す</td><td>食費メモ・読書記録・体調メモ</td></tr>
+          <tr><td><strong>変換型</strong></td><td>入れたものを別の形にして返す</td><td>議事録の要約・文章の言い換え・表の整形</td></tr>
+          <tr><td><strong>相談型</strong></td><td>質問して、答えをもらう。やり取りが残る</td><td>自分の資料だけを元に答える相談窓口</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">使いやすい画面の4条件</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+      <table class="tbl">
+        <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1画面1目的</strong></td><td>1つの画面でいくつものことをさせると、どこを押せばよいか迷います。画面を分けたほうが、Claude Code への指示も1画面ずつで済みます</td></tr>
+          <tr><td><strong>入力は最小</strong></td><td>入力欄が多いと、記録そのものが続きません。無くても成り立つ欄は削ります</td></tr>
+          <tr><td><strong>今どこにいるか分かる</strong></td><td>画面の上に名前（「記録画面」「修正画面」）を出すだけで、迷わなくなります</td></tr>
+          <tr><td><strong>間違えても戻れる</strong></td><td>「キャンセル」や「削除前の確認」が無いと、1回の押し間違いでデータが消えます</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p>次のワイヤーフレームを描いたら、この4つに当てて見直します。</p>
+
+    <h3 class="sub">AI に作らせる前に、人が画面構成を決める</h3>
+    <p><span class="why">なぜ人が先に決めるのか：</span>決めずに「いい感じの画面を作って」と指示すると、AI は指示のたびに違う画面構成を作ります。作り直しのたびに前の画面が消え、いつまでも完成しません。</p>
+    <ul>
+      <li><strong>ワイヤーフレーム</strong>（＝色や装飾を付けずに、どこに何を置くかだけを描いた画面の骨組み）を作ります。紙に手描き／Claude に箇条書きで出させる／Claude に画面遷移の図（どの画面からどの画面へ移るか）を出させる、のいずれかで構いません</li>
+      <li>専用ツール（Figma 等＝画面デザインを作るための Web サービス）は使いません。<span class="why">なぜ：</span>操作を覚えるだけで、次の LIVE講義までの時間が終わってしまいます。必要なのは見た目の完成度ではなく、画面の数と役割が決まっていることです</li>
+      <li>3類型それぞれの画面構成の例：記録型＝一覧＋入力／変換型＝入力＋結果／相談型＝やり取り＋履歴</li>
+      <li>画面数の目安：MVP なら2〜4枚。5枚以上になった場合は MVP が大きすぎるので、戻って削ります</li>
+    </ul>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson02/diagram_screens.svg" alt="食費メモの画面2枚のワイヤーフレーム。画面1 記録画面（今月の合計・入力欄・保存・一覧）から「修正」で画面2 修正画面へ移り、保存かキャンセルで画面1へ戻る" loading="lazy">
+      <figcaption>画面が2枚の例（食費メモ）。ワイヤーフレームはこの程度の骨組みで十分です。保存と削除は画面1の中で完結し、画面は移動しません</figcaption>
+    </figure>
+    <p>画面一覧を出させる指示の型です。壁打ちと同じセッションで続けて送って構いません。</p>
+<pre class="prompt" data-label="指示②（画面一覧）― （ ）の中を自分のアプリに差し替えて貼る">次のアプリの画面一覧と画面遷移を、箇条書きで出してください。
+画面ごとに「画面の名前／何をする画面か／置く要素（入力欄・ボタン・一覧など）」を書いてください。
+
+アプリの目的：（毎日の食費をメモして、月ごとの合計を見る）
+やること（MVP）：（金額・日付・メモを保存する／一覧を新しい順に見る／今月の合計を見る／記録を修正・削除する）
+やらないこと：（家族との共有・ログイン・レシート読み取り・分類分け）
+型：（記録型）
+
+画面は2〜4枚に収めてください。装飾の話は不要です。まだコードは書かないでください。</pre>
+  </div>
+</section>
+
+<!-- 6. 仕様書 -->
+<section class="section section--soft" id="spec">
+  <div class="section__inner">
+    <p class="section__kicker">06</p>
+    <h2 class="section__title">仕様書 <em>docs/spec.md</em> にまとめる</h2>
+    <p class="section__lead">ここまでで決めたことを、Claude Code に<strong>ファイルとして</strong>書かせます。書かせるのは <strong>Markdown</strong>（＝見出しや箇条書きを記号で書く、文章ファイルの書き方。ファイル名の最後が <code>.md</code>）の形式で、<code>docs</code> という名前のフォルダの中に <code>spec.md</code> というファイルを作ります（<code>docs/spec.md</code> はその置き場所を表す書き方です）。</p>
+
+    <h3 class="sub">仕様書に必ず入れる6項目</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+      <table class="tbl">
+        <thead><tr><th>項目</th><th>抜けると何が起きるか</th></tr></thead>
+        <tbody>
+          <tr><td><strong>目的</strong>（誰が・どこで使うか、ユーザーストーリーを含む）</td><td>迷ったときに戻る基準が無くなります</td></tr>
+          <tr><td><strong>やること（MVP）</strong></td><td>何ができたら完成か決まりません</td></tr>
+          <tr><td><strong>やらないこと</strong></td><td><strong>AI は機能を足してきます。</strong>書いてあれば「やらないことに入っている」と止められます</td></tr>
+          <tr><td><strong>扱うデータ</strong>（項目名と種類）</td><td>あとから項目を足すと、すでに保存したデータに新しい項目が無い状態になり、一覧の表示が崩れます</td></tr>
+          <tr><td><strong>画面一覧と遷移</strong></td><td>指示のたびに画面構成が変わります</td></tr>
+          <tr><td><strong>使う技術</strong></td><td>指示のたびに違う部品で作られ、あとで合わなくなります。使う技術はゼミから全員共通のものをご案内します。それまでは「ゼミで指定」と書いておきます</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <ul>
+      <li><strong>ユーザーストーリー</strong>（＝使う場面を1文で書いたもの）：「〜のとき、〜したい。なぜなら〜だから。」を3〜5本、「目的」の中に入れます。「なぜなら」があると、第6回・第7回で改善するとき何を優先するか自分で判断できます</li>
+      <li><strong>置き場所と長さ</strong>：<code>docs/spec.md</code>。各見出しの中身は箇条書きか表で、1見出しにつき8行まで（長いと第3回以降、Claude Code に読ませるたびに要点がぼやけます）</li>
+      <li><span class="why">なぜファイルとして置くのか：</span>第3回以降、Claude Code に「<code>docs/spec.md</code> に従って作って」と指示できます。チャットに毎回貼り直す必要がなくなり、指示のたびに前提がずれることもなくなります</li>
+    </ul>
+
+    <h3 class="sub">仕様書を書かせる指示の型</h3>
+    <p>壁打ちの続きとして送ります。質問への答えと、提案の採用・不採用を自分の言葉で書いてください。</p>
+<pre class="prompt" data-label="指示③（仕様書）― （ ）の中を自分の答えに差し替えて貼る">ありがとうございます。質問への答えと、提案の採用・不採用を決めました。
+
+■ 質問への答え（返ってきた質問の数だけ書く）
+（Q1：まずはPCだけで使う。保存の仕組みは、ゼミで指定される技術に合わせる）
+（Q2：1日〜末日で区切る）
+（Q3：分類は付けない。「やらないこと」に入れる）
+
+■ 提案の採用・不採用
+採用：（入力の修正・削除／閉じても消えないようにする）
+あとまわし：（スマホ最適化／月の切り替え／CSV書き出し）
+→ あとまわしにしたものは、仕様書の「やらないこと」に「今回は作らない」として書いてください
+
+■ 画面（決めたもの）
+（画面1 記録画面：今月の合計・入力欄（金額・日付・メモ）・保存・一覧（各行に修正／削除）／画面2 修正画面：入力欄3つ・保存・キャンセル）
+
+■ お願い
+この内容で、仕様書を docs/spec.md に Markdown で書いてください。
+見出しは「目的／やること（MVP）／やらないこと／扱うデータ／画面一覧と遷移／使う技術」の6つ。
+「目的」には、誰がどこで使うかと、ユーザーストーリー（「〜のとき、〜したい。なぜなら〜だから。」）を3〜5本入れてください。
+扱うデータは「項目名・種類（文字・数値・日付など）・必須かどうか」の表にしてください。
+画面は上で決めたとおりにし、見た目や装飾の話は書かないでください。
+使う技術の欄は「ゼミで指定」とだけ書いてください。
+各見出しの中身は8行まで。作成日・版番号は書かないでください。
+変更するのは docs/spec.md の1ファイルだけ。すでにある場合は上書きせず、中身を見せて確認を待ってください。
+決めていないことは推測で足さず、質問してください。コードは書かず、コマンドも実行しないでください。</pre>
+
+    <figure class="figure">
+      <img src="../../assets/images/lesson02/r2_app_prompt2_answers.png" alt="質問に答え、採用・あとまわしを伝えたところ" loading="lazy">
+      <figcaption>質問に答え、採用・あとまわしを伝えたところ。上に AI の仕分けが見えています</figcaption>
+    </figure>
+
+    <h3 class="sub">書き込みの確認画面が出ます</h3>
+    <p>権限モードが「手動」なので、Claude Code はファイルを作る前に「<code>spec.md</code> の書き込みを許可しますか？」と聞いてきます。</p>
+    <figure class="figure">
+      <img src="../../assets/images/lesson02/r2_app_permission_spec.png" alt="spec.md を書き込む前の確認画面" loading="lazy">
+      <figcaption>spec.md を書き込む前の確認。書こうとしている中身が表示されます</figcaption>
+    </figure>
+    <ul>
+      <li>表示されたファイルの場所が <code>my-app/docs/spec.md</code> であること、中身が自分の決めた内容で始まっていることを見てから <strong>「一度だけ許可」</strong> を押します（ボタンの名前はアプリの更新で変わることがあります。1回だけ許可する意味のものを選んでください）</li>
+      <li><span class="why">なぜ「常に許可」を今は選ばないのか：</span>「常に許可」にすると、以後このフォルダのファイルは確認なしで書き換えられます。何が書き換えられるかを目で追う経験を先に積んでおくと、あとで確認を省く設定に切り替えたときも、危ない操作に気づけます</li>
+      <li><span class="why">なぜ「拒否」があるのか：</span>場所や中身が違うときに止めるためです。止めたら、入力欄に「<code>docs/spec.md</code> ではなく〜」のように指示を直して送り直します</li>
+    </ul>
+    <figure class="figure">
+      <img src="../../assets/images/lesson02/r2_app_spec_done.png" alt="spec.md ができた状態" loading="lazy">
+      <figcaption>spec.md ができた状態。この回の成果物の1つ目です</figcaption>
+    </figure>
+
+    <div class="note note--key">
+      <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
+      <strong>確認のしかた：</strong>できた <code>docs/spec.md</code> を開いて読み、<strong>1箇所以上は自分の判断で直してください</strong>（直した箇所は提出時に書きます）。
+      <span class="why">なぜ：</span>AI の出力を読まずに通す癖がつくと、第6回のデバッグ（＝動かない原因を探して直す作業）で手が止まります。
+      上の例では、AI が「予算設定・グラフ」を「やらないこと」に勝手に足していました。要らなければ消す、残すなら自分が納得して残す、です。
+    </div>
+    <h3 class="sub">spec.md の開き方と直し方</h3>
+    <div class="cards cards--2">
+      <div class="card">
+        <h3 class="card__title">自分で直す</h3>
+        <p class="card__desc">Finder／エクスプローラーで <code>my-app</code> → <code>docs</code> → <code>spec.md</code> をダブルクリックして開きます（Mac はテキストエディット、Windows はメモ帳で開けます。エディタ（VS Code など）が入っていればそれでも構いません）。直したら保存（Mac は <kbd>⌘S</kbd>、Windows は <kbd>Ctrl+S</kbd>）して閉じます。もう一度開いて、直した箇所が残っていれば保存できています。</p>
+      </div>
+      <div class="card">
+        <h3 class="card__title">Claude Code に直させる</h3>
+        <p class="card__desc">入力欄に「<code>docs/spec.md</code> の『やらないこと』から『予算設定・グラフ』の行を消してください」のように、<strong>直す内容を文で</strong>指示します。確認画面で変更箇所を見て「一度だけ許可」。自分で直したあとに Claude に続きを頼むときは「<code>docs/spec.md</code> を自分で直したので、読み直してください」と一言添えます。<span class="why">なぜ：</span>Claude Code は前に読んだ内容を覚えているので、直したことを伝えないと古い内容で進めることがあります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. 作る順番 -->
+<section class="section" id="tasks">
+  <div class="section__inner">
+    <p class="section__kicker">07</p>
+    <h2 class="section__title">作る順番を決める：<em>docs/tasks.md</em>（タスク分け）</h2>
+    <p class="section__lead">
+      仕様書ができたら、<strong>どの順番で作るか</strong>を決めます。これを<strong>タスク分け</strong>と呼び（タスク＝1回の指示で作る作業の単位）、<code>docs/tasks.md</code> に残します。
+      自分のアプリを作り始める第4回からは、上から順に Claude Code に指示していきます（第3回は全員共通の題材で、指示→生成→確認→修正の1周を体験します）。
+    </p>
+
+    <h3 class="sub">なぜタスクに分けるのか</h3>
+    <ul>
+      <li>仕様書をまるごと渡して「作って」と言うと、一度に全部ができあがり、どこが指示と違うのか判断できなくなります（第3回で扱う「一度に全部言わない」の土台です）</li>
+      <li>1つずつ作れば、<strong>どこまでできたか</strong>が目に見えます。詰まったとき、直前のタスクまでは動いていたと分かるので、原因を探す範囲が狭くなります</li>
+      <li>順番を先に決めておくと、「次に何を指示するか」で毎回迷いません</li>
+    </ul>
+
+    <h3 class="sub">良いタスクの3条件</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+      <table class="tbl">
+        <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1回の指示で作れる大きさ</strong></td><td>大きいと、途中でずれても気づけません</td></tr>
+          <tr><td><strong>ブラウザで動作確認できる</strong></td><td>目で見て確かめられないタスクは、できたかどうか自分で判断できません</td></tr>
+          <tr><td><strong>「終わったと言える条件」が1行で書ける</strong></td><td>完了の基準が無いと、いつまでも「もう少し」が続きます</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">タスク分けをさせる指示の型</h3>
+<pre class="prompt prompt--plain" data-label="指示④（タスク分け）― そのまま貼る">docs/spec.md ができました。次に、このアプリをどういう順番で作っていくか、タスク分けをしてください。
+まだコードは書かないでください。
+
+■ お願い
+- docs/spec.md を読んで、作る順番にタスクを並べ、docs/tasks.md に書いてください
+- 1つのタスクは「1回の指示で作れて、ブラウザで動作確認できる大きさ」にしてください
+- 各タスクに「終わったと言える条件（ブラウザで何が確認できれば完了か）」を1行で書いてください
+- 順番の理由（なぜそのタスクが先か）を1行ずつ添えてください
+- タスクは10個以内。多いときは「必須」と「余裕があれば」に分けてください。チェックボックス形式（- [ ]）で書いてください
+- 変更するのは docs/tasks.md の1ファイルだけ。すでにある場合は上書きせず、中身を見せて確認を待ってください。作成日・版番号は書かないでください</pre>
+    <p>チェックボックス形式＝行の先頭に <code>- [ ]</code> と書く Markdown の書き方です。終わったタスクを <code>- [x]</code> に変えると、どこまで進んだかが一目で分かります。</p>
+
+    <div class="figures">
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_permission_tasks.png" alt="tasks.md を書き込む前の確認画面" loading="lazy">
+        <figcaption>tasks.md を書き込む前の確認。spec.md のときと同じく、場所と中身を見てから「一度だけ許可」</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_tasks_done.png" alt="tasks.md ができた状態" loading="lazy">
+        <figcaption>tasks.md ができた状態。順番にした理由も返ってきます</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">出てきた順番を読む</h3>
+    <p>上の例（食費メモ）では、AI は次の順番にしました。</p>
+    <ol>
+      <li>記録画面（画面1）の骨組みを表示する</li>
+      <li>記録を1件保存して一覧に表示する（読み込み直すと消えてよい）</li>
+      <li>一覧を新しい順に並べる</li>
+      <li>今月の合計金額を計算して表示する</li>
+      <li>入力の間違いを弾く</li>
+      <li>記録を削除する</li>
+      <li>修正画面（画面2）へ移動して戻る</li>
+      <li>修正した内容を保存する</li>
+      <li>記録が消えずに残るようにする（保存先をゼミ指定の技術につなぐ）</li>
+      <li>仕様書の「やること」6項目を通しで確認する</li>
+    </ol>
+    <p>この例では10個になりました。それぞれに「完了条件」と「なぜ先か」が1行ずつ付いています。</p>
+    <p>読むときに見る点は次の3つです。</p>
+    <ul>
+      <li><strong>最初のタスクが「画面が1枚出る」になっているか。</strong>動く画面が先にあると、以降のタスクをすべてその画面の上で確認できます</li>
+      <li><strong>「消えないようにする」が後ろにあるか。</strong>この例のタスク2「1件保存して一覧に出す」の保存は、画面の上に出すだけで、ページを読み込み直すと消えてよいものです。ブラウザを閉じても残るようにするのはタスク9で、そこだけがゼミで指定する技術に左右されます。だから技術に左右されないタスクを先に集めてあります。理由が書いてあれば、順番に納得できます</li>
+      <li><strong>技術が決まったら見直します。</strong>使う技術が指定されたあと（第3回）に、<code>docs/tasks.md</code> を Claude Code に読み直させ、順番や分け方を直します。作り直しではなく、順番の確認です</li>
+      <li><strong>各タスクに完了条件があるか。</strong>「金額を空にして保存を押すとエラーが出る」のように、ブラウザで何を見ればよいかが書いてあるかを見ます</li>
+    </ul>
+    <div class="note note--key">
+      <strong>確認のしかた：</strong>仕様書と同じく、<strong>1箇所は自分で直してください</strong>。順番に納得できないところを入れ替える、大きすぎるタスク（1回の指示で作れそうにないもの）を分ける、などです。直した箇所は提出時に書きます。
+    </div>
+  </div>
+</section>
+
+<!-- 8. この回で作るもの -->
+<section class="section section--soft" id="deliverables">
+  <div class="section__inner">
+    <p class="section__kicker">Deliverables</p>
+    <h2 class="section__title">この回で<em>作るもの</em></h2>
+    <p class="section__lead">終わったとき、手元に次の3つがある状態にします。この回の課題の内容は commmune（＝DMM 生成AI CAMP の受講生向けコミュニティサイト）のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。この回から <a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
+    <div class="cards cards--3">
+      <div class="card">
+        <h3 class="card__title">アプリのフォルダ</h3>
+        <p class="card__desc">デスクトップに、半角英数字の名前で（例：<code>my-app</code>）。Claude デスクトップアプリで開けている状態。</p>
+      </div>
+      <div class="card">
+        <h3 class="card__title">docs/spec.md（仕様書）</h3>
+        <p class="card__desc">6項目（目的／やること／やらないこと／扱うデータ／画面一覧と遷移／使う技術）。自分で1箇所以上直したもの。</p>
+      </div>
+      <div class="card">
+        <h3 class="card__title">docs/tasks.md（作る順番）</h3>
+        <p class="card__desc">10個以内のタスク。それぞれに「終わったと言える条件」と順番の理由。自分で1箇所直したもの。</p>
+      </div>
+    </div>
+    <figure class="figure">
+      <img src="../../assets/images/lesson02/r2_finder_docs.png" alt="my-app/docs に spec.md と tasks.md ができた状態" loading="lazy">
+      <figcaption>my-app/docs に spec.md と tasks.md ができた状態。第4回、自分のアプリを作るときはここから始めます</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 9. つまずき -->
+<section class="section" id="pitfalls">
+  <div class="section__inner">
+    <p class="section__kicker">Pitfalls</p>
+    <h2 class="section__title">よくある<em>つまずき</em>と対処</h2>
+    <p class="section__lead">詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板）で進めてください。</p>
+    <div class="pitfalls">
+      <div class="pitfall">
+        <h3 class="pitfall__title">フォルダの名前に日本語やスペースを使った</h3>
+        <p class="pitfall__what">第3回以降、道具の一部がエラーを出します。</p>
+        <p class="pitfall__how"><strong>対処：</strong>Finder／エクスプローラーで、半角英数字とハイフンの名前に変えるだけで直ります。作り直す必要はありません。</p>
+      </div>
+      <div class="pitfall">
+        <h3 class="pitfall__title">別のフォルダを開いたまま指示した</h3>
+        <p class="pitfall__what">関係ないフォルダにファイルができたり、書き換えられたりします。</p>
+        <p class="pitfall__how"><strong>対処：</strong>画面の下のフォルダ名を毎回見る。違っていたら「フォルダを開く…」で開き直します。</p>
+      </div>
+      <div class="pitfall">
+        <h3 class="pitfall__title">壁打ちの途中で AI がコードを書き始めた</h3>
+        <p class="pitfall__what">要件が固まる前に骨組みができ、あとで作り直しになります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>指示の先頭に「まだコードは書かないでください」を入れる。書き始めたら確認画面で「拒否」を押して、決める作業に戻します。</p>
+      </div>
+      <div class="pitfall">
+        <h3 class="pitfall__title">AI の提案を全部採用してしまった</h3>
+        <p class="pitfall__what">MVP が膨らみ、7回で終わらなくなります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「無くても1回使えるか」で仕分け直す。あとまわしは「やらないこと（今回は）」に残します。</p>
+      </div>
+      <div class="pitfall">
+        <h3 class="pitfall__title">画面が5枚以上になった</h3>
+        <p class="pitfall__what">第4回で画面が作り終わりません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>MVP が大きすぎるサインです。「やること」に戻って削ります（目安2〜4枚）。</p>
+      </div>
+      <div class="pitfall">
+        <h3 class="pitfall__title">書き込みの確認画面で止まってしまった</h3>
+        <p class="pitfall__what">先に進めません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>場所と中身を見て「一度だけ許可」。何を聞かれているか分からないときは、確認画面のスクショを撮ってゼミ掲示板へ。</p>
+      </div>
+      <div class="pitfall">
+        <h3 class="pitfall__title">Claude デスクトップアプリが入っていない／有料プランが未契約</h3>
+        <p class="pitfall__what">フォルダを開くところから先に進めません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。導入で詰まったら、スクショを撮って AI に聞く → ゼミ掲示板の順で。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 用語 -->
+<section class="section section--soft" id="glossary">
+  <div class="section__inner">
+    <p class="section__kicker">Glossary</p>
+    <h2 class="section__title">この回で出てきた<em>用語</em></h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+      <table class="tbl">
+        <thead><tr><th>用語</th><th>意味</th></tr></thead>
+        <tbody>
+          <tr><td><strong>要件定義</strong></td><td>作り始める前に「誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか」を文章で決めること</td></tr>
+          <tr><td><strong>フォルダ（アプリのフォルダ）</strong></td><td>そのアプリのファイルをすべて入れる入れ物。アプリ1つにつき1つ作る</td></tr>
+          <tr><td><strong>壁打ち</strong></td><td>自分の考えを AI に読ませて、質問や提案を返してもらい、それを見て自分の考えを整えるやり取り</td></tr>
+          <tr><td><strong>セッション</strong></td><td>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始める</td></tr>
+          <tr><td><strong>権限モード</strong></td><td>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」はそうした操作の前に確認画面が出る</td></tr>
+          <tr><td><strong>MVP</strong></td><td>1つの流れが最初から最後まで通る、いちばん小さい状態</td></tr>
+          <tr><td><strong>ワイヤーフレーム</strong></td><td>色や装飾を付けずに、どこに何を置くかだけを描いた画面の骨組み</td></tr>
+          <tr><td><strong>画面遷移</strong></td><td>どの画面からどの画面へ移るかのつながり</td></tr>
+          <tr><td><strong>ユーザーストーリー</strong></td><td>「〜のとき、〜したい。なぜなら〜だから。」の形で書く、使う場面の記述</td></tr>
+          <tr><td><strong>仕様書（docs/spec.md）</strong></td><td>6項目を書いた文章ファイル。Claude Code に読ませる前提で置く</td></tr>
+          <tr><td><strong>タスク分け（docs/tasks.md）</strong></td><td>仕様書の内容を、作る順番に並べた作業の一覧。1つずつ Claude Code に指示する</td></tr>
+          <tr><td><strong>Markdown</strong></td><td>見出しや箇条書きを記号で書く、文章ファイルの書き方（.md）</td></tr>
+          <tr><td><strong>プロンプト</strong></td><td>AI に送る指示の文章。このページで「指示の型」として配っているのは、その雛形</td></tr>
+          <tr><td><strong>技術スタック</strong></td><td>アプリを作るのに使うプログラミング言語や部品の組み合わせ。このゼミでは全員共通のものを指定する</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p><a class="backlink" href="../../">← Home（ゼミ全体の案内）へ戻る</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
+    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+  </div>
+</footer>
+
+</body>
+</html>

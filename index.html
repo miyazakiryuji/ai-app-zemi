@@ -6,7 +6,9 @@
 <title>AIアプリ開発入門ゼミ ｜ 第1回 オリエンテーション</title>
 <meta name="description" content="AIアプリ開発入門ゼミの受講生向けページ。第1回オリエンテーションはこのページです。ゼミの進め方・全7回の流れ・修了要件・開催スケジュール・参加方法をまとめています。">
 <link rel="stylesheet" href="assets/site.css">
-<script>document.documentElement.classList.add("js");</script>
+<script>document.documentElement.classList.add("js");
+/* site.js が動かなかったとき（回線断・拡張機能など）は隠したままにしない */
+setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("is-ready")){r.classList.remove("js");}},2500);</script>
 <script src="assets/site.js" defer></script>
 </head>
 <body>
@@ -16,14 +18,16 @@
 <header class="site-header">
   <div class="site-header__inner">
     <span class="site-header__name">AIアプリ開発入門ゼミ</span>
-    <nav class="site-header__nav">
+    <nav class="site-header__nav" aria-label="ページ内の見出し">
+      <a href="#contents">押さえたいこと</a>
       <a href="#instructor">講師紹介</a>
       <a href="#purpose">ゼミの目的</a>
-      <a href="#character">このゼミについて</a>
+      <a href="#character">学習の場</a>
       <a href="#cycle">学習サイクル</a>
       <a href="#lessons">全7回の流れ</a>
       <a href="#rules">修了要件</a>
-      <a href="#schedule">スケジュール</a>
+      <a href="#boardingpass">Boarding Pass</a>
+      <a href="#schedule">日程・入室</a>
       <a href="#stuck">困ったとき</a>
     </nav>
   </div>
@@ -42,11 +46,11 @@
         <li>全7回</li>
         <li>毎回 土曜 20:30〜22:00</li>
         <li>オンライン（Google Meet）</li>
-        <li>自習＋週次LIVE講義</li>
+        <li>自習＋隔週のLIVE講義</li>
       </ul>
     </div>
     <div class="hero__mascot">
-      <img src="assets/penguins/penguin_teaching.png" alt="">
+      <img src="assets/penguins/penguin_teaching.png" alt="" width="500" height="500">
     </div>
   </div>
 </section>
@@ -54,13 +58,14 @@
 <div class="now">
   <div class="now__inner">
     <div>
-      <p class="now__label">いま公開中</p>
-      <h3 class="now__title">第1回 オリエンテーション ― このページです</h3>
-      <p class="now__meta">9月5日(土) 20:30〜22:00 ／ 次回は第2回 要件定義（9月19日(土)）</p>
+      <p class="now__label">この回</p>
+      <p class="now__title">第1回 オリエンテーション ― このページです</p>
+      <p class="now__meta">9月5日(土) 20:30〜22:00。第2回 要件定義のページも公開しています。開催日は<a href="#schedule">「日程・入室」の表</a>をご覧ください</p>
     </div>
     <div class="now__actions">
       <a class="btn btn--primary" href="#contents">この回で押さえたいこと</a>
-      <a class="btn btn--ghost" href="#join">LIVE講義に入室する</a>
+      <a class="btn btn--ghost" href="lessons/lesson02/">第2回のページを見る</a>
+      <a class="btn btn--ghost" href="https://meet.google.com/hgy-rkij-yds" target="_blank" rel="noopener">LIVE講義に入室する（Google Meet）↗</a>
     </div>
   </div>
 </div>
@@ -68,7 +73,7 @@
 <!-- この回について -->
 <section class="section" id="about">
   <div class="section__inner">
-    <p class="section__kicker">About</p>
+    <p class="section__kicker" lang="en">About</p>
     <h2 class="section__title">この回は<em>技術を教える回ではありません</em></h2>
     <p class="section__lead">
       このページが第1回そのものです。このゼミが何で、全7回で各回に何をやり、どう参加し、何を出せば修了かを通してご説明する回です。
@@ -76,22 +81,59 @@
     </p>
     <div class="note">
       あわせて、<strong>費用が発生する時期と、第2回までに用意しておくもの</strong>もこの回でお伝えします。
-      第2回は Claude デスクトップアプリでアプリのフォルダを開くところから始めます。第1回と第2回の間にLIVE講義は入りませんので、早めの着手をおすすめします。
+      第2回は Claude デスクトップアプリでアプリのフォルダを開くところから始めるため、<strong>Claude デスクトップアプリの用意と Claude の有料プランのご契約</strong>（Claude Code は無料プランでは使えません）を第2回までにお願いします。
+      プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。第1回と第2回の間にLIVE講義は入りません。
     </div>
+  </div>
+</section>
+
+<!-- この回で扱ったこと -->
+<section class="section section--soft" id="contents">
+  <div class="section__inner">
+    <p class="section__kicker" lang="en">Key Points</p>
+    <h2 class="section__title">この回で<em>押さえたいこと</em></h2>
+    <p class="section__lead">アーカイブを見返す際の指針にどうぞ。</p>
+
+    <ol class="steps">
+      <li>
+        <span class="steps__n">1</span>
+        <div>
+          <h3 class="steps__title">人が決めること と AIが担うこと は分かれている</h3>
+          <p class="steps__desc">
+            人が決めるのは、何を作るか／どこまで作るか／出てきたものが正しいかの判断／直す指示。
+            AIが担うのは、コードを書くこと／エラーの原因を推測すること／直すこと。
+            <strong>コードが読めなくても進められるのは、この分担があるからです。</strong>
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="steps__n">2</span>
+        <div>
+          <h3 class="steps__title">使うのは Claude デスクトップアプリと Claude Code</h3>
+          <p class="steps__desc">
+            <strong>Claude Code</strong>＝指示を出すと、PCのファイルを実際に作ったり書き換えたりしてくれるツールです。画面に答えを表示するだけのチャットとは別のものです。
+            本来はターミナル（文字でPCに命令する画面）から使いますが、このゼミでは <strong>Claude デスクトップアプリ</strong>の中から使います。最初につまずきやすい箇所を1つ減らすためです。<br>
+            数あるツールの中で Claude Code を選んでいるのは、エンジニア以外の方が実際に使って手順を公開している例が多く、
+            調べたときに出てくる情報が幅広いためです。ゼミが終わったあとにご自身で調べて進めるとき、ここが効いてきます。<br>
+            <em>※ 画面の名称やボタンの文言は変わることがあります。最新の情報は公式のページをご確認ください。</em>
+          </p>
+        </div>
+      </li>
+    </ol>
   </div>
 </section>
 
 <!-- 講師紹介 -->
 <section class="section" id="instructor">
   <div class="section__inner">
-    <p class="section__kicker">Instructor</p>
+    <p class="section__kicker" lang="en">Instructor</p>
     <h2 class="section__title">講師<em>紹介</em></h2>
     <p class="section__lead">AIアプリ開発入門ゼミの講師を担当します、宮﨑です。</p>
 
     <div class="instructor">
       <div class="instructor__avatar">
         <div class="avatar__ring"></div>
-        <img class="avatar__photo" src="assets/images/face_icon.png" alt="講師 宮﨑 竜治">
+        <img class="avatar__photo" src="assets/images/face_icon.png" alt="講師 宮﨑 竜治" width="193" height="193">
       </div>
       <div class="instructor__body">
         <p class="instructor__role">DMM 生成AI CAMP 講師</p>
@@ -113,6 +155,8 @@
           <div class="meta-card"><p class="meta-card__label">OSS</p><p class="meta-card__value">cc-DevelopmentTeam<br>個人開発・公開</p></div>
         </div>
 
+        <details class="instructor__more">
+        <summary>経歴を詳しく見る（リリース済みアプリ・技術スタック・これまでの主な業務）</summary>
         <h4 class="instructor__h4">リリース済みアプリ</h4>
         <div class="apps">
           <div class="app-card">
@@ -152,16 +196,16 @@
           <li><span class="career__when">2026.04〜</span><p class="career__what"><strong>UNIT BASE株式会社 デジハク 専属メンター</strong>AIスクール「デジハク」生成AI PROコース受講生へのキャリアメンタリングを担当。</p></li>
           <li><span class="career__when">2026.05〜</span><p class="career__what"><strong>DMM ゼミ 講師</strong>「ClaudeCodeマスターゼミ」「Difyマスターゼミ」の講師・登壇者として、毎週の定例講義による学習支援を担当。</p></li>
         </ul>
+        </details>
       </div>
     </div>
   </div>
 </section>
 
-
 <!-- ゼミの目的 -->
-<section class="section" id="purpose">
+<section class="section section--soft" id="purpose">
   <div class="section__inner">
-    <p class="section__kicker">Purpose</p>
+    <p class="section__kicker" lang="en">Purpose</p>
     <h2 class="section__title">このゼミの<em>目的</em></h2>
     <p class="section__lead">
       みなさんご自身が「作りたい」と思っているツールやシステムを、自分の手で形にすること。それがこのゼミの目的です。
@@ -191,9 +235,9 @@
 </section>
 
 <!-- このゼミは「学習の場」 -->
-<section class="section section--soft" id="character">
+<section class="section" id="character">
   <div class="section__inner">
-    <p class="section__kicker">Character</p>
+    <p class="section__kicker" lang="en">How it works</p>
     <h2 class="section__title">このゼミは<em>「学習の場」</em>です</h2>
     <p class="section__lead">
       ワークショップ感覚で参加される方が多いので、最初に位置づけをお伝えしておきます。
@@ -221,7 +265,7 @@
 
     <div class="note">
       <strong>このゼミならではの点：</strong>受講生ごとに作るアプリが違い、<strong>毎回、自分のアプリを1段ずつ進めます。</strong>
-      前の回の課題が終わっていないと次の回で積み上げる土台がないため、毎週の事前課題が実質そのまま制作の進捗になります。
+      前の回の課題が終わっていないと次の回で積み上げる土台がないため、毎回の事前課題が実質そのまま制作の進捗になります。
       手順をなぞって完成させたものは、次にひとりで同じことをやろうとすると再現できません。
       このゼミが目指しているのは「7回でアプリが1本できた」ではなく、<strong>終わったあとも自分で作り続けられること</strong>です。
     </div>
@@ -229,11 +273,11 @@
 </section>
 
 <!-- 学習サイクル -->
-<section class="section" id="cycle">
+<section class="section section--soft" id="cycle">
   <div class="section__inner">
-    <p class="section__kicker">Learning Cycle</p>
+    <p class="section__kicker" lang="en">Learning Cycle</p>
     <h2 class="section__title">ゼミの<em>学習サイクル</em></h2>
-    <p class="section__lead">毎週「事前準備（各自で）」と「LIVE講義」の流れをくり返します。</p>
+    <p class="section__lead">LIVE講義のたびに「事前準備（各自で）」と「LIVE講義」の流れをくり返します。</p>
 
     <div class="cycle">
       <div class="cycle__step">
@@ -261,12 +305,12 @@
 </section>
 
 <!-- 全7回の流れ -->
-<section class="section section--soft" id="lessons">
+<section class="section" id="lessons">
   <div class="section__inner">
-    <p class="section__kicker">Lessons</p>
+    <p class="section__kicker" lang="en">Lessons</p>
     <h2 class="section__title">全7回の<em>流れ</em></h2>
     <p class="section__lead">
-      各回のページは、その回のLIVE講義に合わせて順次公開します。いまご覧いただけるのは第1回です。
+      各回のページは、その回のLIVE講義に合わせて順次公開します。
     </p>
 
     <div class="lessons">
@@ -278,13 +322,13 @@
         <span class="lesson-card__cta">この回はこのページです →</span>
       </a>
 
-      <div class="lesson-card is-locked">
+      <a class="lesson-card" href="lessons/lesson02/">
         <p class="lesson-card__no">LESSON 02</p>
         <h3 class="lesson-card__title">要件定義</h3>
-        <p class="lesson-card__desc">作るものを1つに決め、最小限まで削り、画面を決めて、仕様書にします。</p>
-        <p class="lesson-card__meta">この回の後に出すもの：企画シート／画面設計書／仕様書</p>
-        <span class="badge-soon">準備中 ― まだ開けません</span>
-      </div>
+        <p class="lesson-card__desc">アプリのフォルダを作って Claude Code で開き、AI と壁打ちして削り込み、仕様書と作る順番をフォルダに残します。</p>
+        <p class="lesson-card__meta">この回で作るもの：アプリのフォルダ／docs/spec.md／docs/tasks.md</p>
+        <span class="lesson-card__cta">この回のページを開く →</span>
+      </a>
 
       <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 03</p>
@@ -330,9 +374,9 @@
 </section>
 
 <!-- ルール・修了要件 -->
-<section class="section" id="rules">
+<section class="section section--soft" id="rules">
   <div class="section__inner">
-    <p class="section__kicker">Rules</p>
+    <p class="section__kicker" lang="en">Rules</p>
     <h2 class="section__title">ゼミのルール・<em>修了要件</em></h2>
     <p class="section__lead">以下を満たさない場合は、修了証の発行ができません。</p>
 
@@ -340,7 +384,7 @@
       <li>
         <span class="steps__n">1</span>
         <div>
-          <h3 class="steps__title">全6回中 4回以上の事前課題提出</h3>
+          <h3 class="steps__title">事前課題を4回以上提出する（第2回〜第7回の6回が対象）</h3>
           <p class="steps__desc">
             事前課題の提出締切は、各回の開催3日前までです。第1回までの課題はありませんので、課題があるのは第2回〜第7回の6回分です。
           </p>
@@ -357,8 +401,49 @@
 
     <div class="note">
       <strong>事前課題・ご質問の提出先：</strong>「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください（期日：各ゼミの開催3日前まで）。<br>
-      <strong>LIVE講義のアーカイブ：</strong>「ツール別コース ＞ ゼミアーカイブ動画」で公開されます。毎週のLIVE講義実施日から2日以内ほどでの公開となりますこと、ご容赦ください。
+      <strong>LIVE講義のアーカイブ：</strong>「ツール別コース ＞ ゼミアーカイブ動画」で公開されます。LIVE講義実施日から2日以内ほどでの公開となりますこと、ご容赦ください。
       なお、LIVE講義で配布した資料・リンク・プロンプト等の再配布は原則行っておりません。
+    </div>
+  </div>
+</section>
+
+<!-- Boarding Pass -->
+<section class="section" id="boardingpass">
+  <div class="section__inner">
+    <p class="section__kicker" lang="en">Practice</p>
+    <h2 class="section__title">演習サイト <em>Boarding Pass</em></h2>
+    <p class="section__lead">
+      第2回から、その回で扱った内容の理解度チェックを Boarding Pass で行います。選択式の問題を解くと、その場で採点され、正解と解説が出ます。同じサイトから質問を出すこともできます。
+    </p>
+
+    <div class="cards cards--3">
+      <div class="card">
+        <h3 class="card__title">入口</h3>
+        <p class="card__desc">
+          <a href="https://quiz-gpassport.vercel.app/" target="_blank" rel="noopener">Boarding Pass を開く ↗</a>
+          <span class="url-text">https://quiz-gpassport.vercel.app/</span><br>
+          「演習を受ける（受講生）」→ ゼミ一覧から <strong>生成AIアプリ開発ゼミ</strong> を選んでください。
+        </p>
+      </div>
+      <div class="card">
+        <h3 class="card__title">質問（Q&amp;A）も出せます</h3>
+        <p class="card__desc">
+          同じサイトから、その回の内容についての質問を出せます。講師が回答したものは<strong>お名前を伏せた形で一覧に並ぶ</strong>ので、
+          ほかの方の質問と回答も読めます。演習を解いていて引っかかったところは、ここから出してみてください。
+        </p>
+      </div>
+      <div class="card">
+        <h3 class="card__title">ログインについて</h3>
+        <p class="card__desc">
+          表示名とパスワードで入ります。パスワードは登録のときにご自身で決めたもので、Commune のパスワードとは別です。
+          新規登録は常時開いてはいないため、LIVE講義中に講師が受付を開きます。
+        </p>
+      </div>
+    </div>
+
+    <div class="note">
+      演習の結果は、事前課題の採点対象ではありません。理解度のチェックとしてお使いください。<br>
+      ゼミ終了後は予告なくご覧いただけなくなることがあります。手元に残しておきたい結果は、採点のあとに出る「結果をテキストで保存」から、そのつど保存しておいてください。
     </div>
   </div>
 </section>
@@ -366,25 +451,38 @@
 <!-- 開催スケジュール -->
 <section class="section section--soft" id="schedule">
   <div class="section__inner">
-    <p class="section__kicker">Schedule</p>
-    <h2 class="section__title">開催<em>スケジュール</em></h2>
-    <p class="section__lead">全7回。いずれも土曜 20:30〜22:00 に開催します。</p>
+    <p class="section__kicker" lang="en">Schedule &amp; Join</p>
+    <h2 class="section__title">開催スケジュールと<em>参加方法</em></h2>
+    <p class="section__lead">全7回。いずれも土曜 20:30〜22:00 に、Google Meet で開催します。</p>
 
-    <div class="table-wrap">
-      <table class="tbl">
-        <thead><tr><th>回</th><th>内容</th><th>開催日</th><th>時刻</th></tr></thead>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="開催スケジュール">
+      <table class="tbl tbl--schedule">
+        <thead><tr><th>回</th><th>内容</th><th>開催日</th></tr></thead>
         <tbody>
-          <tr><td>第1回</td><td>オリエンテーション</td><td>9月5日(土)</td><td>20:30〜22:00</td></tr>
-          <tr><td>第2回</td><td>要件定義</td><td>9月19日(土)</td><td>20:30〜22:00</td></tr>
-          <tr><td>第3回</td><td>実装①</td><td>10月3日(土)</td><td>20:30〜22:00</td></tr>
-          <tr><td>第4回</td><td>実装②</td><td>10月17日(土)</td><td>20:30〜22:00</td></tr>
-          <tr><td>第5回</td><td>実装③</td><td>10月31日(土)</td><td>20:30〜22:00</td></tr>
-          <tr><td>第6回</td><td>デバッグ</td><td>11月14日(土)</td><td>20:30〜22:00</td></tr>
-          <tr><td>第7回</td><td>機能追加と自走</td><td>11月28日(土)</td><td>20:30〜22:00</td></tr>
+          <tr><td>第1回</td><td>オリエンテーション</td><td>9月5日(土)</td></tr>
+          <tr><td>第2回</td><td>要件定義</td><td>9月19日(土)</td></tr>
+          <tr><td>第3回</td><td>実装①</td><td>10月3日(土)</td></tr>
+          <tr><td>第4回</td><td>実装②</td><td>10月17日(土)</td></tr>
+          <tr><td>第5回</td><td>実装③</td><td>10月31日(土)</td></tr>
+          <tr><td>第6回</td><td>デバッグ</td><td>11月14日(土)</td></tr>
+          <tr><td>第7回</td><td>機能追加と自走</td><td>11月28日(土)</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="table-hint">※ 画面が狭いときは、表を横にスクロールできます。</p>
+
+    <div class="card card--join">
+      <h3 class="card__title">LIVE講義の入室先（Google Meet）</h3>
+      <p class="card__desc">
+        <a class="btn btn--primary" href="https://meet.google.com/hgy-rkij-yds" target="_blank" rel="noopener">Google Meet の講義室を開く ↗</a><br>
+        <span class="url-text">https://meet.google.com/hgy-rkij-yds</span>
+      </p>
+    </div>
+
+    <div class="note">
+      <strong>うまく入室できないとき</strong><br>
+      ・リンクを選択した際にアプリのダウンロードページに飛ぶ場合は、お手数ですがダウンロードしたうえで、改めてリンクからご入室ください。<br>
+      ・画面にぐるぐると回る円が表示されて入室できない場合は、ブラウザのキャッシュクリアと再起動をお試しください。
+    </div>
 
     <div class="note">
       期間・回数・LIVE講義日時・必要なツール等は変更される場合があります。<br>
@@ -393,30 +491,10 @@
   </div>
 </section>
 
-<!-- 参加方法 -->
-<section class="section" id="join">
-  <div class="section__inner">
-    <p class="section__kicker">How to join</p>
-    <h2 class="section__title">LIVE講義への<em>参加方法</em></h2>
-    <p class="section__lead">スケジュールをご確認のうえ、以下のURLからご入室ください。</p>
-
-    <div class="card">
-      <h3 class="card__title">講義URL</h3>
-      <p class="card__desc"><a href="https://meet.google.com/hgy-rkij-yds" target="_blank" rel="noopener">https://meet.google.com/hgy-rkij-yds</a>（Google Meet）</p>
-    </div>
-
-    <div class="note">
-      <strong>うまく入室できないとき</strong><br>
-      ・リンクを選択した際にアプリのダウンロードページに飛ぶ場合は、お手数ですがダウンロードしたうえで、改めてリンクからご入室ください。<br>
-      ・画面にぐるぐると回る円が表示されて入室できない場合は、ブラウザのキャッシュクリアと再起動をお試しください。
-    </div>
-  </div>
-</section>
-
 <!-- 困ったとき -->
-<section class="section section--soft" id="stuck">
+<section class="section" id="stuck">
   <div class="section__inner">
-    <p class="section__kicker">When You're Stuck</p>
+    <p class="section__kicker" lang="en">When You're Stuck</p>
     <h2 class="section__title">分からないことが出てきたら<em>この順番で</em></h2>
     <p class="section__lead">
       学習中・課題実施中に詰まったら、以下の順で進めてください。1人で抱え込まないことが一番大事です。
@@ -469,88 +547,18 @@
   </div>
 </section>
 
-<!-- Boarding Pass -->
-<section class="section" id="boardingpass">
-  <div class="section__inner">
-    <p class="section__kicker">Practice</p>
-    <h2 class="section__title">演習サイト <em>Boarding Pass</em></h2>
-    <p class="section__lead">
-      第2回から、その回で扱った内容の理解度チェックを Boarding Pass で行います。選択式の問題を解くと、その場で採点され、正解と解説が出ます。同じサイトから質問を出すこともできます。
-    </p>
-
-    <div class="cards cards--3">
-      <div class="card">
-        <h3 class="card__title">入口</h3>
-        <p class="card__desc">
-          <a href="https://quiz-gpassport.vercel.app/" target="_blank" rel="noopener">https://quiz-gpassport.vercel.app/</a><br>
-          「演習を受ける（受講生）」→ ゼミ一覧から <strong>生成AIアプリ開発ゼミ</strong> を選んでください。
-        </p>
-      </div>
-      <div class="card">
-        <h3 class="card__title">質問（Q&amp;A）も出せます</h3>
-        <p class="card__desc">
-          同じサイトから、その回の内容についての質問を出せます。講師が回答したものは<strong>お名前を伏せた形で一覧に並ぶ</strong>ので、
-          ほかの方の質問と回答も読めます。演習を解いていて引っかかったところは、ここから出してみてください。
-        </p>
-      </div>
-      <div class="card">
-        <h3 class="card__title">ログインについて</h3>
-        <p class="card__desc">
-          表示名とパスワードで入ります。パスワードは登録のときにご自身で決めたもので、Commune のパスワードとは別です。
-          新規登録は常時開いてはいないため、LIVE講義中に講師が受付を開きます。
-        </p>
-      </div>
-    </div>
-
-    <div class="note">
-      演習の結果は、事前課題の採点対象ではありません。理解度のチェックとしてお使いください。<br>
-      ゼミ終了後は予告なくご覧いただけなくなることがあります。手元に残しておきたい結果は、採点のあとに出る「結果をテキストで保存」から、そのつど保存しておいてください。
-    </div>
-  </div>
-</section>
-
-<!-- この回で扱ったこと -->
-<section class="section" id="contents">
-  <div class="section__inner">
-    <p class="section__kicker">Key Points</p>
-    <h2 class="section__title">この回で<em>押さえたいこと</em></h2>
-    <p class="section__lead">アーカイブを見返す際の指針にどうぞ。</p>
-
-    <ol class="steps">
-      <li>
-        <span class="steps__n">1</span>
-        <div>
-          <h3 class="steps__title">人が決めること と AIが担うこと は分かれている</h3>
-          <p class="steps__desc">
-            人が決めるのは、何を作るか／どこまで作るか／出てきたものが正しいかの判断／直す指示。
-            AIが担うのは、コードを書くこと／エラーの原因を推測すること／直すこと。
-            <strong>コードが読めなくても進められるのは、この分担があるからです。</strong>
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="steps__n">2</span>
-        <div>
-          <h3 class="steps__title">使うのは Claude デスクトップアプリと Claude Code</h3>
-          <p class="steps__desc">
-            <strong>Claude Code</strong>＝指示を出すと、PCのファイルを実際に作ったり書き換えたりしてくれるツールです。画面に答えを表示するだけのチャットとは別のものです。
-            本来はターミナル（文字でPCに命令する画面）から使いますが、このゼミでは <strong>Claude デスクトップアプリ</strong>の中から使います。最初につまずきやすい箇所を1つ減らすためです。<br>
-            数あるツールの中で Claude Code を選んでいるのは、エンジニア以外の方が実際に使って手順を公開している例が多く、
-            調べたときに出てくる情報が幅広いためです。ゼミが終わったあとにご自身で調べて進めるとき、ここが効いてきます。<br>
-            <em>※ 画面の名称やボタンの文言は変わることがあります。最新の情報は公式のページをご確認ください。</em>
-          </p>
-        </div>
-      </li>
-    </ol>
-  </div>
-</section>
-
 </main>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
-    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+    <p class="site-footer__name">AIアプリ開発入門ゼミ <small>｜ DMM 生成AI CAMP ／ 受講生向けページ</small></p>
+    <nav class="site-footer__links" aria-label="よく使うリンク">
+      <a href="#schedule">日程・入室</a>
+      <a href="#stuck">困ったとき</a>
+      <a href="#boardingpass">Boarding Pass</a>
+      <a href="lessons/lesson02/">第2回のページ</a>
+    </nav>
+    <p class="site-footer__note">ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。</p>
   </div>
 </footer>
 
