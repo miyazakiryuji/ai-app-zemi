@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIアプリ開発入門ゼミ ｜ 第2回 要件定義</title>
-<meta name="description" content="AIアプリ開発入門ゼミ 第2回 要件定義。アプリのフォルダを作って Claude デスクトップアプリで開き、AI と壁打ちして要件を噛み砕き、仕様書（docs/spec.md）と作業の順番（docs/tasks.md）をフォルダに残すまでの手順。">
+<meta name="description" content="AIアプリ開発入門ゼミ 第2回 要件定義。アプリのフォルダを作って Claude デスクトップアプリで開き、AI と壁打ちして要件を噛み砕き、使う技術の提案をもらい、仕様書（docs/spec.md）と作業の順番（docs/tasks.md）をフォルダに残すまでの手順。">
 <link rel="stylesheet" href="../../assets/site.css">
 <script>document.documentElement.classList.add("js");</script>
 <script src="../../assets/site.js" defer></script>
@@ -22,6 +22,7 @@
       <a href="#open">アプリで開く</a>
       <a href="#brainstorm">AIと壁打ち</a>
       <a href="#decide">削る・決める</a>
+      <a href="#stack">使う技術</a>
       <a href="#spec">仕様書</a>
       <a href="#tasks">作る順番</a>
       <a href="#deliverables">この回で作るもの</a>
@@ -80,6 +81,10 @@
       このゼミではその文章を <code>docs/spec.md</code>（仕様書）として残し、さらに「どの順番で作るか」を <code>docs/tasks.md</code> に残します。
       <strong>7回で完走できるかどうかは、この回の削り込みでほぼ決まります。</strong>
     </p>
+    <div class="note">
+      <strong>要件定義書に決まった形式（フォーマット）はありません。</strong>会社や現場ごとに項目名も粒度も違い、正解の書式があるわけではありません。
+      この回で示す進め方と、仕様書の6項目は、<strong>あくまで方法の一つ</strong>です（詳しくは<a href="#spec">「仕様書」の節</a>）。
+    </div>
 
     <h3 class="sub">なぜ作り始める前に決めるのか</h3>
     <ul>
@@ -94,8 +99,9 @@
       <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">Claude Code で開く</p><p class="flow__desc">デスクトップアプリから</p></div>
       <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">AI と壁打ち</p><p class="flow__desc">誰が・何を・どんな機能を</p></div>
       <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">削る・決める</p><p class="flow__desc">テーマの3条件／MVP／型／画面</p></div>
-      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">仕様書</p><p class="flow__desc">docs/spec.md</p></div>
-      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">作業の順番</p><p class="flow__desc">docs/tasks.md</p></div>
+      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">技術の提案</p><p class="flow__desc">Claude Code に候補を出させる</p></div>
+      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">仕様書</p><p class="flow__desc">docs/spec.md</p></div>
+      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">作業の順番</p><p class="flow__desc">docs/tasks.md</p></div>
     </div>
   </div>
 </section>
@@ -405,14 +411,83 @@
   </div>
 </section>
 
-<!-- 6. 仕様書 -->
-<section class="section section--soft" id="spec">
+<!-- 6. 使う技術（技術スタックの提案） -->
+<section class="section section--soft" id="stack">
   <div class="section__inner">
     <p class="section__kicker">06</p>
+    <h2 class="section__title">使う技術を決める：<em>技術スタックの提案</em>をもらう</h2>
+    <p class="section__lead">
+      画面と MVP が決まったら、作る前に<strong>技術スタック</strong>（＝アプリを作るのに使うプログラミング言語や部品の組み合わせ）を Claude Code に提案してもらいます。
+      決めるのは自分ですが、候補を出して理由を並べるのは AI の得意な仕事です。
+    </p>
+
+    <h3 class="sub">なぜ要件定義の段階で聞くのか</h3>
+    <ul>
+      <li>使う技術が決まらないまま第3回以降に入ると、仕様書の「使う技術」が空欄で、指示のたびに違う部品で作られます。あとで合わなくなります</li>
+      <li>何を作るか（画面の数・保存するデータ・AI 機能を足すかどうか）で向く技術が変わります。だから MVP と画面を決めた<strong>あと</strong>に聞きます。先に聞くと一般論しか返ってきません</li>
+      <li>提案の理由を読んでおくと、第3回以降にエラー（＝プログラムが処理を続けられなくなったときに出す知らせ）が出たとき「どの部品の話か」が分かります</li>
+    </ul>
+
+    <h3 class="sub">技術スタックを提案させる指示の型</h3>
+    <p>壁打ちと同じセッションで、そのまま貼って送ります。</p>
+<pre class="prompt prompt--plain" data-label="指示③（技術スタック）― そのまま貼る">ここまでで決めた内容（誰が使うか・やること・やらないこと・画面）をもとに、このアプリを作るのに使う技術スタック（＝プログラミング言語や部品の組み合わせ）を提案してください。
+まだコードは書かないでください。
+
+■ 前提
+- 作る人はプログラミング未経験で、Claude Code に指示して作ります
+- 自分のPCのブラウザで動かす、自分専用のWebアプリです（ログインは作りません）
+- 次の回から Node.js を入れます
+- あとで AI の機能を1つ足す予定です
+- 部品はできるだけ少なく、エラーが出たときに原因を追いやすい構成にしたいです
+
+■ お願い
+1. おすすめの構成を1つ、「画面／保存の仕組み／動かし方」の3つに分けて提案してください。それぞれ、なぜそれを選ぶのかを1〜2行で添えてください
+2. ほかの候補を2つまで挙げ、おすすめと比べて何が違うか（難しさ・できること）を1行ずつ書いてください
+3. 初めて聞く人向けに、出てきた用語には一言の説明を付けてください
+4. ファイルは作らず、コマンドも実行しないでください。仕様書への書き込みは、あとで別に指示します</pre>
+    <p><span class="why">なぜ「前提」を書くのか：</span>前提が無いと、AI は世の中で多い構成（React などの大きな部品の組み合わせ）を返してきます。未経験者が自分の PC で動かす、あとで AI 機能を足す、と書いておくと、それに合った小さい構成になります。</p>
+
+    <div class="figures">
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_prompt_stack_typed.png" alt="技術スタックの提案を頼む指示を入力欄に貼ったところ" loading="lazy">
+        <figcaption>指示を貼ったところ。壁打ちと同じセッションで続けて送ります</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_reply_stack.png" alt="返ってきたおすすめの構成。画面・保存・動かし方の3つに分けて理由つきで書かれている" loading="lazy">
+        <figcaption>返ってきた「おすすめの構成」（例：食費メモ）。画面／保存／動かし方の3つに分けて、理由つきで返ってきます</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson02/r2_app_reply_stack_alternatives.png" alt="続けて返ってきたほかの候補2つと、用語の一言説明の表" loading="lazy">
+        <figcaption>続けて返ってきた「ほかの候補」と用語の説明。おすすめと何が違うかが1行ずつ書いてあります</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">返ってきたら、自分で決める</h3>
+    <ul>
+      <li>提案は「おすすめ1つ＋ほかの候補」の形で返ってきます。上の例（食費メモ）では、画面＝素の HTML／CSS／JavaScript、保存＝Node.js のサーバーが JSON ファイル1つに読み書き、動かし方＝ターミナルで <code>node server.js</code> → ブラウザで <code>http://localhost:3000</code>、がおすすめになりました。「あとで AI 機能を足す」の前提が、サーバーあり・なしの分かれ目になっています</li>
+      <li><strong>全部を理解する必要はありません。</strong>「画面／保存／動かし方」の3つに、それぞれ何という名前の部品を使うかが分かれば十分です。用語の説明は返答の中の表にあります</li>
+      <li>おすすめを採用するなら、そのまま次の節で仕様書の「使う技術」に書きます。ほかの候補を選ぶなら、理由を1行、自分の言葉にしておきます（第3回以降、講師に相談するときに使います）</li>
+    </ul>
+    <div class="note">
+      ゼミとして全員共通の構成をご案内する場合は、第3回でお伝えします。提案と違っていたら、そのときに <code>docs/spec.md</code> の「使う技術」の欄だけを書き換えます（作り直しではありません）。
+    </div>
+  </div>
+</section>
+
+<!-- 7. 仕様書 -->
+<section class="section" id="spec">
+  <div class="section__inner">
+    <p class="section__kicker">07</p>
     <h2 class="section__title">仕様書 <em>docs/spec.md</em> にまとめる</h2>
     <p class="section__lead">ここまでで決めたことを、Claude Code に<strong>ファイルとして</strong>書かせます。書かせるのは <strong>Markdown</strong>（＝見出しや箇条書きを記号で書く、文章ファイルの書き方。ファイル名の最後が <code>.md</code>）の形式で、<code>docs</code> という名前のフォルダの中に <code>spec.md</code> というファイルを作ります（<code>docs/spec.md</code> はその置き場所を表す書き方です）。</p>
+    <div class="note note--key">
+      <img class="note__mascot" src="../../assets/penguins/penguin_teaching.png" alt="">
+      <strong>仕様書（要件定義書）に決まった形式はありません。</strong>ここで示す6項目の見出しと書き方は、あくまで方法の一つです。
+      会社や現場によって項目名も粒度も違い、正解の書式があるわけではありません。
+      このゼミでは「Claude Code に読ませて迷わない最小の項目」としてこの6つにしています。慣れてきたら、自分のアプリに合わせて項目を足したり減らしたりして構いません。
+    </div>
 
-    <h3 class="sub">仕様書に必ず入れる6項目</h3>
+    <h3 class="sub">仕様書に入れる6項目（このゼミでの型）</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
       <table class="tbl">
         <thead><tr><th>項目</th><th>抜けると何が起きるか</th></tr></thead>
@@ -422,7 +497,7 @@
           <tr><td><strong>やらないこと</strong></td><td><strong>AI は機能を足してきます。</strong>書いてあれば「やらないことに入っている」と止められます</td></tr>
           <tr><td><strong>扱うデータ</strong>（項目名と種類）</td><td>あとから項目を足すと、すでに保存したデータに新しい項目が無い状態になり、一覧の表示が崩れます</td></tr>
           <tr><td><strong>画面一覧と遷移</strong></td><td>指示のたびに画面構成が変わります</td></tr>
-          <tr><td><strong>使う技術</strong></td><td>指示のたびに違う部品で作られ、あとで合わなくなります。使う技術はゼミから全員共通のものをご案内します。それまでは「ゼミで指定」と書いておきます</td></tr>
+          <tr><td><strong>使う技術</strong></td><td>指示のたびに違う部品で作られ、あとで合わなくなります。<a href="#stack">前の節</a>で提案してもらった構成を「画面／保存の仕組み／動かし方」の3行で書きます</td></tr>
         </tbody>
       </table>
     </div>
@@ -435,10 +510,10 @@
 
     <h3 class="sub">仕様書を書かせる指示の型</h3>
     <p>壁打ちの続きとして送ります。質問への答えと、提案の採用・不採用を自分の言葉で書いてください。</p>
-<pre class="prompt" data-label="指示③（仕様書）― （ ）の中を自分の答えに差し替えて貼る">ありがとうございます。質問への答えと、提案の採用・不採用を決めました。
+<pre class="prompt" data-label="指示④（仕様書）― （ ）の中を自分の答えに差し替えて貼る">ありがとうございます。質問への答えと、提案の採用・不採用を決めました。
 
 ■ 質問への答え（返ってきた質問の数だけ書く）
-（Q1：まずはPCだけで使う。保存の仕組みは、ゼミで指定される技術に合わせる）
+（Q1：まずはPCだけで使う。保存の仕組みは、提案してもらった技術スタックに合わせる）
 （Q2：1日〜末日で区切る）
 （Q3：分類は付けない。「やらないこと」に入れる）
 
@@ -456,7 +531,7 @@
 「目的」には、誰がどこで使うかと、ユーザーストーリー（「〜のとき、〜したい。なぜなら〜だから。」）を3〜5本入れてください。
 扱うデータは「項目名・種類（文字・数値・日付など）・必須かどうか」の表にしてください。
 画面は上で決めたとおりにし、見た目や装飾の話は書かないでください。
-使う技術の欄は「ゼミで指定」とだけ書いてください。
+使う技術の欄は、さっき提案してもらった「おすすめの構成」を「画面／保存の仕組み／動かし方」の3行で書いてください。
 各見出しの中身は8行まで。作成日・版番号は書かないでください。
 変更するのは docs/spec.md の1ファイルだけ。すでにある場合は上書きせず、中身を見せて確認を待ってください。
 決めていないことは推測で足さず、質問してください。コードは書かず、コマンドも実行しないでください。</pre>
@@ -502,10 +577,10 @@
   </div>
 </section>
 
-<!-- 7. 作る順番 -->
-<section class="section" id="tasks">
+<!-- 8. 作る順番 -->
+<section class="section section--soft" id="tasks">
   <div class="section__inner">
-    <p class="section__kicker">07</p>
+    <p class="section__kicker">08</p>
     <h2 class="section__title">作る順番を決める：<em>docs/tasks.md</em>（タスク分け）</h2>
     <p class="section__lead">
       仕様書ができたら、<strong>どの順番で作るか</strong>を決めます。これを<strong>タスク分け</strong>と呼び（タスク＝1回の指示で作る作業の単位）、<code>docs/tasks.md</code> に残します。
@@ -533,7 +608,7 @@
     <p class="table-hint">表は横にスクロールできます</p>
 
     <h3 class="sub">タスク分けをさせる指示の型</h3>
-<pre class="prompt prompt--plain" data-label="指示④（タスク分け）― そのまま貼る">docs/spec.md ができました。次に、このアプリをどういう順番で作っていくか、タスク分けをしてください。
+<pre class="prompt prompt--plain" data-label="指示⑤（タスク分け）― そのまま貼る">docs/spec.md ができました。次に、このアプリをどういう順番で作っていくか、タスク分けをしてください。
 まだコードは書かないでください。
 
 ■ お願い
@@ -567,15 +642,15 @@
       <li>記録を削除する</li>
       <li>修正画面（画面2）へ移動して戻る</li>
       <li>修正した内容を保存する</li>
-      <li>記録が消えずに残るようにする（保存先をゼミ指定の技術につなぐ）</li>
+      <li>記録が消えずに残るようにする（保存先を仕様書の「使う技術」につなぐ）</li>
       <li>仕様書の「やること」6項目を通しで確認する</li>
     </ol>
     <p>この例では10個になりました。それぞれに「完了条件」と「なぜ先か」が1行ずつ付いています。</p>
     <p>読むときに見る点は次の3つです。</p>
     <ul>
       <li><strong>最初のタスクが「画面が1枚出る」になっているか。</strong>動く画面が先にあると、以降のタスクをすべてその画面の上で確認できます</li>
-      <li><strong>「消えないようにする」が後ろにあるか。</strong>この例のタスク2「1件保存して一覧に出す」の保存は、画面の上に出すだけで、ページを読み込み直すと消えてよいものです。ブラウザを閉じても残るようにするのはタスク9で、そこだけがゼミで指定する技術に左右されます。だから技術に左右されないタスクを先に集めてあります。理由が書いてあれば、順番に納得できます</li>
-      <li><strong>技術が決まったら見直します。</strong>使う技術が指定されたあと（第3回）に、<code>docs/tasks.md</code> を Claude Code に読み直させ、順番や分け方を直します。作り直しではなく、順番の確認です</li>
+      <li><strong>「消えないようにする」が後ろにあるか。</strong>この例のタスク2「1件保存して一覧に出す」の保存は、画面の上に出すだけで、ページを読み込み直すと消えてよいものです。ブラウザを閉じても残るようにするのはタスク9で、そこだけが仕様書の「使う技術」（保存の仕組み）に左右されます。だから技術に左右されないタスクを先に集めてあります。理由が書いてあれば、順番に納得できます</li>
+      <li><strong>「使う技術」を書き換えたら見直します。</strong>第3回でゼミ共通の構成が案内されて仕様書の「使う技術」を書き換えた場合は、<code>docs/tasks.md</code> を Claude Code に読み直させ、順番や分け方を直します。作り直しではなく、順番の確認です</li>
       <li><strong>各タスクに完了条件があるか。</strong>「金額を空にして保存を押すとエラーが出る」のように、ブラウザで何を見ればよいかが書いてあるかを見ます</li>
     </ul>
     <div class="note note--key">
@@ -584,8 +659,8 @@
   </div>
 </section>
 
-<!-- 8. この回で作るもの -->
-<section class="section section--soft" id="deliverables">
+<!-- 9. この回で作るもの -->
+<section class="section" id="deliverables">
   <div class="section__inner">
     <p class="section__kicker">Deliverables</p>
     <h2 class="section__title">この回で<em>作るもの</em></h2>
@@ -611,8 +686,8 @@
   </div>
 </section>
 
-<!-- 9. つまずき -->
-<section class="section" id="pitfalls">
+<!-- 10. つまずき -->
+<section class="section section--soft" id="pitfalls">
   <div class="section__inner">
     <p class="section__kicker">Pitfalls</p>
     <h2 class="section__title">よくある<em>つまずき</em>と対処</h2>
@@ -649,6 +724,11 @@
         <p class="pitfall__how"><strong>対処：</strong>場所と中身を見て「一度だけ許可」。何を聞かれているか分からないときは、確認画面のスクショを撮ってゼミ掲示板へ。</p>
       </div>
       <div class="pitfall">
+        <h3 class="pitfall__title">技術スタックの提案を全部理解しようとして止まった</h3>
+        <p class="pitfall__what">用語を調べ始めて、仕様書まで進みません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「画面／保存／動かし方」の3つに使う部品の名前だけ押さえる。用語の意味は返答の表で足ります。分からない言葉は第3回で実物を見てからで大丈夫です。</p>
+      </div>
+      <div class="pitfall">
         <h3 class="pitfall__title">Claude デスクトップアプリが入っていない／有料プランが未契約</h3>
         <p class="pitfall__what">フォルダを開くところから先に進めません。</p>
         <p class="pitfall__how"><strong>対処：</strong>LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。導入で詰まったら、スクショを撮って AI に聞く → ゼミ掲示板の順で。</p>
@@ -658,7 +738,7 @@
 </section>
 
 <!-- 用語 -->
-<section class="section section--soft" id="glossary">
+<section class="section" id="glossary">
   <div class="section__inner">
     <p class="section__kicker">Glossary</p>
     <h2 class="section__title">この回で出てきた<em>用語</em></h2>
@@ -666,7 +746,7 @@
       <table class="tbl">
         <thead><tr><th>用語</th><th>意味</th></tr></thead>
         <tbody>
-          <tr><td><strong>要件定義</strong></td><td>作り始める前に「誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか」を文章で決めること</td></tr>
+          <tr><td><strong>要件定義</strong></td><td>作り始める前に「誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか」を文章で決めること。決まった書式は無い</td></tr>
           <tr><td><strong>フォルダ（アプリのフォルダ）</strong></td><td>そのアプリのファイルをすべて入れる入れ物。アプリ1つにつき1つ作る</td></tr>
           <tr><td><strong>壁打ち</strong></td><td>自分の考えを AI に読ませて、質問や提案を返してもらい、それを見て自分の考えを整えるやり取り</td></tr>
           <tr><td><strong>セッション</strong></td><td>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始める</td></tr>
@@ -679,7 +759,7 @@
           <tr><td><strong>タスク分け（docs/tasks.md）</strong></td><td>仕様書の内容を、作る順番に並べた作業の一覧。1つずつ Claude Code に指示する</td></tr>
           <tr><td><strong>Markdown</strong></td><td>見出しや箇条書きを記号で書く、文章ファイルの書き方（.md）</td></tr>
           <tr><td><strong>プロンプト</strong></td><td>AI に送る指示の文章。このページで「指示の型」として配っているのは、その雛形</td></tr>
-          <tr><td><strong>技術スタック</strong></td><td>アプリを作るのに使うプログラミング言語や部品の組み合わせ。このゼミでは全員共通のものを指定する</td></tr>
+          <tr><td><strong>技術スタック</strong></td><td>アプリを作るのに使うプログラミング言語や部品の組み合わせ。この回で Claude Code に提案してもらい、仕様書の「使う技術」に書く</td></tr>
         </tbody>
       </table>
     </div>
