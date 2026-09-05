@@ -199,14 +199,18 @@ a.lesson-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md);
 
 /* ---- ルール・手順の番号リスト ---- */
 .steps { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.steps li { display: grid; grid-template-columns: 46px 1fr; gap: 16px; align-items: start;
+/* カードにするのは直下の li だけ。ステップの本文中に箇条書きを置くと、
+   子孫セレクタでは中の li までカード化され、文字が 46px 幅に潰れる */
+.steps > li { display: grid; grid-template-columns: 46px 1fr; gap: 16px; align-items: start;
   background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 18px 20px; box-shadow: var(--shadow-sm); }
 .steps__n { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
   background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink)); color: #fff; font-weight: 900; font-size: 15px; }
 .steps__title { font-size: 15.5px; font-weight: 800; margin: 0 0 4px; }
 .steps__desc { font-size: 14px; color: var(--text-sub); margin: 0; }
-.steps__desc ul { margin: 8px 0 0; padding-left: 1.2em; }
+.steps__desc ul { margin: 8px 0 0; padding-left: 1.25em; list-style: disc; }
+.steps__desc li { display: list-item; grid-template-columns: none; gap: 0;
+  background: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; margin: 2px 0; }
 
 /* ---- 表 ---- */
 .table-wrap { overflow-x: auto; }
