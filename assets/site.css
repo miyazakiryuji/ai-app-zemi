@@ -279,5 +279,5 @@ table.tbl tr:last-child td { border-bottom: 0; }
   .steps__n { width: 32px; height: 32px; font-size: 13.5px; }
   .now__inner { padding: 16px 18px; }
   .now__actions { margin-left: 0; width: 100%; }
-  .btn { flex: 1; text-align: center; }
+  .btn { flex: 1 1 100%; text-align: center; padding: 12px 18px; }
 }
