@@ -212,6 +212,39 @@ a.lesson-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md);
 .steps__desc li { display: list-item; grid-template-columns: none; gap: 0;
   background: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; margin: 2px 0; }
 
+/* ---- ステップカード（困ったときの順番） ---- */
+.stepcards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.stepcard { position: relative; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 26px 26px 24px; box-shadow: var(--shadow-sm); overflow: hidden; }
+/* 上辺の色で2つの手順を見分ける */
+.stepcard::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; }
+.stepcard--a::before { background: var(--accent-orange); }
+.stepcard--b::before { background: var(--accent-blue); }
+
+.stepcard__eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 14px;
+  font-size: 12.5px; font-weight: 800; letter-spacing: 0.12em; }
+.stepcard--a .stepcard__eyebrow { color: var(--on-orange); }
+.stepcard--b .stepcard__eyebrow { color: var(--on-blue); }
+.stepcard__n { flex: none; width: 28px; height: 28px; border-radius: 50%;
+  display: grid; place-items: center; color: #fff; font-size: 14px; font-weight: 900; letter-spacing: 0; }
+.stepcard--a .stepcard__n { background: var(--accent-orange); }
+.stepcard--b .stepcard__n { background: var(--accent-blue); }
+
+.stepcard__title { margin: 0 0 12px; font-size: 19px; font-weight: 900; line-height: 1.55; color: var(--text-main); }
+.stepcard__desc { margin: 0; font-size: 14.5px; line-height: 1.9; color: var(--text-sub); }
+
+.stepcard__box { margin: 18px 0 0; background: var(--bg-soft); border-radius: 14px; padding: 16px 18px; }
+.stepcard__box-title { margin: 0 0 8px; font-size: 14px; font-weight: 800; color: var(--text-main); }
+.stepcard__box ul { margin: 0; padding-left: 1.3em; list-style: disc; }
+.stepcard__box li { display: list-item; margin: 4px 0; font-size: 14px; line-height: 1.8; color: var(--text-sub); }
+.stepcard__box-foot { margin: 8px 0 0; font-size: 14px; color: var(--text-sub); }
+
+@media (max-width: 860px) {
+  .stepcards { grid-template-columns: 1fr; }
+  .stepcard { padding: 22px 20px 20px; }
+  .stepcard__title { font-size: 17.5px; }
+}
+
 /* ---- 表 ---- */
 .table-wrap { overflow-x: auto; }
 .table-hint { font-size: 12.5px; color: var(--text-mute); margin: 8px 0 0; }
