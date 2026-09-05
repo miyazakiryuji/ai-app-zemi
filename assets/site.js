@@ -6,7 +6,8 @@
   'use strict';
 
   var root = document.documentElement;
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+  var reduce = !!(mq && mq.matches);
   if (reduce) { root.classList.add('reduce'); }
 
   /* 出現アニメーションの対象。site.css の .js:not(.reduce) の一覧と同じにしておく */
@@ -42,6 +43,23 @@
       });
       /* 見えた要素より上にあるものも一緒に出す。ページ内リンクや速いスクロールで
          画面を通り過ぎた要素は交差を検知できず、白い空きが残ってしまうため */
+      /* 出現しきったら、ずらし用の遅延を外して通常のホバー速度（.is-settled）に戻す。
+         残したままだと、2枚目以降のカードはホバーの反応まで遅れてしまう */
+      function settle(el) {
+        el.style.transitionDelay = '';
+        el.classList.add('is-settled');
+      }
+      function reveal(el) {
+        el.classList.add('is-visible');
+        var done = false;
+        var finish = function () { if (!done) { done = true; settle(el); } };
+        el.addEventListener('transitionend', function onEnd(e) {
+          if (e.target !== el || e.propertyName !== 'opacity') { return; }
+          el.removeEventListener('transitionend', onEnd);
+          finish();
+        });
+        setTimeout(finish, 1600); /* transitionend が来ない環境の保険 */
+      }
       var shown = 0;
       var io = new IntersectionObserver(function (entries) {
         var last = -1;
@@ -50,11 +68,21 @@
         });
         if (last < 0) { return; }
         for (; shown <= last; shown++) {
-          targets[shown].classList.add('is-visible');
+          reveal(targets[shown]);
           io.unobserve(targets[shown]);
         }
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
       targets.forEach(function (el) { io.observe(el); });
+      /* 表示中に OS の「視差効果を減らす」を有効にしたら、残りを全部出して止める */
+      if (mq && mq.addEventListener) {
+        mq.addEventListener('change', function (e) {
+          if (!e.matches) { return; }
+          reduce = true;
+          root.classList.add('reduce');
+          io.disconnect();
+          targets.forEach(function (el) { el.classList.add('is-visible'); settle(el); });
+        });
+      }
     }
 
     /* ---- 2) 固定ヘッダ：スクロールしたら影を付ける／読み進み具合のバー ---- */
@@ -75,6 +103,12 @@
     totop.addEventListener('click', function (ev) {
       ev.preventDefault();
       window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      /* フォーカスもページ先頭へ戻す（キーボード操作で、次の Tab が末尾から始まらないように） */
+      var first = header ? header.querySelector('.site-header__name') : null;
+      if (first) {
+        if (!first.hasAttribute('tabindex')) { first.setAttribute('tabindex', '-1'); }
+        first.focus({ preventScroll: true });
+      }
     });
     document.body.appendChild(totop);
 
@@ -127,7 +161,8 @@
     /* ---- 5) ページ内リンク：固定ヘッダの高さぶん止まる位置をずらす（CSS の scroll-padding が効かない古い環境向け） ---- */
     document.addEventListener('click', function (ev) {
       var a = ev.target.closest && ev.target.closest('a[href^="#"]');
-      if (!a || a === totop) { return; }
+      /* 「本文へスキップ」はブラウザ標準の挙動に任せる（フォーカス移動が目的のため） */
+      if (!a || a === totop || a.classList.contains('skip-link')) { return; }
       var id = a.getAttribute('href').slice(1);
       var el = id && document.getElementById(id);
       if (!el) { return; }
@@ -136,6 +171,9 @@
       var top = el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset) - offset;
       window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
       if (history.pushState) { history.pushState(null, '', '#' + id); }
+      /* 移動先にフォーカスを移す（Tab の続きが移動先から始まるように） */
+      if (!el.hasAttribute('tabindex')) { el.setAttribute('tabindex', '-1'); }
+      el.focus({ preventScroll: true });
     });
 
     root.classList.add('is-ready');

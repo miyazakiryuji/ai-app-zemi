@@ -332,16 +332,16 @@ table.tbl tr:last-child td { border-bottom: 0; }
 .js:not(.reduce) .hero__kicker { animation-delay: .05s; }
 .js:not(.reduce) .hero__title { animation-delay: .15s; }
 .js:not(.reduce) .hero__sub { animation-delay: .3s; }
-.js:not(.reduce) .hero__facts li { animation-delay: calc(.45s + var(--i, 0) * .08s); }
-.js:not(.reduce) .hero__facts li:nth-child(2) { --i: 1; }
-.js:not(.reduce) .hero__facts li:nth-child(3) { --i: 2; }
-.js:not(.reduce) .hero__facts li:nth-child(4) { --i: 3; }
-.js:not(.reduce) .hero__facts li:nth-child(5) { --i: 4; }
+.js:not(.reduce) .hero__facts li { animation-delay: .45s; }
+.js:not(.reduce) .hero__facts li:nth-child(2) { animation-delay: .53s; }
+.js:not(.reduce) .hero__facts li:nth-child(3) { animation-delay: .61s; }
+.js:not(.reduce) .hero__facts li:nth-child(4) { animation-delay: .69s; }
+.js:not(.reduce) .hero__facts li:nth-child(5) { animation-delay: .77s; }
 /* タイトルのマーカーは、文字が出たあとに左から引く */
 .js:not(.reduce) .hero__title em { background-repeat: no-repeat; background-size: 0% 100%;
   animation: sweep .7s var(--ease) .75s forwards; }
 .js:not(.reduce) .hero__mascot img { opacity: 0; animation: pop .7s var(--ease) .35s forwards, float 4.5s ease-in-out 1.1s infinite; }
-.js:not(.reduce) .hero__mascot img:hover { animation: wiggle .6s ease-in-out; }
+.js:not(.reduce) .hero__mascot:hover { animation: wiggle .6s ease-in-out; }
 .js:not(.reduce) .message__mascot { animation: float 5s ease-in-out infinite; }
 
 /* ---- スクロールで要素が出てくる（対象一覧は site.js の REVEAL と同じ） ---- */
@@ -359,8 +359,14 @@ table.tbl tr:last-child td { border-bottom: 0; }
 .js:not(.reduce) .section__lead { transition-delay: .16s; }
 /* .is-visible を2回重ねて優先度を上げる（.career > li のように要素名を含む「隠す」側に負けないため） */
 .js:not(.reduce) .is-visible.is-visible { opacity: 1; transform: none; }
+/* 出現しきった要素（.is-settled）は、出現用の長い transition をやめて通常のホバー速度に戻す */
+.js:not(.reduce) .is-settled.is-settled { transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+  border-color .25s var(--ease), background .25s var(--ease), color .2s var(--ease); }
+.js:not(.reduce) a.lesson-card.is-settled.is-settled { transition: all .25s var(--ease); }
 /* 出現後にホバーの浮き上がりが効くよう、transform の指定を外す */
 .js:not(.reduce) a.lesson-card.is-visible.is-visible:hover { transform: translateY(-3px); }
+/* JS でフォーカスを移した節に、枠線が出ないようにする */
+.section[tabindex="-1"]:focus, .site-header__name[tabindex="-1"]:focus { outline: none; }
 /* 番号つき手順：カードが出たあとに丸番号が弾む */
 .js:not(.reduce) .steps > li.is-visible .steps__n { animation: pop .55s var(--ease) .25s both; }
 .js:not(.reduce) .stepcard.is-visible .stepcard__n { animation: pop .55s var(--ease) .3s both; }
@@ -380,11 +386,13 @@ table.tbl tr:last-child td { border-bottom: 0; }
 .totop { position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 46px; height: 46px; border-radius: 50%;
   display: grid; place-items: center; text-decoration: none; font-weight: 900; font-size: 18px; color: #fff;
   background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink)); box-shadow: var(--shadow-md);
-  opacity: 0; transform: translateY(14px) scale(.9); pointer-events: none; transition: opacity .3s var(--ease), transform .3s var(--ease); }
-.totop.is-shown { opacity: 1; transform: none; pointer-events: auto; }
+  opacity: 0; visibility: hidden; transform: translateY(14px) scale(.9); pointer-events: none;
+  transition: opacity .3s var(--ease), transform .3s var(--ease), visibility 0s linear .3s; }
+.totop.is-shown { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition-delay: 0s; }
 .totop:hover { transform: translateY(-2px); }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .js * { animation: none !important; transition: none !important; }
   .js .hero__kicker, .js .hero__title, .js .hero__sub, .js .hero__facts li, .js .hero__mascot img { opacity: 1; }
   .js .hero__title em { background-size: 100% 100%; }
