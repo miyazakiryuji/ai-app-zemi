@@ -9,6 +9,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">本文へスキップ</a>
+
 <header class="site-header">
   <div class="site-header__inner">
     <span class="site-header__name">AIアプリ開発入門ゼミ</span>
@@ -24,6 +26,8 @@
     </nav>
   </div>
 </header>
+
+<main id="main">
 
 <!-- ヒーロー -->
 <section class="hero">
@@ -44,6 +48,20 @@
     </div>
   </div>
 </section>
+
+<div class="now">
+  <div class="now__inner">
+    <div>
+      <p class="now__label">いま公開中</p>
+      <h3 class="now__title">第1回 オリエンテーション</h3>
+      <p class="now__meta">9月5日(土) 20:30〜22:00 ／ 次回は第2回 要件定義（9月19日(土)）</p>
+    </div>
+    <div class="now__actions">
+      <a class="btn btn--primary" href="lessons/lesson01/">第1回のページを見る</a>
+      <a class="btn btn--ghost" href="#join">LIVE講義に入室する</a>
+    </div>
+  </div>
+</div>
 
 <!-- 講師紹介 -->
 <section class="section" id="instructor">
@@ -82,17 +100,17 @@
           <div class="app-card">
             <p class="app-card__name">PetTrack</p>
             <p class="app-card__desc">ペット管理アプリ。Swift / SwiftUI、Firebase Authentication / Cloud Firestore、MVVM 設計。</p>
-            <span class="app-card__store">App Store</span>
+            <span class="app-card__store">公開先：App Store</span>
           </div>
           <div class="app-card">
             <p class="app-card__name">ScanGuard</p>
             <p class="app-card__desc">スキャン・セキュリティアプリ。</p>
-            <span class="app-card__store">App Store</span>
+            <span class="app-card__store">公開先：App Store</span>
           </div>
           <div class="app-card">
             <p class="app-card__name">－AIカメと遊ぶ－水平思考ゲーム</p>
             <p class="app-card__desc">ChatGPT API を活用した AI アプリ。</p>
-            <span class="app-card__store">App Store</span>
+            <span class="app-card__store">公開先：App Store</span>
           </div>
         </div>
 
@@ -156,15 +174,15 @@
 
     <div class="cards cards--3">
       <div class="card">
-        <p class="card__title">作るものは、ご自身で決めます</p>
+        <h3 class="card__title">作るものは、ご自身で決めます</h3>
         <p class="card__desc">教材のサンプルを完成させる場ではありません。ご自身の困りごとを題材にしていただきます（第2回で1つに決めます）。</p>
       </div>
       <div class="card">
-        <p class="card__title">7回で、動くものを1本つくりきります</p>
+        <h3 class="card__title">7回で、動くものを1本つくりきります</h3>
         <p class="card__desc">毎回の課題がそのまま制作の進捗になります。最後に残るのは、実際に自分で使えるWebアプリです。</p>
       </div>
       <div class="card">
-        <p class="card__title">終わったあとも、自分で作り続けられる状態へ</p>
+        <h3 class="card__title">終わったあとも、自分で作り続けられる状態へ</h3>
         <p class="card__desc">「アプリができた」で終わりにせず、卒業後にご自身で機能を足していける手順まで持ち帰っていただきます。</p>
       </div>
     </div>
@@ -189,7 +207,7 @@
 
     <div class="contrast">
       <div class="contrast__col contrast__col--no">
-        <p class="contrast__head">こうではありません（ハンズオン形式のワークショップ）</p>
+        <h3 class="contrast__head">こうではありません（ハンズオン形式のワークショップ）</h3>
         <ul>
           <li>講師と一緒に、1行ずつコードを書き進めていく</li>
           <li>「次はここをクリック」「次はこう入力」と、1ステップずつ全員で操作をなぞる</li>
@@ -197,7 +215,7 @@
         </ul>
       </div>
       <div class="contrast__col contrast__col--yes">
-        <p class="contrast__head">こういう場です（自習を前提とした学習の場）</p>
+        <h3 class="contrast__head">こういう場です（自習を前提とした学習の場）</h3>
         <ul>
           <li>指定された Lesson を、LIVE の前までに各自で視聴・実践してくる</li>
           <li>LIVE は、提出課題の公開添削＋自習内容の補足解説＋次回案内が中心</li>
@@ -225,22 +243,22 @@
     <div class="cycle">
       <div class="cycle__step">
         <span class="cycle__badge">事前準備</span>
-        <p class="cycle__name">Lesson の自習</p>
+        <h3 class="cycle__name">Lesson の自習</h3>
         <p class="cycle__desc">講師が指定する DMM 生成AI CAMP の Lesson を、LIVE講義の前までに視聴・実践してきていただきます。</p>
       </div>
       <div class="cycle__step">
         <span class="cycle__badge">事前準備</span>
-        <p class="cycle__name">事前課題の提出</p>
+        <h3 class="cycle__name">事前課題の提出</h3>
         <p class="cycle__desc">Lesson に対応した事前提出課題を、専用フォームから提出していただきます。（第1回までの課題はありません）</p>
       </div>
       <div class="cycle__step cycle__step--live">
         <span class="cycle__badge">LIVE講義</span>
-        <p class="cycle__name">公開添削・Q&amp;A ／ インプット解説</p>
+        <h3 class="cycle__name">公開添削・Q&amp;A ／ インプット解説</h3>
         <p class="cycle__desc">提出課題から、みなさんが引っかかる点・改善点・良かった点を取り上げて共有し、補強したい内容を解説します。</p>
       </div>
       <div class="cycle__step cycle__step--live">
         <span class="cycle__badge">LIVE講義</span>
-        <p class="cycle__name">次週課題の確認</p>
+        <h3 class="cycle__name">次週課題の確認</h3>
         <p class="cycle__desc">次回までの Lesson と事前提出課題を確認して、次のサイクルへつなぎます。</p>
       </div>
     </div>
@@ -259,7 +277,7 @@
     <div class="lessons">
       <a class="lesson-card" href="lessons/lesson01/">
         <p class="lesson-card__no">LESSON 01</p>
-        <p class="lesson-card__title">オリエンテーション</p>
+        <h3 class="lesson-card__title">オリエンテーション</h3>
         <p class="lesson-card__desc">ゼミの進め方・全7回の流れ・修了要件・開催スケジュール・参加方法のご案内。</p>
         <p class="lesson-card__meta">この回の提出物はありません</p>
         <span class="lesson-card__cta">この回のページを見る →</span>
@@ -267,50 +285,50 @@
 
       <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 02</p>
-        <p class="lesson-card__title">要件定義</p>
+        <h3 class="lesson-card__title">要件定義</h3>
         <p class="lesson-card__desc">作るものを1つに決め、最小限まで削り、画面を決めて、仕様書にします。</p>
         <p class="lesson-card__meta">この回の後に出すもの：企画シート／画面設計書／仕様書</p>
-        <span class="badge-soon">準備中</span>
+        <span class="badge-soon">準備中 ― まだ開けません</span>
       </div>
 
       <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 03</p>
-        <p class="lesson-card__title">実装① Claude Code で1周回す</p>
+        <h3 class="lesson-card__title">実装① Claude Code で1周回す</h3>
         <p class="lesson-card__desc">指示 → 生成 → 確認 → 修正 を1周回し、アプリの仕組みを実物で見ます。</p>
         <p class="lesson-card__meta">この回の後に出すもの：共通題材のアプリ＋保存先メモ</p>
-        <span class="badge-soon">準備中</span>
+        <span class="badge-soon">準備中 ― まだ開けません</span>
       </div>
 
       <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 04</p>
-        <p class="lesson-card__title">実装② 自分のアプリの画面とデータ</p>
+        <h3 class="lesson-card__title">実装② 自分のアプリの画面とデータ</h3>
         <p class="lesson-card__desc">自分のアプリの画面と、登録・一覧・編集・削除をつくります。</p>
         <p class="lesson-card__meta">この回の後に出すもの：自分のアプリ（画面＋データ保存）</p>
-        <span class="badge-soon">準備中</span>
+        <span class="badge-soon">準備中 ― まだ開けません</span>
       </div>
 
       <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 05</p>
-        <p class="lesson-card__title">実装③ AI機能を組み込む</p>
+        <h3 class="lesson-card__title">実装③ AI機能を組み込む</h3>
         <p class="lesson-card__desc">AI機能を1つ組み込みます。鍵の扱いと使用量の上限設定もここで。</p>
         <p class="lesson-card__meta">この回の後に出すもの：AI機能（1つ）</p>
-        <span class="badge-soon">準備中</span>
+        <span class="badge-soon">準備中 ― まだ開けません</span>
       </div>
 
       <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 06</p>
-        <p class="lesson-card__title">デバッグ ― 落ちないアプリにする</p>
+        <h3 class="lesson-card__title">デバッグ ― 落ちないアプリにする</h3>
         <p class="lesson-card__desc">不具合の伝え方・原因の切り分け方を身につけ、安定した状態に仕上げます。</p>
         <p class="lesson-card__meta">この回の後に出すもの：安定版＋不具合ログ</p>
-        <span class="badge-soon">準備中</span>
+        <span class="badge-soon">準備中 ― まだ開けません</span>
       </div>
 
       <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 07</p>
-        <p class="lesson-card__title">機能追加と自走</p>
+        <h3 class="lesson-card__title">機能追加と自走</h3>
         <p class="lesson-card__desc">自分で機能を足し、ゼミが終わったあとも続けるための手順を持ち帰ります。</p>
         <p class="lesson-card__meta">この回の後に出すもの：追加機能＋卒業後のロードマップ</p>
-        <span class="badge-soon">準備中</span>
+        <span class="badge-soon">準備中 ― まだ開けません</span>
       </div>
     </div>
   </div>
@@ -327,7 +345,7 @@
       <li>
         <span class="steps__n">1</span>
         <div>
-          <p class="steps__title">全6回中 4回以上の事前課題提出</p>
+          <h3 class="steps__title">全6回中 4回以上の事前課題提出</h3>
           <p class="steps__desc">
             事前課題の提出締切は、各回の開催3日前までです。第1回までの課題はありませんので、課題があるのは第2回〜第7回の6回分です。
           </p>
@@ -336,7 +354,7 @@
       <li>
         <span class="steps__n">2</span>
         <div>
-          <p class="steps__title">卒業制作の提出</p>
+          <h3 class="steps__title">卒業制作の提出</h3>
           <p class="steps__desc">このゼミで作ってきた「自分専用ツール」が、そのまま卒業制作になります。条件は第7回でご案内します。</p>
         </div>
       </li>
@@ -371,6 +389,7 @@
         </tbody>
       </table>
     </div>
+    <p class="table-hint">※ 画面が狭いときは、表を横にスクロールできます。</p>
 
     <div class="note">
       期間・回数・LIVE講義日時・必要なツール等は変更される場合があります。<br>
@@ -387,7 +406,7 @@
     <p class="section__lead">スケジュールをご確認のうえ、以下のURLからご入室ください。</p>
 
     <div class="card">
-      <p class="card__title">講義URL</p>
+      <h3 class="card__title">講義URL</h3>
       <p class="card__desc"><a href="https://meet.google.com/hgy-rkij-yds" target="_blank" rel="noopener">https://meet.google.com/hgy-rkij-yds</a>（Google Meet）</p>
     </div>
 
@@ -413,22 +432,22 @@
       <li>
         <span class="steps__n">1</span>
         <div>
-          <p class="steps__title">まずは、スクリーンショットを撮ってAIに聞く</p>
-          <p class="steps__desc">
-            エラー画面・つまずいた画面をスクリーンショットで撮り、Claude／ChatGPT／Gemini など普段お使いの生成AIに貼り付けて質問してみてください。
+          <h3 class="steps__title">まずは、スクリーンショットを撮ってAIに聞く</h3>
+          <div class="steps__desc">
+            <p>エラー画面・つまずいた画面をスクリーンショットで撮り、Claude／ChatGPT／Gemini など普段お使いの生成AIに貼り付けて質問してみてください。</p>
             <ul>
               <li>何をしようとしていたか</li>
               <li>どうなる予定だったか</li>
               <li>実際にどうなったか</li>
             </ul>
-            この3点を添えて投げると、返ってくる答えの精度が上がります。
-          </p>
+            <p>この3点を添えて投げると、返ってくる答えの精度が上がります。</p>
+          </div>
         </div>
       </li>
       <li>
         <span class="steps__n">2</span>
         <div>
-          <p class="steps__title">それでも解決しなければ、ゼミ掲示板へ</p>
+          <h3 class="steps__title">それでも解決しなければ、ゼミ掲示板へ</h3>
           <p class="steps__desc">
             AIに聞いても解決しない／そもそも何を聞けばいいか分からない場合は、DMM 生成AI CAMP 学び放題 の「ゼミ掲示板」から投稿してください。
             他の受講生・運営・講師が回答できます。投稿するときは、実現したかったこと／試したこと／つまずいた箇所（スクショ歓迎）／環境（OS・ツール）を書いていただけると早く進みます。
@@ -454,14 +473,14 @@
 
     <div class="cards cards--2">
       <div class="card">
-        <p class="card__title">入口</p>
+        <h3 class="card__title">入口</h3>
         <p class="card__desc">
           <a href="https://quiz-gpassport.vercel.app/" target="_blank" rel="noopener">https://quiz-gpassport.vercel.app/</a><br>
           「演習を受ける（受講生）」→ ゼミ一覧から <strong>生成AIアプリ開発ゼミ</strong> を選んでください。
         </p>
       </div>
       <div class="card">
-        <p class="card__title">ログインについて</p>
+        <h3 class="card__title">ログインについて</h3>
         <p class="card__desc">
           表示名とパスワードで入ります。パスワードは登録のときにご自身で決めたもので、Commune のパスワードとは別です。
           新規登録は常時開いてはいないため、LIVE講義中に講師が受付を開きます。
@@ -475,6 +494,8 @@
     </div>
   </div>
 </section>
+
+</main>
 
 <footer class="site-footer">
   <div class="site-footer__inner">

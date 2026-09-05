@@ -9,6 +9,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">本文へスキップ</a>
+
 <header class="site-header">
   <div class="site-header__inner">
     <span class="site-header__name">AIアプリ開発入門ゼミ</span>
@@ -22,10 +24,11 @@
   </div>
 </header>
 
+<main id="main">
+
 <section class="hero">
   <div class="hero__inner">
     <div>
-      <a class="backlink" href="../../">← Home にもどる</a>
       <p class="hero__kicker">LESSON 01 ／ 9月5日(土) 20:30〜22:00</p>
       <h1 class="hero__title">オリエンテーション</h1>
       <p class="hero__sub">何を作り、何ができるようになるか</p>
@@ -103,7 +106,7 @@
       <li>
         <span class="steps__n">1</span>
         <div>
-          <p class="steps__title">人が決めること と AIが担うこと は分かれている</p>
+          <h3 class="steps__title">人が決めること と AIが担うこと は分かれている</h3>
           <p class="steps__desc">
             人が決めるのは、何を作るか／どこまで作るか／出てきたものが正しいかの判断／直す指示。
             AIが担うのは、コードを書くこと／エラーの原因を推測すること／直すこと。
@@ -114,7 +117,7 @@
       <li>
         <span class="steps__n">2</span>
         <div>
-          <p class="steps__title">使うのは Claude デスクトップアプリと Claude Code</p>
+          <h3 class="steps__title">使うのは Claude デスクトップアプリと Claude Code</h3>
           <p class="steps__desc">
             <strong>Claude Code</strong>＝指示を出すと、PCのファイルを実際に作ったり書き換えたりしてくれるツールです。画面に答えを表示するだけのチャットとは別のものです。
             本来はターミナル（文字でPCに命令する画面）から使いますが、このゼミでは <strong>Claude デスクトップアプリ</strong>の中から使います。最初につまずきやすい箇所を1つ減らすためです。<br>
@@ -139,14 +142,14 @@
 
     <div class="cards cards--2">
       <div class="card">
-        <p class="card__title">事前課題に取り組む</p>
+        <h3 class="card__title">事前課題に取り組む</h3>
         <p class="card__desc">
           内容はゼミスレッドをご確認ください。提出は「ゼミ参加者向け 事前課題提出受付フォーム」からお願いします。
           提出いただいたものは、第2回のLIVE講義で公開添削の対象になることがあります。
         </p>
       </div>
       <div class="card">
-        <p class="card__title">第3回までに使うものをそろえはじめる</p>
+        <h3 class="card__title">第3回までに使うものをそろえはじめる</h3>
         <p class="card__desc">
           第3回から Claude デスクトップアプリと Claude Code を使います。第1回と第3回の間に入るLIVE講義は第2回の1回だけですので、早めに着手しておいてください。
           この時点で完了していなくて構いません。詰まった箇所があれば、第2回のLIVE講義でお聞かせください。
@@ -161,29 +164,11 @@
   <div class="section__inner">
     <p class="section__kicker">When You're Stuck</p>
     <h2 class="section__title">分からないことが出てきたら<em>この順番で</em></h2>
-    <p class="section__lead">1人で抱え込まないことが一番大事です。</p>
-
-    <ol class="steps">
-      <li>
-        <span class="steps__n">1</span>
-        <div>
-          <p class="steps__title">まずは、スクリーンショットを撮ってAIに聞く</p>
-          <p class="steps__desc">
-            つまずいた画面を撮り、普段お使いの生成AIに貼り付けて質問してみてください。
-            「何をしようとしていたか」「どうなる予定だったか」「実際にどうなったか」を添えると精度が上がります。
-          </p>
-        </div>
-      </li>
-      <li>
-        <span class="steps__n">2</span>
-        <div>
-          <p class="steps__title">それでも解決しなければ、ゼミ掲示板へ</p>
-          <p class="steps__desc">
-            実現したかったこと／試したこと／つまずいた箇所（スクショ歓迎）／環境（OS・ツール）を書いて投稿してください。
-          </p>
-        </div>
-      </li>
-    </ol>
+    <p class="section__lead">
+      ① まずスクリーンショットを撮って、普段お使いの生成AIに聞く → ② それでも解決しなければ、ゼミ掲示板に投稿する。
+      1人で抱え込まないことが一番大事です。
+    </p>
+    <p><a href="../../#stuck">くわしい手順と、質問するときに書くこと →</a></p>
   </div>
 </section>
 
@@ -194,7 +179,7 @@
     <h2 class="section__title">次回予告 <em>― 第2回 要件定義</em></h2>
     <p class="section__lead">9月19日(土) 20:30〜22:00</p>
     <div class="card">
-      <p class="card__title">作るものを1つに決めて、仕様書にするところまで</p>
+      <h3 class="card__title">作るものを1つに決めて、仕様書にするところまで</h3>
       <p class="card__desc">
         作るものを1つに決め、最初に作る範囲まで削り、必要な画面を決めて、仕様書の形にします。
         この回が終わると、第3回からの制作の設計図がそろった状態になります。
@@ -202,6 +187,8 @@
     </div>
   </div>
 </section>
+
+</main>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
