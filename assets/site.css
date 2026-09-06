@@ -444,6 +444,7 @@ table.tbl tr:last-child td { border-bottom: 0; }
   justify-content: center; gap: 12px; padding: 28px; background: rgba(42, 47, 69, .88);
   opacity: 0; transition: opacity .25s var(--ease); }
 .lightbox.is-open { opacity: 1; }
+.lightbox[hidden] { display: none; }   /* hidden 属性を display:flex より優先させる（無いと透明の層が全面を覆ってクリックを奪う） */
 .lightbox img { max-width: 96vw; max-height: 84vh; border-radius: 12px; box-shadow: 0 24px 70px rgba(0, 0, 0, .5);
   transform: scale(.96); transition: transform .25s var(--ease); cursor: zoom-out; }
 .lightbox.is-open img { transform: none; }

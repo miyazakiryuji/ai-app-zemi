@@ -77,7 +77,7 @@
     <h2 class="section__title">要件定義とは</h2>
     <p class="section__lead">
       <strong>要件定義</strong>＝作り始める前に「誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか」を文章で決めることです。この回で作るのは Web アプリ（＝ブラウザで開いて使うアプリ。ブラウザ＝Safari や Chrome など、Web ページを見るソフト）です。
-      このゼミではその文章を <code>docs/spec.md</code>（仕様書）として残し、さらに「どの順番で作るか」を <code>docs/tasks.md</code> に残します。
+      このゼミではその文章を <code>docs/spec.md</code>（仕様書）として残し、さらに「どの順番で作るか」を <code>docs/tasks.md</code> に残します。<br>この書き方の意味：<strong>docs</strong>＝documents（文書）の略で、仕様書などの文書をまとめて入れるフォルダの名前。<strong>spec</strong>＝specification（仕様）の略。<strong>tasks</strong>＝作業の一覧。<strong>.md</strong>＝Markdown という書き方の文章ファイル（「仕様書」の節で説明します）。<code>docs/spec.md</code> は「docs フォルダの中の spec.md というファイル」を表します。
       <strong>7回で完走できるかどうかは、この回の削り込みでほぼ決まります。</strong>
     </p>
     <div class="note">
@@ -122,7 +122,7 @@
     </ul>
     <figure class="figure figure--diagram">
       <img src="../../assets/images/lesson02/diagram_folder.svg" alt="デスクトップの my-app フォルダの中に docs/spec.md と docs/tasks.md があり、Claude Code がそのフォルダを読んで、作る・書き換える図" loading="lazy">
-      <figcaption>開いたフォルダと Claude Code の関係。この回で作るのは docs の中の2ファイルで、アプリ本体（app）は作り始めてから増えていきます</figcaption>
+      <figcaption>開いたフォルダと Claude Code の関係。この回で作るのは docs（文書）フォルダの中の2ファイルで、app（＝application、アプリケーションの略。画面や処理のプログラムを入れるフォルダ）は作り始めてから増えていきます</figcaption>
     </figure>
 
     <h3 class="sub">置き場所と名前</h3>
@@ -131,7 +131,7 @@
         <thead><tr><th>決めること</th><th>このゼミでの決まり</th><th>なぜ</th></tr></thead>
         <tbody>
           <tr><td>置き場所</td><td><strong>デスクトップ</strong></td><td>いつでも目に入り、Finder／エクスプローラーですぐ見つかるためです</td></tr>
-          <tr><td>名前</td><td><strong>半角英数字とハイフンだけ</strong>（例：<code>my-app</code>）</td><td>日本語やスペースが入った名前は、開発の道具の一部で扱いが難しくなります。トラブルを減らすため、最初から半角英数字にそろえます</td></tr>
+          <tr><td>名前</td><td><strong>半角英数字とハイフンだけ</strong>。このページでは例として <code>my-app</code> にしていますが、<strong>名前は好きに決めて構いません</strong>（例：<code>shokuhi-memo</code>、<code>reading-log</code>）</td><td>日本語やスペースが入った名前は、開発の道具の一部で扱いが難しくなります。トラブルを減らすため、最初から半角英数字にそろえます</td></tr>
         </tbody>
       </table>
     </div>
@@ -747,6 +747,9 @@
         <tbody>
           <tr><td><strong>要件定義</strong></td><td>作り始める前に「誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか」を文章で決めること。決まった書式は無い</td></tr>
           <tr><td><strong>フォルダ（アプリのフォルダ）</strong></td><td>そのアプリのファイルをすべて入れる入れ物。アプリ1つにつき1つ作る</td></tr>
+          <tr><td><strong>docs</strong></td><td>documents（文書）の略。仕様書や作る順番など、文書を入れるフォルダの名前。<code>docs/spec.md</code> は「docs フォルダの中の spec.md」の意味</td></tr>
+          <tr><td><strong>app</strong></td><td>application（アプリケーション）の略。画面や処理のプログラムを入れるフォルダの名前。この回ではまだ作らない</td></tr>
+          <tr><td><strong>spec ／ tasks</strong></td><td>spec＝specification（仕様）の略。tasks＝作業の一覧。それぞれ仕様書 <code>spec.md</code>、作る順番 <code>tasks.md</code> のファイル名に使う</td></tr>
           <tr><td><strong>壁打ち</strong></td><td>自分の考えを AI に読ませて、質問や提案を返してもらい、それを見て自分の考えを整えるやり取り</td></tr>
           <tr><td><strong>セッション</strong></td><td>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始める</td></tr>
           <tr><td><strong>権限モード</strong></td><td>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」はそうした操作の前に確認画面が出る</td></tr>
