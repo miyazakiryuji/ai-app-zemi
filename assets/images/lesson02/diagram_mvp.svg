@@ -1,66 +1,69 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
-  <title id="title">AIの提案を必須とあとまわしに仕分けてMVPを決める流れ</title>
-  <desc id="desc">自分が書いた四つの要件をもとにAIが機能を提案し、自分が一回使えるかを基準に必須とあとまわしへ仕分ける図。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">AI の提案を仕分けて、MVP を決める</title>
+  <desc id="svg-desc">自分が書いた四つの内容から AI の提案を作り、必須とあとまわしに仕分けて MVP を決める流れと、その判断基準を示す図。</desc>
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,5 L0,10 Z" fill="#FF8C42"/>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
+      <path d="M0 0L10 5L0 10Z" fill="#4DA8FF"/>
     </marker>
-    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,5 L0,10 Z" fill="#4DA8FF"/>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
+      <path d="M0 0L10 5L0 10Z" fill="#FF8C42"/>
     </marker>
   </defs>
-  <rect width="960" height="520" fill="#FFF9F0"/>
+
+  <rect id="canvas" x="0" y="0" width="960" height="600" fill="#FFF9F0"/>
+
   <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
-    <text x="30" y="42" font-size="24" font-weight="700">AI の提案を仕分けて、MVP を決める</text>
-    <text x="930" y="40" font-size="16" font-weight="700" fill="#5A6178" text-anchor="end">決めるのは自分</text>
+    <text id="main-title" x="28" y="44" font-size="24" font-weight="700">AI の提案を仕分けて、MVP を決める</text>
+    <text id="owner-note" x="932" y="42" font-size="16" font-weight="700" fill="#5A6178" text-anchor="end">決めるのは自分</text>
 
-    <rect x="30" y="66" width="215" height="318" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
-    <rect x="48" y="82" width="179" height="42" rx="14" fill="#4DA8FF" fill-opacity="0.12"/>
-    <text x="138" y="109" font-size="20" font-weight="700" text-anchor="middle">自分が書いた4つ</text>
-    <rect x="48" y="140" width="179" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
-    <text x="138" y="171" font-size="18" text-anchor="middle">誰が使うか</text>
-    <rect x="48" y="198" width="179" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
-    <text x="138" y="229" font-size="18" text-anchor="middle">どんなアプリか</text>
-    <rect x="48" y="256" width="179" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
-    <text x="138" y="287" font-size="18" text-anchor="middle">欲しい機能</text>
-    <rect x="48" y="314" width="179" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
-    <text x="138" y="345" font-size="18" text-anchor="middle">やらないこと</text>
+    <rect id="written-box" x="28" y="72" width="234" height="350" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
+    <rect id="written-heading-box" x="48" y="92" width="194" height="50" rx="14" fill="#4DA8FF" fill-opacity="0.12"/>
+    <text id="written-heading" x="145" y="126" font-size="20" font-weight="700" text-anchor="middle">自分が書いた4つ</text>
 
-    <path d="M246 225h34" stroke="#4DA8FF" stroke-width="4" marker-end="url(#arrow-blue)"/>
+    <rect id="written-card-1" x="48" y="158" width="194" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+    <text id="written-text-1" x="145" y="190" font-size="18" text-anchor="middle">誰が使うか</text>
+    <rect id="written-card-2" x="48" y="218" width="194" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+    <text id="written-text-2" x="145" y="250" font-size="18" text-anchor="middle">どんなアプリか</text>
+    <rect id="written-card-3" x="48" y="278" width="194" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+    <text id="written-text-3" x="145" y="310" font-size="18" text-anchor="middle">欲しい機能</text>
+    <rect id="written-card-4" x="48" y="338" width="194" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+    <text id="written-text-4" x="145" y="370" font-size="18" text-anchor="middle">やらないこと</text>
 
-    <rect x="286" y="66" width="290" height="318" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
-    <rect x="304" y="82" width="254" height="42" rx="14" fill="#FF8C42" fill-opacity="0.12"/>
-    <text x="431" y="109" font-size="20" font-weight="700" text-anchor="middle">AI の提案</text>
-    <rect x="304" y="138" width="254" height="40" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
-    <text x="431" y="164" font-size="18" text-anchor="middle">入力の修正・削除</text>
-    <rect x="304" y="187" width="254" height="40" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
-    <text x="431" y="213" font-size="18" text-anchor="middle">スマホ最適化</text>
-    <rect x="304" y="236" width="254" height="40" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
-    <text x="431" y="262" font-size="18" text-anchor="middle">閉じても消えない</text>
-    <rect x="304" y="285" width="254" height="40" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
-    <text x="431" y="311" font-size="18" text-anchor="middle">月の切り替え</text>
-    <rect x="304" y="334" width="254" height="40" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
-    <text x="431" y="360" font-size="18" text-anchor="middle">CSV 書き出し</text>
+    <path id="arrow-left-center" d="M278 247H296" fill="none" stroke="#4DA8FF" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
 
-    <path d="M576 190h76" stroke="#FF8C42" stroke-width="4" marker-end="url(#arrow)"/>
-    <path d="M576 302h76" stroke="#FF8C42" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect id="ai-box" x="310" y="72" width="290" height="350" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
+    <rect id="ai-heading-box" x="330" y="92" width="250" height="50" rx="14" fill="#FFD166" fill-opacity="0.24"/>
+    <text id="ai-heading" x="455" y="126" font-size="20" font-weight="700" text-anchor="middle">AI の提案</text>
 
-    <rect x="662" y="82" width="268" height="138" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
-    <rect x="680" y="98" width="82" height="30" rx="15" fill="#FF8C42"/>
-    <text x="721" y="119" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">必須</text>
-    <text x="680" y="154" font-size="19" font-weight="700">無いと1回も使えない</text>
-    <path d="M680 171h28" stroke="#FF8C42" stroke-width="3"/>
-    <text x="718" y="179" font-size="18">MVP に入れる</text>
+    <rect id="ai-card-1" x="330" y="154" width="250" height="42" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
+    <text id="ai-text-1" x="455" y="184" font-size="18" text-anchor="middle">入力の修正・削除</text>
+    <rect id="ai-card-2" x="330" y="208" width="250" height="42" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
+    <text id="ai-text-2" x="455" y="238" font-size="18" text-anchor="middle">スマホ最適化</text>
+    <rect id="ai-card-3" x="330" y="262" width="250" height="42" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
+    <text id="ai-text-3" x="455" y="292" font-size="18" text-anchor="middle">閉じても消えない</text>
+    <rect id="ai-card-4" x="330" y="316" width="250" height="42" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
+    <text id="ai-text-4" x="455" y="346" font-size="18" text-anchor="middle">月の切り替え</text>
+    <rect id="ai-card-5" x="330" y="370" width="250" height="42" rx="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
+    <text id="ai-text-5" x="455" y="400" font-size="18" text-anchor="middle">CSV 書き出し</text>
 
-    <rect x="662" y="244" width="268" height="140" rx="18" fill="#FFFFFF" stroke="#5A6178" stroke-opacity="0.55" stroke-width="2"/>
-    <rect x="680" y="260" width="116" height="30" rx="15" fill="#5A6178" fill-opacity="0.14"/>
-    <text x="738" y="281" font-size="18" font-weight="700" fill="#5A6178" text-anchor="middle">あとまわし</text>
-    <text x="680" y="316" font-size="19" font-weight="700">無くても1回使える</text>
-    <text x="680" y="344" font-size="17" fill="#5A6178">仕様書の</text>
-    <text x="680" y="368" font-size="17" fill="#5A6178">「やらないこと」へ</text>
+    <path id="arrow-center-required" d="M616 170H633" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+    <path id="arrow-center-later" d="M616 332H633" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
 
-    <rect x="229" y="412" width="502" height="80" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="3"/>
-    <text x="252" y="441" font-size="17" font-weight="700" fill="#5A6178">判断基準</text>
-    <text x="480" y="471" font-size="18" font-weight="700" text-anchor="middle">① 目的の流れに必要か　② 無いと壊れる・消える・危ないか</text>
+    <rect id="required-box" x="648" y="84" width="284" height="150" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <rect id="required-badge" x="672" y="100" width="84" height="46" rx="18" fill="#FF8C42"/>
+    <text id="required-badge-text" x="714" y="132" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle">必須</text>
+    <text id="required-reason" x="672" y="178" font-size="19" font-weight="700">無いと1回も使えない</text>
+    <text id="required-action" x="672" y="216" font-size="18" font-weight="700" fill="#FF8C42">MVP に入れる</text>
+
+    <rect id="later-box" x="648" y="262" width="284" height="160" rx="18" fill="#FFFFFF" stroke="#5A6178" stroke-opacity="0.55" stroke-width="2"/>
+    <rect id="later-badge" x="672" y="278" width="130" height="46" rx="18" fill="#5A6178" fill-opacity="0.14"/>
+    <text id="later-badge-text" x="737" y="310" font-size="18" font-weight="700" fill="#5A6178" text-anchor="middle">あとまわし</text>
+    <text id="later-reason" x="672" y="356" font-size="19" font-weight="700">無くても1回使える</text>
+    <text id="later-action" x="672" y="400" font-size="17" font-weight="700" fill="#5A6178">仕様書の『やらないこと』へ</text>
+
+    <rect id="criteria-box" x="28" y="452" width="904" height="122" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="3"/>
+    <text id="criteria-heading" x="52" y="486" font-size="18" font-weight="700" fill="#5A6178">判断基準</text>
+    <text id="criteria-line-1" x="52" y="521" font-size="18" font-weight="700">① 目的の流れを最後まで通すのに必要か</text>
+    <text id="criteria-line-2" x="52" y="556" font-size="18" font-weight="700">② 無いと、間違った結果が出る・データが消える・危ない、のどれかが起きるか</text>
   </g>
 </svg>
