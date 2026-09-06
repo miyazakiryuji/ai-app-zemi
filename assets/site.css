@@ -670,3 +670,52 @@ body.lesson .explain-list__label { display: block; margin: 0 0 4px; color: var(-
   body.lesson .explain-list__item { grid-template-columns: 1fr; gap: 12px; }
   body.lesson .explain-list__value, body.lesson .explain-list__reason { padding-top: 12px; border-top: 1px solid var(--border); }
 }
+
+/* ==== 各回のページ：文字サイズを一段大きく（2026-09-06 講師の指示：画像の文字と本文の文字の差が大きすぎる） ====
+   本文 18px／小見出し 22px／節見出し 34px。行間はそのまま（本文 1.8・見出し 1.4）。読み幅は 18px × 44字 ≒ 800px */
+body.lesson { font-size: 18px; }
+body.lesson .hero--lesson .hero__title { font-size: 40px; }
+body.lesson .hero__sub { font-size: 19px; }
+body.lesson .hero__facts li { font-size: 15px; }
+body.lesson .now__title { font-size: 22px; }
+body.lesson .now__meta { font-size: 17px; max-width: 820px; }
+body.lesson .section__kicker { font-size: 14px; }
+body.lesson .section__title { font-size: 34px; }
+body.lesson .section__lead { font-size: 18px; max-width: 820px; }
+body.lesson .section__inner h3.sub { font-size: 22px; }
+body.lesson .section__inner > p, body.lesson .section__inner > ul, body.lesson .section__inner > ol:not(.steps) { font-size: 18px; max-width: 820px; }
+body.lesson .steps__title { font-size: 19px; }
+body.lesson .steps__desc { font-size: 17px; }
+body.lesson .steps__n { width: 42px; height: 42px; font-size: 17px; }
+body.lesson .card__title { font-size: 19px; }
+body.lesson .card__desc { font-size: 17px; }
+body.lesson .pitfall__title { font-size: 19px; }
+body.lesson .pitfall__what { font-size: 16px; }
+body.lesson .pitfall__how { font-size: 17px; }
+body.lesson .flow__name { font-size: 17px; }
+body.lesson .flow__desc { font-size: 15px; }
+body.lesson .note { font-size: 17px; }
+body.lesson .term__title { font-size: 14px; }
+body.lesson .term dl { font-size: 17px; }
+body.lesson .term { max-width: 960px; }
+body.lesson table.tbl th, body.lesson table.tbl td { font-size: 17px; }
+body.lesson table.tbl thead th { font-size: 17px; }
+body.lesson .explain-list__term, body.lesson .explain-list__value, body.lesson .explain-list__reason { font-size: 17px; }
+body.lesson .explain-list__label { font-size: 13.5px; }
+body.lesson .figure figcaption { font-size: 15px; }
+body.lesson .prompt { font-size: 15.5px; }
+body.lesson .prompt::before { font-size: 12.5px; }
+body.lesson .table-hint { font-size: 14px; }
+body.lesson .btn { font-size: 15px; }
+body.lesson .site-header__nav a { font-size: 13.5px; }
+body.lesson .crumbs { font-size: 14px; }
+body.lesson .backlink { font-size: 17px; }
+body.lesson code { font-size: .9em; }
+@media (max-width: 720px) {
+  body.lesson { font-size: 17px; }
+  body.lesson .hero--lesson .hero__title { font-size: 30px; }
+  body.lesson .section__title { font-size: 27px; }
+  body.lesson .section__inner h3.sub { font-size: 20px; }
+  body.lesson .section__lead, body.lesson .section__inner > p, body.lesson .section__inner > ul, body.lesson .section__inner > ol:not(.steps) { font-size: 17px; }
+  body.lesson .prompt { font-size: 14px; }
+}
