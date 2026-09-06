@@ -56,10 +56,11 @@
 
 <div class="now">
   <div class="now__inner">
+    <div class="now__icon"><img src="../../assets/icons/icon-app.svg" alt=""></div>
     <div>
       <p class="now__label">この回の前に用意しておくもの</p>
       <p class="now__title">Claude デスクトップアプリ ＋ Claude の有料プラン</p>
-      <p class="now__meta">Claude デスクトップアプリ（＝PCにインストールして使う Claude の公式アプリ。この中から Claude Code＝指示を出すと、PCのファイルを実際に作ったり書き換えたりしてくれるツール、を呼び出します）で、アプリのフォルダを開くところから始めます。
+      <p class="now__meta">Claude デスクトップアプリで、アプリのフォルダを開くところから始めます。デスクトップアプリと Claude Code が何かは、すぐ下の「要件定義とは」の用語欄にまとめてあります。
         Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。
         間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
     </div>
@@ -73,13 +74,22 @@
 <!-- 1. 要件定義とは -->
 <section class="section" id="what">
   <div class="section__inner">
-    <p class="section__kicker">01</p>
-    <h2 class="section__title">要件定義とは</h2>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-define.svg" alt=""></span><div><p class="section__kicker">01</p><h2 class="section__title">要件定義とは</h2></div></div>
     <p class="section__lead">
-      <strong>要件定義</strong>＝作り始める前に「誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか」を文章で決めることです。この回で作るのは Web アプリ（＝ブラウザで開いて使うアプリ。ブラウザ＝Safari や Chrome など、Web ページを見るソフト）です。
-      このゼミではその文章を <code>docs/spec.md</code>（仕様書）として残し、さらに「どの順番で作るか」を <code>docs/tasks.md</code> に残します。<br>この書き方の意味：<strong>docs</strong>＝documents（文書）の略で、仕様書などの文書をまとめて入れるフォルダの名前。<strong>spec</strong>＝specification（仕様）の略。<strong>tasks</strong>＝作業の一覧。<strong>.md</strong>＝Markdown という書き方の文章ファイル（「仕様書」の節で説明します）。<code>docs/spec.md</code> は「docs フォルダの中の spec.md というファイル」を表します。
+      <strong>要件定義</strong>＝作り始める前に「誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか」を文章で決めることです。この回で作るのは Web アプリです。
+      このゼミではその文章を <code>docs/spec.md</code>（仕様書）として残し、さらに「どの順番で作るか」を <code>docs/tasks.md</code> に残します。
       <strong>7回で完走できるかどうかは、この回の削り込みでほぼ決まります。</strong>
     </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>Claude デスクトップアプリ</dt><dd>PC にインストールして使う Claude の公式アプリ。このゼミでは、この中から Claude Code を呼び出します。</dd>
+        <dt>Claude Code</dt><dd>指示を出すと、PC のファイルを実際に作ったり書き換えたりしてくれるツール。画面に答えを表示するだけのチャットとは別のものです。</dd>
+        <dt>Web アプリ</dt><dd>ブラウザで開いて使うアプリ。ブラウザは Safari や Chrome など、Web ページを見るソフトのことです。</dd>
+        <dt>docs／spec／tasks／.md</dt><dd>docs は documents（文書）の略で、仕様書などの文書をまとめて入れるフォルダの名前。spec は specification（仕様）の略、tasks は作業の一覧。.md は Markdown という書き方の文章ファイルです。<code>docs/spec.md</code> は「docs フォルダの中の spec.md というファイル」を表します。</dd>
+        <dt>MVP</dt><dd>Minimum Viable Product の頭文字。1つの流れが最初から最後まで通る、いちばん小さい状態のこと。最初に作る範囲を指します。</dd>
+      </dl>
+    </div>
     <div class="note">
       <strong>要件定義書に決まった形式（フォーマット）はありません。</strong>会社や現場ごとに項目名も粒度も違い、正解の書式があるわけではありません。
       この回で示す進め方と、仕様書の6項目は、<strong>あくまで方法の一つ</strong>です（詳しくは<a href="#spec">「仕様書」の節</a>）。
@@ -87,7 +97,7 @@
 
     <h3 class="sub">なぜ作り始める前に決めるのか</h3>
     <ul>
-      <li>Claude Code（＝指示を出すと、PCのファイルを実際に作ったり書き換えたりしてくれるツール）は、指示が曖昧なところを自分で埋めて作ります。決めていない部分は、指示のたびに違う形で作られやすく、前に作ったものが書き換わることがあります</li>
+      <li>Claude Code は、指示が曖昧なところを自分で埋めて作ります。決めていない部分は、指示のたびに違う形で作られやすく、前に作ったものが書き換わることがあります</li>
       <li>作りながら決めると、途中で「やっぱりこの項目も要る」となり、そこまでに保存したデータや画面を作り直すことになります</li>
       <li>文章になっていれば、作り始めてからは「<code>docs/spec.md</code> に従って作って」と一言で指示できます。チャットに毎回同じ説明を貼り直さなくてすみます</li>
     </ul>
@@ -97,7 +107,7 @@
       <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">フォルダを作る</p><p class="flow__desc">アプリ1つにつき1つ</p></div>
       <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">Claude Code で開く</p><p class="flow__desc">デスクトップアプリから</p></div>
       <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">AI と壁打ち</p><p class="flow__desc">誰が・何を・どんな機能を</p></div>
-      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">削る・決める</p><p class="flow__desc">テーマの3条件／MVP（最初に作る最小限の範囲）／型／画面</p></div>
+      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">削る・決める</p><p class="flow__desc">テーマの3条件／MVP／型／画面</p></div>
       <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">技術の提案</p><p class="flow__desc">Claude Code に候補を出させる</p></div>
       <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">仕様書</p><p class="flow__desc">docs/spec.md</p></div>
       <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">作業の順番</p><p class="flow__desc">docs/tasks.md</p></div>
@@ -108,11 +118,18 @@
 <!-- 2. フォルダを作る -->
 <section class="section section--soft" id="folder">
   <div class="section__inner">
-    <p class="section__kicker">02</p>
-    <h2 class="section__title">最初に、アプリの<em>フォルダ</em>を作る</h2>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-folder.svg" alt=""></span><div><p class="section__kicker">02</p><h2 class="section__title">最初に、アプリの<em>フォルダ</em>を作る</h2></div></div>
     <p class="section__lead">
-      要件定義の前に、<strong>アプリ用のフォルダ</strong>（＝そのアプリのファイルをすべて入れる入れ物）を1つ作ります。
+      要件定義の前に、<strong>アプリ用のフォルダ</strong>を1つ作ります。
     </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>フォルダ</dt><dd>ファイルをまとめて入れる入れ物。ここでは、そのアプリのファイルをすべて入れるフォルダを「アプリのフォルダ」と呼びます。</dd>
+        <dt>app</dt><dd>application（アプリケーション）の略。画面や処理のプログラムを入れるフォルダの名前として使います。この回ではまだ作りません。</dd>
+        <dt>エラー</dt><dd>プログラムが処理を続けられなくなったときに出す知らせ。赤い文字や英語のメッセージで表示されることが多いです。</dd>
+      </dl>
+    </div>
 
     <h3 class="sub">なぜフォルダから始めるのか</h3>
     <ul>
@@ -122,43 +139,53 @@
     </ul>
     <figure class="figure figure--diagram">
       <img src="../../assets/images/lesson02/diagram_folder.svg" alt="デスクトップの my-app フォルダの中に docs/spec.md と docs/tasks.md があり、Claude Code がそのフォルダを読んで、作る・書き換える図" loading="lazy">
-      <figcaption>開いたフォルダと Claude Code の関係。この回で作るのは docs（文書）フォルダの中の2ファイルで、app（＝application、アプリケーションの略。画面や処理のプログラムを入れるフォルダ）は作り始めてから増えていきます</figcaption>
+      <figcaption>開いたフォルダと Claude Code の関係。この回で作るのは docs フォルダの中の2ファイルで、app フォルダは作り始めてから増えていきます</figcaption>
     </figure>
 
     <h3 class="sub">置き場所と名前</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
-      <table class="tbl">
-        <thead><tr><th>決めること</th><th>このゼミでの決まり</th><th>なぜ</th></tr></thead>
-        <tbody>
-          <tr><td>置き場所</td><td><strong>デスクトップ</strong></td><td>いつでも目に入り、Finder／エクスプローラーですぐ見つかるためです</td></tr>
-          <tr><td>名前</td><td><strong>半角英数字とハイフンだけ</strong>。このページでは例として <code>my-app</code> にしていますが、<strong>名前は好きに決めて構いません</strong>（例：<code>shokuhi-memo</code>、<code>reading-log</code>）</td><td>日本語やスペースが入った名前は、開発の道具の一部で扱いが難しくなります。トラブルを減らすため、最初から半角英数字にそろえます</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="table-hint">表は横にスクロールできます</p>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term">置き場所</dt>
+        <dd class="explain-list__value"><span class="explain-list__label">このゼミでの決まり</span><strong>おすすめはデスクトップ</strong>。ご自身の好きな場所で構いません</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>デスクトップなら、いつでも目に入り、Finder／エクスプローラーですぐ見つかるためです。ほかの場所にするときは、あとで自分が迷わず開ける場所にします</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term">名前</dt>
+        <dd class="explain-list__value"><span class="explain-list__label">このゼミでの決まり</span><strong>半角英数字とハイフンだけ</strong>。このページでは例として <code>my-app</code> にしていますが、<strong>名前は好きに決めて構いません</strong>（例：<code>shokuhi-memo</code>、<code>reading-log</code>）</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>日本語やスペースが入った名前は、開発の道具の一部で扱いが難しくなります。トラブルを減らすため、最初から半角英数字にそろえます</dd>
+      </div>
+    </dl>
 
     <h3 class="sub">なぜ半角英数字とハイフンなのか</h3>
     <ul>
-      <li><strong>半角英数字にする理由：</strong>Claude Code が裏で使う開発の道具（プログラムを動かすためのソフト群）の多くは英語圏で作られていて、日本語などの全角文字を正しく扱えないものがあります。フォルダ名が読めずにエラー（＝プログラムが処理を続けられなくなったときに出す知らせ）になったり、文字化けしたりします</li>
+      <li><strong>半角英数字にする理由：</strong>Claude Code が裏で使う開発の道具（プログラムを動かすためのソフト群）の多くは英語圏で作られていて、日本語などの全角文字を正しく扱えないものがあります。フォルダ名が読めずにエラーになったり、文字化けしたりします</li>
       <li><strong>スペースを入れない理由：</strong>PC への命令文では、スペースは「ここで区切る」という意味に使われます。<code>my app</code> という名前だと <code>my</code> と <code>app</code> の2つに分かれて読まれ、フォルダが見つからなくなります</li>
       <li><strong>ハイフンを使う理由：</strong>単語のつなぎには、どの道具でも安全に使えるハイフン（<code>-</code>）を使います。アンダースコア（<code>_</code>）でも構いません。記号はこの2つだけにします</li>
       <li><strong>小文字にそろえる理由：</strong>大文字と小文字を区別する道具と、しない道具があります。<code>My-App</code> と <code>my-app</code> が別物として扱われる場面があるので、最初から小文字だけにします</li>
     </ul>
 
     <div class="note note--warn">
-      <strong>デスクトップが iCloud Drive や OneDrive（＝PCのファイルをインターネット上にも自動で写す仕組み）と同期されている方へ：</strong>
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <strong>フォルダの置き場所が iCloud Drive や OneDrive と同期されている方へ：</strong>
       作り始めると、使う技術によってはアプリのフォルダに多数の小さなファイルができます。同期の対象になると同期が終わらなくなったり、PCが遅くなったりすることがあります。
-      心当たりがある方は、最初から同期されない場所に作ってください。Mac なら Finder のメニュー「移動」→「ホーム」で開くホームフォルダ（＝自分のユーザ名が付いたフォルダ）の直下、Windows なら <code>C:\Users\（自分のユーザ名）</code> の直下に <code>apps</code> フォルダを作り、その中に <code>my-app</code> を作ります。
+      心当たりがある方は、最初から同期されない場所に作ってください。Mac なら Finder のメニュー「移動」→「ホーム」で開くホームフォルダの直下、Windows なら <code>C:\Users\（自分のユーザ名）</code> の直下に <code>apps</code> フォルダを作り、その中に <code>my-app</code> を作ります。
       デスクトップに作ってしまった場合は、<code>my-app</code> をそこへドラッグして移し、Claude デスクトップアプリで開き直せば大丈夫です。
+    </div>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>iCloud Drive／OneDrive</dt><dd>PC のファイルをインターネット上にも自動で写す仕組み。Mac なら iCloud Drive、Windows なら OneDrive が最初から入っていることがあります。</dd>
+        <dt>ホームフォルダ</dt><dd>自分のユーザ名が付いたフォルダ。Mac では Finder のメニュー「移動」→「ホーム」で開けます。</dd>
+      </dl>
     </div>
 
     <h3 class="sub">Mac での作り方</h3>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h3 class="steps__title">Finder を開き、左の一覧から「デスクトップ」を選ぶ</h3><p class="steps__desc">Finder＝Mac でファイルやフォルダを見たり動かしたりするソフト。Dock（画面下の帯）の左端にある顔のアイコンです。Windows では「エクスプローラー」が同じ役割です。<span class="why">なぜ：</span>作る場所を先に開いておかないと、別の場所にフォルダができて見失います。</p></div></li>
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">Finder を開き、左の一覧からフォルダを作る場所（おすすめはデスクトップ）を選ぶ</h3><p class="steps__desc">Finder＝Mac でファイルやフォルダを見たり動かしたりするソフト。Dock（画面下の帯）の左端にある顔のアイコンです。Windows では「エクスプローラー」が同じ役割です。<span class="why">なぜ：</span>作る場所を先に開いておかないと、別の場所にフォルダができて見失います。</p></div></li>
       <li><span class="steps__n">2</span><div><h3 class="steps__title">メニューの「ファイル」→「新規フォルダ」（<kbd>⇧⌘N</kbd>）</h3><p class="steps__desc">何もない場所で右クリック →「新規フォルダ」でも同じです。</p></div></li>
       <li><span class="steps__n">3</span><div><h3 class="steps__title">できた「名称未設定フォルダ」の名前を <code>my-app</code> のように打ち直して Enter</h3><p class="steps__desc"><span class="why">なぜ：</span>「名称未設定フォルダ」のままだと、あとで増える別のフォルダと区別がつきません。</p></div></li>
     </ol>
-    <div class="figures">
+    <div class="figures figures--menu">
       <figure class="figure">
         <img src="../../assets/images/lesson02/r2_finder_menu.png" alt="Finder の「ファイル」メニューを開いたところ" loading="lazy">
         <figcaption>Finder の「ファイル」メニュー。「新規フォルダ」を選びます（右クリックからでも同じ）</figcaption>
@@ -171,7 +198,7 @@
 
     <h3 class="sub">Windows での作り方</h3>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h3 class="steps__title">デスクトップの何もない場所で右クリック →「新規作成」→「フォルダー」</h3></div></li>
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">フォルダを作る場所（おすすめはデスクトップ）の何もない所で右クリック →「新規作成」→「フォルダー」</h3></div></li>
       <li><span class="steps__n">2</span><div><h3 class="steps__title">名前を <code>my-app</code> のように打ち直して Enter</h3></div></li>
     </ol>
 
@@ -184,8 +211,7 @@
 <!-- 3. アプリで開く -->
 <section class="section" id="open">
   <div class="section__inner">
-    <p class="section__kicker">03</p>
-    <h2 class="section__title">Claude デスクトップアプリで<em>フォルダを開く</em></h2>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-folder-open.svg" alt=""></span><div><p class="section__kicker">03</p><h2 class="section__title">Claude デスクトップアプリで<em>フォルダを開く</em></h2></div></div>
     <p class="section__lead">作ったフォルダを、Claude デスクトップアプリの中の Claude Code で開きます。</p>
     <div class="note">
       <strong>始める前の4つの確認：</strong>① アプリが最新版になっている ② ゼミで使う有料プランのアカウントでログインしている ③ 画面左上に <code>&lt;/&gt;</code>（Claude Code）が出ている ④ 下の手順でフォルダを開ける。
@@ -193,13 +219,21 @@
     </div>
 
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<span class="why">なぜ：</span>新しいセッション（＝1つの会話のまとまり）で始めると、前の会話の内容と混ざりません。</p></div></li>
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<span class="why">なぜ：</span>新しいセッションで始めると、前の会話の内容と混ざりません。</p></div></li>
       <li><span class="steps__n">2</span><div><h3 class="steps__title">画面の下にある、いまのフォルダ名が書かれたボタンを押す</h3><p class="steps__desc">最近開いたフォルダの一覧と <strong>「フォルダを開く…」</strong> が出ます。</p></div></li>
-      <li><span class="steps__n">3</span><div><h3 class="steps__title">「フォルダを開く…」→ デスクトップ → <code>my-app</code> を選んで「開く」</h3><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。デスクトップそのものを選ぶと、デスクトップ全体が対象になってしまいます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">「フォルダを開く…」→ フォルダを作った場所 → <code>my-app</code> を選んで「開く」</h3><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。デスクトップそのものを選ぶと、デスクトップ全体が対象になってしまいます。</p></div></li>
       <li><span class="steps__n">4</span><div><h3 class="steps__title">画面の下のボタンが <code>my-app</code> になっていれば開けています</h3></div></li>
     </ol>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>セッション</dt><dd>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始めます。</dd>
+        <dt>ワークスペース</dt><dd>Claude Code が作業する場所として開いたフォルダのこと。</dd>
+        <dt>権限モード</dt><dd>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」はそうした操作の前に確認画面が出る設定です。</dd>
+      </dl>
+    </div>
 
-    <div class="figures">
+    <div class="figures figures--2">
       <figure class="figure">
         <img src="../../assets/images/lesson02/r2_app_new_session.png" alt="「＋ 新規」を押した直後の画面" loading="lazy">
         <figcaption>「＋ 新規」を押した直後。画面の下にフォルダ名のボタンがあります</figcaption>
@@ -221,42 +255,59 @@
     <p><span class="why">なぜ「下のボタンが my-app か」を毎回見るのか：</span>Claude Code は、ここに出ているフォルダの中でファイルを作ります。別のフォルダのまま指示すると、そちらにファイルができたり、そちらのファイルが書き換えられたりします。</p>
 
     <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
       <strong>「このワークスペースを信頼しますか？」と聞かれたら：</strong>
-      ワークスペース＝Claude Code が作業する場所として開いたフォルダのことです。表示されたフォルダの場所が、いま自分で作った <code>my-app</code> であることを見てから「信頼」を押してください。
+      表示されたフォルダの場所が、いま自分で作った <code>my-app</code> であることを見てから「信頼」を押してください。
       この確認は「そのフォルダの中のファイルを Claude Code が読み書きしてよいか」を聞いています。知らないフォルダなら押さないでください。
     </div>
     <div class="note">
       ボタンの名前や配置は、アプリの更新で変わることがあります。ここに書いた文言と違うときは「フォルダを開く」に相当するものを探してください。
     </div>
 
-    <p>入力欄の下に <strong>「手動」</strong> と出ています。これは<strong>権限モード</strong>（＝Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定）で、「手動」は、そうした操作の前に確認画面が出る設定です。<strong>この回はこのまま</strong>にします。理由は「仕様書」の節で説明します。表示される名前や選べる設定は、アプリの更新や契約の種類で変わることがあります。</p>
+    <p>入力欄の下に <strong>「手動」</strong> と出ています。これは<strong>権限モード</strong>で、「手動」は、ファイルの書き換えやコマンドの実行の前に確認画面が出る設定です。<strong>この回はこのまま</strong>にします。理由は「仕様書」の節で説明します。表示される名前や選べる設定は、アプリの更新や契約の種類で変わることがあります。</p>
   </div>
 </section>
 
 <!-- 4. AIと壁打ち -->
 <section class="section section--soft" id="brainstorm">
   <div class="section__inner">
-    <p class="section__kicker">04</p>
-    <h2 class="section__title">要件を噛み砕く：<em>AI と壁打ち</em>する</h2>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-chat.svg" alt=""></span><div><p class="section__kicker">04</p><h2 class="section__title">要件を噛み砕く：<em>AI と壁打ち</em>する</h2></div></div>
     <p class="section__lead">
       いきなり仕様書を書かせません。最初は「誰が・何を・どんな機能を」を自分の言葉で書き、それを AI に読ませて<strong>質問と提案をもらいます</strong>。
-      このやり取りを<strong>壁打ち</strong>と呼びます（AI に送る指示の文章を<strong>プロンプト</strong>と言います）。
+      このやり取りを<strong>壁打ち</strong>と呼びます。
     </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>壁打ち</dt><dd>自分の考えを AI に読ませて、質問や提案を返してもらい、それを見て自分の考えを整えるやり取り。</dd>
+        <dt>プロンプト</dt><dd>AI に送る指示の文章。このページで「指示の型」として配っているのは、その雛形です。</dd>
+      </dl>
+    </div>
 
     <h3 class="sub">まず自分で書く4つ</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
-      <table class="tbl">
-        <thead><tr><th>書くこと</th><th>例（食費メモ）</th><th>なぜ先に自分で書くのか</th></tr></thead>
-        <tbody>
-          <tr><td><strong>誰が使うか</strong></td><td>自分だけ。週に何回か、PC のブラウザから</td><td>使う人が決まらないと、機能の要・不要を判断できません</td></tr>
-          <tr><td><strong>どんなアプリか（ひとこと）</strong></td><td>毎日の食費をメモして、月ごとの合計を見る</td><td>一文で言えないものは、AI にも伝わりません</td></tr>
-          <tr><td><strong>欲しい機能（思いつくもの）</strong></td><td>金額・日付・メモを保存／一覧を新しい順に見る／月の合計</td><td>AI の提案と見比べる土台になります</td></tr>
-          <tr><td><strong>やらないこと</strong></td><td>家族との共有・ログイン・レシート読み取り</td><td>書いておかないと AI が足してきます</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="table-hint">表は横にスクロールできます</p>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>誰が使うか</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例（食費メモ）</span>自分だけ。週に何回か、PC のブラウザから</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ先に自分で書くのか</span>使う人が決まらないと、機能の要・不要を判断できません</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>どんなアプリか（ひとこと）</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例（食費メモ）</span>毎日の食費をメモして、月ごとの合計を見る</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ先に自分で書くのか</span>一文で言えないものは、AI にも伝わりません</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>欲しい機能（思いつくもの）</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例（食費メモ）</span>金額・日付・メモを保存／一覧を新しい順に見る／月の合計</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ先に自分で書くのか</span>AI の提案と見比べる土台になります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>やらないこと</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例（食費メモ）</span>家族との共有・ログイン・レシート読み取り</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ先に自分で書くのか</span>書いておかないと AI が足してきます</dd>
+      </div>
+    </dl>
 
     <h3 class="sub">次に AI に頼む3つ</h3>
     <ol class="steps">
@@ -267,7 +318,7 @@
 
     <h3 class="sub">壁打ちの指示の型</h3>
     <p>（ ）の中を自分のアプリに差し替えて、さっき開いた <code>my-app</code> の入力欄に貼って送ります。</p>
-<pre class="prompt" data-label="指示①（壁打ち）― （ ）の中を自分のアプリに差し替えて貼る">これから、自分専用の小さなWebアプリを作ります。まだコードは書かないでください。
+<pre class="prompt" data-label="指示①（壁打ち）― （ ）の中を自分のアプリに差し替えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">これから、自分専用の小さなWebアプリを作ります。まだコードは書かないでください。
 先に、要件を一緒に整理してください。
 
 ■ 誰が使うか
@@ -312,15 +363,22 @@
     <ul>
       <li><strong>質問には全部答えます。</strong>上の例では「保存先はどこか」「月の区切りはいつからいつまでか」「分類は要るか」が返ってきました。答えによって作りが変わる質問なので、ここで決めます</li>
       <li><strong>提案は、採用するものと、あとまわしにするものを自分で決めます。</strong>AI の仕分けは参考であって、決めるのは自分です</li>
-      <li>あとまわしにしたものは、仕様書の「やらないこと」に「今回は作らない」として残します。上の例に出てくる <strong>CSV</strong>＝表の中身をカンマ区切りの文字で書き出したファイル（Excel などで開けます）で、これも「あとまわし」にしています</li>
+      <li>あとまわしにしたものは、仕様書の「やらないこと」に「今回は作らない」として残します。上の例に出てくる CSV も「あとまわし」にしています</li>
     </ul>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>CSV</dt><dd>表の中身をカンマ区切りの文字で書き出したファイル。Excel などで開けます。</dd>
+      </dl>
+    </div>
     <figure class="figure figure--diagram">
       <img src="../../assets/images/lesson02/diagram_mvp.svg" alt="自分が書いた4つを元に AI が出した提案5つを、必須（MVP に入れる）とあとまわし（やらないことへ）に仕分ける図" loading="lazy">
       <figcaption>AI の提案を「必須」と「あとまわし」に仕分けて MVP を決めます。判断の基準は「① 目的の流れに必要か」「② 無いと、間違った結果が出る・データが消える・危ない、が起きるか」の2つ。決めるのは自分です</figcaption>
     </figure>
     <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_teaching.png" alt="">
-      <strong>AI の提案を全部採用しない。</strong>提案はどれも「あると良い」ものなので、全部入れると最初に作る範囲（次の節で説明する MVP）が膨らみ、7回で終わらなくなります。
+      <strong>AI の提案を全部採用しない。</strong>提案はどれも「あると良い」ものなので、全部入れると MVP が膨らみ、7回で終わらなくなります。
       採用するかどうかの判断基準は、次の節で扱います。
     </div>
   </div>
@@ -329,13 +387,12 @@
 <!-- 5. 削る・決める -->
 <section class="section" id="decide">
   <div class="section__inner">
-    <p class="section__kicker">05</p>
-    <h2 class="section__title">削って、決める：<em>テーマ・MVP・型・画面</em></h2>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-trim.svg" alt=""></span><div><p class="section__kicker">05</p><h2 class="section__title">削って、決める：<em>テーマ・MVP・型・画面</em></h2></div></div>
     <p class="section__lead">壁打ちで出てきた内容を、次の基準に当てて削り込みます。LIVE講義の中で、講師も一緒に1つずつ見ていきます。</p>
 
     <h3 class="sub">良いテーマの3条件</h3>
     <p>1つでも外れるなら、テーマを変えるか、条件に合う形に寄せます。</p>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="条件・なぜ の表">
       <table class="tbl">
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
         <tbody>
@@ -350,15 +407,22 @@
     <h3 class="sub">業務データを扱う場合の確認</h3>
     <p>社外に出せない情報（業務の実データ・顧客の個人情報・秘密情報）を扱うテーマは、次の3つを守ってください。</p>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h3 class="steps__title">開発中は、実データを入れない</h3><p class="steps__desc">架空のデータか、名前や金額を置き換えた（匿名化した）データで作ります。<span class="why">なぜ：</span>Claude Code は自分の PC で動きますが、指示に必要なファイルの中身やエラー（＝プログラムが処理を続けられなくなったときに出す知らせ）の内容は AI のサービス（クラウド＝インターネット経由で使う、他社のコンピュータ上のサービス）に送られます。「自分の PC 内で動いているから外に出ない」とは言えません。</p></div></li>
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">開発中は、実データを入れない</h3><p class="steps__desc">架空のデータか、名前や金額を置き換えた（匿名化した）データで作ります。<span class="why">なぜ：</span>Claude Code は自分の PC で動きますが、指示に必要なファイルの中身やエラーの内容は、クラウドにある AI のサービスに送られます。「自分の PC 内で動いているから外に出ない」とは言えません。</p></div></li>
       <li><span class="steps__n">2</span><div><h3 class="steps__title">完成後のアプリのデータの保存先と、開発中に AI へ渡る情報は、別の話として確認する</h3><p class="steps__desc">あとで AI 機能を組み込むと、アプリが扱うデータもその場で AI サービスに送られるようになります。</p></div></li>
       <li><span class="steps__n">3</span><div><h3 class="steps__title">業務で使うなら、所属先の AI 利用ルールを確認する</h3><p class="steps__desc">確認できないうちは、社外に出せない情報を含まない範囲で作ります。</p></div></li>
     </ol>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>クラウド</dt><dd>インターネット経由で使う、他社のコンピュータ上のサービス。自分の PC の外にあります。</dd>
+        <dt>匿名化</dt><dd>名前や金額など、個人や会社が特定できる部分を、架空の値に置き換えること。</dd>
+      </dl>
+    </div>
     <p><span class="why">なぜ最初に確認するのか：</span>AI 機能を組み込む段になって気づくと、そこまで作ったものが使えなくなります。</p>
 
     <h3 class="sub">MVP の考え方と削り方</h3>
     <ul>
-      <li><strong>MVP</strong>（Minimum Viable Product の頭文字）＝1つの流れが最初から最後まで通る、いちばん小さい状態</li>
+      <li><strong>MVP</strong> とは、1つの流れが最初から最後まで通る、いちばん小さい状態のことです。まずこれを作ります</li>
       <li>残す基準は2つ。<strong>① 目的の流れを最初から最後まで通すのに必要か</strong>、<strong>② 無いと、間違った結果が出る・データが消える・危ない、のどれかが起きるか</strong>。どちらにも当てはまらない機能は「無くても1回使える」ので、今は要りません。AI に仕分けさせた「あとまわし」は、この基準で見直します（上の例で「入力の修正・削除」が必須になったのは ② に当たるためです）</li>
       <li><span class="why">なぜ削るのか：</span>機能を10個並べたまま作り始めると、どれも半分できた状態で7回が終わります</li>
       <li><strong>この回の LIVE講義の中で削り切ります。</strong>「やらないこと」は仕様書の必須項目です</li>
@@ -366,7 +430,7 @@
 
     <h3 class="sub">3類型への当てはめ</h3>
     <p>主たる型を1つ選びます（記録型／変換型／相談型）。両方の性格を持つ場合も<strong>主たる型を1つ</strong>に決めます。<span class="why">なぜ：</span>この先の解説を型ごとに進めるためです。型が決まらないと、自分がどの例を見ればよいか分からなくなります。</p>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="型・何をするアプリか・例 の表">
       <table class="tbl">
         <thead><tr><th>型</th><th>何をするアプリか</th><th>例</th></tr></thead>
         <tbody>
@@ -379,7 +443,7 @@
     <p class="table-hint">表は横にスクロールできます</p>
 
     <h3 class="sub">使いやすい画面の4条件</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="条件・なぜ の表">
       <table class="tbl">
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
         <tbody>
@@ -391,22 +455,30 @@
       </table>
     </div>
     <p class="table-hint">表は横にスクロールできます</p>
-    <p>次に描くワイヤーフレーム（＝画面の骨組みの図。すぐ下で説明します）を、この4つに当てて見直します。</p>
+    <p>次に描くワイヤーフレームを、この4つに当てて見直します。</p>
 
     <h3 class="sub">AI に作らせる前に、人が画面構成を決める</h3>
     <p><span class="why">なぜ人が先に決めるのか：</span>決めずに「いい感じの画面を作って」と指示すると、AI は指示のたびに違う画面構成を作ります。作り直しのたびに前の画面が消え、いつまでも完成しません。</p>
     <ul>
-      <li><strong>ワイヤーフレーム</strong>（＝色や装飾を付けずに、どこに何を置くかだけを描いた画面の骨組み）を作ります。紙に手描き／Claude に箇条書きで出させる／Claude に画面遷移の図（どの画面からどの画面へ移るか）を出させる、のいずれかで構いません</li>
-      <li>専用ツール（Figma 等＝画面デザインを作るための Web サービス）は使いません。<span class="why">なぜ：</span>操作を覚えるだけで、次の LIVE講義までの時間が終わってしまいます。必要なのは見た目の完成度ではなく、画面の数と役割が決まっていることです</li>
+      <li><strong>ワイヤーフレーム</strong>を作ります。紙に手描き／Claude に箇条書きで出させる／Claude に画面遷移の図を出させる、のいずれかで構いません</li>
+      <li>Figma などの専用ツールは使いません。<span class="why">なぜ：</span>操作を覚えるだけで、次の LIVE講義までの時間が終わってしまいます。必要なのは見た目の完成度ではなく、画面の数と役割が決まっていることです</li>
       <li>3類型それぞれの画面構成の例：記録型＝一覧＋入力／変換型＝入力＋結果／相談型＝やり取り＋履歴</li>
       <li>画面数の目安：MVP なら2〜4枚。5枚以上になった場合は MVP が大きすぎるので、戻って削ります</li>
     </ul>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>ワイヤーフレーム</dt><dd>色や装飾を付けずに、どこに何を置くかだけを描いた画面の骨組みの図。</dd>
+        <dt>画面遷移</dt><dd>どの画面からどの画面へ移るかのつながり。</dd>
+        <dt>Figma</dt><dd>画面デザインを作るための Web サービス。デザイナーがよく使いますが、このゼミでは使いません。</dd>
+      </dl>
+    </div>
     <figure class="figure figure--diagram">
       <img src="../../assets/images/lesson02/diagram_screens.svg" alt="食費メモの画面2枚のワイヤーフレーム。画面1 記録画面（今月の合計・入力欄・保存・一覧）から「修正」で画面2 修正画面へ移り、保存かキャンセルで画面1へ戻る" loading="lazy">
       <figcaption>画面が2枚の例（食費メモ）。ワイヤーフレームはこの程度の骨組みで十分です。保存と削除は画面1の中で完結し、画面は移動しません</figcaption>
     </figure>
     <p>画面一覧を出させる指示の型です。壁打ちと同じセッションで続けて送って構いません。</p>
-<pre class="prompt" data-label="指示②（画面一覧）― （ ）の中を自分のアプリに差し替えて貼る">次のアプリの画面一覧と画面遷移を、箇条書きで出してください。
+<pre class="prompt" data-label="指示②（画面一覧）― （ ）の中を自分のアプリに差し替えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">次のアプリの画面一覧と画面遷移を、箇条書きで出してください。
 画面ごとに「画面の名前／何をする画面か／置く要素（入力欄・ボタン・一覧など）」を書いてください。
 
 アプリの目的：（毎日の食費をメモして、月ごとの合計を見る）
@@ -421,23 +493,28 @@
 <!-- 6. 使う技術（技術スタックの提案） -->
 <section class="section section--soft" id="stack">
   <div class="section__inner">
-    <p class="section__kicker">06</p>
-    <h2 class="section__title">使う技術を決める：<em>技術スタックの提案</em>をもらう</h2>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-stack.svg" alt=""></span><div><p class="section__kicker">06</p><h2 class="section__title">使う技術を決める：<em>技術スタックの提案</em>をもらう</h2></div></div>
     <p class="section__lead">
-      画面と MVP が決まったら、作る前に<strong>技術スタック</strong>（＝アプリを作るのに使うプログラミング言語や部品の組み合わせ）を Claude Code に提案してもらいます。
+      画面と MVP が決まったら、作る前に<strong>技術スタック</strong>を Claude Code に提案してもらいます。
       決めるのは自分ですが、候補を出して理由を並べるのは AI の得意な仕事です。
     </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>技術スタック</dt><dd>アプリを作るのに使うプログラミング言語や部品の組み合わせ。「画面／保存の仕組み／動かし方」の3つに分けて考えます。</dd>
+      </dl>
+    </div>
 
     <h3 class="sub">なぜ要件定義の段階で聞くのか</h3>
     <ul>
       <li>使う技術が決まらないまま作り始めると、仕様書の「使う技術」が空欄で、指示のたびに違う部品で作られます。あとで合わなくなります</li>
       <li>何を作るか（画面の数・保存するデータ・AI 機能を足すかどうか）で向く技術が変わります。だから MVP と画面を決めた<strong>あと</strong>に聞きます。先に聞くと一般論しか返ってきません</li>
-      <li>提案の理由を読んでおくと、作り始めてからエラー（＝プログラムが処理を続けられなくなったときに出す知らせ）が出たとき「どの部品の話か」が分かります</li>
+      <li>提案の理由を読んでおくと、作り始めてからエラーが出たとき「どの部品の話か」が分かります</li>
     </ul>
 
     <h3 class="sub">技術スタックを提案させる指示の型</h3>
     <p>壁打ちと同じセッションで、そのまま貼って送ります。</p>
-<pre class="prompt prompt--plain" data-label="指示③（技術スタック）― そのまま貼る">ここまでで決めた内容（誰が使うか・やること・やらないこと・画面）をもとに、このアプリを作るのに使う技術スタック（＝プログラミング言語や部品の組み合わせ）を提案してください。
+<pre class="prompt prompt--plain" data-label="指示③（技術スタック）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">ここまでで決めた内容（誰が使うか・やること・やらないこと・画面）をもとに、このアプリを作るのに使う技術スタック（＝プログラミング言語や部品の組み合わせ）を提案してください。
 まだコードは書かないでください。
 
 ■ 前提
@@ -452,7 +529,7 @@
 2. ほかの候補を2つまで挙げ、おすすめと比べて何が違うか（難しさ・できること）を1行ずつ書いてください
 3. 初めて聞く人向けに、出てきた用語には一言の説明を付けてください
 4. ファイルは作らず、コマンドも実行しないでください。仕様書への書き込みは、あとで別に指示します</pre>
-    <p><span class="why">なぜ「前提」を書くのか：</span>前提が無いと、AI は世の中で多い構成（React＝画面を作るための大がかりな部品集、などの大きな部品の組み合わせ）を返してきます。未経験者が自分の PC で動かす、あとで AI 機能を足す、と書いておくと、それに合った小さい構成になります。</p>
+    <p><span class="why">なぜ「前提」を書くのか：</span>前提が無いと、AI は世の中で多い構成（React などの大きな部品の組み合わせ）を返してきます。未経験者が自分の PC で動かす、あとで AI 機能を足す、と書いておくと、それに合った小さい構成になります。</p>
 
     <div class="figures">
       <figure class="figure">
@@ -471,10 +548,22 @@
 
     <h3 class="sub">返ってきたら、自分で決める</h3>
     <ul>
-      <li>提案は「おすすめ1つ＋ほかの候補」の形で返ってきます。上の例（食費メモ）では、画面＝素の HTML／CSS／JavaScript（HTML＝画面の骨組みを書く言語、CSS＝見た目を整える言語、JavaScript＝動きを付ける言語）、保存＝Node.js（＝JavaScript を自分の PC の上で動かすための土台のソフト）のサーバー（＝画面からの求めに応じてデータを返したり保存したりするプログラム）が JSON（＝データを決まった書き方の文字で保存する形式）のファイル1つに読み書き、動かし方＝ターミナル（＝文字で PC に命令する画面）で <code>node server.js</code> → ブラウザで <code>http://localhost:3000</code>（localhost＝自分の PC 自身を指す呼び名）、がおすすめになりました。「あとで AI 機能を足す」の前提が、サーバーあり・なしの分かれ目になっています</li>
+      <li>提案は「おすすめ1つ＋ほかの候補」の形で返ってきます。上の例（食費メモ）では、画面＝素の HTML／CSS／JavaScript、保存＝Node.js のサーバーが JSON のファイル1つに読み書き、動かし方＝ターミナルで <code>node server.js</code> → ブラウザで <code>http://localhost:3000</code>、がおすすめになりました。「あとで AI 機能を足す」の前提が、サーバーあり・なしの分かれ目になっています</li>
       <li><strong>全部を理解する必要はありません。</strong>「画面／保存／動かし方」の3つに、それぞれ何という名前の部品を使うかが分かれば十分です。用語の説明は返答の中の表にあります</li>
       <li>おすすめを採用するなら、そのまま次の節で仕様書の「使う技術」に書きます。ほかの候補を選ぶなら、理由を1行、自分の言葉にしておきます（あとで講師に相談するときに使います）</li>
     </ul>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>HTML／CSS／JavaScript</dt><dd>画面を作る3つの言語。HTML は画面の骨組み、CSS は見た目、JavaScript は動きを担当します。</dd>
+        <dt>Node.js</dt><dd>JavaScript を自分の PC の上で動かすための土台のソフト。</dd>
+        <dt>サーバー</dt><dd>画面からの求めに応じて、データを返したり保存したりするプログラム。</dd>
+        <dt>JSON</dt><dd>データを決まった書き方の文字で保存する形式。ファイル名の最後が .json になります。</dd>
+        <dt>ターミナル</dt><dd>文字で PC に命令する画面。Mac では「ターミナル」、Windows では「ターミナル」または「PowerShell」という名前のアプリです。</dd>
+        <dt>localhost</dt><dd>自分の PC 自身を指す呼び名。<code>http://localhost:3000</code> は「自分の PC の中で動いているアプリを開く」という意味です。</dd>
+        <dt>React</dt><dd>画面を作るための大がかりな部品集。世の中でよく使われますが、このゼミの規模では大きすぎます。</dd>
+      </dl>
+    </div>
     <div class="note">
       ゼミとして全員共通の構成をご案内する場合は、別途お伝えします。提案と違っていたら、そのときに <code>docs/spec.md</code> の「使う技術」の欄だけを書き換えます（作り直しではありません）。
     </div>
@@ -484,10 +573,18 @@
 <!-- 7. 仕様書 -->
 <section class="section" id="spec">
   <div class="section__inner">
-    <p class="section__kicker">07</p>
-    <h2 class="section__title">仕様書 <em>docs/spec.md</em> にまとめる</h2>
-    <p class="section__lead">ここまでで決めたことを、Claude Code に<strong>ファイルとして</strong>書かせます。書かせるのは <strong>Markdown</strong>（＝見出しや箇条書きを記号で書く、文章ファイルの書き方。ファイル名の最後が <code>.md</code>）の形式で、<code>docs</code> という名前のフォルダの中に <code>spec.md</code> というファイルを作ります（<code>docs/spec.md</code> はその置き場所を表す書き方です）。</p>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-spec.svg" alt=""></span><div><p class="section__kicker">07</p><h2 class="section__title">仕様書 <em>docs/spec.md</em> にまとめる</h2></div></div>
+    <p class="section__lead">ここまでで決めたことを、Claude Code に<strong>ファイルとして</strong>書かせます。書かせるのは Markdown の形式で、<code>docs</code> フォルダの中に <code>spec.md</code> というファイルを作ります。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>Markdown</dt><dd>見出しや箇条書きを記号で書く、文章ファイルの書き方。ファイル名の最後が .md になります。</dd>
+        <dt>ユーザーストーリー</dt><dd>使う場面を「〜のとき、〜したい。なぜなら〜だから。」の形で1文にしたもの。</dd>
+        <dt>デバッグ</dt><dd>動かない原因を探して直す作業。</dd>
+      </dl>
+    </div>
     <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_teaching.png" alt="">
       <strong>仕様書（要件定義書）に決まった形式はありません。</strong>ここで示す6項目の見出しと書き方は、あくまで方法の一つです。
       会社や現場によって項目名も粒度も違い、正解の書式があるわけではありません。
@@ -495,7 +592,7 @@
     </div>
 
     <h3 class="sub">仕様書に入れる6項目（このゼミでの型）</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="項目・抜けると何が起きるか の表">
       <table class="tbl">
         <thead><tr><th>項目</th><th>抜けると何が起きるか</th></tr></thead>
         <tbody>
@@ -510,14 +607,14 @@
     </div>
     <p class="table-hint">表は横にスクロールできます</p>
     <ul>
-      <li><strong>ユーザーストーリー</strong>（＝使う場面を1文で書いたもの）：「〜のとき、〜したい。なぜなら〜だから。」を3〜5本、「目的」の中に入れます。「なぜなら」があると、あとで改善するとき何を優先するか自分で判断できます</li>
+      <li><strong>ユーザーストーリー</strong>：「〜のとき、〜したい。なぜなら〜だから。」を3〜5本、「目的」の中に入れます。「なぜなら」があると、あとで改善するとき何を優先するか自分で判断できます</li>
       <li><strong>置き場所と長さ</strong>：<code>docs/spec.md</code>。各見出しの中身は箇条書きか表で、1見出しにつき8行まで（長いと、Claude Code に読ませるたびに要点がぼやけます）</li>
       <li><span class="why">なぜファイルとして置くのか：</span>作り始めてからは、Claude Code に「<code>docs/spec.md</code> に従って作って」と指示できます。チャットに毎回貼り直す必要がなくなり、指示のたびに前提がずれることもなくなります</li>
     </ul>
 
     <h3 class="sub">仕様書を書かせる指示の型</h3>
     <p>壁打ちの続きとして送ります。質問への答えと、提案の採用・不採用を自分の言葉で書いてください。</p>
-<pre class="prompt" data-label="指示④（仕様書）― （ ）の中を自分の答えに差し替えて貼る">ありがとうございます。質問への答えと、提案の採用・不採用を決めました。
+<pre class="prompt" data-label="指示④（仕様書）― （ ）の中を自分の答えに差し替えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">ありがとうございます。質問への答えと、提案の採用・不採用を決めました。
 
 ■ 質問への答え（返ってきた質問の数だけ書く）
 （Q1：まずはPCだけで使う。保存の仕組みは、提案してもらった技術スタックに合わせる）
@@ -565,9 +662,10 @@
     </figure>
 
     <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
       <strong>確認のしかた：</strong>できた <code>docs/spec.md</code> を開いて読み、<strong>1箇所以上は自分の判断で直してください</strong>（直した箇所は提出時に書きます）。
-      <span class="why">なぜ：</span>AI の出力を読まずに通す癖がつくと、デバッグ（＝動かない原因を探して直す作業）のときに手が止まります。
+      <span class="why">なぜ：</span>AI の出力を読まずに通す癖がつくと、デバッグのときに手が止まります。
       上の例では、AI が「予算設定・グラフ」を「やらないこと」に勝手に足していました。要らなければ消す、残すなら自分が納得して残す、です。
     </div>
     <h3 class="sub">spec.md の開き方と直し方</h3>
@@ -587,12 +685,18 @@
 <!-- 8. 作る順番 -->
 <section class="section section--soft" id="tasks">
   <div class="section__inner">
-    <p class="section__kicker">08</p>
-    <h2 class="section__title">作る順番を決める：<em>docs/tasks.md</em>（タスク分け）</h2>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-tasks.svg" alt=""></span><div><p class="section__kicker">08</p><h2 class="section__title">作る順番を決める：<em>docs/tasks.md</em>（タスク分け）</h2></div></div>
     <p class="section__lead">
-      仕様書ができたら、<strong>どの順番で作るか</strong>を決めます。これを<strong>タスク分け</strong>と呼び（タスク＝1回の指示で作る作業の単位）、<code>docs/tasks.md</code> に残します。
+      仕様書ができたら、<strong>どの順番で作るか</strong>を決めます。これを<strong>タスク分け</strong>と呼び、<code>docs/tasks.md</code> に残します。
       作り始めたら、この順番の上から1つずつ Claude Code に指示していきます。
     </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>タスク</dt><dd>1回の指示で作る作業の単位。</dd>
+        <dt>チェックボックス形式</dt><dd>行の先頭に <code>- [ ]</code> と書く Markdown の書き方。終わったタスクを <code>- [x]</code> に変えると、どこまで進んだかが一目で分かります。</dd>
+      </dl>
+    </div>
 
     <h3 class="sub">なぜタスクに分けるのか</h3>
     <ul>
@@ -602,7 +706,7 @@
     </ul>
 
     <h3 class="sub">良いタスクの3条件</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="条件・なぜ の表">
       <table class="tbl">
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
         <tbody>
@@ -615,7 +719,7 @@
     <p class="table-hint">表は横にスクロールできます</p>
 
     <h3 class="sub">タスク分けをさせる指示の型</h3>
-<pre class="prompt prompt--plain" data-label="指示⑤（タスク分け）― そのまま貼る">docs/spec.md ができました。次に、このアプリをどういう順番で作っていくか、タスク分けをしてください。
+<pre class="prompt prompt--plain" data-label="指示⑤（タスク分け）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/spec.md ができました。次に、このアプリをどういう順番で作っていくか、タスク分けをしてください。
 まだコードは書かないでください。
 
 ■ お願い
@@ -625,7 +729,6 @@
 - 順番の理由（なぜそのタスクが先か）を1行ずつ添えてください
 - タスクは10個以内。多いときは「必須」と「余裕があれば」に分けてください。チェックボックス形式（- [ ]）で書いてください
 - 変更するのは docs/tasks.md の1ファイルだけ。すでにある場合は上書きせず、中身を見せて確認を待ってください。作成日・版番号は書かないでください</pre>
-    <p>チェックボックス形式＝行の先頭に <code>- [ ]</code> と書く Markdown の書き方です。終わったタスクを <code>- [x]</code> に変えると、どこまで進んだかが一目で分かります。</p>
 
     <div class="figures">
       <figure class="figure">
@@ -661,6 +764,7 @@
       <li><strong>各タスクに完了条件があるか。</strong>「金額を空にして保存を押すとエラーが出る」のように、ブラウザで何を見ればよいかが書いてあるかを見ます</li>
     </ul>
     <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <strong>確認のしかた：</strong>仕様書と同じく、<strong>1箇所は自分で直してください</strong>。順番に納得できないところを入れ替える、大きすぎるタスク（1回の指示で作れそうにないもの）を分ける、などです。直した箇所は提出時に書きます。
     </div>
   </div>
@@ -669,19 +773,27 @@
 <!-- 9. この回で作るもの -->
 <section class="section" id="deliverables">
   <div class="section__inner">
-    <p class="section__kicker">Deliverables</p>
-    <h2 class="section__title">この回で<em>作るもの</em></h2>
-    <p class="section__lead">終わったとき、手元に次の3つがある状態にします。この回の課題の内容は commmune（＝DMM 生成AI CAMP の受講生向けコミュニティサイト）のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。この回から <a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-deliverable.svg" alt=""></span><div><p class="section__kicker">Deliverables</p><h2 class="section__title">この回で<em>作るもの</em></h2></div></div>
+    <p class="section__lead">終わったとき、手元に次の3つがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。この回から <a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
+      </dl>
+    </div>
     <div class="cards cards--3">
       <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-folder.svg" alt="">
         <h3 class="card__title">アプリのフォルダ</h3>
-        <p class="card__desc">デスクトップに、半角英数字の名前で（例：<code>my-app</code>）。Claude デスクトップアプリで開けている状態。</p>
+        <p class="card__desc">好きな場所（おすすめはデスクトップ）に、半角英数字の名前で（例：<code>my-app</code>）。Claude デスクトップアプリで開けている状態。</p>
       </div>
       <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-file-md.svg" alt="">
         <h3 class="card__title">docs/spec.md（仕様書）</h3>
         <p class="card__desc">6項目（目的／やること／やらないこと／扱うデータ／画面一覧と遷移／使う技術）。自分で1箇所以上直したもの。</p>
       </div>
       <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-tasks.svg" alt="">
         <h3 class="card__title">docs/tasks.md（作る順番）</h3>
         <p class="card__desc">10個以内のタスク。それぞれに「終わったと言える条件」と順番の理由。自分で1箇所直したもの。</p>
       </div>
@@ -696,46 +808,53 @@
 <!-- 10. つまずき -->
 <section class="section section--soft" id="pitfalls">
   <div class="section__inner">
-    <p class="section__kicker">Pitfalls</p>
-    <h2 class="section__title">よくある<em>つまずき</em>と対処</h2>
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-pitfall.svg" alt=""></span><div><p class="section__kicker">Pitfalls</p><h2 class="section__title">よくある<em>つまずき</em>と対処</h2></div></div>
     <p class="section__lead">詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板）で進めてください。</p>
     <div class="pitfalls">
       <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">フォルダの名前に日本語やスペースを使った</h3>
         <p class="pitfall__what">作り始めてから、道具の一部がエラーを出します。</p>
         <p class="pitfall__how"><strong>対処：</strong>Finder／エクスプローラーで、半角英数字とハイフンの名前に変えるだけで直ります。作り直す必要はありません。</p>
       </div>
       <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">別のフォルダを開いたまま指示した</h3>
         <p class="pitfall__what">関係ないフォルダにファイルができたり、書き換えられたりします。</p>
         <p class="pitfall__how"><strong>対処：</strong>画面の下のフォルダ名を毎回見る。違っていたら「フォルダを開く…」で開き直します。</p>
       </div>
       <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">壁打ちの途中で AI がコードを書き始めた</h3>
         <p class="pitfall__what">要件が固まる前に骨組みができ、あとで作り直しになります。</p>
         <p class="pitfall__how"><strong>対処：</strong>指示の先頭に「まだコードは書かないでください」を入れる。書き始めたら確認画面で「拒否」を押して、決める作業に戻します。</p>
       </div>
       <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">AI の提案を全部採用してしまった</h3>
         <p class="pitfall__what">MVP が膨らみ、7回で終わらなくなります。</p>
         <p class="pitfall__how"><strong>対処：</strong>「無くても1回使えるか」で仕分け直す。あとまわしは「やらないこと（今回は）」に残します。</p>
       </div>
       <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">画面が5枚以上になった</h3>
         <p class="pitfall__what">画面が作り終わりません。</p>
         <p class="pitfall__how"><strong>対処：</strong>MVP が大きすぎるサインです。「やること」に戻って削ります（目安2〜4枚）。</p>
       </div>
       <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">書き込みの確認画面で止まってしまった</h3>
         <p class="pitfall__what">先に進めません。</p>
         <p class="pitfall__how"><strong>対処：</strong>場所と中身を見て「一度だけ許可」。何を聞かれているか分からないときは、確認画面のスクショを撮ってゼミ掲示板へ。</p>
       </div>
       <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">技術スタックの提案を全部理解しようとして止まった</h3>
         <p class="pitfall__what">用語を調べ始めて、仕様書まで進みません。</p>
         <p class="pitfall__how"><strong>対処：</strong>「画面／保存／動かし方」の3つに使う部品の名前だけ押さえる。用語の意味は返答の表で足ります。分からない言葉は、実物を見てからで大丈夫です。</p>
       </div>
       <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">Claude デスクトップアプリが入っていない／有料プランが未契約</h3>
         <p class="pitfall__what">フォルダを開くところから先に進めません。</p>
         <p class="pitfall__how"><strong>対処：</strong>LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。導入で詰まったら、スクショを撮って AI に聞く → ゼミ掲示板の順で。</p>
@@ -747,9 +866,8 @@
 <!-- 用語 -->
 <section class="section" id="glossary">
   <div class="section__inner">
-    <p class="section__kicker">Glossary</p>
-    <h2 class="section__title">この回で出てきた<em>用語</em></h2>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="表（横にスクロールできます）">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-glossary.svg" alt=""></span><div><p class="section__kicker">Glossary</p><h2 class="section__title">この回で出てきた<em>用語</em></h2></div></div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
       <table class="tbl">
         <thead><tr><th>用語</th><th>意味</th></tr></thead>
         <tbody>

@@ -34,3 +34,14 @@ GitHub Pages で公開している、受講生向けの案内ページです。
 - 注意書き：`.note`（黄）／`.note note--key`（橙＝大事）／`.note note--warn`（赤＝注意）。`<img class="note__mascot">` でペンギン先生を右に添えられる
 - 流れ図：`.flow > .flow__step`、つまずき：`.pitfalls > .pitfall`、本文の小見出し：`<h3 class="sub">`
 - スクショの元は教材リポジトリ側 `カリキュラム/assets/shots/r2_*.png`（講師の環境が写る箇所はぼかし済み）。`assets/images/lesson02/` に置く
+
+## 第2回ページのその後の部品（2026-09-06）
+
+- 用語の箱：`<div class="term"><p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p><dl><dt>語</dt><dd>説明</dd></dl></div>`。
+  初出の語は本文に（＝…）で足さず、その段落の直後にこの箱で説明する（講義資料の「📗 用語」と同じ役割。（ ）書きが多いと読みづらい）
+- 説明カード：「項目｜内容｜なぜ」のような表は `<dl class="explain-list">`（1項目ずつ縦に読む）。行どうしを比較する表（3類型・開催スケジュール）だけ `table.tbl` のまま
+- 表：`table.tbl` の見た目は Codex の提案で統一（見出しの下線・見える罫線・上揃え・列幅固定）。Home の開催スケジュールは `tbl--schedule`
+- アイコン：`assets/icons/icon-*.svg`（Codex 生成・16個・線画・橙）。節見出しは `.section__head > .section__icon`、カードは `.card__icon` `.pitfall__icon`、注意書きは `.note__icon`、指示の型は `.prompt__icon`
+- 図版の並び：`figures--2`（2列固定）、`figures--menu`（縦長1枚＋横長1枚）
+- スクショの伏せ字は「ぼかし」ではなく薄いグレーの角丸で平らに塗る（ぼかしは壊れて見える）
+- 余白・文字組みは `body.lesson` 配下で上書き（本文 16px／行間 1.7〜1.8／字間 0／8px 単位）。根拠は `10_products/_references/design/`

@@ -18,7 +18,7 @@
     '.contrast__col', '.agenda__item',
     '.note', '.table-wrap', '.section__inner > p', '.section__inner > ul',
     /* 各回のページ用（site.css 末尾の一覧と同じ） */
-    '.figure', '.prompt', '.flow__step', '.pitfall', '.section__inner > h3.sub', '.section__inner > ol'
+    '.figure', '.prompt', '.flow__step', '.pitfall', '.section__inner > h3.sub', '.section__inner > ol', '.term'
   ].join(',');
 
   function ready(fn) {

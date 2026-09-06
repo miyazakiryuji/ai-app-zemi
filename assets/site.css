@@ -438,6 +438,9 @@ table.tbl tr:last-child td { border-bottom: 0; }
 .figure figcaption { font-size: 13px; color: var(--text-mute); margin: 8px 4px 0; line-height: 1.7; }
 .figures { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-top: 18px; }
 .figures .figure { margin: 0; }
+.figures--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.figures--menu { grid-template-columns: minmax(200px, 1fr) 2fr; align-items: start; }
+@media (max-width: 720px) { .figures--2, .figures--menu { grid-template-columns: 1fr; } }
 .figure--diagram img { box-shadow: none; background: #FFF9F0; }
 .figure--diagram img:hover { transform: none; box-shadow: var(--shadow-sm); }
 .lightbox { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center;
@@ -517,7 +520,7 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: .92em; bac
 
 /* ---- 各回ページ用の部品も、スクロールで出す（site.js の REVEAL と同じ一覧） ---- */
 .js:not(.reduce) .figure, .js:not(.reduce) .prompt, .js:not(.reduce) .flow__step, .js:not(.reduce) .pitfall,
-.js:not(.reduce) .section__inner > h3.sub, .js:not(.reduce) .section__inner > ol {
+.js:not(.reduce) .section__inner > h3.sub, .js:not(.reduce) .section__inner > ol, .js:not(.reduce) .term {
   opacity: 0; transform: translateY(12px);
   transition: opacity .45s var(--ease), transform .45s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease); }
 .js:not(.reduce) .section__inner > h3.sub.is-visible { opacity: 1; transform: none; }
@@ -529,9 +532,141 @@ body.lesson .table-hint { display: none; }
   .hero--lesson .hero__mascot img { width: 110px; }
 }
 @media (max-width: 720px) {
-  body.lesson table.tbl { min-width: 560px; }
-  body.lesson .table-hint { display: block; }
   .hero--lesson .hero__title { font-size: 28px; }
   .prompt { font-size: 12.5px; padding: 40px 14px 16px; }
   .note__mascot { width: 64px; }
+}
+
+/* ==== 各回のページ：余白・文字組みの調整（_references/design の実測値に合わせる。2026-09-06） ====
+   根拠：和文は字間 0・行間 見出し1.4／本文1.7（SmartHR・メルカリ実測）、本文 16px 以上（デジタル庁）、
+   余白は 8px の倍数、影は1〜2層だけ、角丸は役割ごと（カード 8〜12 / シート 16 以上）。Home の見た目は変えない */
+body.lesson { line-height: 1.7; letter-spacing: 0; }
+body.lesson .section { padding: 64px 20px; }
+body.lesson .section__kicker { margin: 0 0 8px; }
+body.lesson .section__title { font-size: 30px; font-weight: 800; line-height: 1.4; letter-spacing: 0; margin: 0 0 16px; }
+body.lesson .section__lead { font-size: 16px; line-height: 1.8; margin: 0 0 32px; max-width: 760px; }
+body.lesson .section__inner h3.sub { font-size: 19px; font-weight: 700; line-height: 1.4; margin: 48px 0 16px; padding-left: 14px; }
+body.lesson .section__inner h3.sub:first-of-type { margin-top: 0; }
+body.lesson .section__inner > p { font-size: 16px; line-height: 1.8; margin: 16px 0 0; max-width: 760px; }
+body.lesson .section__inner > ul { font-size: 16px; line-height: 1.8; margin: 16px 0 0; padding-left: 1.4em; max-width: 760px; }
+body.lesson .section__inner > ul li { margin: 8px 0; }
+body.lesson .section__inner > ol:not(.steps) { font-size: 16px; line-height: 1.8; margin: 16px 0 0; padding-left: 1.6em; max-width: 760px; }
+body.lesson .section__inner > ol:not(.steps) li { margin: 8px 0; }
+body.lesson .hero--lesson .hero__title { line-height: 1.4; letter-spacing: 0; font-weight: 800; }
+body.lesson .hero__sub { line-height: 1.6; }
+body.lesson .now__title { line-height: 1.4; }
+body.lesson .now__meta { font-size: 15px; line-height: 1.8; max-width: 760px; }
+/* 手順カード：影を外し、線だけにする（影は図版とカードにだけ残す） */
+body.lesson .steps { gap: 16px; }
+body.lesson .steps > li { padding: 20px 24px; box-shadow: none; border-radius: 12px; }
+body.lesson .steps__title { font-size: 16px; font-weight: 700; line-height: 1.5; margin: 0 0 6px; }
+body.lesson .steps__desc { font-size: 15px; line-height: 1.8; }
+body.lesson .steps__desc ul { margin: 8px 0 0; }
+/* 汎用カード・つまずき・流れ：角丸 12、影は薄く1層 */
+body.lesson .card { padding: 24px; border-radius: 12px; }
+body.lesson .card__title { font-size: 17px; font-weight: 700; line-height: 1.4; margin: 0 0 8px; }
+body.lesson .card__desc { font-size: 15px; line-height: 1.8; }
+body.lesson .cards { gap: 24px; margin-top: 24px; }
+body.lesson .pitfalls { gap: 24px; margin-top: 8px; }
+body.lesson .pitfall { padding: 24px; border-radius: 12px; box-shadow: none; }
+body.lesson .pitfall__title { font-size: 16px; font-weight: 700; line-height: 1.5; margin: 0 0 8px; }
+body.lesson .pitfall__what { font-size: 14px; line-height: 1.7; margin: 0 0 8px; }
+body.lesson .pitfall__how { font-size: 15px; line-height: 1.8; }
+body.lesson .flow { gap: 16px; margin-top: 24px; }
+body.lesson .flow__step { padding: 16px 12px; border-radius: 12px; box-shadow: none; }
+body.lesson .flow__name { font-size: 15px; font-weight: 700; line-height: 1.4; }
+body.lesson .flow__desc { font-size: 13px; line-height: 1.6; margin: 6px 0 0; }
+/* 注意書き：段落として読める行間、上下の余白を 24 に */
+body.lesson .note { margin-top: 24px; padding: 20px 24px; font-size: 15px; line-height: 1.8; border-radius: 12px; }
+body.lesson .note + .note { margin-top: 16px; }
+/* 表：本文と同じ 15px、行の高さを確保 */
+body.lesson .table-wrap { margin-top: 16px; }
+body.lesson .table-hint { margin: 8px 0 0; font-size: 13px; }
+/* 図版：上下 24、キャプション 14px */
+body.lesson .figure { margin: 24px 0 0; }
+body.lesson .figures { margin-top: 24px; gap: 24px; }
+body.lesson .figure figcaption { font-size: 14px; line-height: 1.7; margin: 10px 4px 0; }
+body.lesson .figure img { border-radius: 12px; }
+/* 指示の型：上下 24、行間 1.8、影なし */
+body.lesson .prompt { margin: 24px 0 0; padding: 44px 24px 22px; font-size: 14px; line-height: 1.8; border-radius: 12px; box-shadow: none; }
+body.lesson .prompt + p { margin-top: 16px; }
+/* 節見出しの横に置くアイコン（Codex 生成の SVG。無ければ何も出ない） */
+body.lesson .section__head { display: flex; align-items: center; gap: 14px; margin: 0 0 16px; }
+body.lesson .section__head .section__title { margin: 0; }
+body.lesson .section__icon { flex: none; width: 44px; height: 44px; padding: 8px; border-radius: 12px; background: var(--bg-card);
+  border: 1px solid var(--border); display: grid; place-items: center; }
+body.lesson .section__icon img { width: 28px; height: 28px; display: block; }
+body.lesson .card__icon, body.lesson .pitfall__icon { width: 28px; height: 28px; display: block; margin: 0 0 12px; }
+body.lesson .note__icon { float: left; width: 22px; height: 22px; margin: 2px 12px 0 0; }
+body.lesson .now__icon { flex: none; width: 56px; height: 56px; padding: 12px; border-radius: 14px; background: var(--bg-soft); border: 1px solid var(--border); }
+body.lesson .now__icon img { width: 32px; height: 32px; display: block; }
+body.lesson .prompt::before { padding-left: 44px; background-image: none; }
+body.lesson .prompt__icon { position: absolute; top: 9px; left: 18px; width: 18px; height: 18px; }
+@media (max-width: 720px) {
+  body.lesson .section { padding: 48px 16px; }
+  body.lesson .section__title { font-size: 24px; }
+  body.lesson .section__inner h3.sub { font-size: 17px; margin-top: 40px; }
+  body.lesson .steps > li { padding: 16px; }
+  body.lesson .card, body.lesson .pitfall { padding: 20px; }
+  body.lesson .prompt { padding: 44px 16px 18px; font-size: 13px; }
+}
+
+/* ---- 用語の箱（初出の語を、段落の直後で説明する。講義資料の「📗 用語」と同じ役割） ---- */
+body.lesson .term { margin: 24px 0 0; padding: 20px 24px; background: #F2F8FF; border: 1px solid #CFE3FA; border-left: 4px solid var(--accent-blue);
+  border-radius: 12px; max-width: 900px; }
+body.lesson .term__title { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 13px; font-weight: 800; letter-spacing: .06em; color: var(--on-blue); }
+body.lesson .term__title img { width: 20px; height: 20px; }
+body.lesson .term dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; font-size: 15px; line-height: 1.8; }
+body.lesson .term dt { font-weight: 700; color: var(--text-main); }
+body.lesson .term dd { margin: 0; color: var(--text-sub); }
+@media (max-width: 720px) {
+  body.lesson .term { padding: 16px; }
+  body.lesson .term dl { grid-template-columns: 1fr; gap: 2px 0; }
+  body.lesson .term dd { margin-bottom: 8px; }
+}
+
+/* ==== 表の読みやすさ（Codex の提案 2026-09-06 を反映：列幅の固定・見出しの下線・見える罫線・上揃え） ==== */
+.table-wrap { position: relative; max-width: 100%; overflow-x: auto; background: var(--bg-card); border: 1px solid #D9D3C8;
+  border-radius: 12px; -webkit-overflow-scrolling: touch; }
+.table-wrap:focus-visible { outline: 3px solid var(--text-accent); outline-offset: 3px; }
+table.tbl { width: 100%; min-width: 0; border: 0; border-collapse: separate; border-spacing: 0; border-radius: 0; background: transparent; }
+table.tbl th, table.tbl td { padding: 16px; border: 0; border-bottom: 1px solid #D9D3C8; text-align: left; vertical-align: top;
+  color: var(--text-main); font-size: 15px; line-height: 1.75; word-break: normal; overflow-wrap: anywhere; }
+table.tbl thead th { background: var(--bg-soft); color: var(--text-main); font-size: 15px; font-weight: 800; line-height: 1.5;
+  white-space: normal; border-bottom: 2px solid var(--text-accent); }
+table.tbl tr > * + * { border-inline-start: 1px solid var(--border); }
+table.tbl tbody tr:last-child > * { border-bottom: 0; }
+table.tbl tbody tr > :first-child { color: var(--text-main); font-weight: 700; }
+body.lesson table.tbl { table-layout: fixed; }
+body.lesson table.tbl:has(thead th:nth-child(3)) > :is(thead, tbody) > tr > :first-child { width: 22%; }
+body.lesson table.tbl:not(:has(thead th:nth-child(3))) > :is(thead, tbody) > tr > :first-child { width: 34%; }
+table.tbl--schedule { table-layout: fixed; }
+table.tbl--schedule > :is(thead, tbody) > tr > :first-child { width: 6rem; white-space: nowrap; }
+table.tbl--schedule > :is(thead, tbody) > tr > :last-child { width: 10rem; white-space: nowrap; }
+@media (max-width: 720px) {
+  body.lesson table.tbl { min-width: 0; }
+  body.lesson table.tbl:has(thead th:nth-child(3)) { min-width: 44rem; }
+  body.lesson table.tbl th, body.lesson table.tbl td { padding: 16px 8px; }
+  body.lesson table.tbl:not(:has(thead th:nth-child(3))) > :is(thead, tbody) > tr > :first-child { width: 38%; }
+  body.lesson .table-hint { display: none; }
+  body.lesson .table-wrap:has(table.tbl thead th:nth-child(3)) + .table-hint { display: block; }
+  body.lesson .table-wrap:has(table.tbl thead th:nth-child(3)) { box-shadow: inset -16px 0 16px -16px var(--text-mute); }
+}
+@media (max-width: 480px) {
+  table.tbl--schedule th, table.tbl--schedule td { padding: 16px 8px; font-size: 14px; }
+  table.tbl--schedule > :is(thead, tbody) > tr > :first-child { width: 4.5rem; }
+  table.tbl--schedule > :is(thead, tbody) > tr > :last-child { width: 8.5rem; }
+}
+/* ---- 「項目｜内容｜なぜ」は表ではなく説明カード（1項目ずつ縦に読む） ---- */
+body.lesson .explain-list { display: grid; gap: 16px; margin: 16px 0 0; }
+body.lesson .explain-list__item { display: grid; grid-template-columns: minmax(9rem, 20%) 1fr 1fr; gap: 16px; padding: 16px 20px;
+  background: var(--bg-card); border: 1px solid #D9D3C8; border-radius: 12px; }
+body.lesson .explain-list__term, body.lesson .explain-list__value, body.lesson .explain-list__reason { min-width: 0; margin: 0;
+  font-size: 15px; line-height: 1.75; overflow-wrap: anywhere; }
+body.lesson .explain-list__term { color: var(--text-main); font-weight: 700; }
+body.lesson .explain-list__value, body.lesson .explain-list__reason { color: var(--text-sub); }
+body.lesson .explain-list__label { display: block; margin: 0 0 4px; color: var(--text-accent); font-size: 12.5px; font-weight: 800; letter-spacing: .04em; }
+@media (max-width: 720px) {
+  body.lesson .explain-list__item { grid-template-columns: 1fr; gap: 12px; }
+  body.lesson .explain-list__value, body.lesson .explain-list__reason { padding-top: 12px; border-top: 1px solid var(--border); }
 }
