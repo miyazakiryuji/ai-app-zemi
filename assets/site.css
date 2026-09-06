@@ -789,3 +789,7 @@ body.lesson .pitfalls { margin-top: 24px; }
 body.lesson .section__inner > p.table-hint { margin-top: 8px; }
 body.lesson .explain-list__item { padding: 20px 24px; }
 body.lesson .flow__step { padding: 16px 14px; }
+
+/* 縦長の図（Finder のメニュー）は高さを抑えて中央に置く。隣の横長の図と釣り合わせる */
+body.lesson .figure--tall img { width: auto; max-width: 100%; max-height: 440px; margin: 0 auto; }
+body.lesson .figures--menu { grid-template-columns: minmax(220px, 1fr) 2fr; align-items: start; }
