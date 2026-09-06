@@ -776,3 +776,16 @@ body.lesson .backlink { font-size: 19px; }
   body.lesson table.tbl th, body.lesson table.tbl td, body.lesson .explain-list__term, body.lesson .explain-list__value, body.lesson .explain-list__reason { font-size: 17px; }
   body.lesson .prompt { font-size: 15px; }
 }
+
+/* ==== 各回のページ：余白の抜けを埋める（2026-09-06 Opus の実測点検。後勝ちさせるため末尾に置く） ====
+   1) 節のリード文の下 32px が .section__inner > p（詳細度が上）に食われていたので取り戻す
+   2) ol.steps は .steps { margin: 0 } のままで、上マージンを与えるルールが無かった
+   3) つまずきカードの上を .cards と同じ 24px に揃える
+   4) 表のヒントは表に属する注記なので 8px に戻す
+   5) 説明カード・流れカードの内側を、19px の文字に見合う値へ */
+body.lesson .section__inner > p.section__lead { margin: 0 0 32px; }
+body.lesson .section__inner > ol.steps { margin-top: 24px; }
+body.lesson .pitfalls { margin-top: 24px; }
+body.lesson .section__inner > p.table-hint { margin-top: 8px; }
+body.lesson .explain-list__item { padding: 20px 24px; }
+body.lesson .flow__step { padding: 16px 14px; }
