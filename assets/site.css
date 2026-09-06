@@ -719,3 +719,60 @@ body.lesson code { font-size: .9em; }
   body.lesson .section__lead, body.lesson .section__inner > p, body.lesson .section__inner > ul, body.lesson .section__inner > ol:not(.steps) { font-size: 17px; }
   body.lesson .prompt { font-size: 14px; }
 }
+
+/* ==== 各回のページ：文字サイズをさらに一段大きく（2026-09-06 講師の指示）。本文 20px／小見出し 26px／節見出し 40px ==== */
+body.lesson { font-size: 20px; }
+body.lesson .hero--lesson .hero__title { font-size: 46px; }
+body.lesson .hero__sub { font-size: 21px; }
+body.lesson .hero__facts li { font-size: 16px; }
+body.lesson .now__label { font-size: 13px; }
+body.lesson .now__title { font-size: 26px; }
+body.lesson .now__meta { font-size: 19px; max-width: 900px; }
+body.lesson .section__kicker { font-size: 15px; }
+body.lesson .section__title { font-size: 40px; }
+body.lesson .section__icon { width: 52px; height: 52px; }
+body.lesson .section__icon img { width: 32px; height: 32px; }
+body.lesson .section__lead { font-size: 20px; max-width: 900px; }
+body.lesson .section__inner h3.sub { font-size: 26px; }
+body.lesson .section__inner > p, body.lesson .section__inner > ul, body.lesson .section__inner > ol:not(.steps) { font-size: 20px; max-width: 900px; }
+body.lesson .steps__title { font-size: 22px; }
+body.lesson .steps__desc { font-size: 19px; }
+body.lesson .steps__n { width: 46px; height: 46px; font-size: 19px; }
+body.lesson .steps > li { grid-template-columns: 54px 1fr; }
+body.lesson .card__title { font-size: 22px; }
+body.lesson .card__desc { font-size: 19px; }
+body.lesson .card__icon, body.lesson .pitfall__icon { width: 32px; height: 32px; }
+body.lesson .pitfall__title { font-size: 22px; }
+body.lesson .pitfall__what { font-size: 18px; }
+body.lesson .pitfall__how { font-size: 19px; }
+body.lesson .flow__name { font-size: 19px; }
+body.lesson .flow__desc { font-size: 16px; }
+body.lesson .note { font-size: 19px; }
+body.lesson .note__icon { width: 26px; height: 26px; }
+body.lesson .term__title { font-size: 15px; }
+body.lesson .term dl { font-size: 19px; }
+body.lesson .term { max-width: 1000px; }
+body.lesson table.tbl th, body.lesson table.tbl td { font-size: 19px; }
+body.lesson table.tbl thead th { font-size: 19px; }
+body.lesson .explain-list__term, body.lesson .explain-list__value, body.lesson .explain-list__reason { font-size: 19px; }
+body.lesson .explain-list__label { font-size: 14.5px; }
+body.lesson .figure figcaption { font-size: 17px; }
+body.lesson .prompt { font-size: 17px; }
+body.lesson .prompt::before { font-size: 13.5px; }
+body.lesson .copybtn { font-size: 13px; }
+body.lesson .table-hint { font-size: 15px; }
+body.lesson .btn { font-size: 16px; }
+body.lesson .site-header__nav a { font-size: 14px; }
+body.lesson .crumbs { font-size: 15px; }
+body.lesson .backlink { font-size: 19px; }
+@media (max-width: 720px) {
+  body.lesson { font-size: 18px; }
+  body.lesson .hero--lesson .hero__title { font-size: 32px; }
+  body.lesson .section__title { font-size: 30px; }
+  body.lesson .section__inner h3.sub { font-size: 22px; }
+  body.lesson .section__lead, body.lesson .section__inner > p, body.lesson .section__inner > ul, body.lesson .section__inner > ol:not(.steps) { font-size: 18px; }
+  body.lesson .steps__title, body.lesson .card__title, body.lesson .pitfall__title { font-size: 19px; }
+  body.lesson .steps__desc, body.lesson .card__desc, body.lesson .pitfall__how, body.lesson .note, body.lesson .term dl,
+  body.lesson table.tbl th, body.lesson table.tbl td, body.lesson .explain-list__term, body.lesson .explain-list__value, body.lesson .explain-list__reason { font-size: 17px; }
+  body.lesson .prompt { font-size: 15px; }
+}
