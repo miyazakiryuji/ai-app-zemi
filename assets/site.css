@@ -483,7 +483,7 @@ html.lb-open { overflow: hidden; }
 /* ---- 本文中の小見出し・段落 ---- */
 .section__inner h3.sub { font-size: 18px; font-weight: 900; margin: 30px 0 10px; padding-left: 12px;
   border-left: 5px solid var(--accent-orange); line-height: 1.5; }
-.section__inner h3.sub:first-of-type { margin-top: 0; }
+.section__lead + h3.sub, .section__head + h3.sub { margin-top: 0; }
 .section__inner > p { font-size: 15px; color: var(--text-sub); margin: 10px 0 0; max-width: 900px; }
 .section__inner > ul { font-size: 15px; color: var(--text-sub); margin: 10px 0 0; padding-left: 1.3em; max-width: 900px; }
 .section__inner > ul li { margin: 4px 0; }
@@ -546,7 +546,7 @@ body.lesson .section__kicker { margin: 0 0 8px; }
 body.lesson .section__title { font-size: 30px; font-weight: 800; line-height: 1.4; letter-spacing: 0; margin: 0 0 16px; }
 body.lesson .section__lead { font-size: 16px; line-height: 1.8; margin: 0 0 32px; max-width: 760px; }
 body.lesson .section__inner h3.sub { font-size: 19px; font-weight: 700; line-height: 1.4; margin: 48px 0 16px; padding-left: 14px; }
-body.lesson .section__inner h3.sub:first-of-type { margin-top: 0; }
+body.lesson .section__lead + h3.sub, body.lesson .section__head + h3.sub { margin-top: 0; }
 body.lesson .section__inner > p { font-size: 16px; line-height: 1.8; margin: 16px 0 0; max-width: 760px; }
 body.lesson .section__inner > ul { font-size: 16px; line-height: 1.8; margin: 16px 0 0; padding-left: 1.4em; max-width: 760px; }
 body.lesson .section__inner > ul li { margin: 8px 0; }
