@@ -31,6 +31,7 @@
     var targets = Array.prototype.slice.call(document.querySelectorAll(REVEAL));
 
     /* ---- 1) スクロールに合わせて要素をふわっと出す ---- */
+    var revealUpTo = function () {};   /* あとで IO の分岐の中で差し替える */
     if (reduce || !('IntersectionObserver' in window)) {
       targets.forEach(function (el) { el.classList.add('is-visible'); });
     } else {
@@ -75,6 +76,12 @@
         } else { reveal(el); }
       }
       var shown = 0;
+      revealUpTo = function (limitY) {
+        /* targets は文書順。上から順に、下端が limitY より上にあるものを出す（出したものは監視を外す） */
+        while (shown < targets.length && targets[shown].getBoundingClientRect().top < limitY) {
+          reveal(targets[shown]); io.unobserve(targets[shown]); shown++;
+        }
+      };
       var io = new IntersectionObserver(function (entries) {
         var last = -1;
         entries.forEach(function (e) {
@@ -141,6 +148,9 @@
           header.classList.toggle('is-scrolled', y > 8);
           root.style.scrollPaddingTop = (header.offsetHeight + 12) + 'px';   /* 2〜3段に折り返した高さにも追従 */
         }
+        /* 保険：画面の下端より上にある要素は、観測（IntersectionObserver）を待たずに出す。
+           メニューやブックマーク（#spec など）で一気に飛んだとき、観測が間に合わず白いまま残るのを防ぐ */
+        if (typeof revealUpTo === 'function') { revealUpTo(window.innerHeight + 80); }
         if (bar) {
           var p = maxScroll > 0 ? Math.min(1, y / maxScroll) : 0;
           bar.style.transform = 'scaleX(' + p + ')';
