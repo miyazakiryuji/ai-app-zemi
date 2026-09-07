@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">テストのまわし方</title>
+  <desc id="svg-desc">仕様書からテストコードを書かせ、流し、落ちたら実装側を直し、全部をもう一度流す、という循環を左から右へ示す図。</desc>
+  <defs>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
+      <path d="M0 0L10 5L0 10Z" fill="#C9CEDB"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
+      <path d="M0 0L10 5L0 10Z" fill="#FF8C42"/>
+    </marker>
+  </defs>
+
+  <rect id="canvas" x="0" y="0" width="960" height="500" fill="#FFF9F0"/>
+
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text id="main-title" x="480" y="44" font-size="22" font-weight="700" text-anchor="middle">テストのまわし方 ― 直すのは実装側</text>
+
+    <!-- 1 仕様書 -->
+    <rect id="step-1-box" x="30" y="90" width="200" height="200" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+    <rect id="step-1-heading-box" x="48" y="108" width="164" height="52" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+    <text id="step-1-heading" x="130" y="142" font-size="19" font-weight="700" text-anchor="middle">①仕様書</text>
+    <text id="step-1-line-1" x="130" y="200" font-size="16" font-weight="700" text-anchor="middle">docs/spec.md</text>
+    <text id="step-1-line-2" x="130" y="232" font-size="15" fill="#5A6178" text-anchor="middle">「こうあるべき」</text>
+    <text id="step-1-line-3" x="130" y="258" font-size="15" fill="#5A6178" text-anchor="middle">が書いてある</text>
+
+    <path id="arrow-1" d="M242 190H268" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- 2 テストコード -->
+    <rect id="step-2-box" x="280" y="90" width="200" height="200" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+    <rect id="step-2-heading-box" x="298" y="108" width="164" height="52" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+    <text id="step-2-heading" x="380" y="142" font-size="19" font-weight="700" text-anchor="middle">②テストコード</text>
+    <text id="step-2-line-1" x="380" y="200" font-size="16" font-weight="700" text-anchor="middle">仕様書の写し</text>
+    <text id="step-2-line-2" x="380" y="232" font-size="15" fill="#5A6178" text-anchor="middle">書くのは Claude Code</text>
+    <text id="step-2-line-3" x="380" y="258" font-size="15" fill="#5A6178" text-anchor="middle">一覧を先に確認</text>
+
+    <path id="arrow-2" d="M492 190H518" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- 3 流す -->
+    <rect id="step-3-box" x="530" y="90" width="200" height="200" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <rect id="step-3-heading-box" x="548" y="108" width="164" height="52" rx="14" fill="#FF8C42" fill-opacity="0.14"/>
+    <text id="step-3-heading" x="630" y="142" font-size="19" font-weight="700" text-anchor="middle">③全部流す</text>
+    <text id="step-3-line-1" x="630" y="200" font-size="16" font-weight="700" text-anchor="middle">通った／落ちた</text>
+    <text id="step-3-line-2" x="630" y="232" font-size="15" fill="#5A6178" text-anchor="middle">見るのは3つだけ</text>
+    <text id="step-3-line-3" x="630" y="258" font-size="15" fill="#5A6178" text-anchor="middle">数・名前・期待と結果</text>
+
+    <path id="arrow-3" d="M742 190H768" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- 4 通った -->
+    <rect id="step-4-box" x="780" y="90" width="150" height="200" rx="18" fill="#FFFFFF" stroke="#3FB26A" stroke-width="3"/>
+    <rect id="step-4-heading-box" x="796" y="108" width="118" height="52" rx="14" fill="#3FB26A" fill-opacity="0.14"/>
+    <text id="step-4-heading" x="855" y="142" font-size="19" font-weight="700" text-anchor="middle">全部通る</text>
+    <text id="step-4-line-1" x="855" y="200" font-size="16" font-weight="700" text-anchor="middle">次の機能へ</text>
+    <text id="step-4-line-2" x="855" y="232" font-size="15" fill="#5A6178" text-anchor="middle">壊れていない</text>
+    <text id="step-4-line-3" x="855" y="258" font-size="15" fill="#5A6178" text-anchor="middle">と分かった状態</text>
+
+    <!-- 落ちたら：下段 -->
+    <path id="arrow-down" d="M630 302V330" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+    <text id="arrow-down-label" x="648" y="324" font-size="15" font-weight="700" fill="#FF8C42">落ちたら</text>
+
+    <rect id="fix-box" x="280" y="342" width="450" height="118" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <text id="fix-heading" x="505" y="384" font-size="19" font-weight="700" text-anchor="middle">④実装側（アプリ本体）を直す</text>
+    <text id="fix-line-1" x="505" y="416" font-size="15" fill="#5A6178" text-anchor="middle">テストは書き換えない・ゆるめない・飛ばさない</text>
+    <text id="fix-line-2" x="505" y="440" font-size="15" fill="#5A6178" text-anchor="middle">直したら ③ に戻って、全部をもう一度流す</text>
+
+    <path id="arrow-back" d="M268 401H150V302" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-orange)"/>
+    <text id="arrow-back-label" x="30" y="440" font-size="15" font-weight="700" fill="#FF8C42">仕様書が古いときだけ</text>
+    <text id="arrow-back-label-2" x="30" y="462" font-size="15" fill="#5A6178">先に仕様書を直す</text>
+  </g>
+</svg>

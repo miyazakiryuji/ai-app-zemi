@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIアプリ開発入門ゼミ ｜ 第5回 テスト</title>
+<meta name="description" content="AIアプリ開発入門ゼミ 第5回 テスト。テストとは何かを押さえ、仕様書をもとにテストコードを Claude Code に書かせ、流し、落ちたら実装側を直させる。UIテストと敵対的テストも Claude Code に実施させ、テストを流す節目を自分で決めるまでの手順。">
+<link rel="stylesheet" href="../../assets/site.css">
+<script>document.documentElement.classList.add("js");
+setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("is-ready")){r.classList.remove("js");}},2500);</script>
+<script src="../../assets/site.js" defer></script>
+</head>
+<body class="lesson">
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
+    <nav class="site-header__nav">
+      <a href="#what">テストとは</a>
+      <a href="#kinds">3つのテスト</a>
+      <a href="#write">仕様書から書かせる</a>
+      <a href="#run">流して直す</a>
+      <a href="#ui">UIテスト</a>
+      <a href="#adversarial">敵対的テスト</a>
+      <a href="#when">いつ流すか</a>
+      <a href="#keep">残す</a>
+      <a href="#deliverables">この回で作るもの</a>
+      <a href="#pitfalls">つまずき</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ヒーロー -->
+<section class="hero hero--lesson">
+  <div class="hero__inner">
+    <div>
+      <p class="crumbs"><a href="../../">Home</a> ／ 第5回</p>
+      <p class="hero__kicker">LESSON 05 ／ 作るフェーズ</p>
+      <h1 class="hero__title">テスト ― <em>壊れていないこと</em>を確かめる</h1>
+      <p class="hero__sub">～ 仕様書からテストコードを書かせ、落ちたら実装側を直す。UIテストと敵対的テストも Claude Code に任せる ～</p>
+      <ul class="hero__facts">
+        <li>テストコードを書くのは Claude Code。あなたは「流す」と「読む」</li>
+        <li>直すのはテストではなく、アプリ本体</li>
+        <li>成果物：テストコード一式＋実行結果＋README の実行コマンド</li>
+        <li>テストを流す節目は、自分で決める</li>
+      </ul>
+    </div>
+    <div class="hero__mascot">
+      <img src="../../assets/penguins/penguin_cheering_both_wings.png" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="now">
+  <div class="now__inner">
+    <div class="now__icon"><img src="../../assets/icons/icon-app.svg" alt=""></div>
+    <div>
+      <p class="now__label">この回の前に用意しておくもの</p>
+      <p class="now__title">動く状態の自分のアプリ ＋ 仕様書 docs/spec.md ＋ Claude デスクトップアプリ</p>
+      <p class="now__meta">アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、仕様書 <code>docs/spec.md</code> と、登録・一覧などが動くアプリがある状態から始めます。
+        Claude デスクトップアプリでそのフォルダを開き、Claude Code に指示を出します。Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。
+        間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
+    </div>
+    <div class="now__actions">
+      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--ghost" href="../../">Home へ戻る</a>
+    </div>
+  </div>
+</div>
+
+<!-- 1. テストとは -->
+<section class="section" id="what">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-check-screen.svg" alt=""></span><div><p class="section__kicker">01</p><h2 class="section__title">テストとは</h2></div></div>
+    <p class="section__lead">
+      <strong>テスト</strong>＝アプリが決めたとおりに動くかを、<strong>決めた手順で確かめること</strong>です。ここまでやってきた「ボタンを押して画面を見る」も確かめる行為ですが、この回で扱うテストは次の2点が違います。
+    </p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="動作確認とテストの違い の表">
+      <table class="tbl">
+        <thead><tr><th></th><th>いままでの動作確認</th><th>この回のテスト</th></tr></thead>
+        <tbody>
+          <tr><td><strong>何を確かめるか</strong></td><td>その場で気になったところ</td><td><strong>仕様書に書いてあること</strong>を、あらかじめ一覧にしておく</td></tr>
+          <tr><td><strong>何回できるか</strong></td><td>手で押すので、やるたびに手間が同じ</td><td><strong>同じ手順を何度でも流せる</strong>形にしておく</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">なぜ動作確認だけでは足りないのか</h3>
+    <ul>
+      <li>Claude Code は「修正しました」と言いますが、それは<strong>コードを書き換えた</strong>という意味で、<strong>動いている</strong>という意味ではありません。動かして確かめるまで、直ったかどうかは分かりません</li>
+      <li>1か所直すと、<strong>直していない別の場所が壊れる</strong>ことがあります。同じファイルの別の処理、同じデータを使う別の画面が影響を受けます。手で確かめるのは「いま直したところ」だけなので、壊れた別の場所には気づけません</li>
+      <li>気づかないまま機能を足していくと、どの変更で壊れたのかが分からなくなります。戻すにも、どこまで戻せばよいか決められません</li>
+    </ul>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>仕様書</dt><dd>要件定義のときに作った <code>docs/spec.md</code>。「やること・やらないこと・扱うデータ・画面」が書いてあります。この回では<strong>テストの元</strong>になります。</dd>
+        <dt>デグレ（リグレッション）</dt><dd>前まで動いていた機能が、別の変更のせいで動かなくなること。degrade（劣化する）、regression（後戻り）からきた言葉です。</dd>
+        <dt>テストが通る／落ちる</dt><dd>テストで確かめた結果が、決めたとおりだった（通る）／違っていた（落ちる）。落ちたテストには「何を確かめて、何が返ってきたか」が出ます。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
+    <div class="flow">
+      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">3つのテスト</p><p class="flow__desc">テストコード／UI／敵対的</p></div>
+      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">書かせる</p><p class="flow__desc">仕様書から</p></div>
+      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">流す</p><p class="flow__desc">落ちたら実装側を直す</p></div>
+      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">UIテスト</p><p class="flow__desc">ブラウザを操作させる</p></div>
+      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">敵対的テスト</p><p class="flow__desc">壊しにいく</p></div>
+      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">いつ流すか</p><p class="flow__desc">節目を自分で決める</p></div>
+      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">残す</p><p class="flow__desc">README・データ分離</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 3つのテスト -->
+<section class="section section--soft" id="kinds">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-stack.svg" alt=""></span><div><p class="section__kicker">02</p><h2 class="section__title">この回で扱う<em>3つのテスト</em></h2></div></div>
+    <p class="section__lead">
+      3つとも、<strong>実施するのは Claude Code</strong> です。ご自身が手で試したり、自分でテストのプログラムを書いたりはしません。
+    </p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="3つのテスト の表">
+      <table class="tbl">
+        <thead><tr><th>テスト</th><th>何をするか</th><th>見つかること</th><th>見つからないこと</th></tr></thead>
+        <tbody>
+          <tr><td><strong>テストコード</strong></td><td>確かめる手順をプログラムにして、命令1つで流す</td><td>データの保存・読み出し・計算が仕様どおりか。何度でも、大量に試せる</td><td>ボタンが押せない／表示が出ていない／レイアウトの崩れ</td></tr>
+          <tr><td><strong>UI テスト</strong></td><td>画面を実際に操作して、表示と動きを確かめる</td><td>見た目の崩れ、反応しないボタン、待ち時間の長さ</td><td>数を試すこと（1回ずつ操作するので時間がかかる）</td></tr>
+          <tr><td><strong>敵対的テスト</strong></td><td>正しい使い方ではなく、<strong>壊すつもりで</strong>想定外の入力・操作を試す</td><td>想定した使い方の外にある不具合（空・大量・連打・途中の中断）</td><td>仕様どおりに動くか（それは上の2つで見る）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p><span class="why">なぜ3つとも要るのか：</span>テストコードが通ることと、画面で使えることは別です。データの登録は成功しているのに、押したボタンが画面では反応していない、ということが起きます。逆に UI テストだけでは数を試せません。そして上の2つは「仕様どおりに使ったとき」しか確かめません。人に渡した最初の数分で落ちるのは、たいてい仕様の外の操作です。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>テストコード</dt><dd>アプリが正しく動くかを自動で確かめる、確認用のプログラム。人が画面を押す代わりに、決めた手順を1つの命令で流せます。アプリ本体とは別のファイルに置きます。</dd>
+        <dt>UI</dt><dd>User Interface（利用者との接点）の頭文字。画面に見えている入力欄・ボタン・一覧のことです。</dd>
+        <dt>UI テスト</dt><dd>画面を実際に操作して、表示と動きを確かめること。この回では Claude Code にブラウザを操作させて行います。</dd>
+        <dt>敵対的テスト</dt><dd>正しい使い方を確かめるのではなく、壊すことを目的に、想定外の入力・操作をわざと試すこと。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">テストコードの中身は、こういう一覧です</h3>
+    <p>たとえば食費メモなら、テストコードには次のような確認が並びます。1行が1つのテストです。</p>
+    <ul>
+      <li>金額・日付・メモを入れて保存すると、一覧に1件増える</li>
+      <li>金額が空のまま保存すると、保存されずに理由が表示される</li>
+      <li>金額に文字を入れて保存すると、保存されない</li>
+      <li>一覧は新しい順に並ぶ</li>
+      <li>今月の合計は、今月の記録だけを足した値になる</li>
+      <li>削除すると、一覧から消え、保存先からも消える</li>
+    </ul>
+    <p>流すと、1行ごとに「通った」「落ちた」が出ます。落ちたものには、<strong>何を確かめて（期待）、実際に何が返ってきたか（結果）</strong>が添えられます。</p>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_teaching.png" alt="">
+      <strong>テストコードを書けるようになる必要はありません。</strong>書くのは Claude Code です。ご自身に要るのは ① 流せること ② 落ちたときに、<strong>どのテストが落ちたのかを読める</strong>こと、の2つだけ。
+      <span class="why">なぜそれで足りるのか：</span>あとで効くのは、テストを書く力ではなく、<strong>直したあとに前と同じ確認をもう一度流す習慣</strong>だからです。読めれば、次の指示（「このテストが落ちたので実装を直して」）が書けます。
+    </div>
+    <p><strong>流し方：</strong>テストを流す命令は、使っている技術で決まります。Claude Code に書かせたあと、「テストを流すコマンドを1行で教えて」と聞けば返ってきます。Node.js を使っている場合は <code>npm test</code> になることが多いです（目安。構成によって変わります）。ターミナルに打つか、Claude Code に「テストを流して」と頼めば流れます。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>期待／結果</dt><dd>期待＝テストが「こうなるはず」と決めている値。結果＝実際にアプリが返した値。落ちたテストは、この2つが違っていたということです。</dd>
+        <dt>npm test</dt><dd>Node.js のプロジェクトで、テストを流すときによく使う命令。何が流れるかはプロジェクトの設定で決まります。</dd>
+        <dt>ターミナル</dt><dd>文字で PC に命令する画面。Mac は「ターミナル」、Windows は「ターミナル」や「PowerShell」という名前で入っています。</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 仕様書から書かせる -->
+<section class="section" id="write">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-spec.svg" alt=""></span><div><p class="section__kicker">03</p><h2 class="section__title">仕様書をもとに、<em>テストコードを作らせる</em></h2></div></div>
+    <p class="section__lead">
+      テストコードは<strong>コードを見て</strong>作らせるのではなく、<strong>仕様書（<code>docs/spec.md</code>）を見て</strong>作らせます。
+    </p>
+    <h3 class="sub">なぜ仕様書からなのか</h3>
+    <ul>
+      <li>いまのコードを元にテストを作ると、<strong>いまのコードの動きがそのまま「正解」になります</strong>。コードに間違いがあれば、その間違いを「正しい」として固定してしまいます。テストは全部通るのに、アプリは間違ったまま、という状態になります</li>
+      <li>仕様書には「こうあるべき」が書いてあります。仕様書からテストを作れば、コードが仕様どおりかを<strong>コードとは別の物差し</strong>で確かめられます</li>
+      <li>仕様書の「やらないこと」は、テストの対象外の根拠になります。コードを元にすると、AI が勝手に足した機能までテストされます</li>
+    </ul>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson05/diagram_test_loop.svg" alt="テストのまわし方。①仕様書 docs/spec.md → ②テストコード（仕様書の写し・書くのは Claude Code）→ ③全部流す（通った／落ちた）→ 全部通れば次の機能へ。落ちたら ④実装側（アプリ本体）を直す。テストは書き換えない・ゆるめない・飛ばさない。直したら③に戻って全部をもう一度流す。仕様書が古いときだけ、先に仕様書を直す" loading="lazy">
+      <figcaption>テストのまわし方。仕様書 → テストコード → 流す → 落ちたら実装側を直して、また全部流す。テストのほうを書き換えて通す、はしません</figcaption>
+    </figure>
+
+    <h3 class="sub">テストコードを書かせる指示の型</h3>
+    <p>自分のアプリのフォルダを開いた Claude Code に、そのまま貼って送ります。</p>
+<pre class="prompt prompt--plain" data-label="指示①（テストコード）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/spec.md を読んで、このアプリのテストコードを書いてください。
+
+■ 守ること
+- テストの元にするのは docs/spec.md です。いまのコードの動きを正解にしないでください
+- 「やること（MVP）」と「扱うデータ」に書いてあることを1つずつテストにしてください
+- 「やらないこと」に書いてある機能のテストは作らないでください
+- テストの名前は、何を確かめているのか日本語で分かるようにしてください
+- テスト用のデータは、実際に使っているデータと混ざらない場所に置いてください
+- アプリ本体のコードは書き換えないでください。今回作るのはテストのファイルだけです
+
+■ 先に見せてほしいこと
+テストのファイルを書く前に、「どのテストを作るか」の一覧を、仕様書のどの行に対応するかを添えて出してください。
+一覧を私が確認してから、ファイルを書いてください。</pre>
+    <p><span class="why">なぜ一覧を先に出させるのか：</span>いきなりファイルを書かせると、何十行ものプログラムを渡されて、読めずに通してしまいます。一覧なら日本語なので、仕様書と見比べて「抜けている」「やらないことが混ざっている」とご自身で判断できます。</p>
+    <p><span class="why">なぜ「アプリ本体を書き換えない」と書くのか：</span>テストを書くついでに、通りやすいようにアプリ側も直されることがあります。この段階で本体が変わると、そのあとテストが落ちたときに「もともと壊れていた」のか「いま書き換えられて壊れた」のかが分からなくなります。</p>
+
+    <h3 class="sub">返ってきた一覧の見方</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">仕様書の「やること（MVP）」の各行に、対応するテストがあるか</h3><p class="steps__desc">無い行があれば「〜のテストも足してください」と頼みます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">「やらないこと」の機能が混ざっていないか</h3><p class="steps__desc">混ざっていれば「〜はやらないことなので、そのテストは消してください」と頼みます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">「扱うデータ」の必須の項目に、空のまま保存できないことを確かめるテストがあるか</h3><p class="steps__desc">必須の項目が空でも保存できてしまう不具合は、いちばんよく起きます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">納得したら「この一覧でファイルを書いてください」と送る</h3><p class="steps__desc">書き込みの確認画面では、ファイルの場所がテスト用のファイル（<code>test</code> や <code>tests</code> と付いたフォルダやファイル名）であることを見てから「一度だけ許可」を押します。<span class="why">なぜ：</span>場所が <code>app/</code> の中なら、アプリ本体を書き換えようとしています。「拒否」して、指示の「アプリ本体は書き換えない」をもう一度伝えます。</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 4. 流して直す -->
+<section class="section section--soft" id="run">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-chat.svg" alt=""></span><div><p class="section__kicker">04</p><h2 class="section__title">テストを流して、落ちたら<em>実装側を直させる</em></h2></div></div>
+    <p class="section__lead">
+      テストのファイルができたら、流します。<strong>初めて流したときに、いくつか落ちるのがふつうです。</strong>落ちたテストが、いまのコードと仕様書のずれを示しています。
+    </p>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
+      <strong>落ちたときの原則：直すのは実装側（アプリ本体）で、テストではありません。</strong>
+    </div>
+    <h3 class="sub">なぜ実装側を直すのか</h3>
+    <ul>
+      <li>テストは仕様書の写しです。テストが落ちたのは「アプリが仕様どおりに動いていない」という意味です。ここでテストのほうを書き換えて通すと、<strong>仕様に合っていない動きを「正しい」と宣言した</strong>ことになり、仕様書とアプリのずれが隠れます</li>
+      <li>Claude Code は「テストを通す」ことを目標にすると、<strong>テストの条件をゆるめる・落ちるテストを飛ばす（skip）</strong>という近道を選ぶことがあります。テストは全部通るのに、アプリは直っていません。<strong>指示で先に禁じておきます</strong></li>
+      <li>例外は1つ。<strong>仕様書のほうが間違っている</strong>（書いたあとに考えが変わった、書き方が曖昧だった）場合です。このときは<strong>先に仕様書を直し、そのあとテストを直します</strong>。順番を守れば、仕様書・テスト・アプリの3つがそろったまま進みます</li>
+    </ul>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>skip（テストを飛ばす）</dt><dd>落ちるテストを実行しない印を付けて、結果に出ないようにすること。通ったのと同じに見えるので、結果に skip の文字があったら疑います。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">落ちたテストを渡して、実装側を直させる指示の型</h3>
+<pre class="prompt" data-label="指示②（実装側を直す）― （ ）に落ちたテストを貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">テストを流したら、次のテストが落ちました。
+（落ちたテストの名前と、期待／結果の部分をそのまま貼る）
+
+■ 守ること
+- 直すのはアプリ本体のコードです。テストのファイルは書き換えないでください
+- テストの条件をゆるめる、テストを飛ばす（skip）、テストを消す、はしないでください
+- 直す前に、「なぜ落ちたか（原因）」と「どのファイルのどこを直すか」を先に教えてください。私が確認してから直してください
+- 直したら、落ちたテストだけでなく、全部のテストをもう一度流して結果を教えてください</pre>
+    <p><span class="why">なぜ「原因と直す箇所を先に」なのか：</span>いきなり直されると、何が悪かったのかが分からないまま消えます。同じ不具合が別の場所で出たとき、また一から調べることになります。原因が1行で分かっていれば、次に同じ症状が出たときにご自身で当たりが付けられます。</p>
+    <p><span class="why">なぜ「全部もう一度流す」のか：</span>落ちた1つを直した拍子に、通っていた別のテストが落ちることがあります（デグレ）。落ちたものだけ流し直すと、そこに気づけません。</p>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <strong>テストの結果を読むときに見るのは3つだけです。</strong>① 通った数と落ちた数 ② 落ちたテストの<strong>名前</strong>（何を確かめていたか）③ <strong>期待と結果</strong>。この3つが読めれば、上の指示の型がそのまま書けます。英語のメッセージが長くても、要るのはこの3つだけです。
+    </div>
+
+    <h3 class="sub">仕様書のほうが間違っていたとき</h3>
+<pre class="prompt" data-label="指示③（仕様書を先に直す）― （ ）を差し替えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">落ちたテスト「（名前）」は、仕様書のほうが古いです。
+正しくは「（新しい仕様）」です。
+先に docs/spec.md のその行を直してから、テストをそれに合わせて直してください。
+アプリ本体はそのあとで、必要なら直してください。</pre>
+  </div>
+</section>
+
+<!-- 5. UIテスト -->
+<section class="section" id="ui">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-browser.svg" alt=""></span><div><p class="section__kicker">05</p><h2 class="section__title">UI テストを <em>Claude Code に実施させる</em></h2></div></div>
+    <p class="section__lead">
+      テストコードが通ったら、<strong>画面を実際に操作して</strong>確かめます。Claude Code にブラウザを操作させます（Claude デスクトップアプリに内蔵されているブラウザを使うので、追加で入れるものはありません）。Claude Code はブラウザを開き、入力欄に文字を打ち、ボタンを押し、画面に何が出たかを読んで報告します。
+    </p>
+    <p><span class="why">なぜテストコードのあとに UI テストなのか：</span>テストコードで「データの処理は仕様どおり」と分かったあとなら、UI テストで見つかる不具合は<strong>画面側に絞られます</strong>。先に UI テストをすると、落ちたときに画面の問題かデータの問題かが分かりません。</p>
+<pre class="prompt" data-label="指示④（UIテスト）― 手順を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">ブラウザで http://localhost:3000 を開いて、次の順で操作し、
+各段階で画面のスクリーンショットを撮ってください。
+
+1. 記録を1件登録する
+2. ページを再読み込みして、その記録が残っているか確認する
+3. その記録を編集して、一覧に反映されるか確認する
+4. その記録を削除して、確認が出るか／一覧から消えるか確認する
+5. 記録が1件も無い状態にして、画面が壊れないか確認する
+6. 画面の幅をスマホの幅にして、1〜5 の画面が崩れていないか確認する
+
+途中で想定と違うことが起きたら、そこで止めて、
+何が起きたかと開発者ツールのコンソールの内容を教えてください。
+勝手に直さないでください。</pre>
+    <p><span class="why">なぜ「勝手に直さないでください」と書くのか：</span>確認を頼んだつもりが、そのまま修正まで進んでしまうと、何が起きていたのかを人が見られなくなります。<strong>確認と修正は分けます。</strong></p>
+    <p><span class="why">なぜスクリーンショットを撮らせるのか：</span>「確認しました」という報告だけでは、実際の画面は分かりません。撮らせておけば、報告と画面が食い違っていたときに気づけます。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>http://localhost:3000</dt><dd>自分の PC の中で動いているアプリを、ブラウザで開くときの住所。番号（3000）は構成によって変わります。ターミナルに出ている住所を使ってください。</dd>
+        <dt>開発者ツール</dt><dd>ブラウザに最初から付いている、画面のエラーや通信の記録を見る機能。コンソールは、その中の、画面側のエラーが文字で出る欄です。</dd>
+      </dl>
+    </div>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_warning_sign.png" alt="">
+      <strong>操作を任せるときの握り（3つ）</strong><br>
+      ① 操作させるのは<strong>自分の PC で動かしている開発中のアプリだけ</strong>。仕事で使っているサービスの画面は触らせない<br>
+      ② <strong>テスト用のデータで動かす。</strong>実際の記録が入っている状態で削除の確認をさせない<br>
+      ③ 削除の操作を任せる前に、消えても困らない状態か確かめる<br>
+      <span class="why">なぜここまで握るのか：</span>画面の操作は、確認のつもりでも<strong>実際にデータを消す操作</strong>になります。人が押すときは手が止まりますが、任せた場合は止まりません。
+    </div>
+  </div>
+</section>
+
+<!-- 6. 敵対的テスト -->
+<section class="section section--soft" id="adversarial">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-pitfall.svg" alt=""></span><div><p class="section__kicker">06</p><h2 class="section__title">敵対的テストを <em>Claude Code に実施させる</em></h2></div></div>
+    <p class="section__lead">
+      仕様どおりの操作が通ったら、次は<strong>壊しにいきます</strong>。
+    </p>
+    <p><span class="why">なぜ要るのか：</span>自分で作ったアプリは、自分が想定した使い方でしか触りません。想定どおりに操作している限り不具合は出ないので、<strong>直すべき箇所が見つからないまま「完成」になります</strong>。人に渡した最初の数分で落ちるのは、たいていここで試していない操作です。</p>
+    <h3 class="sub">なぜ自分の手ではなく Claude Code にやらせるのか</h3>
+    <ul>
+      <li>作った本人は「こう使うはず」から抜けられません。<strong>壊す観点を先に列挙させると、自分では思いつかない入力が出てきます</strong></li>
+      <li>連打・極端に長い入力・大量のデータは、手で試すには数が多すぎて続きません</li>
+      <li>ここまでの「テストを流す」「ブラウザを操作させる」の延長なので、任せる相手も道具も増えません</li>
+    </ul>
+
+    <h3 class="sub">壊しにいく観点（8つ）</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="壊しにいく観点 の表">
+      <table class="tbl">
+        <thead><tr><th>観点</th><th>試すこと</th><th>起きがちなこと</th></tr></thead>
+        <tbody>
+          <tr><td><strong>空</strong></td><td>何も入れずに登録・保存する</td><td>空のデータが増える／サーバー側で落ちる</td></tr>
+          <tr><td><strong>極端に長い</strong></td><td>数千文字を貼り付ける</td><td>表示が崩れる。AI 機能があれば1回の費用が跳ね上がる</td></tr>
+          <tr><td><strong>想定外の文字</strong></td><td>絵文字・改行・引用符・<code>&lt;</code> や <code>&gt;</code> を含む文字</td><td>文字が化ける／表示が壊れる</td></tr>
+          <tr><td><strong>0件</strong></td><td>1件も無い状態で一覧・検索・削除を操作する</td><td>真っ白な画面／エラー</td></tr>
+          <tr><td><strong>大量</strong></td><td>数百件を入れた状態で開く</td><td>表示が返ってこない</td></tr>
+          <tr><td><strong>連打</strong></td><td>送信ボタンを続けて押す</td><td>二重に登録される。AI 機能があれば二重に費用がかかる</td></tr>
+          <tr><td><strong>途中で中断</strong></td><td>保存の途中で再読み込みする・戻る</td><td>途中のデータが残る／消える</td></tr>
+          <tr><td><strong>わざと失敗させる</strong></td><td>保存先を一時的に読めなくする／外部サービスの接続を一時的に誤った値にする</td><td>何も表示されないまま止まる</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+<pre class="prompt prompt--plain" data-label="指示⑤（敵対的テスト）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">このアプリを壊すつもりでテストしてください。
+
+1. まず、想定外の入力・操作の候補を一覧で出してください。
+   観点：空／極端に長い／想定外の文字／0件／大量／連打／途中で中断／わざと失敗させる
+   この時点では実行しないでください。
+2. 一覧のうち、私が選んだものだけを実行してください。
+   - データの保存・読み出しに関わるものは、テストコードを書いて実行する
+   - 画面の操作に関わるものは、ブラウザを実際に操作する
+3. 落ちたもの・想定と違う結果になったものは、直す前に次を報告してください。
+   何をしたか／何が起きたか／画面側・通信・サーバー側・保存のどこで止まっていたか
+4. 報告するまで修正はしないでください。</pre>
+    <p><span class="why">なぜ一覧を先に出させて、人が選ぶのか：</span>全部いっぺんに実行させると、直しきれない量の不具合が一度に出てきて手が止まります。承認なしに大量投入や削除まで走ると、保存先のデータが元に戻せなくなります。</p>
+    <p><span class="why">なぜテストコードとブラウザ操作を分けるのか：</span>数百件の投入や連打は、ブラウザで1回ずつ操作すると終わりません。テストコードなら数秒で流せます。逆に「表示が崩れる」「押しても反応しない」はブラウザで見ないと分かりません。<strong>観点ごとに向いている手段が違います。</strong></p>
+    <p><span class="why">なぜここでも「報告するまで修正しない」と書くのか：</span>先に直されると、何が起きていたのかが分からないまま消えます。報告があれば、直したあとにそのテストを<strong>テストコードに足して</strong>、同じ不具合が再発しないようにできます。</p>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
+      <strong>敵対的テストで見つかった不具合は、直したあと、テストコードに足します。</strong>「金額に数千文字を入れても保存されない」「連打しても1件しか登録されない」のように、見つかった分だけテストが増えます。次に流すとき、同じ壊し方は自動で確かめられます。<strong>壊し方を1回見つけたら、以後は人がやらなくて済む</strong>のが、テストコードにする理由です。
+    </div>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <strong>上の握り3つ（開発中のアプリだけ／テスト用のデータ／削除は消えても困らない状態で）は、敵対的テストでいちばん効きます。</strong>大量のデータを入れ、消します。<strong>実際に使っているデータの上ではやらないでください。</strong>
+    </div>
+  </div>
+</section>
+
+<!-- 7. いつ流すか -->
+<section class="section" id="when">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-tasks.svg" alt=""></span><div><p class="section__kicker">07</p><h2 class="section__title">テストを流す頻度は、<em>自分で決める</em></h2></div></div>
+    <p class="section__lead">
+      テストは要ります。しかし、<strong>機能を1つ足すたび・1行直すたびに全部のテストを流していたら、きりがありません</strong>。テストが増えるほど1回に時間がかかり、結果を読む手間も増えます。毎回全部流す決まりにすると、そのうち流さなくなります。<strong>流さないより、決めた節目で必ず流すほうが続きます。</strong>
+    </p>
+    <p><span class="why">なぜ「自分で決める」なのか：</span>流す節目は、アプリの作りと、その日の作業内容で変わります。保存の仕組みを触った日と、ボタンの色を変えた日では、壊れる可能性がまるで違います。決まりを一律に配るより、<strong>「いま流すべきか」をご自身で判断できる</strong>ほうが、あとで1人になったときに使えます。</p>
+
+    <h3 class="sub">判断の目安</h3>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>機能を1つ足し終えた（<code>docs/tasks.md</code> のタスクが1つ終わった）</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">流すか</span>全部流す</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>ここが節目です。次のタスクに進む前に、前の機能が壊れていないと分かっていれば、次に落ちたときの原因は次のタスクに絞れます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>データの保存・読み出しの処理を触った</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">流すか</span>全部流す</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>データは全画面が共有しています。1か所の変更が別の画面に出ます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>文言・色・余白だけを直した</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">流すか</span>流さなくてよい（UI テストの該当画面だけ見る）</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>データの処理は変わっていません。壊れるとすれば見た目だけです</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>数日空けて作業を再開する</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">流すか</span>最初に全部流す</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>前回どこまで動いていたかを、記憶ではなく結果で確かめます。落ちていれば、前回の最後の変更が原因です</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>人に見せる・使ってもらう前</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">流すか</span>全部流す＋UI テスト</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>人が触るときは、自分が想定しない順で押されます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>テストが落ちたのを直した直後</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">流すか</span>全部流す</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>直した拍子に別のテストが落ちるのがデグレです。落ちた1つだけ流し直すと気づけません</dd>
+      </div>
+    </dl>
+    <p><strong>全部か、一部か：</strong>全部流すのに時間がかかるようになったら、「今回の変更に関係するテストだけ流して」と Claude Code に頼めます。<strong>ただし、節目（タスクの完了・人に見せる前）では全部流します。</strong>関係ないと思っていた場所が壊れているのを見つけるのが、全部流す目的だからです。</p>
+
+    <h3 class="sub">決めた節目を CLAUDE.md に書いておく</h3>
+    <p><code>CLAUDE.md</code> は Claude Code が毎回読むファイルです。そこに書いておけば、Claude Code のほうから節目でテストを流すようになります。</p>
+<pre class="prompt" data-label="CLAUDE.md に足す内容 ― （ ）を自分の構成に合わせて"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">## テスト
+- テストを流す命令：（npm test）
+- docs/tasks.md のタスクを1つ終えるごとに、全部のテストを流して結果を報告する
+- 保存・読み出しの処理を変えたときも、全部のテストを流す
+- テストが落ちたら、テストではなく実装側を直す。テストの条件をゆるめない・飛ばさない</pre>
+    <p>Claude Code に「<code>CLAUDE.md</code> に、この内容を足してください」と頼めば書き込んでくれます。<span class="why">なぜ <code>CLAUDE.md</code> に書くのか：</span>自分が忘れても、Claude Code が読みます。「流すのを忘れた」を、人の記憶ではなく仕組みで防ぎます。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>CLAUDE.md</dt><dd>アプリのフォルダに置く、Claude Code への決まりごとを書いたファイル。Claude Code は作業のたびにこれを読みます。</dd>
+        <dt>節目</dt><dd>ここで一度立ち止まって確かめる、と決めた区切り。この回では「タスクが1つ終わったとき」を基本の節目にします。</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 8. 残す -->
+<section class="section section--soft" id="keep">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-file-md.svg" alt=""></span><div><p class="section__kicker">08</p><h2 class="section__title">あとから何度でも<em>流せる形で残す</em></h2></div></div>
+    <p class="section__lead">
+      その場で流せても、数週間後に流し方が分からなければ使われません。次の3つを Claude Code にさせておきます。
+    </p>
+<pre class="prompt prompt--plain" data-label="指示⑥（残す）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">いま作ったテストを、あとから何度でも流せる形にしてください。
+
+- テストを流すコマンドを README に1行で書いてください
+- テストの名前は、何を確かめているのか日本語で分かるようにしてください
+- 落ちたときに、どのテストが落ちたのか読めるようにしてください
+- テスト用のデータは、実際に使っているデータと混ざらない場所に置いてください。
+  テストを流しても、私の記録が消えないことを確かめてください</pre>
+    <ul>
+      <li><span class="why">なぜ実行方法を README に書かせるのか：</span>数週間後には、どう流すのかご自身で分からなくなります。<strong>思い出せない手順は使われません。</strong></li>
+      <li><span class="why">なぜテスト用のデータを分けさせるのか：</span>同じ保存先を使うと、テストを流すたびにご自身の記録が消えます。<strong>1回消えた時点で、テストを流さなくなります。</strong></li>
+      <li><span class="why">なぜ名前を日本語にさせるのか：</span>落ちたテストの名前が <code>test_case_12</code> では、何が壊れたのか分からず、Claude Code への指示も書けません。「金額が空のとき保存されない」なら、そのまま指示に貼れます。</li>
+    </ul>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>README</dt><dd>アプリのフォルダの直下に置く、使い方の説明ファイル。名前は「読んで」の意味で、<code>README.md</code> というファイル名にすることが多いです。</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 9. この回で作るもの -->
+<section class="section" id="deliverables">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-deliverable.svg" alt=""></span><div><p class="section__kicker">Deliverables</p><h2 class="section__title">この回で<em>作るもの</em></h2></div></div>
+    <p class="section__lead">終わったとき、手元に次のものがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
+      </dl>
+    </div>
+    <div class="cards cards--3">
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-spec.svg" alt="">
+        <h3 class="card__title">テストコード一式と、全部通った結果</h3>
+        <p class="card__desc">仕様書の各行に対応したテストのファイルと、流して全部通った状態のスクリーンショット。敵対的テストで見つかった不具合のテストも足した状態で。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-browser.svg" alt="">
+        <h3 class="card__title">UI テストと敵対的テストの記録</h3>
+        <p class="card__desc">Claude Code に撮らせた UI テストのスクリーンショット。敵対的テストの観点の一覧と、実行したもの・見つかったもの・直したもの。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-file-md.svg" alt="">
+        <h3 class="card__title">README と CLAUDE.md</h3>
+        <p class="card__desc"><code>README</code> に書いたテストの実行コマンド（1行）と、<code>CLAUDE.md</code> に書いた「テストを流す節目」。</p>
+      </div>
+    </div>
+    <div class="note">
+      提出の前に、スクリーンショットとファイルに、名前・メールアドレス・業務の実データ・外部サービスの鍵（APIキー）が写っていないかを見てください。写っていたら、範囲を絞って撮り直すか、その部分を塗りつぶします。
+    </div>
+  </div>
+</section>
+
+<!-- 10. つまずき -->
+<section class="section section--soft" id="pitfalls">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-pitfall.svg" alt=""></span><div><p class="section__kicker">Pitfalls</p><h2 class="section__title">よくある<em>つまずき</em>と対処</h2></div></div>
+    <p class="section__lead">詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板）で進めてください。</p>
+    <div class="pitfalls">
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">いまのコードを元にテストを作られた</h3>
+        <p class="pitfall__what">コードの間違いが「正解」として固定され、テストは通るのにアプリは間違ったままになります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>指示に「元にするのは <code>docs/spec.md</code>」「いまのコードの動きを正解にしない」を入れます。一覧を先に出させて、仕様書と見比べます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">テストが落ちたら、テストのほうを直された</h3>
+        <p class="pitfall__what">仕様に合っていない動きが「正しい」ことになり、ずれが隠れます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「直すのはアプリ本体」「テストの条件をゆるめない・飛ばさない・消さない」を指示に入れます。結果に skip が出ていたら疑います。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">落ちたテストだけ流し直して先に進んだ</h3>
+        <p class="pitfall__what">直した拍子に壊れた別の場所（デグレ）に気づけません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>直したあとは全部流します。指示の型に「全部もう一度流して」を入れてあります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">テストの結果が読めない</h3>
+        <p class="pitfall__what">「自分には無理だ」で止まります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>見るのは3つだけです。通った数と落ちた数／落ちたテストの名前／期待と結果。書くのは Claude Code です。それでも分からなければ、結果をそのまま貼って「どのテストが、なぜ落ちたか、1行ずつ日本語で説明して」と頼みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">毎回全部流そうとして、流さなくなった</h3>
+        <p class="pitfall__what">壊れているのに気づかないまま機能が増えます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>節目（タスク完了・保存処理の変更・再開時・人に見せる前）を決めて <code>CLAUDE.md</code> に書きます。見た目だけの変更では流しません。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">観点の一覧を出させたら、いきなり全部実行された</h3>
+        <p class="pitfall__what">直しきれない量の不具合が一度に出て手が止まります。データが戻せなくなることもあります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>指示に「この時点では実行しないでください」「私が選んだものだけ」を入れます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">テストを流したら自分の記録が消えた</h3>
+        <p class="pitfall__what">以後テストを流さなくなります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>テスト用のデータを別の場所に置かせ、「私の記録が消えないことを確かめて」まで指示します。握り3つも守ります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">テストコードだけで確認を終えた</h3>
+        <p class="pitfall__what">押せないボタン・崩れた表示が残ります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>UI テスト（ブラウザ操作）も必ず実施させます。片方では見つからない不具合があります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">敵対的テストで見つけた不具合を直して終わった</h3>
+        <p class="pitfall__what">同じ壊し方で、あとでまた壊れます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>直したあと、その壊し方をテストコードに足させます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">確認を頼んだら Claude Code が勝手に直した</h3>
+        <p class="pitfall__what">何が起きていたかが消えます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「報告するまで修正しない」「勝手に直さない」を指示に入れます。直されてしまったら「いま直した内容を元に戻して、何が起きていたかを先に報告して」と頼みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">テストを流す命令が分からない</h3>
+        <p class="pitfall__what">流せないので、確認が続きません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>Claude Code に「テストを流すコマンドを1行で教えて」と聞き、<code>README</code> に書かせます。「テストを流して」と頼めば Claude Code が流してくれます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">テストを書くときにアプリ本体まで書き換えられた</h3>
+        <p class="pitfall__what">「もともと壊れていた」のか「いま壊された」のか分からなくなります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>書き込みの確認画面で、場所が <code>app/</code> の中なら「拒否」。指示の「アプリ本体は書き換えない」をもう一度伝えます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 用語 -->
+<section class="section" id="glossary">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-glossary.svg" alt=""></span><div><p class="section__kicker">Glossary</p><h2 class="section__title">この回で出てきた<em>用語</em></h2></div></div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
+      <table class="tbl">
+        <thead><tr><th>用語</th><th>意味</th></tr></thead>
+        <tbody>
+          <tr><td><strong>テスト</strong></td><td>アプリが決めたとおりに動くかを、決めた手順で確かめること。何を確かめるかを先に一覧にし、何度でも流せる形にしておく点が、その場の動作確認と違う</td></tr>
+          <tr><td><strong>テストコード</strong></td><td>アプリが正しく動くかを自動で確かめる、確認用のプログラム。決めた手順を1つの命令で流せる。書くのは Claude Code</td></tr>
+          <tr><td><strong>テストが通る／落ちる</strong></td><td>確かめた結果が決めたとおりだった（通る）／違っていた（落ちる）</td></tr>
+          <tr><td><strong>期待／結果</strong></td><td>期待＝テストが「こうなるはず」と決めている値。結果＝実際にアプリが返した値</td></tr>
+          <tr><td><strong>デグレ（リグレッション）</strong></td><td>前まで動いていた機能が、別の変更のせいで動かなくなること</td></tr>
+          <tr><td><strong>仕様書（docs/spec.md）</strong></td><td>要件定義で作った、やること・やらないこと・扱うデータ・画面を書いたファイル。テストの元</td></tr>
+          <tr><td><strong>UI</strong></td><td>User Interface の頭文字。画面に見えている入力欄・ボタン・一覧</td></tr>
+          <tr><td><strong>UI テスト</strong></td><td>画面を実際に操作して、表示と動きを確かめること。この回では Claude Code にブラウザを操作させて行う</td></tr>
+          <tr><td><strong>敵対的テスト</strong></td><td>正しい使い方を確かめるのではなく、壊すことを目的に想定外の入力・操作をわざと試すこと</td></tr>
+          <tr><td><strong>skip（テストを飛ばす）</strong></td><td>落ちるテストを実行しない印を付けて、結果に出ないようにすること。通ったのと同じに見えるので、疑って見る</td></tr>
+          <tr><td><strong>npm test</strong></td><td>Node.js のプロジェクトでテストを流すときによく使う命令。何が流れるかは設定で決まる</td></tr>
+          <tr><td><strong>ターミナル</strong></td><td>文字で PC に命令する画面</td></tr>
+          <tr><td><strong>http://localhost:3000</strong></td><td>自分の PC の中で動いているアプリをブラウザで開くときの住所。番号は構成によって変わる</td></tr>
+          <tr><td><strong>開発者ツール／コンソール</strong></td><td>ブラウザに最初から付いている、画面のエラーや通信の記録を見る機能。コンソールは画面側のエラーが文字で出る欄</td></tr>
+          <tr><td><strong>節目</strong></td><td>ここで一度テストを流す、と決めた区切り。基本は「タスクが1つ終わったとき」</td></tr>
+          <tr><td><strong>CLAUDE.md</strong></td><td>アプリのフォルダに置く、Claude Code への決まりごとを書いたファイル。テストを流す節目をここに書く</td></tr>
+          <tr><td><strong>README</strong></td><td>アプリのフォルダの直下に置く、使い方の説明ファイル。テストの実行コマンドをここに書く</td></tr>
+          <tr><td><strong>commmune</strong></td><td>DMM 生成AI CAMP の受講生向けコミュニティサイト</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p><a class="backlink" href="../../">← Home（ゼミ全体の案内）へ戻る</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
+    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+  </div>
+</footer>
+
+</body>
+</html>
