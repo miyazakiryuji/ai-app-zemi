@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+  <title id="title">API 連携の形：画面 → 自分のサーバー → AI のサービス</title>
+  <desc id="desc">画面は自分のサーバーに要求を送り、サーバーが .env にある API キーを付けて AI のサービスを呼ぶ。画面から AI のサービスを直接呼ぶ形は取らない、という図。</desc>
+  <defs>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0L10 5L0 10Z" fill="#4DA8FF"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0L10 5L0 10Z" fill="#FF8C42"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="520" fill="#FFF9F0"/>
+
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text x="36" y="42" font-size="24" font-weight="700">API 連携の形：画面 → 自分のサーバー → AI のサービス</text>
+
+    <!-- 画面 -->
+    <rect x="36" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
+    <rect x="60" y="120" width="192" height="112" rx="10" fill="#F4F6FB" stroke="#5A6178" stroke-opacity="0.35" stroke-width="2"/>
+    <rect x="60" y="120" width="192" height="22" rx="10" fill="#5A6178" fill-opacity="0.18"/>
+    <rect x="80" y="160" width="152" height="18" rx="6" fill="#FFFFFF" stroke="#5A6178" stroke-opacity="0.4" stroke-width="1.5"/>
+    <rect x="80" y="190" width="104" height="26" rx="8" fill="#4DA8FF"/>
+    <text x="132" y="208" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">今月を振り返る</text>
+    <text x="156" y="262" font-size="20" font-weight="700" text-anchor="middle">画面（ブラウザ）</text>
+    <text x="156" y="284" font-size="14" fill="#5A6178" text-anchor="middle">中身は誰でも見られる</text>
+
+    <!-- 自分のサーバー -->
+    <rect x="360" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2.5"/>
+    <text x="480" y="132" font-size="20" font-weight="700" text-anchor="middle">自分のサーバー</text>
+    <text x="480" y="154" font-size="14" fill="#5A6178" text-anchor="middle">自分の PC で動くプログラム</text>
+    <rect x="384" y="172" width="192" height="96" rx="12" fill="#FFF9F0" stroke="#FFE2C7" stroke-width="2"/>
+    <text x="400" y="198" font-size="16" font-weight="700">.env</text>
+    <text x="400" y="222" font-size="14" fill="#5A6178">ANTHROPIC_API_KEY=</text>
+    <rect x="400" y="232" width="150" height="16" rx="6" fill="#ECE9E4"/>
+    <text x="475" y="258" font-size="13" fill="#5A6178" text-anchor="middle">API キーはここにだけ置く</text>
+
+    <!-- AI のサービス -->
+    <rect x="684" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
+    <circle cx="804" cy="152" r="28" fill="#FFD166"/>
+    <path d="M804 134V170M786 152H822M792 140L816 164M816 140L792 164" fill="none" stroke="#2A2F45" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="804" y="216" font-size="20" font-weight="700" text-anchor="middle">AI のサービス</text>
+    <text x="804" y="240" font-size="14" fill="#5A6178" text-anchor="middle">Claude／OpenAI／Gemini</text>
+    <text x="804" y="262" font-size="14" fill="#5A6178" text-anchor="middle">インターネット上</text>
+
+    <!-- 矢印：画面→サーバー -->
+    <path d="M280 160H344" fill="none" stroke="#4DA8FF" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <rect x="278" y="118" width="80" height="26" rx="13" fill="#4DA8FF" fill-opacity="0.12"/>
+    <text x="318" y="136" font-size="14" font-weight="700" text-anchor="middle">① 要求</text>
+    <!-- 矢印：サーバー→AI -->
+    <path d="M604 160H668" fill="none" stroke="#4DA8FF" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <rect x="590" y="118" width="94" height="26" rx="13" fill="#4DA8FF" fill-opacity="0.12"/>
+    <text x="637" y="136" font-size="14" font-weight="700" text-anchor="middle">② キー付き</text>
+    <!-- 矢印：AI→サーバー -->
+    <path d="M668 236H604" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+    <rect x="590" y="246" width="94" height="26" rx="13" fill="#FF8C42" fill-opacity="0.12"/>
+    <text x="637" y="264" font-size="14" font-weight="700" text-anchor="middle">③ 生成文</text>
+    <!-- 矢印：サーバー→画面 -->
+    <path d="M344 236H280" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+    <rect x="278" y="246" width="80" height="26" rx="13" fill="#FF8C42" fill-opacity="0.12"/>
+    <text x="318" y="264" font-size="14" font-weight="700" text-anchor="middle">④ 表示</text>
+
+    <!-- やらない形 -->
+    <path d="M156 300V352H804V300" fill="none" stroke="#E5484D" stroke-width="3" stroke-dasharray="9 7" stroke-linecap="round"/>
+    <rect x="368" y="334" width="224" height="36" rx="18" fill="#FFFFFF" stroke="#E5484D" stroke-width="2"/>
+    <line x1="392" y1="352" x2="410" y2="352" stroke="#E5484D" stroke-width="3" stroke-linecap="round"/>
+    <line x1="401" y1="343" x2="401" y2="361" stroke="#E5484D" stroke-width="3" stroke-linecap="round" transform="rotate(45 401 352)"/>
+    <text x="420" y="358" font-size="15" font-weight="700" fill="#E5484D">画面から直接呼ばない</text>
+
+    <!-- 下の説明 -->
+    <rect x="36" y="392" width="888" height="104" rx="16" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
+    <circle cx="62" cy="420" r="8" fill="#6FD49D"/>
+    <path d="M58 420H66M62 416V424" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    <text x="84" y="426" font-size="18" font-weight="700">API キーを使うのは自分のサーバーだけ。画面のコードにキーを書かない</text>
+    <text x="84" y="454" font-size="15" fill="#5A6178">画面のコードは開発者ツールで誰でも読める。そこにキーがあると、他人が自分の請求でサービスを使える</text>
+    <text x="84" y="478" font-size="15" fill="#5A6178">サーバーが間にあれば、AI のサービスを別のものに変えても画面側は直さなくてよい</text>
+  </g>
+</svg>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIアプリ開発入門ゼミ ｜ 第4回 API 連携で AI 機能を入れ、データの持ち方を決める</title>
+<meta name="description" content="AIアプリ開発入門ゼミ 第4回。API 連携の仕組み、Claude・OpenAI・Gemini の API キーの発行と安全な置き方、経路を先に通してから AI に差し替える手順、上限設定、そしてデータの4つの置き場（ブラウザ・PC のファイル・Turso・スプレッドシート）の選び方。">
+<link rel="stylesheet" href="../../assets/site.css">
+<script>document.documentElement.classList.add("js");
+setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("is-ready")){r.classList.remove("js");}},2500);</script>
+<script src="../../assets/site.js" defer></script>
+</head>
+<body class="lesson">
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
+    <nav class="site-header__nav">
+      <a href="#what">API 連携とは</a>
+      <a href="#choose">サービスを選ぶ</a>
+      <a href="#key">API キー</a>
+      <a href="#issue">キーを発行する</a>
+      <a href="#ai">AI 機能を入れる</a>
+      <a href="#storage">データの持ち方</a>
+      <a href="#deliverables">この回で作るもの</a>
+      <a href="#pitfalls">つまずき</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ヒーロー -->
+<section class="hero hero--lesson">
+  <div class="hero__inner">
+    <div>
+      <p class="crumbs"><a href="../../">Home</a> ／ 第4回</p>
+      <p class="hero__kicker">LESSON 04 ／ 作るフェーズ</p>
+      <h1 class="hero__title">API 連携で AI 機能を入れ、<em>データの持ち方を決める</em></h1>
+      <p class="hero__sub">～ 自分のアプリから AI のサービスを呼び出し、データをどこに置くかを仕組みと消える条件から選ぶ ～</p>
+      <ul class="hero__facts">
+        <li>Claude デスクトップアプリを使います</li>
+        <li>AI のサービスの契約（Claude／OpenAI／Gemini のどれか）が要ります</li>
+        <li>成果物：AI 機能が1つ動くアプリ＋上限設定の画面</li>
+        <li>この回で初めて、データが自分の PC の外に出ます</li>
+      </ul>
+    </div>
+    <div class="hero__mascot">
+      <img src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="now">
+  <div class="now__inner">
+    <div class="now__icon"><img src="../../assets/icons/icon-app.svg" alt=""></div>
+    <div>
+      <p class="now__label">この回の前に用意しておくもの</p>
+      <p class="now__title">画面と保存ができている自分のアプリ ＋ Claude デスクトップアプリ ＋ AI のサービスのアカウント</p>
+      <p class="now__meta">アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、画面（<code>app/</code>）と仕様書（<code>docs/spec.md</code>）がある状態から始めます。
+        AI のサービスは、このページの「サービスを選ぶ」を読んで1つ決め、アカウントを作っておいてください（キーの発行はこのページの手順で行います）。
+        支払い方法の登録を求められることがあります。料金と無料で使える範囲は変わることがあるので、契約の前に各サービスの公式ページでご確認ください。</p>
+    </div>
+    <div class="now__actions">
+      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--ghost" href="../../">Home へ戻る</a>
+    </div>
+  </div>
+</div>
+
+<!-- 1. API 連携とは -->
+<section class="section" id="what">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-stack.svg" alt=""></span><div><p class="section__kicker">01</p><h2 class="section__title">API 連携とは</h2></div></div>
+    <p class="section__lead">
+      <strong>API</strong> とは、他のプログラムやサービスの機能を、決められた形式の要求を送って使う仕組みです。要求の送り先（URL）、送る内容の形、返ってくる内容の形があらかじめ決まっていて、その決まりに従って送れば、相手のプログラムを自分のアプリから動かせます。<strong>API 連携</strong>は、自分のアプリの中から外部サービスの API を呼び出して、その結果を自分の画面に使うことです。
+    </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>API</dt><dd>Application Programming Interface の頭文字。プログラムから別のプログラムやサービスの機能を呼び出すための、決められた呼び出し方。送り先の URL、送る内容の形、返る内容の形が決まっています。</dd>
+        <dt>リクエスト／レスポンス</dt><dd>リクエストは API に送る要求。レスポンスはそれに対して返ってくる答え。API の呼び出しは、この1往復で成り立ちます。</dd>
+        <dt>URL</dt><dd>インターネット上の場所を表す文字列。ブラウザのアドレス欄に入れるものと同じです。API では「どこに要求を送るか」を表します。</dd>
+        <dt>JSON</dt><dd>データを決まった書き方の文字で表す形式。項目名と値の組を <code>{ "amount": 500, "memo": "昼食" }</code> のように書きます。API のリクエストとレスポンスの多くはこの形です。</dd>
+      </dl>
+    </div>
+    <p>ふだん使っているアプリも、裏では API を呼んでいます。たとえば、天気アプリは気象情報のサービスの API から今日の予報を受け取って表示し、地図アプリは経路検索の API に出発地と目的地を送って経路を受け取っています。<strong>AI 機能も同じ形</strong>で、自分のアプリから AI のサービスの API に文章を送り、生成された文章を受け取って画面に出します。</p>
+
+    <h3 class="sub">API 連携をするときの形（この回でいちばん大事なこと）</h3>
+    <p>自分のアプリから AI のサービスを呼ぶときは、<strong>画面（ブラウザ）から直接呼ばず、自分のサーバーを経由します。</strong></p>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson04/diagram_api_route.svg" alt="API 連携の形。画面はまず自分のサーバーに要求を送り、サーバーが API キーを付けて AI のサービスを呼ぶ。生成された文章はサーバーを通って画面に表示される。画面から AI のサービスを直接呼ぶ形は取らない" loading="lazy">
+      <figcaption>API 連携の形。画面はまず自分のサーバーに要求を送り、サーバーが API キーを付けて AI のサービスを呼びます。画面から AI のサービスを直接呼ぶ形にはしません</figcaption>
+    </figure>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>画面側（フロントエンド）</dt><dd>ブラウザの中で動く部分。HTML／CSS／JavaScript でできていて、<strong>その中身は開発者ツールで誰でも見られます。</strong></dd>
+        <dt>サーバー側（バックエンド）</dt><dd>利用者から見えない場所で動く部分。自分の PC で <code>node server.js</code> のように起動しているプログラムがこれに当たります。秘密の文字列を使う処理や、ファイルの読み書きはここで行います。</dd>
+        <dt>開発者ツール</dt><dd>ブラウザに標準で付いている、画面の中身や通信の内容やエラーを調べる機能。Chrome では <kbd>F12</kbd>（Mac は <kbd>⌥⌘I</kbd>）で開きます。</dd>
+      </dl>
+    </div>
+    <h3 class="sub">なぜサーバーを経由するのか</h3>
+    <ul>
+      <li>AI のサービスを呼ぶには、次の節で扱う <strong>API キー</strong>が要ります。画面側のコードに書くと、開発者ツールで誰でもそのキーを読めます。読んだ人は、ご自身の請求でそのサービスを使い放題になります</li>
+      <li>サーバー側に置いたキーは、ブラウザからは見えません。<strong>キーを使う処理は、必ず見えない場所に置きます</strong></li>
+      <li>自分のサーバーを間にはさんでおくと、あとで AI のサービスを別のものに変えるときも、画面側は一切直さずに済みます</li>
+    </ul>
+
+    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
+    <div class="flow">
+      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">API を知る</p><p class="flow__desc">呼び出しの形と、サーバー経由の理由</p></div>
+      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">サービスを選ぶ</p><p class="flow__desc">Claude／OpenAI／Gemini</p></div>
+      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">キーを発行</p><p class="flow__desc">管理画面で作り、.env に置く</p></div>
+      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">経路を先に通す</p><p class="flow__desc">AI を呼ばずに固定の文章を返す</p></div>
+      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">AI に差し替え</p><p class="flow__desc">サーバー側だけを直す</p></div>
+      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">上限を設定</p><p class="flow__desc">管理画面で使いすぎを止める</p></div>
+      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">データの持ち方</p><p class="flow__desc">4つの置き場から選ぶ</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. サービスを選ぶ -->
+<section class="section section--soft" id="choose">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-define.svg" alt=""></span><div><p class="section__kicker">02</p><h2 class="section__title">AI のサービスを選ぶ：<em>Claude／OpenAI／Gemini</em></h2></div></div>
+    <p class="section__lead">
+      AI の API を提供しているサービスのうち、このゼミで扱うのは次の3つです。<strong>特定の1社を推奨はしません。</strong>3つとも「管理画面でキーを発行する → キーを <code>.env</code> に置く → サーバー側から呼ぶ」という同じ並びで使えるので、どれを選んでも以降の手順は変わりません。
+    </p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="サービス・提供元・管理画面の表">
+      <table class="tbl">
+        <thead><tr><th>サービス</th><th>提供元</th><th>管理画面の名前</th><th>開く場所</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Claude API</strong></td><td>Anthropic</td><td>Claude Console（Claude Platform）</td><td><a href="https://platform.claude.com/" target="_blank" rel="noopener">platform.claude.com</a></td></tr>
+          <tr><td><strong>OpenAI API</strong>（ChatGPT と同じモデルを API で使う）</td><td>OpenAI</td><td>OpenAI Platform</td><td><a href="https://platform.openai.com/" target="_blank" rel="noopener">platform.openai.com</a></td></tr>
+          <tr><td><strong>Gemini API</strong></td><td>Google</td><td>Google AI Studio</td><td><a href="https://aistudio.google.com/" target="_blank" rel="noopener">aistudio.google.com</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      管理画面の名前・URL・ボタンの文言は変わることがあります。このページの画面と違うときは、「API キー」「Billing（請求）」「Limits（上限）」に相当するものを探してください。<strong>料金と無料で使える範囲は短い期間で変わるので、このページには書きません。</strong>契約の前に、必ず各サービスの公式ページでご確認ください。
+    </div>
+
+    <h3 class="sub">選ぶときに見る4つの観点</h3>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>費用</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見るところ</span>無料で試せる範囲があるか。使った分だけの支払いか、前払いか</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>作っている途中で何度も呼びます。試す段階で費用がかかると手が止まります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>扱える入力</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見るところ</span>文章だけか、画像や PDF も渡せるか</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>変換型で「写真から読み取る」ような機能を考えているなら、ここで決まります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>上限設定</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見るところ</span>管理画面に「月にここまで」という上限を置けるか</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>作りを間違えて何度も呼ばれたとき、被害を金額で止められます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>日本語の出力</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見るところ</span>自分の用途の文章が自然に返ってくるか</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>要約や言い換えは、日本語の品質がそのまま使いやすさになります</dd>
+      </div>
+    </dl>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>モデル</dt><dd>呼び出す AI の種類。同じサービスの中に、速いもの・賢いもの・安いものなど複数あり、名前を指定して呼び分けます。名前は変わることがあるので、公式ページで確認します。</dd>
+        <dt>トークン</dt><dd>AI のサービスが文章を数える単位。送った文章と返ってきた文章の両方がトークンで数えられ、料金はその数で決まります。日本語は1文字が1トークン以上になることが多いです。</dd>
+        <dt>無料枠</dt><dd>契約直後や一定量までは無料で使える範囲。あるかどうか、どこまでかはサービスごとに違い、変わることがあります。</dd>
+        <dt>上限設定</dt><dd>サービスの管理画面で「月あたりここまで」と決めておく設定。超えると呼び出しが止まります。</dd>
+      </dl>
+    </div>
+    <p><span class="why">なぜ推奨を置かないのか：</span>料金も無料枠も短い期間で変わります。1社を推奨として固定すると、条件が変わったときに全員が不利な選択をしたままになります。観点を渡して、その時点でご自身に合うものを選べる状態にしておきます。</p>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
+      <strong>選んだサービスは、この回の課題を出すときに一緒に書いてください。</strong>同じサービスの環境で見ないと、詰まったときに再現できず、講評ができません。迷ったら、ゼミで使っている Claude と同じ提供元の Claude API にすると、契約と使用量の管理画面が1つにまとまります。
+    </div>
+  </div>
+</section>
+
+<!-- 3. API キー -->
+<section class="section" id="key">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-key.svg" alt=""></span><div><p class="section__kicker">03</p><h2 class="section__title">API キー：<em>パスワードと同じ扱い</em>をする</h2></div></div>
+    <p class="section__lead">
+      <strong>API キー</strong>は、そのサービスに「自分として」アクセスするための長い文字列です。これを付けて要求を送ると、サービスは「この人からの要求」と判断し、使った分をその人に請求します。
+    </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>API キー</dt><dd>サービスが発行する、本人確認のための長い文字列。<code>sk-ant-…</code>（Claude）、<code>sk-…</code>（OpenAI）、<code>AIza…</code>（Gemini）のような決まった文字で始まることが多いです（形式は変わることがあります）。</dd>
+        <dt>.env</dt><dd>API キーのような秘密の文字列を書いておくファイル。アプリのフォルダの直下に置きます。名前は「環境（environment）」の略です。</dd>
+        <dt>環境変数</dt><dd>プログラムの外側から渡す設定値。<code>.env</code> に書いた内容は、起動時に環境変数として読み込まれ、サーバー側のプログラムから <code>process.env.ANTHROPIC_API_KEY</code> のような名前で取り出せます。</dd>
+        <dt>.gitignore</dt><dd>共有の場所に上げないファイルの名前を書いておく一覧。ここに <code>.env</code> を書いておくと、コードを共有するときに <code>.env</code> だけが除かれます。</dd>
+      </dl>
+    </div>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_warning_sign.png" alt="">
+      <strong>絶対にやってはいけないこと（3つ）</strong><br>
+      ① 画面側のコード（HTML や JavaScript）に書く<br>
+      ② GitHub などコードを共有する場所に上げる<br>
+      ③ スクリーンショットに写ったまま提出する・掲示板に貼る
+    </div>
+    <p><span class="why">なぜ画面側に書いてはいけないのか：</span>ブラウザで動くコードは、開発者ツールを開けば誰でも読めます。キーが読まれると、他人がご自身の請求でそのサービスを使い放題になります。<strong>キーは「使うと請求が来るパスワード」</strong>であって、設定値ではありません。</p>
+    <p><span class="why">なぜスクリーンショットまで気にするのか：</span>管理画面でキーを作った直後の画面や、<code>.env</code> を開いた画面をそのまま撮ると、キーの全文が写ります。掲示板や提出物に貼った時点で、見た人全員がそのキーを使えます。<strong>写ってしまったら、貼り直すのではなく、管理画面でそのキーを無効化して作り直します。</strong></p>
+
+    <h3 class="sub">キーの置き方（この順で）</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">アプリのフォルダの直下に <code>.gitignore</code> があるか確認し、無ければ作って <code>.env</code> の1行を書く</h3><p class="steps__desc"><span class="why">なぜ先に .gitignore か：</span><code>.env</code> を先に作ると、確認する前に共有の場所へ上がる事故が起きます。上げない設定を先に済ませてからキーを置きます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title"><code>.env</code> を作り、<code>ANTHROPIC_API_KEY=ここに発行したキーを貼る</code> の形で1行書く</h3><p class="steps__desc"><code>=</code> の前がプログラムから呼ぶときの名前、後ろが発行したキーです。<strong>引用符も空白も付けません。</strong></p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">サーバー側のプログラムからだけ読む</h3><p class="steps__desc">画面側からは読めないのが正しい状態です。</p></div></li>
+    </ol>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="サービスごとの .env の名前の表">
+      <table class="tbl">
+        <thead><tr><th>サービス</th><th><code>.env</code> に書く名前（例）</th><th>公式の説明で確認するもの</th></tr></thead>
+        <tbody>
+          <tr><td>Claude API</td><td><code>ANTHROPIC_API_KEY</code></td><td>キーの発行場所・モデル名・上限設定の場所</td></tr>
+          <tr><td>OpenAI API</td><td><code>OPENAI_API_KEY</code></td><td>同上</td></tr>
+          <tr><td>Gemini API</td><td><code>GEMINI_API_KEY</code></td><td>同上</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <div class="note">
+      名前はご自身で決めてもよいのですが、上の名前にしておくと、Claude Code が公式の書き方どおりのコードを作りやすくなります（各社の公式ライブラリが、この名前の環境変数を自動で読む作りになっています）。
+    </div>
+    <p>Claude Code に <code>.env</code> と <code>.gitignore</code> を用意させる指示の型です。そのまま貼って送ります。</p>
+<pre class="prompt prompt--plain" data-label="キーの置き場を用意させる指示 ― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">APIキーを安全に置く準備をしてください。まだAIは呼びません。
+1. アプリのフォルダ直下に .gitignore が無ければ作り、.env と node_modules の2行を入れてください（あれば追記）
+2. .env.example というファイルを作り、ANTHROPIC_API_KEY= の1行だけ書いてください（値は空のまま）
+3. .env そのものは作らないでください。私が自分で作ります
+完成条件：.gitignore に .env が入っていること。.env.example があること。</pre>
+    <p><span class="why">なぜ .env は自分で作るのか：</span>キーの文字列を Claude Code の入力欄に貼ると、やり取りの記録に残ります。キーはご自身の手でファイルに貼り、AI には「<code>.env</code> から読む」とだけ伝えます。</p>
+  </div>
+</section>
+
+<!-- 4. キーを発行する -->
+<section class="section section--soft" id="issue">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-browser.svg" alt=""></span><div><p class="section__kicker">04</p><h2 class="section__title">各サービスで<em>キーを発行する</em></h2></div></div>
+    <p class="section__lead">
+      3つとも「ログイン → API キーの画面 → 作成 → 表示されたキーをその場で <code>.env</code> に貼る」の流れです。<strong>キーは作った直後にしか全文が表示されないサービスが多いです。</strong>画面を閉じる前に <code>.env</code> に貼り、貼れたことを確認してから閉じます。選んだサービスの節だけ読めば足ります。
+    </p>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      支払い方法の登録を求められることがあります。登録するときは、<strong>同じ画面で上限設定（<a href="#ai">「AI 機能を入れる」の手順6</a>）まで一緒に済ませます。</strong>登録だけして上限を置かないまま作り始めないでください。
+    </div>
+
+    <h3 class="sub">4-1. Claude API（Anthropic）</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title"><a href="https://platform.claude.com/" target="_blank" rel="noopener">platform.claude.com</a> を開き、Google アカウントかメールアドレスでログインする</h3><p class="steps__desc"><span class="why">なぜ：</span>API キーはアカウントに紐づきます。ゼミで使っている Claude のアカウントと同じものでログインすると、契約と使用量を1つの画面で見られます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">「使用クレジットを購入して開始する」が出たら、ここでは買わず「今はスキップ」</h3><p class="steps__desc"><span class="why">なぜ：</span>キーを作って <code>.env</code> に置く前に払うと、置き場の確認が後回しになります。買うのは経路が通ってからで間に合います。左のメニュー「組織の設定」→「API キー」を開きます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">「キーを作成」を押し、名前と有効期限を決めて「キーを作成」</h3><p class="steps__desc">途中で「ID 連携を使用すれば、API キーは不要です」という案内が出たら「API キーで続ける」を選びます（ID 連携はクラウド上で動かす場合の仕組みで、ご自身の PC で動かすアプリには使いません）。キーの全文が1回だけ表示されるので、<strong>その場で <code>.env</code> に貼ります。</strong></p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">「請求」の画面でクレジットを購入する</h3><p class="steps__desc">Claude API は<strong>前払い</strong>で、買ったクレジットの範囲でしか使えません。<span class="why">なぜここが上限設定を兼ねるのか：</span>前払いの残高が上限そのものになります。作りを間違えて何度も呼ばれても、残高が尽きたところで止まります。最初は少額で十分です。金額の選択肢は変わることがあります。</p></div></li>
+    </ol>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_claude_login.png" alt="Claude Console のログイン画面。Google で続行か、メールアドレスで続けるかを選ぶ" loading="lazy">
+        <figcaption>Claude Console のログイン画面。ゼミで使っている Claude と同じアカウントでログインできます</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_claude_keys.png" alt="Claude Console の「API キー」画面。右上に「キーを作成」、上の枠に評価用の無料プランであることと「お支払いを設定する」が出ている" loading="lazy">
+        <figcaption>「API キー」の画面。右上の「キーを作成」から作ります。上の枠に、いま無料の評価用プランであることと「お支払いを設定する」が出ています</figcaption>
+      </figure>
+    </div>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_claude_create.png" alt="「API キーを作成」の画面。名前・有効期限・リンクされたアカウント・スコープを決める" loading="lazy">
+        <figcaption>「API キーを作成」の画面。名前・有効期限・キーを紐づけるアカウントを決めます。有効期限を短くしておくと、漏れたときの被害がその期間で止まります</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_claude_billing.png" alt="「請求」の画面。「クレジットを購入して開始」と購入ボタンがある" loading="lazy">
+        <figcaption>「請求」の画面。クレジットを購入すると API を呼べるようになります。買った分が上限になります</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">4-2. OpenAI API（OpenAI）</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title"><a href="https://platform.openai.com/" target="_blank" rel="noopener">platform.openai.com</a> を開き、ログインする</h3><p class="steps__desc">ChatGPT を使っているアカウントでログインできますが、<strong>ChatGPT の有料プランと API の契約は別</strong>で、API は使った分だけの支払いになります。<span class="why">なぜ確認するのか：</span>ChatGPT の月額を払っていれば API も使えると思って作り始め、認証エラーで止まる人が多いためです。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">左のメニュー「API Keys」→ 右上の「Create new secret key」</h3><p class="steps__desc">名前を付け、Permissions は「All」のまま「Create secret key」を押します。キーの全文が1回だけ表示されるので、<strong>その場で <code>.env</code> に貼ります。</strong></p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">「Settings」→「Billing」で支払い方法を登録する</h3><p class="steps__desc">画面に「API credits are separate from ChatGPT」（API のクレジットは ChatGPT とは別）と書いてあるとおり、<strong>ChatGPT の契約とは別に、ここで API 用の残高を入れます。</strong></p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">「Billing」の「Usage limits」で月あたりの上限を設定する</h3><p class="steps__desc">支払い方法の登録後に設定できるようになります。「Limits」の画面には、1分あたりに送れる回数（レート制限）と、購入額に応じた段階（Tier）が出ます。</p></div></li>
+    </ol>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_openai_login.png" alt="OpenAI Platform のログイン画面。メールアドレスか Google・Apple・Microsoft のアカウントで続ける" loading="lazy">
+        <figcaption>OpenAI Platform のログイン画面。ChatGPT のアカウントでログインできますが、API の契約は別です</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_openai_keys.png" alt="OpenAI Platform の「API keys」画面。右上に「Create new secret key」。一覧には名前・作成日・最後に使った日とキーの末尾だけが出る" loading="lazy">
+        <figcaption>「API keys」の画面。作ったキーは名前・作成日・最後に使った日と、キーの末尾だけが一覧に出ます</figcaption>
+      </figure>
+    </div>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_openai_create.png" alt="「Create new secret key」の画面。Owned by・Name・Project・Permissions を決める" loading="lazy">
+        <figcaption>「Create new secret key」の画面。名前は任意。Project は「Default project」のままで構いません</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_openai_billing.png" alt="「Billing」の画面。Free trial・Credit remaining $0.00・API credits are separate from ChatGPT・Usage limits の項目がある" loading="lazy">
+        <figcaption>「Billing」の画面。ChatGPT とは別の残高で、ここに支払い方法を登録します。「Usage limits」から月あたりの上限を決められます（支払い方法の登録後に有効）</figcaption>
+      </figure>
+    </div>
+    <figure class="figure">
+      <img src="../../assets/images/lesson04/r4_openai_limits.png" alt="「Limits」の画面。上に購入額に応じた Usage Tiers、下にモデルごとの Rate limits（1分あたりの回数と文字量の上限）" loading="lazy">
+      <figcaption>「Limits」の画面。上が購入額に応じた段階、下がモデルごとの1分あたりの回数と文字量の上限です。無料枠では回数が少なく設定されています</figcaption>
+    </figure>
+
+    <h3 class="sub">4-3. Gemini API（Google）</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title"><a href="https://aistudio.google.com/" target="_blank" rel="noopener">aistudio.google.com</a> を開き、Google アカウントでログインする</h3><p class="steps__desc">左のメニューに「API キー」があります。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">右上の「API キーを作成」を押し、名前とプロジェクトを決めて「キーを作成」</h3><p class="steps__desc">初めてなら用意されている「Default Gemini Project」のままで構いません。<span class="why">なぜプロジェクトを聞かれるのか：</span>Google はキーや使用量を「プロジェクト」という単位で管理します。アプリ1つに1プロジェクトが基本ですが、まずは既定のもので進めて差し支えありません。表示されたキーは<strong>その場で <code>.env</code> に貼ります。</strong>一覧に戻ると、作ったキーは末尾の数文字だけが表示されます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">左のメニュー「課金」で、支払い方法の設定を確認する</h3><p class="steps__desc">Gemini API は支払い方法を設定しなくても無料枠の範囲で使い始められます（範囲は変わることがあります。「レート制限」の画面で確認できます）。設定するときは、同時に上限も置きます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">「使用量」の画面で、要求の回数とエラーの回数を見る</h3><p class="steps__desc">AI 機能を入れたあと、<strong>この画面を1日1回は見る習慣を付けてください。</strong><span class="why">なぜ：</span>作りを間違えて何度も呼ばれている場合、ここの回数が想定と桁違いになります。請求が来てから気づくのでは遅いためです。</p></div></li>
+    </ol>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_gemini_keys.png" alt="Google AI Studio の「API キー」画面。右上に「API キーを作成」。一覧にはキーの末尾・プロジェクト・作成日・請求階層（無料枠）が出る" loading="lazy">
+        <figcaption>Google AI Studio の「API キー」画面。右上の「API キーを作成」から作ります。一覧には作成日と、無料枠か有料かの区分（請求階層）が出ます</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_gemini_create_dialog.png" alt="「新しいキーを作成する」の画面。キー名とインポートしたプロジェクトを選んで「キーを作成」" loading="lazy">
+        <figcaption>「新しいキーを作成する」の画面。名前を付けて「キーを作成」を押すと、キーの全文が表示されます。表示されたらその場で .env に貼ります</figcaption>
+      </figure>
+    </div>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_gemini_billing.png" alt="「課金」の画面。前払いのお支払い方法が設定されていない状態と「前払いを設定」ボタン" loading="lazy">
+        <figcaption>「課金」の画面。支払い方法を設定していない状態では無料枠で使えます。設定するときは同時に上限も置きます</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_gemini_usage.png" alt="「使用量」の画面。API リクエストの合計数・API エラーの合計数・モデルごとのトークン数のグラフ" loading="lazy">
+        <figcaption>「使用量」の画面。要求の回数・エラーの回数・モデルごとのトークン数が出ます。入れた直後の異常は、ここの回数で気づけます</figcaption>
+      </figure>
+    </div>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>Google Cloud のプロジェクト</dt><dd>Google のサービスで、キーや使用量や請求をまとめる単位。Gemini のキーはどれかのプロジェクトに属します。</dd>
+        <dt>レート制限</dt><dd>短い時間に送れる要求の回数の上限。無料枠では1分あたりの回数が少なく設定されています。超えると一時的にエラーになります。</dd>
+        <dt>前払い（クレジット）</dt><dd>先に金額を入れておき、その範囲で使う方式。残高が尽きると呼び出しが止まるので、上限の役目を兼ねます。</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 5. AI 機能を入れる -->
+<section class="section" id="ai">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-chat.svg" alt=""></span><div><p class="section__kicker">05</p><h2 class="section__title">AI 機能を入れる：<em>経路を先に通してから</em>、中身を差し替える</h2></div></div>
+    <p class="section__lead">
+      ここでやるのは「自分のアプリのサーバー側から AI のサービスに文章を送り、返ってきた文章を画面に出す」ことです。<strong>次の順番を崩さないでください。</strong>
+    </p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="AI 機能を入れる6つの手順の表">
+      <table class="tbl">
+        <thead><tr><th>順</th><th>やること</th><th>なぜこの順か</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>サービスを決めて、キーを発行する（<a href="#issue">前の節</a>）</td><td>3つとも同じ並びです</td></tr>
+          <tr><td>2</td><td><code>.gitignore</code> に <code>.env</code> を入れてから、キーを <code>.env</code> に置く（<a href="#key">API キーの節</a>）</td><td><strong>置く前に、上げない設定を確認します。</strong>先に置くと、確認する前に共有の場所へ上がる事故が起きます</td></tr>
+          <tr><td>3</td><td><strong>AI を呼ばずに、決まった文章を返すだけのサーバー側の処理を作り、画面から呼んで表示させる</strong></td><td><strong>ここがいちばん大事です。</strong>画面 → サーバー → 画面の経路を先に1本通しておきます。同時に作ると、動かないときに<strong>経路の問題なのか AI 呼び出しの問題なのか切り分けられません。</strong>原因が2つある状態で詰まると、ほぼ抜けられません</td></tr>
+          <tr><td>4</td><td>その処理の中身を、<strong>AI の呼び出しに差し替える</strong></td><td>経路が通っていることが分かっているので、うまくいかなければ原因は AI の呼び出し側に絞られます</td></tr>
+          <tr><td>5</td><td>返ってきた内容を画面に出す。<strong>同時に、待機中の表示と失敗したときの表示も入れる</strong></td><td>応答は数秒かかります。何も出ないと壊れたと思われ、<strong>何度も押される＝そのたびに課金されます</strong></td></tr>
+          <tr><td>6</td><td>管理画面で<strong>上限を設定し、スクリーンショットを撮る</strong></td><td>この回の提出物です。作りを間違えたとき、被害が金額で止まります</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">例：食費メモ（記録型）に「今月の食費をひとことで振り返る」ボタンを足す</h3>
+    <p>手順3の指示です。AI はまだ呼びません。（ ）の中はご自身のアプリの機能に合わせて書き換えます。</p>
+<pre class="prompt" data-label="手順3 ― 経路を先に通す指示（AI はまだ呼ばない）"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">サーバー側に「AIに聞く」処理の入口だけを作ってください。
+中身はまだAIを呼ばず、「テスト応答です」という決まった文章を返すだけにします。
+画面に（「今月を振り返る」）ボタンを置き、押すとその文章が結果の欄に表示されるところまで作ってください。
+完成条件：ボタンを押すと「テスト応答です」が画面に出ること。</pre>
+    <p><strong>確認：</strong>ボタンを押して「テスト応答です」が出れば経路が通っています。開発者ツールの「ネットワーク」の欄で、自分のサーバーへの要求が1回だけ送られていることも見ておきます。<span class="why">なぜ：</span>ここで2回以上送られていると、AI に差し替えたあと、押すたびに2回課金されます。</p>
+    <p>手順4の指示です。使うサービスとキーの名前を、ご自身が選んだものに読み替えます。</p>
+<pre class="prompt" data-label="手順4 ― AI の呼び出しに差し替える指示（（ ）を自分のアプリに合わせる）"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">さきほど作った入口の中身を、AIの呼び出しに差し替えてください。
+使うサービスは（Claude API）です。公式のライブラリを使ってください。
+APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側からだけ使ってください。画面側には出さないでください。
+送る内容は「（今月の記録の一覧（日付・金額・メモ））」と、「（これを3行以内で振り返ってください）」という指示文です。
+モデル名は、公式ドキュメントに載っている現在の標準的なものを使い、コードの中の1箇所にまとめてください。
+完成条件：ボタンを押すと、AIが生成した（振り返りの文章）が結果の欄に表示されること。</pre>
+    <p>OpenAI なら「使うサービスは OpenAI API、キーは <code>OPENAI_API_KEY</code>」、Gemini なら「Gemini API、キーは <code>GEMINI_API_KEY</code>」に読み替えます。それ以外の文面は同じで構いません。</p>
+    <p><span class="why">なぜ「モデル名を1箇所にまとめて」と書くのか：</span>モデル名は変わります。変わったときに直す場所が1つなら、ご自身で直せます。あちこちに書かれていると、直し漏れで一部の機能だけ動かなくなります。</p>
+    <p>手順5の指示です。待機中の表示と、失敗したときの表示を足します。</p>
+<pre class="prompt" data-label="手順5 ― 待機中と失敗時の表示を足す指示（（ ）を自分のアプリに合わせる）"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">（「今月を振り返る」）ボタンに、次の2つを足してください。
+1. 押してから結果が返るまでの間、ボタンを押せなくして「考え中…」と表示する
+2. サーバー側でエラーが起きたら、結果の欄に「うまくいきませんでした。もう一度お試しください」と表示する。エラーの詳しい内容はサーバー側のターミナルにだけ出す
+完成条件：ボタンを連打しても要求が1回しか送られないこと。.env のキーをわざと1文字消して起動し直したとき、画面に上の文章が出ること。</pre>
+    <p><span class="why">なぜ「ボタンを押せなくする」のか：</span>応答が返るまでの数秒間、何も起きないと利用者はもう一度押します。押した回数だけ AI が呼ばれ、そのたびに課金されます。押せなくしておけば、この事故は起きません。</p>
+    <p><span class="why">なぜエラーの詳しい内容を画面に出さないのか：</span>エラーの文章には、サーバーの内部の情報（ファイルの場所や、場合によってはキーの一部）が含まれることがあります。画面に出すのは利用者向けの短い文章だけにし、原因を調べるための情報はターミナルに出します。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>公式のライブラリ</dt><dd>各サービスが配布している、API を呼ぶためのプログラムの部品。これを使うと、要求の形やエラーの扱いをご自身で書かずに済みます。</dd>
+        <dt>ネットワークの欄</dt><dd>開発者ツールの中で、ブラウザが送った要求と返ってきた答えを一覧で見られる画面。要求の回数と送り先が分かります。</dd>
+        <dt>待機中の表示</dt><dd>処理が終わるまでの間、進行中であることを画面に出すこと。ローディング表示とも呼びます。</dd>
+        <dt>ターミナル</dt><dd>文字で PC に命令する画面。開発サーバーを起動したときのメッセージやエラーがここに出ます。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">接続でよく出るエラーと対処</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="エラーの症状・原因・対処の表">
+      <table class="tbl">
+        <thead><tr><th>症状</th><th>原因</th><th>対処</th></tr></thead>
+        <tbody>
+          <tr><td>認証エラー（<code>401</code> や <code>authentication</code> を含む文言）が返る</td><td>キーが読み込まれていない／文字列が違う</td><td><code>.env</code> の場所（アプリのフォルダ直下）と名前を確認。<strong><code>.env</code> を作ったり直したりしたあとは、開発サーバーを起動し直します</strong>（起動時にしか読み込まれません）</td></tr>
+          <tr><td>支払い方法が登録されていない、残高が無い、と言われる</td><td>未登録・未入金</td><td>管理画面で登録し、<strong>同時に上限も設定します</strong></td></tr>
+          <tr><td>短時間に何度も呼んで制限がかかる（<code>429</code> や <code>rate limit</code>）</td><td>画面の再描画のたびに呼び出している／連打</td><td>「ボタンを押したときだけ呼ぶように」と指示します。<strong>課金にも直結するので必ず直します</strong></td></tr>
+          <tr><td>応答が返る前に止まる</td><td>待ち時間の上限に達している</td><td>送る文章を短くします。長い入力を分けて渡します</td></tr>
+          <tr><td>モデル名が違う・見つからないと言われる（<code>404</code> や <code>model not found</code>）</td><td>モデル名は変わる</td><td>公式ページで現在の名前を確認し、まとめてある1箇所を直します</td></tr>
+          <tr><td>画面側でキーが読めない（<code>undefined</code> になる）</td><td>キーを画面側から使おうとしている</td><td><strong>画面側からは読めないのが正しい状態です。</strong>サーバー側の処理から使います</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">入れる AI 機能は1つだけ</h3>
+    <p>型ごとの例：要約（変換型）／記録の振り返り・傾向の指摘（記録型）／やり取りの続きを返す（相談型）。</p>
+    <p><span class="why">なぜ1つだけなのか：</span>AI 機能は「動くかどうか」より「出力が期待どおりか」の調整に時間がかかります。2つ以上入れると、どちらも中途半端なまま残ります。1つが期待どおりに動いてから、次を足します。</p>
+
+    <h3 class="sub">出力が毎回変わることへの対処</h3>
+    <ol>
+      <li><strong>出力の形式を指定します。</strong>「3行以内」「見出しを付けない」「箇条書き3つ」のように、指示文に形を書きます。形式が毎回違うと、画面の決まった場所に入れられず表示が崩れます</li>
+      <li><strong>形式が守られなかったときの表示を用意します。</strong>長すぎたら途中で切る、空なら「結果を作れませんでした」と出す、のように決めておきます</li>
+      <li><strong>同じ入力でも毎回少し違う文章が返る</strong>ことを前提にします。「正解と一字一句同じか」で確認するのではなく、「形式が守られているか」「内容が入力に基づいているか」で確認します</li>
+    </ol>
+
+    <h3 class="sub">AI に送ってよい情報の実物確認</h3>
+    <p>要件定義のときに確認した「社外に出せない情報」を、実際に送る直前にもう一度確認します。<span class="why">なぜ2度確認するのか：</span>要件定義の時点では紙の上で決めただけで、外に出る処理はまだ1つも無かったからです。<strong>実際にご自身の PC の外へデータが出るのは、この回が最初です。</strong>それまでに保存した項目が、企画時の想定より増えていることも多いです。送る内容を Claude Code に一覧させて（「AI に送っている項目を全部挙げてください」）、目で確認します。</p>
+  </div>
+</section>
+
+<!-- 6. データの持ち方 -->
+<section class="section section--soft" id="storage">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-folder.svg" alt=""></span><div><p class="section__kicker">06</p><h2 class="section__title">データの持ち方：<em>4つの置き場</em>と、消える条件</h2></div></div>
+    <p class="section__lead">
+      ここまでのアプリは、データを画面の中か、Claude Code が提案した保存先に持っています。AI 機能が動いたら、次は「<strong>このデータをどこに置いておくか</strong>」をご自身で決めます。置き場によって、<strong>消える条件</strong>と、<strong>どこから見えるか</strong>と、<strong>設定の手間</strong>が違います。
+    </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>消える条件</dt><dd>その置き場に入れたデータが無くなる操作や状況。置き場を選ぶときの最初の観点です。</dd>
+        <dt>永続化</dt><dd>ブラウザを閉じても、PC を再起動しても残るように保存すること。「画面の中に持っている」状態は永続化されていません。</dd>
+      </dl>
+    </div>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson04/diagram_storage.svg" alt="データの4つの置き場。ブラウザの中（localStorage）、PC のファイル（JSON ファイル／SQLite）、データベース（Turso）、スプレッドシート（Google スプレッドシート）。それぞれの消える条件・設定の手間・向いている場面を並べた図" loading="lazy">
+      <figcaption>4つの置き場。ブラウザの中／自分の PC のフォルダ／インターネット上のデータベース／スプレッドシート。右に行くほど PC の外に出て、設定が増え、消えにくくなります</figcaption>
+    </figure>
+
+    <h3 class="sub">6-1. ブラウザの中に持つ（localStorage）</h3>
+    <p>ブラウザには、サイトごとに小さなデータを保存しておく領域があり、その1つが <strong>localStorage</strong> です。JavaScript から「名前」と「文字列」の組で読み書きでき、ブラウザを閉じても残ります。サーバーが無くても動くので、画面側だけで完結します。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>localStorage</dt><dd>ブラウザがサイトごとに持っている保存領域。名前と文字列の組を保存します。容量は数 MB 程度で、同じ PC の同じブラウザからだけ読めます。</dd>
+        <dt>キャッシュ</dt><dd>表示を速くするために、ブラウザが画像やファイルの写しを一時的に持っておく仕組み。<strong>いつ消されてもよい前提のもの</strong>なので、データの保存には使いません。localStorage はキャッシュとは別の、消されない前提の領域です。</dd>
+      </dl>
+    </div>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>どこにあるか</strong></dt>
+        <dd class="explain-list__value">自分の PC の、そのブラウザの中</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>消える条件</strong></dt>
+        <dd class="explain-list__value">ブラウザの「閲覧履歴データの削除」でサイトデータを消したとき。別のブラウザ・別の PC・シークレットウィンドウでは最初から見えません</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>設定の手間</strong></dt>
+        <dd class="explain-list__value">ゼロ。Claude Code に「localStorage に保存して」と言えば動きます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>向いている場面</strong></dt>
+        <dd class="explain-list__value">試作／表示の設定（並び順・テーマ）／PC 1台・ブラウザ1つで自分だけが使う小さな記録</dd>
+      </div>
+    </dl>
+    <p><span class="why">なぜ本番の記録には向かないのか：</span>「履歴を削除」の操作で、貯めた記録がまとめて消えます。使う人はそれが記録の削除だとは思っていません。また、スマホから見たいと思ったときに、PC のブラウザの中にあるデータは取り出せません。</p>
+<pre class="prompt prompt--plain" data-label="localStorage にする指示 ― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">記録の保存先を localStorage にしてください。
+保存する項目は docs/spec.md の「扱うデータ」のとおりです。
+完成条件：記録を1件登録してブラウザを再読み込みしても残っていること。開発者ツールの「アプリケーション」→「ローカルストレージ」に保存した内容が見えること。</pre>
+
+    <h3 class="sub">6-2. 自分の PC のファイルに持つ（JSON ファイル／SQLite）</h3>
+    <p>サーバー側のプログラムが、アプリのフォルダの中のファイルにデータを読み書きします。ファイルの形は、JSON ファイル1つ（<code>data.json</code>）か、<strong>SQLite</strong> のファイル1つ（<code>data.db</code>）です。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>SQLite</dt><dd>データを1つのファイルに表の形で保存する仕組み。検索や並べ替えを SQL という決まった書き方で頼めます。別のプログラムを起動しておく必要がありません。</dd>
+        <dt>SQL</dt><dd>データベースに「この条件の行を取り出して」「この行を書き換えて」と頼むための、決まった書き方の文。</dd>
+        <dt>バックアップ</dt><dd>データの写しを別の場所に取っておくこと。ファイルに持っている場合は、そのファイルをコピーするだけで済みます。</dd>
+      </dl>
+    </div>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>どこにあるか</strong></dt>
+        <dd class="explain-list__value">自分の PC の、アプリのフォルダの中（<code>data/</code> などに置く）</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>消える条件</strong></dt>
+        <dd class="explain-list__value">そのファイルやフォルダを消したとき／PC が壊れたとき／<strong>アプリをインターネット上のサービスに公開した場合、置き直すたびにファイルが初期状態に戻る</strong>ことが多い</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>設定の手間</strong></dt>
+        <dd class="explain-list__value">少ない。Node.js の標準機能か、SQLite の部品を1つ入れるだけ</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>向いている場面</strong></dt>
+        <dd class="explain-list__value">自分の PC だけで使うアプリ／中身をファイルとして開いて確かめたい／バックアップをコピーで済ませたい</dd>
+      </div>
+    </dl>
+    <p><span class="why">なぜ公開すると消えるのか：</span>アプリを動かしてくれる公開用のサービスの多くは、コードを置き直す（デプロイする）たびに、動かす場所をまっさらな状態から作り直します。その中に作ったファイルは、次の置き直しで無くなります。<strong>外からも使いたいアプリのデータは、アプリ本体とは別の場所（次の 6-3）に置く必要があります。</strong></p>
+    <p><strong>JSON ファイルと SQLite のどちらか：</strong>件数が少なく項目が単純なら JSON ファイルで足ります。件数が増えて「先月の分だけ」「金額の多い順」のような絞り込みや並べ替えを頻繁にするなら SQLite です。<strong>あとで 6-3 のデータベースに移す予定があるなら、最初から SQLite にしておく</strong>と、書き方がそのまま使えます。</p>
+<pre class="prompt prompt--plain" data-label="SQLite ファイルにする指示 ― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">記録の保存先を、アプリのフォルダ内の SQLite ファイル（data/app.db）にしてください。
+保存・読み出しの処理はサーバー側の1つのファイルにまとめ、画面側からは自分のサーバーを呼ぶだけにしてください。
+.gitignore に data/ を追加してください。
+完成条件：記録を1件登録して、開発サーバーを止めて起動し直しても残っていること。</pre>
+    <p><span class="why">なぜ data/ を .gitignore に入れるのか：</span>記録の中身はご自身の生活や仕事のデータで、コードと一緒に共有する場所へ上げるものではないからです。</p>
+
+    <h3 class="sub">6-3. インターネット上のデータベースに持つ（Turso）</h3>
+    <p><strong>データベース</strong>は、データを表の形で保存し、検索・並べ替え・書き換えを専門に担当するプログラムです。<strong>Turso</strong> は、6-2 で使った SQLite をインターネット上で動かしてくれるサービスで、自分のサーバーからは接続用の URL とトークンを使ってつなぎます。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>データベース（DB）</dt><dd>データを表の形で保存し、検索・並べ替え・書き換えを担当する専用のプログラム。アプリ本体とは別の場所に置けます。</dd>
+        <dt>Turso</dt><dd>SQLite をインターネット上のサービスとして提供しているもの。手元の SQLite と同じ SQL がそのまま使えます。</dd>
+        <dt>接続情報</dt><dd>データベースにつなぐための「場所（URL）」と「本人確認のトークン」。API キーと同じく <code>.env</code> に置き、サーバー側からだけ使います。</dd>
+        <dt>デプロイ</dt><dd>作ったアプリを、インターネット上の公開用のサービスに置いて動かすこと。</dd>
+      </dl>
+    </div>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>どこにあるか</strong></dt>
+        <dd class="explain-list__value">Turso のサーバー（自分の PC の外）</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>消える条件</strong></dt>
+        <dd class="explain-list__value">Turso の管理画面でデータベースを消したとき／契約が止まったとき。<strong>アプリを置き直しても消えません。</strong>PC を替えても同じデータを見られます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>設定の手間</strong></dt>
+        <dd class="explain-list__value">中くらい。Turso のアカウント作成 → データベース作成 → 接続情報を <code>.env</code> へ → サーバー側の接続先を変更</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>向いている場面</strong></dt>
+        <dd class="explain-list__value">アプリを公開してスマホからも使う／PC を替えてもデータを引き継ぐ／件数が増える見込み</dd>
+      </div>
+    </dl>
+    <h3 class="sub">なぜ Turso なのか（ほかの選択肢と、なぜ今回それを選ばないか）</h3>
+    <ul>
+      <li><strong>手元の SQLite と同じ SQL がそのまま使えます。</strong>6-2 で SQLite にしておけば、変えるのは接続先の数行だけで、保存・読み出しの処理は書き直さなくて済みます</li>
+      <li>Supabase や Firebase のような、画面側から直接データベースにつなげる作りのサービスもあります。便利ですが、<strong>アクセス制限の設定を1つ誤ると、データが誰からでも読める状態になります。</strong>このゼミでは「データベースにつなぐのはサーバー側だけ」に統一し、その形が自然に取れる Turso にします</li>
+      <li>無料で使える範囲がありますが、内容は変わることがあります。最新は <a href="https://turso.tech/" target="_blank" rel="noopener">Turso の公式ページ</a>でご確認ください</li>
+    </ul>
+    <h3 class="sub">手順</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title"><a href="https://app.turso.tech/" target="_blank" rel="noopener">app.turso.tech</a> を開き、GitHub か Google のアカウントでログインする</h3><p class="steps__desc">アカウントが無ければ Sign up から作ります。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">左上の「Create Database」を押し、名前を付けて「Create Database」</h3><p class="steps__desc">名前はアプリ名と同じにしておくと迷いません。Group は用意されている「default」のままで構いません。<span class="why">なぜ：</span>Group はデータベースを置く地域のまとまりで、既定のものが Tokyo になっています。近い地域のほうが応答が速いためです。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">作ったデータベースの名前を押して「Overview」を開き、「Connect」の枠の接続用 URL（Database URL）をコピーして <code>.env</code> に貼る</h3><p class="steps__desc"></p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">同じ枠の「Create Token」を押し、有効期限と権限（Read &amp; Write）を選んで「Create Token」</h3><p class="steps__desc">表示されたトークンを <code>.env</code> に貼ります。<strong>トークンは API キーと同じ扱いです。</strong><span class="why">なぜトークンか：</span>URL を知っているだけでは接続できないようにするためです。URL とトークンの両方が揃って初めてつながります。</p></div></li>
+      <li><span class="steps__n">5</span><div><h3 class="steps__title"><code>.env</code> に <code>TURSO_DATABASE_URL=ここに接続用のURLを貼る</code> と <code>TURSO_AUTH_TOKEN=ここにトークンを貼る</code> の2行を足す</h3><p class="steps__desc">名前は例です。公式の案内に合わせます。</p></div></li>
+      <li><span class="steps__n">6</span><div><h3 class="steps__title">Claude Code に、サーバー側の接続先を手元の SQLite から Turso に切り替えさせる</h3><p class="steps__desc">下の指示の型を貼ります。</p></div></li>
+    </ol>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_turso_login.png" alt="Turso のログイン画面。GitHub・Google のアカウントか、メールアドレスでログインできる" loading="lazy">
+        <figcaption>Turso のログイン画面。GitHub・Google のアカウントか、メールアドレスでログインできます</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_turso_list.png" alt="Turso の「Databases」一覧。左上に「Create Database」。一覧には読み書きした行数と容量が出る" loading="lazy">
+        <figcaption>「Databases」の一覧。左上の「Create Database」から作ります。一覧には読み書きした行数と容量が出ます</figcaption>
+      </figure>
+    </div>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_turso_create.png" alt="「Create Database」の画面。名前を入れ、Group は default のまま「Create Database」を押す" loading="lazy">
+        <figcaption>「Create Database」の画面。名前を入れて「Create Database」を押します。Group は default のままで構いません</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04/r4_turso_overview.png" alt="データベースの「Overview」。「Connect」の枠に接続用の Database URL と「Create Token」ボタンがある" loading="lazy">
+        <figcaption>データベースの「Overview」。「Connect」の枠に接続用の URL があります。「Create Token」でトークンを発行します</figcaption>
+      </figure>
+    </div>
+    <figure class="figure figure--half">
+      <img src="../../assets/images/lesson04/r4_turso_token.png" alt="「Create Database Token」の画面。Expires（有効期限）と Authorization Level（Read & Write／Read Only）を選ぶ" loading="lazy">
+      <figcaption>「Create Database Token」の画面。権限は Read &amp; Write のまま。表示されたトークンはその場で .env に貼ります</figcaption>
+    </figure>
+<pre class="prompt prompt--plain" data-label="Turso に切り替える指示 ― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">保存先を、手元の SQLite ファイルから Turso に切り替えてください。
+接続情報は .env の TURSO_DATABASE_URL と TURSO_AUTH_TOKEN から読み、サーバー側からだけ使ってください。
+保存・読み出しの処理（SQL）はそのまま使い、接続の部分だけを差し替えてください。
+完成条件：記録を1件登録して、Turso の管理画面でその行が見えること。開発サーバーを止めて起動し直しても残っていること。</pre>
+    <p><strong>確認：</strong>データベースの画面の「Edit Data」を開くと、保存した表の中身を直接見られます。アプリで1件登録して、ここでその行が見えれば、PC の外に保存されています。</p>
+    <figure class="figure">
+      <img src="../../assets/images/lesson04/r4_turso_rows.png" alt="「Edit Data」の画面。左に表の一覧、右に選んだ表の行が並んでいる" loading="lazy">
+      <figcaption>「Edit Data」の画面。左に表の一覧、右にその表の行が出ます。アプリで登録した記録がここに1行ずつ並びます（中身は例）</figcaption>
+    </figure>
+
+    <h3 class="sub">6-4. スプレッドシートに持つ（Google スプレッドシート）</h3>
+    <p>データを Google スプレッドシートの表に持ち、サーバー側から Google の API を通して読み書きします。<strong>1行が1件、1行目が項目名</strong>という形にします。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>Google スプレッドシート</dt><dd>Google が提供している、ブラウザで使う表計算のサービス。Excel と同じような表を、インターネット上に持ちます。</dd>
+        <dt>サービスアカウント</dt><dd>人ではなくプログラムが Google のサービスを使うための専用アカウント。Google Cloud の管理画面で作り、認証用のファイル（JSON）を受け取ります。このファイルも API キーと同じ扱いで、共有の場所に上げません。</dd>
+        <dt>CSV</dt><dd>表の中身をカンマ区切りの文字で書き出したファイル。スプレッドシートや Excel で開けます。</dd>
+      </dl>
+    </div>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>どこにあるか</strong></dt>
+        <dd class="explain-list__value">Google のサーバー（自分の Google ドライブの中）</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>消える条件</strong></dt>
+        <dd class="explain-list__value">シートを消したとき／サービスアカウントとの共有を外したとき／列の並びや項目名を手で変えたとき（アプリが読めなくなります）</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>設定の手間</strong></dt>
+        <dd class="explain-list__value">多い。Google Cloud でプロジェクトとサービスアカウントを作る → 認証用のファイルを受け取る → シートをそのアカウントに共有する → サーバー側で API を呼ぶ</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>向いている場面</strong></dt>
+        <dd class="explain-list__value">一覧を人が眺めて手で直したい／すでにスプレッドシートで管理している作業の続き／家族や同僚と同じ表を見たい</dd>
+      </div>
+    </dl>
+    <p><span class="why">なぜスプレッドシートが選ばれるのか：</span>アプリを作る前からスプレッドシートで管理していた作業なら、これまでの表をそのまま使えます。表を眺めて直すのは、専用の画面を作るより速いです。集計やグラフも、スプレッドシート側の機能で済みます。</p>
+    <h3 class="sub">なぜ本番のデータベースの代わりにはならないのか</h3>
+    <ul>
+      <li>読み書きのたびに Google の API へ通信するので、<strong>1回の操作に時間がかかります</strong>（体感で分かる程度）</li>
+      <li>短時間に何度も書き込むと<strong>回数の上限</strong>に当たります</li>
+      <li>人が表を直接編集できるのが利点でもあり、<strong>列を1つ動かしただけでアプリが読めなくなる</strong>弱点でもあります</li>
+    </ul>
+    <div class="note">
+      <strong>簡単な代わり：</strong>記録の保存先は 6-2 か 6-3 にしておき、「CSV で書き出す」ボタンだけを付けます。書き出した CSV をスプレッドシートに取り込めば、眺める・直す・集計するはスプレッドシートでできます。API の設定が要らないので、まずはこの形で足りるかを考えてみてください。
+    </div>
+<pre class="prompt prompt--plain" data-label="スプレッドシートにする指示（API でつなぐ場合）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">記録の保存先を Google スプレッドシートにしてください。
+シートの ID は .env の SHEET_ID から、サービスアカウントの認証ファイルの場所は .env の GOOGLE_APPLICATION_CREDENTIALS から読み、サーバー側からだけ使ってください。
+1行目を項目名（docs/spec.md の「扱うデータ」の項目名）、2行目以降を1件1行にしてください。
+完成条件：アプリで1件登録すると、シートに1行増えること。シートで直した内容がアプリの一覧に反映されること。</pre>
+
+    <h3 class="sub">6-5. 4つの比較と、選び方</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="4つの置き場の比較表">
+      <table class="tbl">
+        <thead><tr><th>置き場</th><th>どこにあるか</th><th>消える条件</th><th>設定の手間</th><th>向いている場面</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ブラウザの中</strong>（localStorage）</td><td>自分の PC のブラウザ</td><td>履歴削除／別ブラウザ・別 PC では見えない</td><td>ゼロ</td><td>試作・設定値・PC 1台で自分だけ</td></tr>
+          <tr><td><strong>PC のファイル</strong>（JSON／SQLite）</td><td>アプリのフォルダ</td><td>フォルダ削除／PC 故障／公開先で置き直すと初期化</td><td>少ない</td><td>自分の PC だけで使う</td></tr>
+          <tr><td><strong>データベース</strong>（Turso）</td><td>インターネット上</td><td>管理画面で削除／契約停止</td><td>中くらい</td><td>公開してスマホからも使う・PC を替える</td></tr>
+          <tr><td><strong>スプレッドシート</strong></td><td>Google ドライブ</td><td>シート削除／共有解除／列の手直し</td><td>多い</td><td>表を人が眺めて直す・共有</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p><strong>選び方：</strong>まず「<strong>誰が、どこから使うか</strong>」で決めます。</p>
+    <ul>
+      <li>自分の PC だけで使う → <strong>PC のファイル</strong>。SQLite にしておけば、あとで Turso に移せます</li>
+      <li>公開して外からも使う、PC を替えても続ける → <strong>Turso</strong></li>
+      <li>表を人が直接眺めて直す、家族と共有する → <strong>スプレッドシート</strong>（まずは CSV 書き出しで足りないかを考えます）</li>
+      <li>試作や、並び順のような表示の設定だけ → <strong>localStorage</strong></li>
+    </ul>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_koko_daiji_board.png" alt="">
+      <strong>保存の処理は、サーバー側の1つのファイルにまとめておきます。</strong>画面側は「自分のサーバーに頼む」だけにし、置き場の違いはサーバー側のそのファイルの中だけに閉じ込めます。
+      <span class="why">なぜ：</span>置き場を変えるとき、直す場所が1つで済みます。画面側にまで保存の処理が散らばっていると、置き場を変えるたびにアプリ全体を作り直すことになります。
+    </div>
+    <p><strong>決めたら <code>docs/spec.md</code> の「使う技術」の「保存の仕組み」の行を書き換えます</strong>（Claude Code に「<code>docs/spec.md</code> の保存の仕組みを Turso に書き換えてください」と指示すれば済みます）。<span class="why">なぜ：</span>仕様書と実物がずれたままだと、次に Claude Code に指示したとき、古い保存先の前提でコードが作られます。</p>
+  </div>
+</section>
+
+<!-- 7. この回で作るもの -->
+<section class="section" id="deliverables">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-deliverable.svg" alt=""></span><div><p class="section__kicker">Deliverables</p><h2 class="section__title">この回で<em>作るもの</em></h2></div></div>
+    <p class="section__lead">終わったとき、手元に次の4つがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
+      </dl>
+    </div>
+    <div class="cards cards--2">
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-chat.svg" alt="">
+        <h3 class="card__title">AI 機能（1つ）が動いている自分のアプリ</h3>
+        <p class="card__desc">入力と出力の両方が見えるスクリーンショットと、ソース一式（<code>.env</code> は含めません）。使ったサービスの名前も書きます。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-check-screen.svg" alt="">
+        <h3 class="card__title">管理画面の上限設定のスクリーンショット</h3>
+        <p class="card__desc">Claude は「請求」のクレジット残高、OpenAI は「Usage limits」、Gemini は「課金」の画面。キーの全文が写っていないことを見てから撮ります。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-key.svg" alt="">
+        <h3 class="card__title"><code>.gitignore</code> に <code>.env</code> が入っていることが分かるスクリーンショット</h3>
+        <p class="card__desc"><code>.gitignore</code> を開いた画面。<code>.env</code> と <code>node_modules</code> の行が見えていれば十分です。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-file-md.svg" alt="">
+        <h3 class="card__title">データの置き場を決めて書き換えた <code>docs/spec.md</code></h3>
+        <p class="card__desc">「使う技術」の「保存の仕組み」の行が、選んだ置き場になっている状態。選んだ理由を1行、ご自身の言葉で添えます。</p>
+      </div>
+    </div>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <strong>提出前に必ず確認：</strong>スクリーンショットとソースに <strong>API キーやトークンが写っていないか</strong>。写っていたら、貼り直すのではなく、管理画面でそのキーを無効化して作り直してください。
+    </div>
+  </div>
+</section>
+
+<!-- 8. つまずき -->
+<section class="section section--soft" id="pitfalls">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-pitfall.svg" alt=""></span><div><p class="section__kicker">Pitfalls</p><h2 class="section__title">よくある<em>つまずき</em>と対処</h2></div></div>
+    <p class="section__lead">詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板）で進めてください。<strong>スクショを撮るときは、キーが写っていないかを先に見ます。</strong></p>
+    <div class="pitfalls">
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">キーが漏れた（画面側に書いた・共有に上げた・スクショに写した）</h3>
+        <p class="pitfall__what">他人がご自身の請求で使い放題になります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>貼り直さず、管理画面でそのキーを無効化して作り直します。<code>.gitignore</code> を先に置く順番に戻します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">課金が膨らんでいる</h3>
+        <p class="pitfall__what">再描画のたびに呼ぶ作りや連打で、回数が桁違いになっています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>上限設定を先に確認。「ボタンを押したときだけ呼ぶ」「押している間は押せなくする」を指示します。使用量の画面を毎日見ます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">経路を先に通す手順を飛ばした</h3>
+        <p class="pitfall__what">動かないとき、原因が経路か AI かの2つあって抜けられません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>いったん「テスト応答です」を返す状態に戻して経路を確かめ、通ってから差し替え直します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">契約・支払い登録で止まる</h3>
+        <p class="pitfall__what">この回の作業に入れません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>契約〜キーの発行は LIVE講義の前に済ませておきます。詰まったらスクショ（キーは伏せる）を撮って AI に聞く → ゼミ掲示板の順で。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">ChatGPT の有料プランで API も使えると思っていた</h3>
+        <p class="pitfall__what">認証エラーで止まります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>API は別契約です。OpenAI Platform の「Billing」で API 用の残高を入れます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">.env を直したのに反映されない</h3>
+        <p class="pitfall__what">認証エラーが続きます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>開発サーバーを止めて起動し直します（<code>.env</code> は起動時にしか読まれません）。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">モデル名のエラーが出る</h3>
+        <p class="pitfall__what"><code>404</code> や <code>model not found</code> が返ります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>公式ページで現在の名前を確認し、1箇所にまとめた場所を直します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">出力が毎回違う</h3>
+        <p class="pitfall__what">表示が崩れる・合っているか確認できません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>形式を指示文で指定し、守られなかったときの表示を用意します。「形式が守られているか」で確認します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">localStorage に本番の記録を貯めてしまった</h3>
+        <p class="pitfall__what">履歴削除で消える・スマホから見えません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>6-2 か 6-3 に移します。保存の処理がサーバー側の1ファイルにまとまっていれば、直す場所は1つです。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">公開したら記録が消えた</h3>
+        <p class="pitfall__what">公開先で置き直すたびにファイルが初期化されています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>データはアプリ本体と別の場所（Turso）へ移します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">スプレッドシートの列を手で動かしてアプリが読めなくなった</h3>
+        <p class="pitfall__what">一覧が空になる・エラーになります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>1行目の項目名と列の並びは変えません。変えるなら仕様書を直して Claude Code に読み直させます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">社外に出せない情報を AI に送っていた</h3>
+        <p class="pitfall__what">情報の持ち出しになります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>送る項目を Claude Code に一覧させて確認します。開発中は架空のデータで進めます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 用語 -->
+<section class="section" id="glossary">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-glossary.svg" alt=""></span><div><p class="section__kicker">Glossary</p><h2 class="section__title">この回で出てきた<em>用語</em></h2></div></div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
+      <table class="tbl">
+        <thead><tr><th>用語</th><th>意味</th></tr></thead>
+        <tbody>
+          <tr><td><strong>API</strong></td><td>Application Programming Interface の頭文字。プログラムから別のプログラムやサービスの機能を呼び出すための、決められた呼び出し方</td></tr>
+          <tr><td><strong>API 連携</strong></td><td>自分のアプリの中から外部サービスの API を呼び出して、その結果を自分の画面に使うこと</td></tr>
+          <tr><td><strong>リクエスト／レスポンス</strong></td><td>API に送る要求と、返ってくる答え</td></tr>
+          <tr><td><strong>URL</strong></td><td>インターネット上の場所を表す文字列。API では要求の送り先</td></tr>
+          <tr><td><strong>JSON</strong></td><td>データを決まった書き方の文字で表す形式。項目名と値の組で書く</td></tr>
+          <tr><td><strong>画面側（フロントエンド）</strong></td><td>ブラウザの中で動く部分。中身は開発者ツールで誰でも見られる</td></tr>
+          <tr><td><strong>サーバー側（バックエンド）</strong></td><td>利用者から見えない場所で動く部分。秘密の文字列を使う処理とファイルの読み書きはここで行う</td></tr>
+          <tr><td><strong>開発者ツール</strong></td><td>ブラウザに標準で付いている、画面の中身・通信・エラーを調べる機能</td></tr>
+          <tr><td><strong>ネットワークの欄</strong></td><td>開発者ツールの中で、ブラウザが送った要求と答えを一覧で見られる画面</td></tr>
+          <tr><td><strong>API キー</strong></td><td>サービスが発行する本人確認用の長い文字列。使うと請求が来るパスワード</td></tr>
+          <tr><td><strong>.env</strong></td><td>秘密の文字列を書いておくファイル。アプリのフォルダ直下に置き、.gitignore に入れる</td></tr>
+          <tr><td><strong>環境変数</strong></td><td>プログラムの外側から渡す設定値。.env の内容は起動時に環境変数として読み込まれる</td></tr>
+          <tr><td><strong>.gitignore</strong></td><td>共有の場所に上げないファイルの名前を書いておく一覧</td></tr>
+          <tr><td><strong>モデル</strong></td><td>呼び出す AI の種類。名前を指定して呼び分ける。名前は変わる</td></tr>
+          <tr><td><strong>トークン（AI の）</strong></td><td>AI のサービスが文章を数える単位。料金の元になる</td></tr>
+          <tr><td><strong>無料枠</strong></td><td>無料で使える範囲。サービスごとに違い、変わる</td></tr>
+          <tr><td><strong>上限設定</strong></td><td>管理画面で「月あたりここまで」と決めておく設定</td></tr>
+          <tr><td><strong>レート制限</strong></td><td>短い時間に送れる要求の回数の上限</td></tr>
+          <tr><td><strong>前払い（クレジット）</strong></td><td>先に金額を入れておき、その範囲で使う方式。残高が上限を兼ねる</td></tr>
+          <tr><td><strong>Google Cloud のプロジェクト</strong></td><td>Google のサービスで、キー・使用量・請求をまとめる単位</td></tr>
+          <tr><td><strong>公式のライブラリ</strong></td><td>各サービスが配布している、API を呼ぶためのプログラムの部品</td></tr>
+          <tr><td><strong>待機中の表示</strong></td><td>処理が終わるまで進行中であることを画面に出すこと</td></tr>
+          <tr><td><strong>ターミナル</strong></td><td>文字で PC に命令する画面。開発サーバーのメッセージやエラーが出る</td></tr>
+          <tr><td><strong>消える条件</strong></td><td>その置き場のデータが無くなる操作や状況</td></tr>
+          <tr><td><strong>永続化</strong></td><td>ブラウザを閉じても PC を再起動しても残るように保存すること</td></tr>
+          <tr><td><strong>localStorage</strong></td><td>ブラウザがサイトごとに持つ保存領域。同じ PC の同じブラウザからだけ読める</td></tr>
+          <tr><td><strong>キャッシュ</strong></td><td>表示を速くするための一時的な写し。いつ消されてもよい前提なので保存には使わない</td></tr>
+          <tr><td><strong>SQLite</strong></td><td>データを1つのファイルに表の形で保存する仕組み</td></tr>
+          <tr><td><strong>SQL</strong></td><td>データベースに取り出し・書き換えを頼む決まった書き方の文</td></tr>
+          <tr><td><strong>バックアップ</strong></td><td>データの写しを別の場所に取っておくこと</td></tr>
+          <tr><td><strong>データベース（DB）</strong></td><td>データを表の形で保存し、検索・並べ替え・書き換えを担当する専用のプログラム</td></tr>
+          <tr><td><strong>Turso</strong></td><td>SQLite をインターネット上のサービスとして提供しているもの</td></tr>
+          <tr><td><strong>接続情報</strong></td><td>データベースにつなぐための URL とトークン。.env に置く</td></tr>
+          <tr><td><strong>デプロイ</strong></td><td>作ったアプリを公開用のサービスに置いて動かすこと</td></tr>
+          <tr><td><strong>Google スプレッドシート</strong></td><td>ブラウザで使う表計算のサービス</td></tr>
+          <tr><td><strong>サービスアカウント</strong></td><td>プログラムが Google のサービスを使うための専用アカウント。認証用ファイルは共有の場所に上げない</td></tr>
+          <tr><td><strong>CSV</strong></td><td>表の中身をカンマ区切りの文字で書き出したファイル</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p><a class="backlink" href="../../">← Home（ゼミ全体の案内）へ戻る</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
+    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+  </div>
+</footer>
+
+</body>
+</html>

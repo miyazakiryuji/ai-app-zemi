@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">データの4つの置き場と、消える条件</title>
+  <desc id="desc">ブラウザの中、自分の PC のフォルダ、インターネット上のデータベース、スプレッドシートの4つの置き場を、どこにあるか・消える条件・設定の手間・向いている場面で比べた図。</desc>
+
+  <rect width="960" height="640" fill="#FFF9F0"/>
+
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text x="36" y="42" font-size="24" font-weight="700">データの4つの置き場と、消える条件</text>
+
+    <!-- 帯：自分の PC の中 / PC の外 -->
+    <rect x="36" y="66" width="426" height="30" rx="15" fill="#4DA8FF" fill-opacity="0.12"/>
+    <text x="249" y="87" font-size="15" font-weight="700" fill="#1F6FB8" text-anchor="middle">自分の PC の中</text>
+    <rect x="498" y="66" width="426" height="30" rx="15" fill="#FF8C42" fill-opacity="0.12"/>
+    <text x="711" y="87" font-size="15" font-weight="700" fill="#B84A00" text-anchor="middle">自分の PC の外（インターネット上）</text>
+
+    <!-- カード1：ブラウザの中 -->
+    <rect x="36" y="112" width="204" height="404" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+    <rect x="36" y="112" width="204" height="56" rx="18" fill="#4DA8FF" fill-opacity="0.10"/>
+    <rect x="36" y="150" width="204" height="18" fill="#4DA8FF" fill-opacity="0.10"/>
+    <text x="138" y="146" font-size="18" font-weight="700" text-anchor="middle">ブラウザの中</text>
+    <text x="138" y="162" font-size="12" fill="#5A6178" text-anchor="middle">localStorage</text>
+    <rect x="76" y="186" width="124" height="80" rx="10" fill="#F4F6FB" stroke="#5A6178" stroke-opacity="0.35" stroke-width="2"/>
+    <rect x="76" y="186" width="124" height="18" rx="10" fill="#5A6178" fill-opacity="0.18"/>
+    <rect x="92" y="216" width="92" height="10" rx="4" fill="#4DA8FF" fill-opacity="0.5"/>
+    <rect x="92" y="234" width="92" height="10" rx="4" fill="#4DA8FF" fill-opacity="0.5"/>
+    <text x="52" y="300" font-size="13" font-weight="700" fill="#5A6178">消える条件</text>
+    <text x="52" y="322" font-size="14">履歴・サイトデータの削除</text>
+    <text x="52" y="342" font-size="14">別ブラウザ・別 PC では</text>
+    <text x="52" y="362" font-size="14">最初から見えない</text>
+    <text x="52" y="396" font-size="13" font-weight="700" fill="#5A6178">設定の手間</text>
+    <text x="52" y="418" font-size="14">ゼロ</text>
+    <text x="52" y="452" font-size="13" font-weight="700" fill="#5A6178">向いている場面</text>
+    <text x="52" y="474" font-size="14">試作・表示の設定</text>
+    <text x="52" y="494" font-size="14">PC 1台で自分だけ</text>
+
+    <!-- カード2：PC のファイル -->
+    <rect x="258" y="112" width="204" height="404" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+    <rect x="258" y="112" width="204" height="56" rx="18" fill="#4DA8FF" fill-opacity="0.10"/>
+    <rect x="258" y="150" width="204" height="18" fill="#4DA8FF" fill-opacity="0.10"/>
+    <text x="360" y="146" font-size="18" font-weight="700" text-anchor="middle">PC のファイル</text>
+    <text x="360" y="162" font-size="12" fill="#5A6178" text-anchor="middle">JSON ファイル／SQLite</text>
+    <path d="M300 190H340L352 204H420A10 10 0 0 1 430 214V256A10 10 0 0 1 420 266H300A10 10 0 0 1 290 256V200A10 10 0 0 1 300 190Z" fill="#FFF9F0" stroke="#FF8C42" stroke-width="2"/>
+    <text x="360" y="240" font-size="14" font-weight="700" text-anchor="middle">data/app.db</text>
+    <text x="274" y="300" font-size="13" font-weight="700" fill="#5A6178">消える条件</text>
+    <text x="274" y="322" font-size="14">フォルダの削除・PC の故障</text>
+    <text x="274" y="342" font-size="14">公開先に置き直すたびに</text>
+    <text x="274" y="362" font-size="14">初期状態に戻る</text>
+    <text x="274" y="396" font-size="13" font-weight="700" fill="#5A6178">設定の手間</text>
+    <text x="274" y="418" font-size="14">少ない</text>
+    <text x="274" y="452" font-size="13" font-weight="700" fill="#5A6178">向いている場面</text>
+    <text x="274" y="474" font-size="14">自分の PC だけで使う</text>
+    <text x="274" y="494" font-size="14">中身をファイルで確かめたい</text>
+
+    <!-- カード3：データベース -->
+    <rect x="498" y="112" width="204" height="404" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2.5"/>
+    <rect x="498" y="112" width="204" height="56" rx="18" fill="#FF8C42" fill-opacity="0.10"/>
+    <rect x="498" y="150" width="204" height="18" fill="#FF8C42" fill-opacity="0.10"/>
+    <text x="600" y="146" font-size="18" font-weight="700" text-anchor="middle">データベース</text>
+    <text x="600" y="162" font-size="12" fill="#5A6178" text-anchor="middle">Turso</text>
+    <ellipse cx="600" cy="200" rx="46" ry="12" fill="#FFF9F0" stroke="#FF8C42" stroke-width="2"/>
+    <path d="M554 200V252A46 12 0 0 0 646 252V200" fill="#FFF9F0" stroke="#FF8C42" stroke-width="2"/>
+    <path d="M554 226A46 12 0 0 0 646 226" fill="none" stroke="#FF8C42" stroke-width="2"/>
+    <text x="514" y="300" font-size="13" font-weight="700" fill="#5A6178">消える条件</text>
+    <text x="514" y="322" font-size="14">管理画面で削除したとき</text>
+    <text x="514" y="342" font-size="14">契約が止まったとき</text>
+    <text x="514" y="362" font-size="14" font-weight="700">置き直しても消えない</text>
+    <text x="514" y="396" font-size="13" font-weight="700" fill="#5A6178">設定の手間</text>
+    <text x="514" y="418" font-size="14">中くらい（接続情報を .env へ）</text>
+    <text x="514" y="452" font-size="13" font-weight="700" fill="#5A6178">向いている場面</text>
+    <text x="514" y="474" font-size="14">公開してスマホからも使う</text>
+    <text x="514" y="494" font-size="14">PC を替えても続ける</text>
+
+    <!-- カード4：スプレッドシート -->
+    <rect x="720" y="112" width="204" height="404" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2"/>
+    <rect x="720" y="112" width="204" height="56" rx="18" fill="#FF8C42" fill-opacity="0.10"/>
+    <rect x="720" y="150" width="204" height="18" fill="#FF8C42" fill-opacity="0.10"/>
+    <text x="822" y="146" font-size="18" font-weight="700" text-anchor="middle">スプレッドシート</text>
+    <text x="822" y="162" font-size="12" fill="#5A6178" text-anchor="middle">Google スプレッドシート</text>
+    <rect x="760" y="186" width="124" height="80" rx="8" fill="#FFFFFF" stroke="#6FD49D" stroke-width="2"/>
+    <path d="M760 206H884M760 226H884M760 246H884M801 186V266M842 186V266" fill="none" stroke="#6FD49D" stroke-width="1.5"/>
+    <rect x="760" y="186" width="124" height="20" rx="8" fill="#6FD49D" fill-opacity="0.35"/>
+    <text x="736" y="300" font-size="13" font-weight="700" fill="#5A6178">消える条件</text>
+    <text x="736" y="322" font-size="14">シートの削除・共有の解除</text>
+    <text x="736" y="342" font-size="14">列や項目名を手で変えると</text>
+    <text x="736" y="362" font-size="14">アプリが読めなくなる</text>
+    <text x="736" y="396" font-size="13" font-weight="700" fill="#5A6178">設定の手間</text>
+    <text x="736" y="418" font-size="14">多い（Google Cloud の設定）</text>
+    <text x="736" y="452" font-size="13" font-weight="700" fill="#5A6178">向いている場面</text>
+    <text x="736" y="474" font-size="14">表を人が眺めて直す</text>
+    <text x="736" y="494" font-size="14">家族・同僚と共有する</text>
+
+    <!-- 下の説明 -->
+    <rect x="36" y="540" width="888" height="76" rx="16" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
+    <circle cx="62" cy="568" r="8" fill="#6FD49D"/>
+    <path d="M58 568H66M62 564V572" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    <text x="84" y="574" font-size="18" font-weight="700">「誰が、どこから使うか」で選ぶ。保存の処理はサーバー側の1ファイルにまとめておく</text>
+    <text x="84" y="600" font-size="15" fill="#5A6178">自分の PC だけ → PC のファイル／公開して外からも使う → データベース／表を人が直す → スプレッドシート／試作 → ブラウザ</text>
+  </g>
+</svg>
