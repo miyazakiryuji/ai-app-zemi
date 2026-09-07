@@ -287,6 +287,38 @@
       });
     }
 
+    /* ---- 8) タブ（開催スケジュールの期の切り替えなど）：[data-tabs] の中の role=tab / role=tabpanel ---- */
+    Array.prototype.forEach.call(document.querySelectorAll('[data-tabs]'), function (box) {
+      var tabs = Array.prototype.slice.call(box.querySelectorAll('[role="tab"]'));
+      if (!tabs.length) { return; }
+      function select(tab, focus) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) { panel.hidden = !on; }
+        });
+        if (focus) { tab.focus(); }
+      }
+      tabs.forEach(function (t, i) {
+        t.addEventListener('click', function () { select(t, false); });
+        /* 矢印キーで隣のタブへ（キーボード操作の標準的な動き） */
+        t.addEventListener('keydown', function (e) {
+          var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+          if (!d) { return; }
+          e.preventDefault();
+          select(tabs[(i + d + tabs.length) % tabs.length], true);
+        });
+      });
+      /* #cohort-6 のようにパネルの id で開いたら、その期を選んだ状態で表示する */
+      var target = location.hash && box.querySelector(location.hash);
+      if (target && target.getAttribute('role') === 'tabpanel') {
+        var owner = tabs.filter(function (t) { return t.getAttribute('aria-controls') === target.id; })[0];
+        if (owner) { select(owner, false); }
+      }
+    });
+
     root.classList.add('is-ready');
   });
 })();

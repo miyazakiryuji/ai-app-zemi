@@ -44,9 +44,9 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <p class="hero__sub">～ AIを相棒に、自分専用ツールを作ろう ～</p>
       <ul class="hero__facts">
         <li>全7回</li>
-        <li>毎回 土曜 20:30〜22:00</li>
         <li>オンライン（Google Meet）</li>
         <li>自習＋隔週のLIVE講義</li>
+        <li>期ごとに開講（日程は下の表）</li>
       </ul>
     </div>
     <div class="hero__mascot">
@@ -60,12 +60,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div>
       <p class="now__label">この回</p>
       <p class="now__title">第1回 オリエンテーション ― このページです</p>
-      <p class="now__meta">9月5日(土) 20:30〜22:00。第2回 要件定義のページも公開しています。開催日は<a href="#schedule">「日程・入室」の表</a>をご覧ください</p>
+      <p class="now__meta">第2回 要件定義のページも公開しています。ご自身の期の開催日と入室先は<a href="#schedule">「日程・入室」</a>でご確認ください</p>
     </div>
     <div class="now__actions">
       <a class="btn btn--primary" href="#contents">この回で押さえたいこと</a>
       <a class="btn btn--ghost" href="lessons/lesson02/">第2回のページを見る</a>
-      <a class="btn btn--ghost" href="https://meet.google.com/hgy-rkij-yds" target="_blank" rel="noopener">LIVE講義に入室する（Google Meet）↗</a>
+      <a class="btn btn--ghost" href="#schedule">開催日と入室先を見る</a>
     </div>
   </div>
 </div>
@@ -80,9 +80,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       何を作るかを決めるのは第2回からですので、この回は<strong>開催日程とゼミの大枠</strong>をそろえるところまでにします。
     </p>
     <div class="note">
-      あわせて、<strong>費用が発生する時期と、第2回までに用意しておくもの</strong>もこの回でお伝えします。
-      第2回は Claude デスクトップアプリでアプリのフォルダを開くところから始めるため、<strong>Claude デスクトップアプリの用意と Claude の有料プランのご契約</strong>（Claude Code は無料プランでは使えません）を第2回までにお願いします。
-      プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。第1回と第2回の間にLIVE講義は入りません。
+      あわせて、<strong>費用が発生する時期と、各回までに用意しておくもの</strong>もこの回でお伝えします。
+      <ul class="prep">
+        <li><strong>第2回まで：Claude デスクトップアプリ ＋ Claude の有料プラン。</strong>第2回は Claude デスクトップアプリでアプリのフォルダを開くところから始めます。Claude Code は無料プランでは使えないため、ここで費用が発生します。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください</li>
+        <li><strong>それ以降に使うソフト</strong>（アプリを自分のPCで動かすための土台など）は無料のものだけで、必要になる回のページで入れ方をご案内します</li>
+      </ul>
+      第1回と第2回の間にLIVE講義は入りませんので、早めの着手をおすすめします。
     </div>
   </div>
 </section>
@@ -325,16 +328,16 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <a class="lesson-card" href="lessons/lesson02/">
         <p class="lesson-card__no">LESSON 02</p>
         <h3 class="lesson-card__title">要件定義</h3>
-        <p class="lesson-card__desc">アプリのフォルダを作って Claude Code で開き、AI と壁打ちして削り込み、仕様書と作る順番をフォルダに残します。</p>
+        <p class="lesson-card__desc">アプリのフォルダを作って Claude Code で開き、AI と壁打ちして削り込み、使う技術の提案をもらって、仕様書と作る順番をフォルダに残します。</p>
         <p class="lesson-card__meta">この回で作るもの：アプリのフォルダ／docs/spec.md／docs/tasks.md</p>
         <span class="lesson-card__cta">この回のページを開く →</span>
       </a>
 
       <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 03</p>
-        <h3 class="lesson-card__title">実装① Claude Code で1周回す</h3>
-        <p class="lesson-card__desc">指示 → 生成 → 確認 → 修正 を1周回し、アプリの仕組みを実物で見ます。</p>
-        <p class="lesson-card__meta">この回の後に出すもの：自分のアプリの最初の1周（動く画面）＋保存先メモ</p>
+        <h3 class="lesson-card__title">モックを作る（画面を先に作る）</h3>
+        <p class="lesson-card__desc">第2回の仕様書から、裏側の処理を作らずに見た目だけの画面（モック）を Claude Code に作らせ、ブラウザで開いて確かめます。そのあと「崩れていないか → 見た目の方向性（テイスト） → 細部」の順にブラッシュアップします。</p>
+        <p class="lesson-card__meta">この回で作るもの：app/ のモック（index.html・edit.html・style.css）＋ブラッシュアップ後の画面</p>
         <span class="badge-soon">準備中 ― まだ開けません</span>
       </div>
 
@@ -453,29 +456,51 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
   <div class="section__inner">
     <p class="section__kicker" lang="en">Schedule &amp; Join</p>
     <h2 class="section__title">開催スケジュールと<em>参加方法</em></h2>
-    <p class="section__lead">全7回。いずれも土曜 20:30〜22:00 に、Google Meet で開催します。</p>
+    <p class="section__lead">全7回。開催日・時間・入室先は期ごとに違います。ご自身の期を選んでご確認ください。LIVE講義は Google Meet で行います。</p>
 
-    <div class="table-wrap" tabindex="0" role="region" aria-label="開催スケジュール">
-      <table class="tbl tbl--schedule">
-        <thead><tr><th>回</th><th>内容</th><th>開催日</th></tr></thead>
-        <tbody>
-          <tr><td>第1回</td><td>オリエンテーション</td><td>9月5日(土)</td></tr>
-          <tr><td>第2回</td><td>要件定義</td><td>9月19日(土)</td></tr>
-          <tr><td>第3回</td><td>実装①</td><td>10月3日(土)</td></tr>
-          <tr><td>第4回</td><td>実装②</td><td>10月17日(土)</td></tr>
-          <tr><td>第5回</td><td>実装③</td><td>10月31日(土)</td></tr>
-          <tr><td>第6回</td><td>デバッグ</td><td>11月14日(土)</td></tr>
-          <tr><td>第7回</td><td>機能追加と自走</td><td>11月28日(土)</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="cohorts" data-tabs>
+      <div class="cohorts__tabs" role="tablist" aria-label="期を選ぶ">
+        <button type="button" class="cohorts__tab" role="tab" id="tab-cohort-5" aria-controls="cohort-5" aria-selected="true">5期 <small>2026年9月〜11月</small></button>
+        <button type="button" class="cohorts__tab" role="tab" id="tab-cohort-6" aria-controls="cohort-6" aria-selected="false" tabindex="-1">6期 <small>準備中</small></button>
+      </div>
 
-    <div class="card card--join">
-      <h3 class="card__title">LIVE講義の入室先（Google Meet）</h3>
-      <p class="card__desc">
-        <a class="btn btn--primary" href="https://meet.google.com/hgy-rkij-yds" target="_blank" rel="noopener">Google Meet の講義室を開く ↗</a><br>
-        <span class="url-text">https://meet.google.com/hgy-rkij-yds</span>
-      </p>
+      <!-- 5期 -->
+      <div class="cohorts__panel" id="cohort-5" role="tabpanel" aria-labelledby="tab-cohort-5">
+        <p class="cohorts__meta"><strong>5期</strong>：毎回 土曜 20:30〜22:00（隔週）</p>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="5期の開催スケジュール">
+          <table class="tbl tbl--schedule">
+            <thead><tr><th>回</th><th>内容</th><th>開催日</th></tr></thead>
+            <tbody>
+              <tr><td>第1回</td><td>オリエンテーション</td><td>9月5日(土)</td></tr>
+              <tr><td>第2回</td><td>要件定義</td><td>9月19日(土)</td></tr>
+              <tr><td>第3回</td><td>モックを作る</td><td>10月3日(土)</td></tr>
+              <tr><td>第4回</td><td>実装②</td><td>10月17日(土)</td></tr>
+              <tr><td>第5回</td><td>実装③</td><td>10月31日(土)</td></tr>
+              <tr><td>第6回</td><td>デバッグ</td><td>11月14日(土)</td></tr>
+              <tr><td>第7回</td><td>機能追加と自走</td><td>11月28日(土)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card card--join">
+          <h3 class="card__title">5期 LIVE講義の入室先（Google Meet）</h3>
+          <p class="card__desc">
+            <a class="btn btn--primary" href="https://meet.google.com/hgy-rkij-yds" target="_blank" rel="noopener">Google Meet の講義室を開く ↗</a><br>
+            <span class="url-text">https://meet.google.com/hgy-rkij-yds</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 6期（日程が決まったら、5期の枠をコピーして表と入室先を入れる） -->
+      <div class="cohorts__panel" id="cohort-6" role="tabpanel" aria-labelledby="tab-cohort-6" hidden>
+        <p class="cohorts__meta"><strong>6期</strong>：開催日・時間・入室先は準備中です</p>
+        <div class="card card--join">
+          <h3 class="card__title">6期の日程と入室先</h3>
+          <p class="card__desc">
+            決まり次第、DMM 生成AI CAMP のゼミスレッドでご案内し、このページにも載せます。
+            進め方・全7回の流れ・修了要件は、期が変わっても同じです。
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="note">
@@ -498,7 +523,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <h2 class="section__title">分からないことが出てきたら<em>この順番で</em></h2>
     <p class="section__lead">
       学習中・課題実施中に詰まったら、以下の順で進めてください。1人で抱え込まないことが一番大事です。
-      第3回からはエラーが必ず出ますが、エラーは失敗ではなく作業の一部です。
+      作り始めるとエラーが必ず出ますが、エラーは失敗ではなく作業の一部です。
     </p>
 
     <div class="stepcards">
