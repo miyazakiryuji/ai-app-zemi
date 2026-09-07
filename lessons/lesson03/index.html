@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIアプリ開発入門ゼミ ｜ 第3回 モックを作る</title>
+<meta name="description" content="AIアプリ開発入門ゼミ 第3回 モックを作る。仕様書の画面一覧から、裏側の処理を作らずに見た目だけの画面（モック）を Claude Code に作らせ、ブラウザで開いて崩れを確かめ、テイスト → 細部の順にブラッシュアップするまでの手順。">
+<link rel="stylesheet" href="../../assets/site.css">
+<script>document.documentElement.classList.add("js");
+setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("is-ready")){r.classList.remove("js");}},2500);</script>
+<script src="../../assets/site.js" defer></script>
+</head>
+<body class="lesson">
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
+    <nav class="site-header__nav">
+      <a href="#what">モックとは</a>
+      <a href="#open">フォルダを開く</a>
+      <a href="#mock">指示①モック</a>
+      <a href="#check">ブラウザで確かめる</a>
+      <a href="#taste">指示②テイスト</a>
+      <a href="#detail">指示③細部</a>
+      <a href="#review">見直す</a>
+      <a href="#deliverables">この回で作るもの</a>
+      <a href="#pitfalls">つまずき</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ヒーロー -->
+<section class="hero hero--lesson">
+  <div class="hero__inner">
+    <div>
+      <p class="crumbs"><a href="../../">Home</a> ／ 第3回</p>
+      <p class="hero__kicker">LESSON 03 ／ 作るフェーズ</p>
+      <h1 class="hero__title">モックを作る ― 裏側を作らずに、<em>画面を先に作って整える</em></h1>
+      <p class="hero__sub">～ 仕様書の画面一覧から見た目だけの画面を作り、崩れ → テイスト → 細部 の順にブラッシュアップする ～</p>
+      <ul class="hero__facts">
+        <li>Claude デスクトップアプリを使います</li>
+        <li>成果物：app/ の中の HTML と style.css</li>
+        <li>保存や計算の処理はまだ作りません</li>
+        <li>保存の仕組みは使わず、ファイルを開くだけで見られます</li>
+      </ul>
+    </div>
+    <div class="hero__mascot">
+      <img src="../../assets/penguins/penguin_cheering_both_wings.png" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="now">
+  <div class="now__inner">
+    <div class="now__icon"><img src="../../assets/icons/icon-app.svg" alt=""></div>
+    <div>
+      <p class="now__label">この回の前に用意しておくもの</p>
+      <p class="now__title">仕様書 docs/spec.md が入ったアプリのフォルダ ＋ Claude デスクトップアプリ</p>
+      <p class="now__meta">アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、仕様書 <code>docs/spec.md</code> がある状態から始めます（作る順番 <code>docs/tasks.md</code> は、この回では使いません）。
+        Claude デスクトップアプリでそのフォルダを開き、Claude Code に指示を出します（デスクトップアプリと Claude Code が何かは、「フォルダを開く」の節の用語欄にまとめてあります）。Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。
+        間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
+    </div>
+    <div class="now__actions">
+      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--ghost" href="../../">Home へ戻る</a>
+    </div>
+  </div>
+</div>
+
+<!-- 1. モックとは -->
+<section class="section" id="what">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-mock.svg" alt=""></span><div><p class="section__kicker">01</p><h2 class="section__title">モックとは</h2></div></div>
+    <p class="section__lead">
+      <strong>モック</strong>＝見た目だけを作った画面です。ボタンを押しても何も起きず、保存も計算もしません。画面に何をどこに置くかを、実物の画面で確かめるために作ります。
+      この回で作るのは、ブラウザで開ける HTML と CSS のファイルだけです。<strong>画面が先に固まっていれば、あとの作業はすべてその画面の上で確かめられます。</strong>
+    </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>モック</dt><dd>見た目だけを作った画面。動きや保存の仕組みは入っていません。</dd>
+        <dt>HTML</dt><dd>画面に「何を」置くかを書くファイル。見出し・入力欄・ボタン・一覧などの並びを決めます。ファイル名の最後が <code>.html</code> になります。</dd>
+        <dt>CSS</dt><dd>画面の「見た目」を書くファイル。色・文字の大きさ・余白・角の丸み・要素の配置を決めます。ファイル名の最後が <code>.css</code> になります。</dd>
+        <dt>JavaScript</dt><dd>画面に「動き」を付けるプログラム。ボタンを押したときの処理、入力の確認、データの送受信などを書きます。この回では使いません。</dd>
+        <dt>裏側の処理</dt><dd>保存・計算・データの読み書きのように、画面の裏で動く仕組み。この回では作りません。</dd>
+        <dt>ブラッシュアップ</dt><dd>一度できたものを、見て・直して、少しずつ良くしていく作業。</dd>
+        <dt>崩れ</dt><dd>文字のはみ出し・重なり・ずれ、幅を変えたときの折れなど、意図と違う見た目になっていること。</dd>
+        <dt>テイスト</dt><dd>見た目の方向性。色・文字・余白・角の丸みなど、画面全体に共通する印象のこと。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">なぜ裏側より先に画面を作るのか</h3>
+    <ul>
+      <li>画面は目で見て確かめられます。裏側の処理は、動かして初めて合っているか分かります。先に画面があれば、あとから足す処理をすべてその画面の上で確かめられます</li>
+      <li>仕様書に書いた画面一覧と、実物の画面のずれに、作り込む前に気づけます。裏側まで作ったあとで画面を変えると、裏側も直すことになります</li>
+      <li>「何ができたら終わりか」が目に見えます。モックの見た目が完成の姿なので、あとの作業はこの画面に処理を足していく形で進められます</li>
+    </ul>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson03/diagram_mock.svg" alt="モックと完成したアプリの違い。モックには画面（HTML・CSS）だけがあり、完成したアプリには画面に加えて動き（JavaScript）と保存（サーバー・データ）がある。モックの画面はそのまま使う" loading="lazy">
+      <figcaption>モックと完成したアプリの違い。モックは画面だけで、完成したアプリはその画面に動きと保存が足されたものです。モックで作った画面はそのまま使います</figcaption>
+    </figure>
+
+    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
+    <div class="flow">
+      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">フォルダを開く</p><p class="flow__desc">仕様書のある my-app</p></div>
+      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">指示①</p><p class="flow__desc">モックを作らせる</p></div>
+      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">ブラウザで開く</p><p class="flow__desc">ダブルクリックで表示</p></div>
+      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">崩れを見る</p><p class="flow__desc">幅を変えて確かめる</p></div>
+      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">指示②</p><p class="flow__desc">テイストを決める</p></div>
+      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">指示③</p><p class="flow__desc">細部を1つずつ</p></div>
+      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">見直す</p><p class="flow__desc">仕様書と揃える</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. フォルダを開く -->
+<section class="section section--soft" id="open">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-folder-open.svg" alt=""></span><div><p class="section__kicker">02</p><h2 class="section__title">アプリのフォルダを開いて、<em>権限モードを「手動」</em>にする</h2></div></div>
+    <p class="section__lead">
+      仕様書 <code>docs/spec.md</code> が入っているアプリのフォルダ（このページでは <code>my-app</code>。名前はご自身で付けたもの）を、Claude デスクトップアプリで開きます。
+    </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>Claude デスクトップアプリ</dt><dd>PC にインストールして使う Claude の公式アプリ。この中から Claude Code を呼び出します。</dd>
+        <dt>Claude Code</dt><dd>指示を出すと、PC のファイルを実際に作ったり書き換えたりしてくれるツール。画面に答えを表示するだけのチャットとは別のものです。</dd>
+        <dt>セッション</dt><dd>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始めます。</dd>
+        <dt>ワークスペース</dt><dd>Claude Code が作業する場所として開いたフォルダのこと。</dd>
+        <dt>docs／spec.md／tasks.md</dt><dd>docs は documents（文書）の略で、文書を入れるフォルダの名前。<code>spec.md</code> は作るものを決めた仕様書、<code>tasks.md</code> は作る順番の一覧です。<code>docs/spec.md</code> は「docs フォルダの中の spec.md」の意味です。</dd>
+      </dl>
+    </div>
+
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<span class="why">なぜ：</span>前の会話と混ざりません。仕様書を作ったときの会話は、もう読ませなくて大丈夫です。仕様書はファイルとして残っているので、Claude Code はそれを読めます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">画面の下のフォルダ名のボタン → 「フォルダを開く…」→ <code>my-app</code> を選んで「開く」</h3><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。別のフォルダのままだと、そちらにファイルができます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">入力欄の近くに「ローカル」と <code>my-app</code> の2つが出ていれば開けています</h3><p class="steps__desc">「ローカル」は「この PC の中で動かす」という意味です。「リモート」や「SSH」のような別の表示になっている場合は、押して「ローカル」に切り替えます。<span class="why">なぜ：</span>この PC の中のフォルダを扱うには、この PC の中で動かす設定になっている必要があります。</p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">「このワークスペースを信頼しますか？」と出たら、場所を見てから「ワークスペースを信頼」</h3><p class="steps__desc">表示されたフォルダの場所が、ご自身の <code>my-app</code> であることを見てから押します。<span class="why">なぜ：</span>この確認は「そのフォルダの中のファイルを Claude Code が読み書きしてよいか」を聞いています。知らないフォルダなら押さないでください。</p></div></li>
+    </ol>
+    <figure class="figure figure--half">
+      <img src="../../assets/images/lesson03/r3_app_trust.png" alt="「このワークスペースを信頼しますか？」の確認画面。フォルダの場所と「ワークスペースを信頼」ボタンがある" loading="lazy">
+      <figcaption>「このワークスペースを信頼しますか？」の確認。フォルダの場所が自分の my-app であることを見てから「ワークスペースを信頼」</figcaption>
+    </figure>
+
+    <h3 class="sub">権限モードを「手動」にする</h3>
+    <p>入力欄の下に、いまの権限モードの名前が出ています。ここを押すとモードの一覧が出るので、<strong>「手動」</strong> を選びます。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>権限モード</dt><dd>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」は、そうした操作の前に必ず確認画面が出る設定です。「編集を受け入れる」は、ファイルの書き換えやフォルダの中のファイル操作の一部を確認なしで進める設定です。</dd>
+        <dt>コマンド</dt><dd>PC に文字で出す命令。Claude Code はファイルの書き換えのほかに、コマンドの実行も提案してきます。</dd>
+      </dl>
+    </div>
+    <figure class="figure figure--half">
+      <img src="../../assets/images/lesson03/r3_app_mode_menu.png" alt="入力欄の下のモード名を押すと出る一覧。自動・手動・編集を受け入れる・プラン・権限をバイパス" loading="lazy">
+      <figcaption>入力欄の下のモード名を押すと出る一覧。「手動」を選びます（この例ではすでに「手動」になっていて、✓ の印が付いています）</figcaption>
+    </figure>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      一覧にある<strong>「権限をバイパス」は、確認をすべて省く設定</strong>です。このゼミでは選びません。「編集を受け入れる」も、ファイルの書き換えやフォルダの中のファイル操作の一部を確認なしで進めるので、この回では選びません。
+    </div>
+    <p><span class="why">なぜ「手動」にするのか：</span>この回は、Claude Code が実際にファイルを作る回です。「手動」なら、どのファイルに何を書こうとしているかを確認画面で見てから許可できます。「編集を受け入れる」のままだと、頼んでいないファイルまで確認なしで作られたり書き換えられたりしても気づけません。</p>
+    <div class="note">
+      モードの名前や並びは、アプリの更新や契約の種類で変わることがあります。<strong>ファイルを書き換える前に毎回たずねてくる設定</strong>を選んでください。説明文に「常に確認」「毎回確認」と書かれているものが該当します。
+    </div>
+  </div>
+</section>
+
+<!-- 3. 指示① モック -->
+<section class="section" id="mock">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-chat.svg" alt=""></span><div><p class="section__kicker">03</p><h2 class="section__title">指示①：仕様書の画面一覧から、<em>モックを作らせる</em></h2></div></div>
+    <p class="section__lead">
+      Claude Code に <code>docs/spec.md</code> を読ませ、その「画面一覧と遷移」のとおりに画面を作らせます。次の型をそのまま入力欄に貼って送ります。画面の数や名前は仕様書から読み取らせるので、書き換える箇所はありません。
+    </p>
+<pre class="prompt prompt--plain" data-label="指示①（モック）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/spec.md を読んでください。その「画面一覧と遷移」に従って、見た目だけの画面（モック）を作ってください。
+
+■ 条件
+- 保存・計算・データの読み書きなど、裏側の処理は作らないでください。ボタンを押しても何も起きなくて構いません
+- ファイルは app フォルダの中に、画面1枚につき HTML を1つ（最初の画面は app/index.html、ほかは app/edit.html のように役割が分かる名前）と、見た目をまとめる app/style.css の1つだけ。JavaScript は使わないでください
+- 作るのは app/ の中のファイルだけ。docs/ の中のファイルは読むだけで、書き換えないでください。すでに同じ名前のファイルがある場合は上書きせず、中身を見せて確認を待ってください
+- ブラウザでファイルを直接開けば表示できるようにしてください（サーバーは使わない）
+- 画面どうしの移動（画面一覧に書いてある「〜を押すと〜へ」）だけは、リンクで動くようにしてください
+- 一覧や結果の欄には、見た目を確かめるための仮のデータを3件ほど入れてください（一覧が無いアプリは、結果の欄に仮の文章を入れてください）
+- 保存や削除など、動かさないボタンは、押しても画面が切り替わったり読み込み直されたりしないようにしてください（入力欄の送信は起こさない）
+- 色や飾りはまだ付けないでください。要素の配置だけで構いません
+- 作り終えたら、ブラウザでの開き方を1行で教えてください</pre>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>app</dt><dd>application（アプリケーション）の略。画面や処理のファイルを入れるフォルダの名前で、この回で初めて作られます。<code>app/index.html</code> は「app フォルダの中の index.html」の意味です。</dd>
+        <dt>index.html</dt><dd>アプリを開いたとき最初に出る画面の HTML に付ける、決まりごとの名前。あとで公開したりサーバーで動かしたりするとき、アドレスにファイル名を書かなくても最初に開かれる名前として決まっています。いま揃えておくと、そのときに直さずに済みます。ほかの画面は <code>edit.html</code> のように役割が分かる半角英数字にします。</dd>
+        <dt>リンク</dt><dd>押すと別の画面へ移る文字やボタン。HTML だけで作れるので、JavaScript が無くても画面の移動はできます。</dd>
+        <dt>仮のデータ</dt><dd>見た目を確かめるために入れておく、架空の記録。本物のデータが無いと、一覧の行がどう見えるか分かりません。</dd>
+        <dt>サーバー</dt><dd>画面からの求めに応じてデータを返したり保存したりするプログラム。この回のモックは HTML と CSS だけなので、サーバーは要りません。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">条件の1行ずつに理由があります</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="条件・なぜ の表">
+      <table class="tbl">
+        <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
+        <tbody>
+          <tr><td><strong>裏側の処理は作らない</strong></td><td>作らせると、画面の確認より先に保存や計算の動作確認が始まり、崩れの確認が後回しになります。この回は画面だけを見ます</td></tr>
+          <tr><td><strong>HTML は画面の数だけ・CSS は1つ・JavaScript は使わない</strong></td><td>ファイルが増えると、どれを見ればよいか分からなくなります。JavaScript が入ると「押しても動かない」が崩れなのか未完成なのか判断できなくなります</td></tr>
+          <tr><td><strong>作るのは app/ の中だけ。docs/ は書き換えない</strong></td><td>仕様書を書き換えられても気づけません。決めたことの正本は <code>docs/spec.md</code> に残しておきます</td></tr>
+          <tr><td><strong>ブラウザで直接開ける</strong></td><td>サーバーも Node.js も要りません。ダブルクリックだけで確かめられます</td></tr>
+          <tr><td><strong>画面の移動だけはリンクで動かす</strong></td><td>画面が2枚以上あるとき、行き来できないと画面2の見た目を確かめに行けません</td></tr>
+          <tr><td><strong>仮のデータを3件ほど</strong></td><td>一覧や結果の欄が空だと、行の見た目・区切り・文字の揃え方が確かめられません</td></tr>
+          <tr><td><strong>動かさないボタンは、押しても画面が切り替わらない</strong></td><td>HTML の入力欄のまとまりは、ボタンを押すと内容を送って画面を読み込み直す動きが最初から付いています。止めておかないと「押したら画面が変わった」が崩れなのか未完成なのか分からなくなります</td></tr>
+          <tr><td><strong>色や飾りはまだ付けない</strong></td><td>先に色を付けると、配置の崩れが色に隠れて見えなくなります。配置を決めてから色を当てます</td></tr>
+          <tr><td><strong>開き方を聞く</strong></td><td>作ったファイルを自分で開けないと、確かめようがありません</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p>画面の数と名前は仕様書に合わせて作られます。画面が3枚なら HTML も3つです。ファイル名は <code>index.html</code> 以外は自由ですが、小文字の半角英数字とハイフン（アンダースコアも可）だけにします。<span class="why">なぜ：</span>日本語やスペースが入った名前は、開発の道具の一部で扱いが難しくなります。日本語の名前が付いていたら、「ファイル名を半角英数字に変えてください」と頼みます。</p>
+
+    <figure class="figure">
+      <img src="../../assets/images/lesson03/r3_app_prompt1_typed.png" alt="指示①を入力欄に貼った状態" loading="lazy">
+      <figcaption>指示①を入力欄に貼ったところ（例：食費メモ。この例では画面のファイル名を指示の中に書いていますが、上の型では仕様書から読み取らせます）</figcaption>
+    </figure>
+    <p>送ると、Claude Code は <code>docs/spec.md</code> を読み、ファイルを1つずつ作ります。「手動」なので、ファイルごとに「書き込みを許可しますか？」の確認画面が出ます。<strong>ファイルの場所が <code>my-app/app/</code> の中であること</strong>と、<strong>中身に、自分が仕様書で決めた見出しや入力欄の名前（「今月の合計」「金額」など）が日本語で出てくること</strong>を見てから「一度だけ許可」を押します（確認画面の実物は <a href="#taste">指示②</a>・<a href="#detail">指示③</a> の節にあります）。<code>app</code> フォルダを作るコマンド（<code>mkdir app</code> のように出ます）の許可を求められることもあります。これは頼んだ作業の一部なので許可します。</p>
+    <figure class="figure">
+      <img src="../../assets/images/lesson03/r3_app_prompt1_done.png" alt="3ファイルができたあとの画面。左に返答、右にアプリの中のプレビュー欄" loading="lazy">
+      <figcaption>3ファイルができました。返答に「ブラウザでの開き方」も書いてあります。右はアプリの中のブラウザ欄で、この例では CSS が読み込まれず素の状態で出ています</figcaption>
+    </figure>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <strong>アプリの中のブラウザ欄だけで判断しないでください。</strong>Claude デスクトップアプリには画面を表示する欄がありますが、直後は前の状態のままだったり、この例のように <code>style.css</code> が読み込まれていなかったりします。最終の確認は必ずご自身のブラウザで開いて行います（次の節）。
+    </div>
+  </div>
+</section>
+
+<!-- 4. ブラウザで確かめる -->
+<section class="section section--soft" id="check">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-browser.svg" alt=""></span><div><p class="section__kicker">04</p><h2 class="section__title">ブラウザで開いて、<em>崩れていないか</em>を見る</h2></div></div>
+    <p class="section__lead">
+      <strong>開き方：</strong>Finder（Windows はエクスプローラー）で <code>my-app</code> → <code>app</code> → <code>index.html</code> をダブルクリックします。ブラウザが立ち上がり、モックが表示されます。
+    </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>ブラウザ</dt><dd>Safari や Chrome など、Web ページを見るソフト。HTML ファイルをそのまま開けます。</dd>
+        <dt>Node.js</dt><dd>JavaScript をブラウザの外（PC の上）で動かすための土台のソフト。サーバーを作るときなどに使います。この回では使いません。HTML と CSS だけの画面は、Node.js もサーバーも無しでブラウザが表示できます。</dd>
+      </dl>
+    </div>
+    <p><span class="why">なぜサーバー無しで開けるのか：</span>ブラウザは HTML ファイルを直接読んで画面にします。保存や計算の処理が無い今の状態では、ファイルを開くだけで十分です。あとで裏側の処理を足すときに初めて、サーバーが要るかどうかを考えます。</p>
+    <div class="figures">
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_finder_app.png" alt="Finder で my-app の中の app フォルダを開いたところ。edit.html・index.html・style.css の3つがある" loading="lazy">
+        <figcaption>Finder で my-app の中の app フォルダを開いたところ。index.html をダブルクリックします</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_browser_index.png" alt="ブラウザで開いたモックの画面。アドレスの欄に「ファイル」と自分の PC の中の場所が出ている" loading="lazy">
+        <figcaption>ブラウザで開いた画面。アドレスの欄に「ファイル」と出ていて、そのうしろが自分の PC の中の場所（Desktop/my-app/app/index.html）になっています。ブラウザによっては「file:///」から始まる形で表示されます</figcaption>
+      </figure>
+    </div>
+    <ul>
+      <li>ダブルクリックで別のソフト（エディタなど）が開いた場合は、ファイルを右クリック → 「このアプリケーションで開く」（Windows は「プログラムから開く」）→ ブラウザを選びます。ブラウザの窓にファイルをドラッグしても開けます。<span class="why">なぜ：</span>ダブルクリックでどのソフトが開くかは PC の設定で決まっていて、HTML ファイルにエディタが割り当てられていることがあります</li>
+      <li>画面1の「修正」を押して画面2に移り、「キャンセル」で戻れるかを見ます。<strong>画面の移動以外のボタン（画面1の「保存」、一覧の「削除」など）は、押しても何も起きないのが正しい状態です。</strong>画面2の「保存」は、リンクとして画面1に戻るだけで、内容は保存されません</li>
+    </ul>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_mock1_index.png" alt="モックの画面1。食費メモの記録画面。色も飾りも無い" loading="lazy">
+        <figcaption>モックの画面1（例：食費メモ）。色も飾りも無く、要素の配置だけです</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_mock1_edit.png" alt="モックの画面2。修正画面。入力欄3つと保存・キャンセル" loading="lazy">
+        <figcaption>モックの画面2（修正画面）。入力欄3つと「保存」「キャンセル」</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">崩れを見る5つの点</h3>
+    <p>1つずつ、画面を見ながら確かめます。</p>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>仕様書の要素が全部あるか</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見方</span><code>docs/spec.md</code> の「画面一覧と遷移」を横に開き、画面ごとに置くものを1つずつ指で追います</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>抜けは、あとで裏側の処理を足すときに「入れる場所が無い」という形で出てきます。余分な要素は AI が足したものです。仕様書に「作らない」と書いた機能のボタンが混じっていないかも見ます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>文字がはみ出していないか・重なっていないか</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見方</span>見出し・入力欄の名前・一覧の文字を見ます</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>はみ出しは、文字が長くなる本物のデータで悪化します</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>幅を変えても崩れないか</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見方</span>ブラウザの窓の右端をつかんで、狭くしたり広くしたりします</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>自分ひとりで使うものでも、窓を小さくしたまま開いたり、別の PC や大きい画面で開いたりします。そのときに一覧の文字が折れたり、ボタンが見切れたりします</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>画面の移動が動くか</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見方</span>「修正」→ 画面2 → 「キャンセル」→ 画面1</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>移動できないと、画面2の見た目を確かめに行けません</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>仮のデータが表示されているか</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">見方</span>一覧に3件あるか</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>空だと行の見た目が確かめられません</dd>
+      </div>
+    </dl>
+    <figure class="figure figure--narrow">
+      <img src="../../assets/images/lesson03/r3_mock_narrow.png" alt="窓を狭くしたときの画面1。一覧のメモの文字が途中で折れている" loading="lazy">
+      <figcaption>窓を狭くしたときの例。一覧のメモ欄の文字（「スーパー」「コンビニ」）が途中で折り返されています。これが「崩れ」です（この例はテイストを当てたあとの画面）</figcaption>
+    </figure>
+
+    <h3 class="sub">崩れがあったら、その場で直させる</h3>
+    <p>直したい箇所を1つ決め、次の型で送ります。<strong>スクリーンショットを撮って、入力欄に貼ります。</strong>Mac は <kbd>⌃⇧⌘4</kbd>（コントロールも一緒に押す）で範囲を選んで撮ると画像がクリップボードに入るので、入力欄で <kbd>⌘V</kbd> を押すと貼れます。<kbd>⇧⌘4</kbd> で撮った場合はデスクトップに画像ファイルができるので、そのファイルを入力欄にドラッグします。Windows は <kbd>Windows＋Shift＋S</kbd> で撮って <kbd>Ctrl+V</kbd> で貼ります。貼る前に、名前・メールアドレス・業務の実データなど、外に出せないものが写っていないかを見ます。写っていたら、範囲を絞って撮り直します。<span class="why">なぜ：</span>貼った画像は AI のサービスに送られます。</p>
+<pre class="prompt" data-label="崩れを直す指示の型 ― 崩れている箇所を1つ書いて、スクショを添えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">画面1の一覧で、メモ欄が狭すぎて文字が1文字ずつ折り返されています（スクショを添付）。
+メモ欄の幅を広げて、2行までに収まるようにしてください。
+変更は app/style.css だけ。HTML と文言は変えないでください。文字を小さくしたり、内容を隠したりして逃げないでください。ほかは触らないでください。</pre>
+    <p><span class="why">なぜスクショを貼るのか：</span>崩れを言葉にすると、どこがどう崩れているかが伝わりません。「一覧が変」では AI は別の場所を直します。画面そのものを見せれば、どの要素の話かが一致します。</p>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
+      <strong>ブラッシュアップは「崩れ → テイスト → 細部」の順に進めます。</strong>ここではまだ色や飾りは直しません。
+      順番を逆にして先に細部を直すと、テイストを変えたときに全体の余白や色が動き、直した細部がやり直しになります。
+    </div>
+    <div class="note">
+      <strong>崩れが無くなったら、ここで画面ごとに1枚ずつスクリーンショットを撮っておいてください。</strong>テイストを当てるとこの見た目には戻せません。ブラッシュアップの「前」の画面として、この回の提出物になります。
+    </div>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson03/diagram_brushup.svg" alt="ブラッシュアップの順番。①崩れを直す（はみ出し・重なり・ずれ、画面の幅を変えて見る）②テイストを決める（色・文字・余白・角の丸み、方向性を言葉で伝える）③細部を直す（1回の指示で1箇所、スクショを貼って伝える）" loading="lazy">
+      <figcaption>ブラッシュアップの順番。①崩れを直す ②テイストを決める ③細部を直す。逆にすると、細部を直したあとで全体が動いてやり直しになります</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 5. 指示② テイスト -->
+<section class="section" id="taste">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-palette.svg" alt=""></span><div><p class="section__kicker">05</p><h2 class="section__title">指示②：<em>テイスト</em>を決める</h2></div></div>
+    <p class="section__lead">
+      <strong>テイスト</strong>＝見た目の方向性です。色・文字の大きさ・余白・角の丸みをまとめて指します。配置が崩れていない状態になったら、テイストを言葉で伝えて、<code>style.css</code> だけを書き換えさせます。
+    </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>テイスト</dt><dd>見た目の方向性。色・文字・余白・角の丸みなど、画面全体に共通する印象のことです。</dd>
+        <dt>アクセントカラー</dt><dd>画面の中で強調に使う色。白地に1色だけ使うと、ボタンや合計金額に目が行きます。</dd>
+        <dt>px</dt><dd>ピクセル。画面上の大きさの単位。文字の大きさを 16px のように指定します。</dd>
+        <dt>余白</dt><dd>要素と要素のあいだ、画面の端と内容のあいだの空き。狭いと詰まって読みにくくなります。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">方向性を決める5つ</h3>
+    <p>ご自身のアプリに合わせて言葉にします。決められないときは、下の例（落ち着いた色・白地・緑1色）をそのまま使って構いません。</p>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>全体の色</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例</span>落ち着いた色。地は白、アクセントは緑系を1色だけ</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>決めないと AI が色を何色も使い、画面ごとに印象が変わります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>文字</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例</span>本文は 16px 以上、見出しは太く、行間は広め</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>小さい文字は読み飛ばしの元です。数字で言えば揃います</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>余白</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例</span>要素の間隔を広めに。左右にも余白を取り、内容は中央に寄せる</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>余白の指定が無いと、要素が左上に寄った詰まった画面になります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>角</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例</span>ボタンと入力欄は少し丸く。ボタンは押せると分かる見た目に</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>押せる場所が分からないと、使う人が迷います</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>一覧</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例</span>1行ごとに薄い区切り線。金額は右揃え（一覧が無いアプリは、結果の欄や入力欄の見せ方に読み替えます）</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>数字は右で揃えると桁が比べられます</dd>
+      </div>
+    </dl>
+
+    <h3 class="sub">テイストを当てる指示の型</h3>
+    <p>指示①と同じセッションで、続けて送ります。</p>
+<pre class="prompt" data-label="指示②（テイスト）― （ ）の中を自分の方向性に差し替えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">app の見た目の方向性（テイスト）を整えてください。裏側の処理は引き続き作らないでください。
+
+■ 方向性
+- 全体：（落ち着いた色。地は白、アクセントは緑系を1色だけ）
+- 文字：（本文は 16px 以上、見出しは太く。行間は広め）
+- 余白：（要素どうしの間隔を広めに。画面の左右にも余白を取り、内容は中央に寄せる）
+- 角：（ボタンと入力欄は少し丸く。ボタンは押せると分かる見た目に）
+- 一覧：（1行ごとに薄い区切り線。金額は右揃え）
+
+■ 条件
+- 変更は app/style.css だけ。HTML の構造（要素の並びや文言）は変えないでください
+- （画面1と画面2）の両方に同じテイストを当ててください</pre>
+    <p><span class="why">なぜ style.css だけを変えさせるのか：</span>HTML を変えると、前の節で確かめた配置がまた変わり、崩れの確認をやり直すことになります。見た目は CSS だけで変えられるので、HTML には触らせません。</p>
+    <p>送ると <code>style.css</code> の書き込みの確認画面が出ます。場所が <code>my-app/app/style.css</code> であること、中身が色や文字の指定であることを見てから「一度だけ許可」を押します。</p>
+
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_app_prompt2_typed.png" alt="指示②を入力欄に貼った状態" loading="lazy">
+        <figcaption>指示②を貼ったところ。同じセッションで続けて送ります</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_app_prompt2_permission.png" alt="style.css の書き込みを許可するかの確認画面。場所と、書こうとしている中身が見える" loading="lazy">
+        <figcaption>style.css の書き込みの確認。場所が my-app/app/style.css であること、中身が色や文字の指定であることを見て「一度だけ許可」</figcaption>
+      </figure>
+    </div>
+
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_teaching.png" alt="">
+      <strong>頼んでいない作業は断ってください。</strong>この例では、<code>style.css</code> を書いたあとに Claude Code が、英語で <code>Create preview copies with inlined CSS</code>（プレビュー用のコピーを作る）と書かれたコマンドの実行を求めてきました。指示に無い作業なので <strong>「拒否」</strong> を押しています。拒否しても、頼んだ <code>style.css</code> の変更はそのまま残ります。
+      <span class="why">なぜ断るのか：</span>頼んでいないファイルが増えると、どれが本物か分からなくなります。何をするコマンドか読んで分からないものは、通しません。
+    </div>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_app_prompt2_unrequested.png" alt="頼んでいないコマンドの実行を許可するかの確認画面" loading="lazy">
+        <figcaption>頼んでいないコマンドの確認画面。「Create preview copies with inlined CSS（プレビュー用のコピーを作る）」とありますが、指示していないので「拒否」</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_app_prompt2_done.png" alt="テイストを当てたあとの返答。HTML は触らず style.css だけ書き換えた、とある" loading="lazy">
+        <figcaption>テイストを当てたあとの返答。「HTML は触らず、style.css だけ書き換えます」とあります。頼んでいないコマンドは「1件失敗」として残りますが、style.css の変更はできています</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">ブラウザで開き直して見る</h3>
+    <p>開いたままのブラウザは、再読み込みすると新しい見た目になります（Mac は <kbd>⌘R</kbd>、Windows は <kbd>F5</kbd>）。<span class="why">なぜ：</span>ブラウザは前に読んだファイルを表示し続けています。読み直させないと、直したはずなのに変わらないように見えます。</p>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_mock2_index.png" alt="テイストを当てた画面1。白地に緑1色、余白広め、中央寄せ" loading="lazy">
+        <figcaption>テイストを当てた画面1（例：食費メモ）。白地に緑1色、余白広め、中央寄せ</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_mock2_edit.png" alt="テイストを当てた画面2。保存とキャンセルの見た目が揃った" loading="lazy">
+        <figcaption>テイストを当てた画面2。「保存」と「キャンセル」の見た目が揃いました</figcaption>
+      </figure>
+    </div>
+    <p>テイストを当てたら、<a href="#check">「崩れを見る5つの点」</a>をもう一度通します。色や余白が変わると、幅を狭めたときの折れ方も変わります。</p>
+  </div>
+</section>
+
+<!-- 6. 指示③ 細部 -->
+<section class="section section--soft" id="detail">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-detail.svg" alt=""></span><div><p class="section__kicker">06</p><h2 class="section__title">指示③：<em>細部を1つずつ</em>直す</h2></div></div>
+    <p class="section__lead">
+      テイストが決まったら、気になるところを <strong>1回の指示で1点だけ</strong> 直していきます。
+    </p>
+    <p><span class="why">なぜ1点ずつなのか：</span>まとめて頼むと、どの指示でどこが変わったか分からなくなります。気に入らない変更だけを戻したいとき、1点ずつなら「さっきの1点を戻して」で済みます。</p>
+    <p><strong>細部の例：</strong>ボタンの位置と目立たせ方／文字の大きさ／一覧の列の幅／余白の広さ／区切り線の濃さ。文言や要素の並びを変えたいときは HTML も直すことになるので、そのむねを指示に書きます。</p>
+<pre class="prompt" data-label="指示③（細部）― （ ）の中に直したい1点を書いて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">細かい所を1つずつ直します。次の1点だけ直してください。ほかは触らないでください。
+変更は app/style.css だけ。HTML は変えないでください（HTML を変えないと直せない場合は、直す前に教えてください）。
+
+- （「保存」ボタンを入力欄の右下に寄せて、ほかのボタンより目立つ色にする（画面1・画面2の両方））</pre>
+    <p><span class="why">「ほかは触らないでください」を毎回入れる理由：</span>この一言が無いと、AI は頼んだ1点のついでに周りも整え始めます。整えた結果が良くても、何が変わったか把握できなくなります。上の例は位置と色の2つを書いていますが、どちらも「保存を目立たせる」という1つの目的なのでまとめています。目的が別のものは、別の指示に分けます。</p>
+
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_app_prompt3_typed.png" alt="指示③を入力欄に貼った状態" loading="lazy">
+        <figcaption>指示③を貼ったところ。直すのは1点だけです</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_app_prompt3_permission.png" alt="style.css の書き込みの確認画面。変わる行だけが表示されている" loading="lazy">
+        <figcaption>style.css の書き込みの確認。変わる行だけが表示されます。頼んだ1点に関係する行だけかを見てから「一度だけ許可」</figcaption>
+      </figure>
+    </div>
+    <figure class="figure figure--half">
+      <img src="../../assets/images/lesson03/r3_app_prompt3_done.png" alt="直したあとの返答。何をどう変えたかが書いてある" loading="lazy">
+      <figcaption>直したあとの返答。何をどう変えたかが書いてあります。「HTML は変えていません」と書いてあるかも見ます</figcaption>
+    </figure>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_mock3_index.png" alt="細部を直したあとの画面1。保存ボタンが入力欄の右下に寄り、濃い緑になった" loading="lazy">
+        <figcaption>細部を直したあとの画面1。「保存」が入力欄の右下に寄り、ほかのボタンより濃い緑になりました</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson03/r3_mock3_edit.png" alt="細部を直したあとの画面2。保存が右、キャンセルが左" loading="lazy">
+        <figcaption>細部を直したあとの画面2。「保存」が右、「キャンセル」が左になりました</figcaption>
+      </figure>
+    </div>
+    <p>直したら、ブラウザを再読み込みして見ます。気になる点が残っていれば、また1点だけ頼みます。<strong>言葉にしにくい細部は、スクショに印を付けて貼ります</strong>（Mac の「プレビュー」、Windows の「Snipping Tool」（以前の「切り取り＆スケッチ」）で丸や矢印を描けます。アプリの名前は更新で変わることがあります）。</p>
+    <p>直した1点と、その理由は、そのつどメモに書き残します。この回の提出物になります。</p>
+  </div>
+</section>
+
+<!-- 7. 見直す -->
+<section class="section" id="review">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-check-screen.svg" alt=""></span><div><p class="section__kicker">07</p><h2 class="section__title">見直して、<em>仕様書と揃える</em></h2></div></div>
+    <p class="section__lead">ブラッシュアップを終えたら、次の3つを見ます。</p>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title"><a href="#check">「崩れを見る5つの点」</a>をもう一度通す</h3><p class="steps__desc">細部を直したあとで幅を変えたら折れる、はよく起きます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">仕様書の画面一覧と、実物の画面を見比べる</h3><p class="steps__desc">ブラッシュアップの途中で、要素の名前や並びが変わっている場合があります。まず Claude Code に「<code>docs/spec.md</code> の画面一覧と遷移と、いまの <code>app/</code> の画面で違うところを一覧にしてください。まだ何も変えないでください」と頼み、出てきた違いを1つずつ、<strong>画面を仕様書に戻す</strong>か、<strong>自分が採用した変更として仕様書を直す</strong>かを決めます。決めていない変更は、画面を仕様書に戻します。採用した変更だけ「<code>docs/spec.md</code> の画面一覧と遷移の〜を、〜に直してください。ほかの項目は変えないでください」と頼みます。<span class="why">なぜ：</span>仕様書と画面が食い違ったままだと、あとで裏側の処理を足すとき、AI がどちらを正としてよいか分からなくなります。AI が勝手に変えた画面を仕様にしてしまうと、決めた「やること」「やらないこと」がずれます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">裏側の処理は作っていないことを確かめる</h3><p class="steps__desc">画面1の「保存」を押しても一覧に記録が増えない、ブラウザを閉じて開き直しても記録が増えていない、が正しい状態です（画面2の「保存」「キャンセル」は、リンクとして画面1に戻るだけです）。保存や計算が動いていたら、Claude Code が頼んでいない処理を足しています。「JavaScript や保存の処理は入れないでください。入っていたら外して、作ったファイルの一覧を教えてください」と頼みます。作る順番 <code>docs/tasks.md</code> を作ってある方は、画面を作るタスクの先頭を <code>- [x]</code>（終わった印）に変えておきます。</p></div></li>
+    </ol>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
+      <strong>ここで作った画面は、あとで裏側の処理を足すときにそのまま使います。</strong>モックは捨てるものではありません。
+      だから、この回の時点で「自分が毎回使いたい画面」になっているかを見ておいてください。
+    </div>
+  </div>
+</section>
+
+<!-- 8. この回で作るもの -->
+<section class="section section--soft" id="deliverables">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-deliverable.svg" alt=""></span><div><p class="section__kicker">Deliverables</p><h2 class="section__title">この回で<em>作るもの</em></h2></div></div>
+    <p class="section__lead">終わったとき、手元に次の3つがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
+      </dl>
+    </div>
+    <div class="cards cards--3">
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-folder.svg" alt="">
+        <h3 class="card__title">app/ の中の HTML と style.css</h3>
+        <p class="card__desc">画面の数だけ HTML（例：<code>index.html</code>・<code>edit.html</code>）と、見た目をまとめた <code>style.css</code>。ブラウザでダブルクリックして開ける状態。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-check-screen.svg" alt="">
+        <h3 class="card__title">前と後のスクリーンショット</h3>
+        <p class="card__desc">ブラッシュアップ前（色を付ける前）と後の画面を、画面ごとに1枚ずつ。アプリのフォルダの中に <code>shots</code> フォルダを作って入れておくと迷いません（例：<code>shots/before-index.png</code>）。何がどう変わったかを見せるためのものです。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-file-md.svg" alt="">
+        <h3 class="card__title">自分の判断で直した点のメモ</h3>
+        <p class="card__desc">何を、なぜ直したか。指示③で1点ずつ頼んだ内容と、その理由を書き残します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. つまずき -->
+<section class="section" id="pitfalls">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-pitfall.svg" alt=""></span><div><p class="section__kicker">Pitfalls</p><h2 class="section__title">よくある<em>つまずき</em>と対処</h2></div></div>
+    <p class="section__lead">詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板）で進めてください。</p>
+    <div class="pitfalls">
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">ブラウザで開いても色が付かない・素の状態で出る</h3>
+        <p class="pitfall__what"><code>style.css</code> が読み込まれていません。</p>
+        <p class="pitfall__how"><strong>対処：</strong><code>style.css</code> が <code>index.html</code> と同じ <code>app</code> フォルダにあるか見ます。無ければ「<code>app/style.css</code> が読み込まれていません。直してください」と頼みます。アプリの中のプレビュー欄で見ている場合は、ご自身のブラウザで開き直してください。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">ダブルクリックでブラウザ以外のソフトが開く</h3>
+        <p class="pitfall__what">エディタで中身の文字が出ます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>右クリック → 「このアプリケーションで開く」（Windows は「プログラムから開く」）→ ブラウザ。または、ブラウザの窓にファイルをドラッグします。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">指示のたびに画面の構成が変わる</h3>
+        <p class="pitfall__what">崩れの確認をやり直しになります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「HTML の構造は変えない」「ほかは触らない」を毎回入れます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">Claude Code が JavaScript や保存の処理を作り始めた</h3>
+        <p class="pitfall__what">ボタンが動き、裏側ができてしまいます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>確認画面で「拒否」。指示に「裏側の処理は作らない」「JavaScript は使わない」を戻します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">頼んでいないコマンドの許可を求められた</h3>
+        <p class="pitfall__what">何をするか分からないまま通してしまいます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>内容を読みます。頼んでいない・分からないなら「拒否」。頼んだ作業の結果は残っています。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">何を直したいか言葉にできない</h3>
+        <p class="pitfall__what">指示が曖昧で、別の場所が直ります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>スクショに丸や矢印を付けて貼ります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">細部を先に直して、テイストで全部変わった</h3>
+        <p class="pitfall__what">直した細部がやり直しになります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「崩れ → テイスト → 細部」の順に戻ります。今回は1回分のやり直しで済みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">直したのにブラウザが変わらない</h3>
+        <p class="pitfall__what">前の表示のままです。</p>
+        <p class="pitfall__how"><strong>対処：</strong>再読み込み（<kbd>⌘R</kbd>／<kbd>F5</kbd>）します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">ファイル名が index.html・edit.html でない</h3>
+        <p class="pitfall__what">このページの例と違って不安になります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>例なので、ご自身の画面に合わせた名前で構いません。最初の画面だけ <code>index.html</code> にします。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">権限モードが「手動」になっていない</h3>
+        <p class="pitfall__what">確認なしでファイルが書き換わります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>入力欄の下のモード名を押して「手動」に。名前が違うときは、ファイルを書き換える前に毎回たずねてくる設定（説明文に「常に確認」「毎回確認」とあるもの）を選びます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">画面が仕様書と違うものになった</h3>
+        <p class="pitfall__what">あとで裏側を足すとき、どちらが正か分からなくなります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>画面を直すか、仕様書を直すかをご自身で決めて、両方を揃えます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">Windows で、フォルダを開く前に Git が必要だと言われる</h3>
+        <p class="pitfall__what">Windows の Claude Code は、Git という道具が入っていないと動きません。</p>
+        <p class="pitfall__how"><strong>対処：</strong><a href="https://git-scm.com/download/win" target="_blank" rel="noopener">Git for Windows</a> を入れてから、Claude デスクトップアプリを一度終了して開き直します。表示される文言や必要なものは更新で変わることがあるので、画面の案内に従ってください。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">Claude デスクトップアプリが入っていない／有料プランが未契約</h3>
+        <p class="pitfall__what">フォルダを開くところから先に進めません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。導入で詰まったら、スクショを撮って AI に聞く → ゼミ掲示板の順で。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 用語 -->
+<section class="section section--soft" id="glossary">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-glossary.svg" alt=""></span><div><p class="section__kicker">Glossary</p><h2 class="section__title">この回で出てきた<em>用語</em></h2></div></div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
+      <table class="tbl">
+        <thead><tr><th>用語</th><th>意味</th></tr></thead>
+        <tbody>
+          <tr><td><strong>モック</strong></td><td>見た目だけを作った画面。動きや保存の仕組みは入っていない</td></tr>
+          <tr><td><strong>HTML</strong></td><td>画面に「何を」置くかを書くファイル（<code>.html</code>）。見出し・入力欄・ボタン・一覧の並びを決める</td></tr>
+          <tr><td><strong>CSS</strong></td><td>画面の「見た目」を書くファイル（<code>.css</code>）。色・文字の大きさ・余白・角の丸み・要素の配置を決める</td></tr>
+          <tr><td><strong>JavaScript</strong></td><td>画面に「動き」を付けるプログラム。ボタンを押したときの処理・入力の確認・データの送受信など。この回では使わない</td></tr>
+          <tr><td><strong>裏側の処理</strong></td><td>保存・計算・データの読み書きのように、画面の裏で動く仕組み。この回では作らない</td></tr>
+          <tr><td><strong>ブラッシュアップ</strong></td><td>一度できたものを、見て・直して、少しずつ良くしていく作業。順番は「崩れ → テイスト → 細部」</td></tr>
+          <tr><td><strong>docs／spec.md／tasks.md</strong></td><td>docs は documents（文書）の略で、文書を入れるフォルダの名前。spec.md は仕様書、tasks.md は作る順番の一覧。この回で読ませるのは spec.md</td></tr>
+          <tr><td><strong>app</strong></td><td>application の略。画面や処理のファイルを入れるフォルダの名前</td></tr>
+          <tr><td><strong>index.html</strong></td><td>アプリを開いたとき最初に出る画面の HTML に付ける、決まりごとの名前</td></tr>
+          <tr><td><strong>リンク</strong></td><td>押すと別の画面へ移る文字やボタン。HTML だけで作れる</td></tr>
+          <tr><td><strong>仮のデータ</strong></td><td>見た目を確かめるために入れておく架空の記録</td></tr>
+          <tr><td><strong>サーバー</strong></td><td>画面からの求めに応じてデータを返したり保存したりするプログラム。この回のモックには要らない</td></tr>
+          <tr><td><strong>Node.js</strong></td><td>JavaScript をブラウザの外（PC の上）で動かすための土台のソフト。この回では使わない</td></tr>
+          <tr><td><strong>ブラウザ</strong></td><td>Safari や Chrome など、Web ページを見るソフト。HTML ファイルをそのまま開ける</td></tr>
+          <tr><td><strong>セッション</strong></td><td>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始める</td></tr>
+          <tr><td><strong>ワークスペース</strong></td><td>Claude Code が作業する場所として開いたフォルダ</td></tr>
+          <tr><td><strong>権限モード</strong></td><td>Claude Code がファイルの書き換えやコマンドの実行の前に確認を求めるかどうかの設定。「手動」は必ず確認画面が出る</td></tr>
+          <tr><td><strong>コマンド</strong></td><td>PC に文字で出す命令。Claude Code はファイルの書き換えのほかに、コマンドの実行も提案してくる</td></tr>
+          <tr><td><strong>崩れ</strong></td><td>文字のはみ出し・重なり・ずれ、幅を変えたときの折れなど、意図と違う見た目になっていること</td></tr>
+          <tr><td><strong>テイスト</strong></td><td>見た目の方向性。色・文字・余白・角の丸みなど、画面全体に共通する印象</td></tr>
+          <tr><td><strong>アクセントカラー</strong></td><td>画面の中で強調に使う色</td></tr>
+          <tr><td><strong>px</strong></td><td>ピクセル。画面上の大きさの単位</td></tr>
+          <tr><td><strong>余白</strong></td><td>要素と要素のあいだ、画面の端と内容のあいだの空き</td></tr>
+          <tr><td><strong>再読み込み</strong></td><td>ブラウザにファイルを読み直させること。<kbd>⌘R</kbd>／<kbd>F5</kbd></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p><a class="backlink" href="../../">← Home（ゼミ全体の案内）へ戻る</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
+    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+  </div>
+</footer>
+
+</body>
+</html>

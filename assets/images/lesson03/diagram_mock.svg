@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">モックと完成したアプリの違い</title>
+  <desc id="svg-desc">モックには画面だけがあり、完成したアプリには画面、動き、保存があることを左右で比較した図。モックで作った画面は完成したアプリにそのまま使う。</desc>
+  <defs>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
+      <path d="M0 0L10 5L0 10Z" fill="#C9CEDB"/>
+    </marker>
+  </defs>
+
+  <rect id="canvas" x="0" y="0" width="960" height="540" fill="#FFF9F0"/>
+
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text id="main-title" x="28" y="38" font-size="22" font-weight="700">モックと完成したアプリの違い</text>
+
+    <rect id="mock-panel" x="24" y="62" width="380" height="400" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+    <rect id="mock-heading-box" x="44" y="82" width="340" height="54" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+    <text id="mock-heading" x="214" y="117" font-size="20" font-weight="700" text-anchor="middle">モック（この回で作るもの）</text>
+
+    <rect id="mock-screen-box" x="52" y="164" width="324" height="64" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+    <text id="mock-screen-text" x="214" y="204" font-size="18" font-weight="700" text-anchor="middle">画面（HTML・CSS）</text>
+
+    <circle id="mock-point-1" cx="58" cy="274" r="5" fill="#4DA8FF"/>
+    <text id="mock-line-1" x="76" y="281" font-size="18">見た目と配置だけ</text>
+    <circle id="mock-point-2" cx="58" cy="322" r="5" fill="#4DA8FF"/>
+    <text id="mock-line-2" x="76" y="329" font-size="18">押しても保存も計算もしない</text>
+    <circle id="mock-point-3" cx="58" cy="370" r="5" fill="#4DA8FF"/>
+    <text id="mock-line-3" x="76" y="377" font-size="18">保存も計算もしない</text>
+
+    <rect id="app-panel" x="556" y="62" width="380" height="400" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <rect id="app-heading-box" x="576" y="82" width="340" height="54" rx="14" fill="#FF8C42" fill-opacity="0.14"/>
+    <text id="app-heading" x="746" y="117" font-size="20" font-weight="700" text-anchor="middle">完成したアプリ（あとで作る）</text>
+
+    <rect id="app-screen-box" x="584" y="164" width="324" height="48" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+    <text id="app-screen-text" x="746" y="198" font-size="18" font-weight="700" text-anchor="middle">画面（HTML・CSS）</text>
+    <rect id="app-motion-box" x="584" y="236" width="324" height="48" rx="14" fill="#FFFFFF" stroke="#FFD166" stroke-width="2"/>
+    <text id="app-motion-text" x="746" y="270" font-size="18" font-weight="700" text-anchor="middle">動き（JavaScript）</text>
+    <rect id="app-storage-box" x="584" y="308" width="324" height="48" rx="14" fill="#FFFFFF" stroke="#6FD49D" stroke-width="2"/>
+    <text id="app-storage-text" x="746" y="342" font-size="18" font-weight="700" text-anchor="middle">保存（サーバー・データ）</text>
+
+    <circle id="app-point-1" cx="590" cy="397" r="5" fill="#FF8C42"/>
+    <text id="app-line-1" x="608" y="404" font-size="18">押すと動く</text>
+    <circle id="app-point-2" cx="590" cy="437" r="5" fill="#FF8C42"/>
+    <text id="app-line-2" x="608" y="444" font-size="18">データが残る</text>
+
+    <text id="reuse-label" x="480" y="156" font-size="18" font-weight="700" fill="#5A6178" text-anchor="middle">そのまま使う</text>
+    <path id="reuse-arrow" d="M416 191H544" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <rect id="benefit-box" x="24" y="486" width="912" height="42" rx="16" fill="#FFFFFF" stroke="#6FD49D" stroke-width="2"/>
+    <circle id="benefit-point" cx="52" cy="507" r="6" fill="#6FD49D"/>
+    <text id="benefit-text" x="72" y="516" font-size="18" font-weight="700">先に画面を作ると、要件のずれに早く気づける</text>
+  </g>
+</svg>

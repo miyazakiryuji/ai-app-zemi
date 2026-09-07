@@ -5,6 +5,7 @@ GitHub Pages で公開している、受講生向けの案内ページです。
 - **公開URL：<https://miyazakiryuji.github.io/ai-app-zemi/>**
 - 第1回 オリエンテーション：Home（<https://miyazakiryuji.github.io/ai-app-zemi/>。`lessons/lesson01/` は Home へ転送）
 - 第2回 要件定義：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson02/>
+- 第3回 モックを作る：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson03/>
 - リポジトリ：<https://github.com/miyazakiryuji/ai-app-zemi>
 
 - Home：ゼミの目的・進め方・全7回の流れ・修了要件・開催スケジュール・参加方法・困ったときの順番
@@ -56,3 +57,9 @@ GitHub Pages で公開している、受講生向けの案内ページです。
 - 図版の並び：`figures--2`（2列固定）、`figures--menu`（縦長1枚＋横長1枚）
 - スクショの伏せ字は「ぼかし」ではなく薄いグレーの角丸で平らに塗る（ぼかしは壊れて見える）
 - 余白・文字組みは `body.lesson` 配下で上書き（本文 16px／行間 1.7〜1.8／字間 0／8px 単位）。根拠は `10_products/_references/design/`
+
+## 第3回ページ（2026-09-07）
+
+- スクショの元は教材リポジトリ側 `カリキュラム/assets/shots/r3_*.png`（講師の環境が写る箇所は平らに塗ってある）。`assets/images/lesson03/` に置く。図解は `diagram_mock.svg`・`diagram_brushup.svg`（Codex 生成）
+- アイコンを5個追加（Codex 生成・同じ線画）：`icon-mock`（モックとは）・`icon-browser`（ブラウザで開く）・`icon-check-screen`（見直す・成果物）・`icon-palette`（テイスト）・`icon-detail`（細部）
+- Claude デスクトップアプリのスクショは、サイドバーを落としてチャット欄だけを切り出したもの（`r3_app_prompt*`）と、プレビュー欄まで含む全体（`r3_app_prompt1_done`・`r3_app_prompt2_done`）の2種類。切り出しは文字を読ませたい図、全体は「右の欄に画面が出る」を見せたい図

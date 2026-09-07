@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">ブラッシュアップは、この順番で</title>
+  <desc id="svg-desc">崩れを直す、テイストを決める、細部を直す、というブラッシュアップの三段階を左から右へ示す図。</desc>
+  <defs>
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
+      <path d="M0 0L10 5L0 10Z" fill="#C9CEDB"/>
+    </marker>
+  </defs>
+
+  <rect id="canvas" x="0" y="0" width="960" height="460" fill="#FFF9F0"/>
+
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text id="main-title" x="480" y="44" font-size="22" font-weight="700" text-anchor="middle">ブラッシュアップは、この順番で</text>
+
+    <rect id="step-1-box" x="30" y="82" width="270" height="246" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <rect id="step-1-heading-box" x="50" y="102" width="230" height="58" rx="14" fill="#FF8C42" fill-opacity="0.14"/>
+    <text id="step-1-heading" x="165" y="139" font-size="20" font-weight="700" text-anchor="middle">①崩れを直す</text>
+    <text id="step-1-line-1" x="50" y="216" font-size="17" font-weight="700">はみ出し・重なり・ずれ</text>
+    <text id="step-1-line-2" x="50" y="276" font-size="17" fill="#5A6178">画面の幅を変えて見る</text>
+
+    <path id="arrow-1" d="M312 205H333" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <rect id="step-2-box" x="345" y="82" width="270" height="246" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+    <rect id="step-2-heading-box" x="365" y="102" width="230" height="58" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+    <text id="step-2-heading" x="480" y="139" font-size="20" font-weight="700" text-anchor="middle">②テイストを決める</text>
+    <text id="step-2-line-1" x="365" y="216" font-size="17" font-weight="700">色・文字・余白・角の丸み</text>
+    <text id="step-2-line-2" x="365" y="276" font-size="17" fill="#5A6178">方向性を言葉で伝える</text>
+
+    <path id="arrow-2" d="M627 205H648" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <rect id="step-3-box" x="660" y="82" width="270" height="246" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="3"/>
+    <rect id="step-3-heading-box" x="680" y="102" width="230" height="58" rx="14" fill="#6FD49D" fill-opacity="0.18"/>
+    <text id="step-3-heading" x="795" y="139" font-size="20" font-weight="700" text-anchor="middle">③細部を直す</text>
+    <text id="step-3-line-1" x="680" y="216" font-size="17" font-weight="700">1回の指示で1箇所</text>
+    <text id="step-3-line-2" x="680" y="276" font-size="17" fill="#5A6178">スクショを貼って伝える</text>
+
+    <rect id="caution-box" x="30" y="358" width="900" height="76" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="2"/>
+    <circle id="caution-point" cx="56" cy="396" r="6" fill="#6FD49D"/>
+    <text id="caution-text" x="76" y="403" font-size="18" font-weight="700">順番を逆にすると、細部を直したあとで全体が動いてやり直しになる</text>
+  </g>
+</svg>

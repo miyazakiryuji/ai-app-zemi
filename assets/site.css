@@ -304,7 +304,7 @@ table.tbl tr:last-child td { border-bottom: 0; }
   color: var(--text-sub); margin-bottom: 12px; }
 .backlink:hover { color: var(--text-accent); }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   /* 固定ヘッダのメニューは横1行に収め、はみ出す分は横スクロールで見せる。
      折り返すと3段になり、画面の上3割が常時メニューで埋まってしまうため */
   .site-header__inner { flex-wrap: nowrap; gap: 10px; padding: 10px 14px; }
@@ -843,3 +843,15 @@ body.lesson .crumbs { font-size: 16px; }
 /* Home の準備物の箇条書き（注記の中） */
 .note ul.prep { margin: 10px 0; padding-left: 1.3em; }
 .note ul.prep li { margin: 6px 0; }
+
+/* 第3回ページで足した部品（2026-09-07 UI レビュー）：
+   - figure--half：縦長のスクショを1枚だけ置くとき、実寸に近い幅（最大 620px）で中央に
+   - figure--narrow：幅を狭めた画面の例（500px）を等倍で出す。--tall の max-height 440px だと文字が読めない
+   - 「押すと拡大」の印は、画像が中央寄せの図では画像の上に中央で置く */
+body.lesson .figure--half img { width: auto; max-width: 620px; max-height: none; margin: 0 auto; }
+body.lesson .figure--narrow img { width: auto; max-width: 500px; max-height: none; margin: 0 auto; }
+body.lesson .figure--half .zoom-hint, body.lesson .figure--narrow .zoom-hint, body.lesson .figure--tall .zoom-hint { align-self: center; }
+body.lesson .zoom-hint { font-size: 14px; padding: 6px 13px; }
+body.lesson .explain-list { margin-top: 24px; }
+body.lesson .term { max-width: 900px; }
+/* ヘッダーのメニューを横スクロールにする幅を 760px → 900px に上げた（761〜900px でメニューが2段になり、画面の上を 139px 占めていた） */
