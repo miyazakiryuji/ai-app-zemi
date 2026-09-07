@@ -793,3 +793,35 @@ body.lesson .flow__step { padding: 16px 14px; }
 /* 縦長の図（Finder のメニュー）は高さを抑えて中央に置く。隣の横長の図と釣り合わせる */
 body.lesson .figure--tall img { width: auto; max-width: 100%; max-height: 440px; margin: 0 auto; }
 body.lesson .figures--menu { grid-template-columns: minmax(220px, 1fr) 2fr; align-items: start; }
+
+/* ==== 第2回の内容に合わせた文字サイズの調整（2026-09-07）====
+   本文・見出しの大きさはそのまま。小さいまま残っていた箇所だけ直す */
+/* アプリのスクショは3列に並べると中の文字が読めない。PC でも2列まで（メニュー画像の組は従来どおり） */
+body.lesson .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+body.lesson .figures--menu { grid-template-columns: minmax(220px, 1fr) 2fr; }
+@media (max-width: 720px) { body.lesson .figures, body.lesson .figures--menu { grid-template-columns: 1fr; } }
+/* 図版に「押すと拡大」の印（site.js が付ける）。画像に重ねるとスクショのアイコンや図解のタイトルを隠すので、図の上に置く */
+body.lesson .figure { display: flex; flex-direction: column; }
+body.lesson .zoom-hint { order: -1; align-self: flex-end; margin: 0 0 8px; font-size: 12.5px; font-weight: 800; line-height: 1.4;
+  padding: 5px 11px; border-radius: 100px; background: rgba(42, 47, 69, .78); color: #fff; pointer-events: none; }
+body.lesson .figure--tall img { align-self: center; }
+body.lesson .zoom-hint::before { content: "🔍 "; }
+/* 図解（SVG）はスマホで縮めると文字が読めない。横スクロールの箱に入れて元の大きさに近づける（表と同じ扱い） */
+@media (max-width: 720px) {
+  body.lesson .figure__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px;
+    box-shadow: inset -16px 0 16px -16px var(--text-mute); }
+  body.lesson .figure__scroll img { min-width: 640px; }
+}
+/* 小さなラベル類を本文（20px）との差が開きすぎない大きさに */
+body.lesson .section__kicker { font-size: 16px; }
+body.lesson .term__title { font-size: 16px; }
+body.lesson .explain-list__label { font-size: 15.5px; }
+body.lesson .prompt::before { font-size: 14px; }
+body.lesson .copybtn { font-size: 14px; }
+body.lesson .flow__n { width: 30px; height: 30px; font-size: 14px; }
+body.lesson .crumbs { font-size: 16px; }
+@media (max-width: 720px) {
+  /* 指示の型のラベルが2行に折り返しても、本文の1行目に重ならないように */
+  body.lesson .prompt { padding-top: 66px; }
+  body.lesson .prompt::before { font-size: 13px; line-height: 1.4; white-space: normal; }
+}

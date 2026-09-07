@@ -232,7 +232,8 @@
       function openLb(img) {
         opener = img;
         lbImg.src = img.currentSrc || img.src; lbImg.alt = img.alt || '';
-        var cap = img.parentNode.querySelector('figcaption');
+        var fig = img.closest ? img.closest('figure') : img.parentNode;
+        var cap = fig ? fig.querySelector('figcaption') : null;
         lbCap.textContent = cap ? cap.textContent : (img.alt || '');
         lb.hidden = false; root.classList.add('lb-open');
         requestAnimationFrame(function () { lb.classList.add('is-open'); });
@@ -244,6 +245,18 @@
         if (reduce) { after(); } else { setTimeout(after, 260); }
       }
       shots.forEach(function (img) {
+        var fig = img.closest ? img.closest('figure') : null;
+        if (fig) {
+          /* 「押すと拡大できる」ことを示す印（スマホでは縮んだスクショの文字が読めないため） */
+          var hint = document.createElement('span');
+          hint.className = 'zoom-hint'; hint.setAttribute('aria-hidden', 'true'); hint.textContent = '押すと拡大';
+          fig.appendChild(hint);
+          /* 図解（SVG）はスマホで縮めると文字が読めないので、横スクロールできる箱で包む（CSS 側で min-width を付ける） */
+          if (fig.classList.contains('figure--diagram') && img.parentNode === fig) {
+            var wrap = document.createElement('div'); wrap.className = 'figure__scroll';
+            fig.insertBefore(wrap, img); wrap.appendChild(img);
+          }
+        }
         img.setAttribute('tabindex', '0'); img.setAttribute('role', 'button');
         img.setAttribute('aria-label', (img.alt || '画像') + '（押すと大きく表示）');
         img.addEventListener('click', function () { openLb(img); });
