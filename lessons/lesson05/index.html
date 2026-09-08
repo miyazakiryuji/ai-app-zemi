@@ -209,9 +209,21 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 ■ 先に見せてほしいこと
 テストのファイルを書く前に、「どのテストを作るか」の一覧を、仕様書のどの行に対応するかを添えて出してください。
 一覧を私が確認してから、ファイルを書いてください。</pre>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_prompt1_typed.png" alt="指示①を入力欄に貼った状態" loading="lazy">
+      <figcaption>指示①を貼ったところ（例：食費メモ）。入力欄の上に「ローカル」と自分のフォルダ名（my-app）が出ていることを見てから送ります</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_test_list.png" alt="返ってきたテストの一覧。番号・テスト名・仕様書の該当行が表になっている" loading="lazy">
+      <figcaption>返ってきた一覧（例：食費メモ）。テストごとに、仕様書のどの行に対応するか（spec.md:22 など）が添えられています。この時点ではファイルはまだ書かれていません</figcaption>
+    </figure>
     <p><span class="why">なぜ一覧を先に出させるのか：</span>いきなりファイルを書かせると、何十行ものプログラムを渡されて、読めずに通してしまいます。一覧なら日本語なので、仕様書と見比べて「抜けている」「やらないことが混ざっている」とご自身で判断できます。</p>
     <p><span class="why">なぜ「アプリ本体を書き換えない」と書くのか：</span>テストを書くついでに、通りやすいようにアプリ側も直されることがあります。この段階で本体が変わると、そのあとテストが落ちたときに「もともと壊れていた」のか「いま書き換えられて壊れた」のかが分からなくなります。</p>
 
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_test_question.png" alt="一覧の最後で、画面の確認をどこまでテストにするかを AI が質問している" loading="lazy">
+      <figcaption>一覧の最後で、AI が判断を聞いてきた例。「画面の確認は、部品を足さずに文字を調べるだけにするか（案A）、ブラウザを動かす部品を足すか（案B）」という質問でした。使う技術を増やさない案Aを選んでいます。決めるのは自分です</figcaption>
+    </figure>
     <h3 class="sub">返ってきた一覧の見方</h3>
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h3 class="steps__title">仕様書の「やること（MVP）」の各行に、対応するテストがあるか</h3><p class="steps__desc">無い行があれば「〜のテストも足してください」と頼みます。</p></div></li>
@@ -229,6 +241,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="section__lead">
       テストのファイルができたら、流します。<strong>初めて流したときに、いくつか落ちるのがふつうです。</strong>落ちたテストが、いまのコードと仕様書のずれを示しています。
     </p>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_test_fail.png" alt="初めてテストを流した結果。26件中19件成功、7件失敗。落ちた原因が2つにまとめられている" loading="lazy">
+      <figcaption>初めて流した結果（例：食費メモ）。26件中7件が落ち、原因は「一覧の並びが逆」「金額が空でも保存される」の2つでした。テストの元が仕様書なので、いまのコードとのずれがそのまま出てきます</figcaption>
+    </figure>
     <div class="note note--key">
       <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
@@ -256,8 +272,20 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - テストの条件をゆるめる、テストを飛ばす（skip）、テストを消す、はしないでください
 - 直す前に、「なぜ落ちたか（原因）」と「どのファイルのどこを直すか」を先に教えてください。私が確認してから直してください
 - 直したら、落ちたテストだけでなく、全部のテストをもう一度流して結果を教えてください</pre>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_prompt2_typed.png" alt="指示②を貼った状態。落ちたテストの名前と期待／結果を貼ってある" loading="lazy">
+      <figcaption>指示②を貼ったところ。落ちたテストの名前と、期待／結果をそのまま貼っています</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_cause_report.png" alt="直す前の報告。原因2つと、直す場所の表、ついでに見つけたもの" loading="lazy">
+      <figcaption>直す前に返ってきた報告。「まだ何も変更していません」と断ったうえで、原因と直す場所（server.js の3か所）が表になっています。ついでに見つけた別の問題も「今回は直しません・判断をお願いします」と聞いてきました</figcaption>
+    </figure>
     <p><span class="why">なぜ「原因と直す箇所を先に」なのか：</span>いきなり直されると、何が悪かったのかが分からないまま消えます。同じ不具合が別の場所で出たとき、また一から調べることになります。原因が1行で分かっていれば、次に同じ症状が出たときにご自身で当たりが付けられます。</p>
     <p><span class="why">なぜ「全部もう一度流す」のか：</span>落ちた1つを直した拍子に、通っていた別のテストが落ちることがあります（デグレ）。落ちたものだけ流し直すと、そこに気づけません。</p>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_all_pass.png" alt="直したあと、全部流し直して26件すべて成功した画面" loading="lazy">
+      <figcaption>直したあと、全部を流し直した結果。26件すべて成功（失敗0・スキップ0）。「テストのファイルは1文字も触っていません」と書いてあるかも見ます</figcaption>
+    </figure>
     <div class="note note--warn">
       <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
       <strong>テストの結果を読むときに見るのは3つだけです。</strong>① 通った数と落ちた数 ② 落ちたテストの<strong>名前</strong>（何を確かめていたか）③ <strong>期待と結果</strong>。この3つが読めれば、上の指示の型がそのまま書けます。英語のメッセージが長くても、要るのはこの3つだけです。
@@ -292,8 +320,23 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 途中で想定と違うことが起きたら、そこで止めて、
 何が起きたかと開発者ツールのコンソールの内容を教えてください。
 勝手に直さないでください。</pre>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_ui_running.png" alt="Claude Code がブラウザを開いて操作している途中の画面" loading="lazy">
+      <figcaption>Claude Code がブラウザを開いて操作している途中。返答の中に、いま見ている画面が小さく出ます（例：食費メモ）。操作の前に、実際の記録を退避してから始めていました</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_ui_stopped.png" alt="手順4で想定と違うことが起きて止まった報告。手順1〜3の結果の表、コンソールの内容、通信の記録" loading="lazy">
+      <figcaption>手順4（削除）で想定と違うことが起きて止まった例。手順1〜3の結果、開発者ツールのコンソールの内容、通信の記録（削除の通信が飛んでいない）が報告され、「アプリのコードは何も触っていません」とあります</figcaption>
+    </figure>
     <p><span class="why">なぜ「勝手に直さないでください」と書くのか：</span>確認を頼んだつもりが、そのまま修正まで進んでしまうと、何が起きていたのかを人が見られなくなります。<strong>確認と修正は分けます。</strong></p>
     <p><span class="why">なぜスクリーンショットを撮らせるのか：</span>「確認しました」という報告だけでは、実際の画面は分かりません。撮らせておけば、報告と画面が食い違っていたときに気づけます。</p>
+    <div class="note">
+      <strong>上の例で止まった理由は、アプリの不具合ではありませんでした。</strong>Claude Code が操作するブラウザは、「削除してよいですか？」のような確認の小窓（ダイアログ）を表示できない設定になっていて、自動で「いいえ」を返します。報告を読んで、「確認が呼ばれていることはコンソールで分かったので、確認を一時的に『はい』にして続けてください。アプリのファイルは触らないでください」と指示して、手順4〜6を続けました。<span class="why">なぜ止まってから人が決めるのか：</span>止まらずに進めていたら、「削除が動かない」と誤って直されていたかもしれません。
+    </div>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_ui_done.png" alt="6手順が終わった報告。スマホ幅で一覧の表が崩れることを見つけたが、仕様書で対象外と決めているので直していない" loading="lazy">
+      <figcaption>6手順が終わった報告。スマホ幅で一覧の表が崩れることを見つけましたが、仕様書に「スマホ向けの表示は今回は作らない」とあるので「指示がないので直していません」と止まっています。退避していた記録も元に戻してあります</figcaption>
+    </figure>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
@@ -357,9 +400,29 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 3. 落ちたもの・想定と違う結果になったものは、直す前に次を報告してください。
    何をしたか／何が起きたか／画面側・通信・サーバー側・保存のどこで止まっていたか
 4. 報告するまで修正はしないでください。</pre>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_adv_list.png" alt="返ってきた候補の一覧。観点ごとに ID・何をするか・手段（テストかブラウザか）・気になることの表" loading="lazy">
+      <figcaption>返ってきた候補の一覧（例：食費メモ）。観点ごとに、ID・何をするか・手段（テストコードかブラウザか）・気になることが表になっています。「この時点では何も実行していません」と断っています</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_adv_pick.png" alt="一覧の最後。特に危ないと見ているもの4つと、どれを実行するかの質問" loading="lazy">
+      <figcaption>一覧の最後。コードを読んで「特に危ないと見ているもの」を4つ挙げ、どれを実行するかを聞いてきます。ここでは、その4つだけを選びました</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_adv_permission.png" alt="壊しにいくテストを実行する前の確認画面。「一度だけ許可」ボタンがある" loading="lazy">
+      <figcaption>実行する前の確認画面。何を実行しようとしているか（コマンド）を見てから「一度だけ許可」を押します。分からないものは通しません</figcaption>
+    </figure>
     <p><span class="why">なぜ一覧を先に出させて、人が選ぶのか：</span>全部いっぺんに実行させると、直しきれない量の不具合が一度に出てきて手が止まります。承認なしに大量投入や削除まで走ると、保存先のデータが元に戻せなくなります。</p>
     <p><span class="why">なぜテストコードとブラウザ操作を分けるのか：</span>数百件の投入や連打は、ブラウザで1回ずつ操作すると終わりません。テストコードなら数秒で流せます。逆に「表示が崩れる」「押しても反応しない」はブラウザで見ないと分かりません。<strong>観点ごとに向いている手段が違います。</strong></p>
     <p><span class="why">なぜここでも「報告するまで修正しない」と書くのか：</span>先に直されると、何が起きていたのかが分からないまま消えます。報告があれば、直したあとにそのテストを<strong>テストコードに足して</strong>、同じ不具合が再発しないようにできます。</p>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_adv_result.png" alt="壊れたものの報告。コンソールの内容、通信の記録、どこで止まっていたか、まだ直していないという断り" loading="lazy">
+      <figcaption>壊れたものの報告（例：サーバーを止めた状態で保存を押す）。コンソールの内容・通信の記録・どこで止まっていたか（画面側の app.js:32）が出て、「直す指示はまだいただいていないので、コードには手を付けていません」と止まっています</figcaption>
+    </figure>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_adv_fixed.png" alt="直したあと、見つかった壊し方をふだんのテストに足した表と、直す前／直した後の比較" loading="lazy">
+      <figcaption>直したあとの報告。見つかった壊し方（保存ファイルが壊れているとき・実在しない日付など）がふだんのテストに足され、直す前／直した後の動きが比べられています</figcaption>
+    </figure>
     <div class="note note--key">
       <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
@@ -423,6 +486,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - docs/tasks.md のタスクを1つ終えるごとに、全部のテストを流して結果を報告する
 - 保存・読み出しの処理を変えたときも、全部のテストを流す
 - テストが落ちたら、テストではなく実装側を直す。テストの条件をゆるめない・飛ばさない</pre>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_claudemd_done.png" alt="CLAUDE.md に「## テスト」の4行を足した返答" loading="lazy">
+      <figcaption>CLAUDE.md に足した例。「末尾に4行をそのまま追加しました。既存の行は変更していません」と返ってきます</figcaption>
+    </figure>
     <p>Claude Code に「<code>CLAUDE.md</code> に、この内容を足してください」と頼めば書き込んでくれます。<span class="why">なぜ <code>CLAUDE.md</code> に書くのか：</span>自分が忘れても、Claude Code が読みます。「流すのを忘れた」を、人の記憶ではなく仕組みで防ぎます。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -448,6 +515,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - 落ちたときに、どのテストが落ちたのか読めるようにしてください
 - テスト用のデータは、実際に使っているデータと混ざらない場所に置いてください。
   テストを流しても、私の記録が消えないことを確かめてください</pre>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_readme_done.png" alt="README を書いたあとの報告。テスト用データの保存先の表と、実際に流して記録が変わっていないことの確認" loading="lazy">
+      <figcaption>整えたあとの報告（例：食費メモ）。ふだんの記録とテスト用データの保存先が別になっている表と、実際に流して自分の記録が1文字も変わっていないことの確認、実行結果（35件すべて成功）が返ってきました</figcaption>
+    </figure>
     <ul>
       <li><span class="why">なぜ実行方法を README に書かせるのか：</span>数週間後には、どう流すのかご自身で分からなくなります。<strong>思い出せない手順は使われません。</strong></li>
       <li><span class="why">なぜテスト用のデータを分けさせるのか：</span>同じ保存先を使うと、テストを流すたびにご自身の記録が消えます。<strong>1回消えた時点で、テストを流さなくなります。</strong></li>
@@ -561,6 +632,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <h3 class="pitfall__title">確認を頼んだら Claude Code が勝手に直した</h3>
         <p class="pitfall__what">何が起きていたかが消えます。</p>
         <p class="pitfall__how"><strong>対処：</strong>「報告するまで修正しない」「勝手に直さない」を指示に入れます。直されてしまったら「いま直した内容を元に戻して、何が起きていたかを先に報告して」と頼みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">UI テストで「削除の確認が出ない」と報告された</h3>
+        <p class="pitfall__what">Claude Code が操作するブラウザは、確認の小窓（ダイアログ）を表示できず、自動で「いいえ」を返します。アプリの不具合ではありません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>コンソールに確認の文言が出ていれば、確認は動いています。「確認を一時的に『はい』にして続けて。アプリのファイルは触らないで」と指示するか、その手順だけ自分のブラウザで確かめます。</p>
       </div>
       <div class="pitfall">
         <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
