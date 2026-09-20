@@ -22,7 +22,7 @@
     <circle id="mock-point-1" cx="58" cy="274" r="5" fill="#4DA8FF"/>
     <text id="mock-line-1" x="76" y="281" font-size="18">見た目と配置だけ</text>
     <circle id="mock-point-2" cx="58" cy="322" r="5" fill="#4DA8FF"/>
-    <text id="mock-line-2" x="76" y="329" font-size="18">押しても保存も計算もしない</text>
+    <text id="mock-line-2" x="76" y="329" font-size="18">押しても何も起きない</text>
     <circle id="mock-point-3" cx="58" cy="370" r="5" fill="#4DA8FF"/>
     <text id="mock-line-3" x="76" y="377" font-size="18">保存も計算もしない</text>
 

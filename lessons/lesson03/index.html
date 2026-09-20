@@ -60,7 +60,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div>
       <p class="now__label">この回の前に用意しておくもの</p>
       <p class="now__title">仕様書 docs/spec.md が入ったアプリのフォルダ ＋ Claude デスクトップアプリ</p>
-      <p class="now__meta">アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、仕様書 <code>docs/spec.md</code> がある状態から始めます（作る順番 <code>docs/tasks.md</code> は、この回では使いません）。
+      <p class="now__meta">アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、仕様書 <code>docs/spec.md</code> がある状態から始めます（作る順番 <code>docs/tasks.md</code> は、この回では Claude Code に読ませません）。
         Claude デスクトップアプリでそのフォルダを開き、Claude Code に指示を出します（デスクトップアプリと Claude Code が何かは、「フォルダを開く」の節の用語欄にまとめてあります）。Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。
         間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
     </div>
@@ -94,15 +94,45 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
 
     <h3 class="sub">なぜ裏側より先に画面を作るのか</h3>
+    <p>このゼミでは、アプリを <strong>「見た目 → 動き → 裏側」の順に、1段ずつ足して作ります</strong>。最初に作るのが、見た目だけのモックです。</p>
+    <p><strong>一言でいうと</strong>：画面は目で見て直せますが、裏側の処理は動かすまで合っているか分かりません。目で見て直せるほうを先に終わらせ、そのあとの処理は、できあがった画面の上で1つずつ確かめながら足していきます。</p>
     <ul>
-      <li>画面は目で見て確かめられます。裏側の処理は、動かして初めて合っているか分かります。先に画面があれば、あとから足す処理をすべてその画面の上で確かめられます</li>
-      <li>仕様書に書いた画面一覧と、実物の画面のずれに、作り込む前に気づけます。裏側まで作ったあとで画面を変えると、裏側も直すことになります</li>
-      <li>「何ができたら終わりか」が目に見えます。モックの見た目が完成の姿なので、あとの作業はこの画面に処理を足していく形で進められます</li>
+      <li><strong>目で見て確かめられます。</strong>画面は開けばその場で合っているか分かります。保存や計算は、動かしてみるまで合っているか分かりません。先に画面があれば、あとから足す処理を、すべてこの画面の上で「押した結果がどう出るか」として確かめられます</li>
+      <li><strong>うまくいかないとき、原因を探す範囲が狭くなります。</strong>画面と処理を一度に作らせると、思ったとおりに動かないときに、画面の置き方が悪いのか、処理が悪いのかが分かりません。画面だけを先に仕上げておけば、そのあとに起きた不具合は、あとから足した処理を先に調べればよいことになります</li>
+      <li><strong>1回の指示が小さくなり、確認画面を読み切れます。</strong>Claude Code はファイルを書き換える前に、何をどこに書くかを確認画面に出します。画面と処理をまとめて頼むと確認画面の中身が長くなり、読まずに許可することになります。見た目だけなら、出てくるのは HTML と CSS だけなので、自分が決めた見出しや入力欄の名前が入っているかを目で追えます</li>
+      <li><strong>仕様書と実物のずれに、作り込む前に気づけます。</strong>実物の画面に並べてみると、足りない入力欄や、要らなかった項目が見つかります。画面に置く項目が変われば、保存する項目も変わります。処理まで作ったあとで気づくと、画面と処理の両方を直すことになります。画面だけの状態なら、直すのは画面の1か所で終わります</li>
+      <li><strong>見た目が好みかどうかは、使う本人にしか決められません。</strong>自分が毎日開きたくなる画面かどうかを、AI は判断できません。見た目をあとまわしにすると、処理ができあがったあとで画面を変えることになり、直すのをためらって、気に入らないまま使い続けることになります</li>
+      <li><strong>残りの作業が数えられます。</strong>画面が1枚ずつ手元にあると、このあとの作業を「この画面のこのボタンに処理を足す」という形で、1つずつ数えられます</li>
     </ul>
+    <figure class="figure figure--diagram">
+      <img src="../../assets/images/lesson03/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy">
+      <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済みます</figcaption>
+    </figure>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <strong>ここで作る画面は、あとで動きや裏側の処理を足すときの土台として使います。作り直す前提の下書きではありません。</strong>だから、この回のうちに「自分が毎回使いたい画面」になるまで整えます。
+      処理を足す段階で、「1件も無いときの案内」や「処理中の表示」のように、いまは出しようのない表示が増えることはあります。増えるのは足りなかった表示で、この回で決めた配置と見た目をやり直すわけではありません。
+    </div>
     <figure class="figure figure--diagram">
       <img src="../../assets/images/lesson03/diagram_mock.svg" alt="モックと完成したアプリの違い。モックには画面（HTML・CSS）だけがあり、完成したアプリには画面に加えて動き（JavaScript）と保存（サーバー・データ）がある。モックの画面はそのまま使う" loading="lazy">
       <figcaption>モックと完成したアプリの違い。モックは画面だけで、完成したアプリはその画面に動きと保存が足されたものです。モックで作った画面はそのまま使います</figcaption>
     </figure>
+
+    <h3 class="sub">自分のアプリの型で、読み替えるところ</h3>
+    <p>このページの例は、記録型の「食費メモ」（画面2枚・一覧あり）です。変換型・相談型のアプリは、次のように読み替えてください。</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="記録型・変換型・相談型 の読み替えの表">
+      <table class="tbl">
+        <thead><tr><th>記録型（入れて、ためて、見返す）。このページの例「食費メモ」</th><th>変換型（入れたものを別の形にして返す）</th><th>相談型（質問して、答えをもらう）</th></tr></thead>
+        <tbody>
+          <tr><td>一覧に仮のデータを3件入れる</td><td>入力欄に長めの仮の文章、結果の欄に短い文章（1行）と長い文章（400字ほど）を置く</td><td>やり取りの欄に、自分の発言と AI の返事を交互に3往復置く</td></tr>
+          <tr><td>画面1の「保存」を押しても何も起きない</td><td>「変換」「生成」を押しても、結果の欄は最初に置いた仮の文章のまま変わらない</td><td>「送信」を押しても、やり取りは最初に並べたまま増えない</td></tr>
+          <tr><td>「修正」→ 画面2 →「キャンセル」で戻れる</td><td>画面が2枚以上あるときだけ見る。1枚で完結するなら飛ばす</td><td>同じ</td></tr>
+          <tr><td>一覧：1行ごとに区切り線、金額は右揃え</td><td>結果の欄：読みやすい幅を保ち、長い文章でも行間を詰めない</td><td>やり取り：自分の発言と AI の返事を、位置や背景の色で見分けられるようにする</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p><span class="why">なぜ短い文章と長い文章の両方を置くのか：</span>本物の AI の返事は長さが毎回違い、1行のときと数百字のときでは、欄の高さも折り返し方も変わります。片方だけだと、もう片方の見た目を確かめられません。</p>
 
     <h3 class="sub">この回の流れ（上から順に進めます）</h3>
     <div class="flow">
@@ -123,7 +153,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-folder-open.svg" alt=""></span><div><p class="section__kicker">02</p><h2 class="section__title">アプリのフォルダを開いて、<em>権限モードを「手動」</em>にする</h2></div></div>
     <p class="section__lead">
       仕様書 <code>docs/spec.md</code> が入っているアプリのフォルダ（このページでは <code>my-app</code>。名前はご自身で付けたもの）を、Claude デスクトップアプリで開きます。
+      作る順番 <code>docs/tasks.md</code> は、この回では Claude Code に読ませません。<span class="why">なぜ：</span><code>docs/tasks.md</code> は、保存や計算まで含めて何をどの順で作るかを並べたものです。読ませると、この回では作らないと決めた処理まで作り始めます。
     </p>
+    <p><strong>仕様書の「使う技術」も、この回では使いません。</strong><code>docs/spec.md</code> のうち、この回で見るのは「画面一覧と遷移」だけです。「使う技術」に Node.js や React などを書いてあっても、この回のモックは HTML と CSS だけで作ります。<span class="why">なぜ：</span>この回で確かめたいのは画面の配置と見た目だけです。起動用のファイルや設定ファイルまで作らせると、ファイルが増えて、どれを開いて確かめればよいか分からなくなります。</p>
+    <p>返答の最後に「仕様書には React と書いてありますが、指示どおり HTML と CSS だけで作りました」のように断られることがありますが、それで正しい状態です。<strong>仕様書は直しません。</strong>仕様書に書いた技術は、あとで動きや裏側の処理を足すときに使います。HTML と CSS をそのまま使える構成ならファイルごと使い、別の構成を選んだ場合は、ここで決めた配置・文言・色・余白を、その構成の書き方に移して使います。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
@@ -164,6 +197,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       一覧にある<strong>「権限をバイパス」は、確認をすべて省く設定</strong>です。このゼミでは選びません。「編集を受け入れる」も、ファイルの書き換えやフォルダの中のファイル操作の一部を確認なしで進めるので、この回では選びません。
     </div>
     <p><span class="why">なぜ「手動」にするのか：</span>この回は、Claude Code が実際にファイルを作る回です。「手動」なら、どのファイルに何を書こうとしているかを確認画面で見てから許可できます。「編集を受け入れる」のままだと、頼んでいないファイルまで確認なしで作られたり書き換えられたりしても気づけません。</p>
+    <p>確認画面は、作るファイルの数だけ出ます。画面が3枚なら、HTML 3つと <code>style.css</code> で4回以上出ます。<strong>回数が多いのは異常ではありません。</strong>途中で「常に許可」を選ばないでください。<span class="why">なぜ：</span>一度選ぶと、以後その種類の操作は確認なしで進みます。このあとに出てくる「頼んでいない作業の確認」も、出ないまま通ってしまいます。</p>
     <div class="note">
       モードの名前や並びは、アプリの更新や契約の種類で変わることがあります。<strong>ファイルを書き換える前に毎回たずねてくる設定</strong>を選んでください。説明文に「常に確認」「毎回確認」と書かれているものが該当します。
     </div>
@@ -177,25 +211,34 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="section__lead">
       Claude Code に <code>docs/spec.md</code> を読ませ、その「画面一覧と遷移」のとおりに画面を作らせます。次の型をそのまま入力欄に貼って送ります。画面の数や名前は仕様書から読み取らせるので、書き換える箇所はありません。
     </p>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      仕様書に「画面一覧と遷移」という見出しが無い場合は、指示の1行目の「画面一覧と遷移」を、ご自身の仕様書で画面のことを書いた見出しの名前（「画面構成」など）に書き換えて送ります。
+      画面のことを書いた節そのものが無い場合は、先に「docs/spec.md に、画面ごとの名前・何をする画面か・置く要素（入力欄・ボタン・一覧など）・どのボタンを押すとどの画面へ移るかを『画面一覧と遷移』の見出しで足してください。ほかの項目は変えないでください」と頼み、確認画面で中身を見てから許可します。
+      <span class="why">なぜ：</span>画面の数と置くものが決まっていないと、AI は推測で画面を作ります。できた画面が意図と違っていても、見比べる相手が無いので気づけません。
+    </div>
 <pre class="prompt prompt--plain" data-label="指示①（モック）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/spec.md を読んでください。その「画面一覧と遷移」に従って、見た目だけの画面（モック）を作ってください。
 
 ■ 条件
 - 保存・計算・データの読み書きなど、裏側の処理は作らないでください。ボタンを押しても何も起きなくて構いません
 - ファイルは app フォルダの中に、画面1枚につき HTML を1つ（最初の画面は app/index.html、ほかは app/edit.html のように役割が分かる名前）と、見た目をまとめる app/style.css の1つだけ。JavaScript は使わないでください
+- 見た目の指定（CSS）は app/style.css にだけ書いてください。HTML の中に直接書き込まないでください
+- インターネットから読み込むもの（画像・アイコン・書体・部品の詰め合わせ）は使わないでください。画像が要る箇所は、枠と「画像」の文字だけで表してください
 - 作るのは app/ の中のファイルだけ。docs/ の中のファイルは読むだけで、書き換えないでください。すでに同じ名前のファイルがある場合は上書きせず、中身を見せて確認を待ってください
 - ブラウザでファイルを直接開けば表示できるようにしてください（サーバーは使わない）
-- 画面どうしの移動（画面一覧に書いてある「〜を押すと〜へ」）だけは、リンクで動くようにしてください
-- 一覧や結果の欄には、見た目を確かめるための仮のデータを3件ほど入れてください（一覧が無いアプリは、結果の欄に仮の文章を入れてください）
-- 保存や削除など、動かさないボタンは、押しても画面が切り替わったり読み込み直されたりしないようにしてください（入力欄の送信は起こさない）
+- 仕様書の画面一覧に「〜を押すと〜へ」と書いてあるボタンは、その画面へ移るリンクにしてください。それ以外のボタン（一覧の「削除」など）は、押しても画面が切り替わったり読み込み直されたりしないようにしてください（入力欄の送信は起こさない）
+- 見た目を確かめるための仮のデータを入れてください。一覧があるアプリは一覧に3件ほど。そのうち1件は、文字が長いもの（20文字以上）と桁の大きい数字にしてください。一覧が無いアプリは、入力欄に長めの仮の文章を、結果の欄に短い文章（1行）と長い文章（400字ほど）を置いてください。やり取りが並ぶアプリは、自分の発言と AI の返事を交互に3往復置いてください
+- 仮のデータは架空のものにしてください。実在の人名・社名・メールアドレスは入れないでください
 - 色や飾りはまだ付けないでください。要素の配置だけで構いません
-- 作り終えたら、ブラウザでの開き方を1行で教えてください</pre>
+- 作り終えたら、ブラウザでの開き方を1行で教えてください（ターミナルのコマンドではなく、Finder やエクスプローラーからの開き方で）</pre>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
         <dt>app</dt><dd>application（アプリケーション）の略。画面や処理のファイルを入れるフォルダの名前で、この回で初めて作られます。<code>app/index.html</code> は「app フォルダの中の index.html」の意味です。</dd>
         <dt>index.html</dt><dd>アプリを開いたとき最初に出る画面の HTML に付ける、決まりごとの名前。あとで公開したりサーバーで動かしたりするとき、アドレスにファイル名を書かなくても最初に開かれる名前として決まっています。いま揃えておくと、そのときに直さずに済みます。ほかの画面は <code>edit.html</code> のように役割が分かる半角英数字にします。</dd>
         <dt>リンク</dt><dd>押すと別の画面へ移る文字やボタン。HTML だけで作れるので、JavaScript が無くても画面の移動はできます。</dd>
-        <dt>仮のデータ</dt><dd>見た目を確かめるために入れておく、架空の記録。本物のデータが無いと、一覧の行がどう見えるか分かりません。</dd>
+        <dt>仮のデータ</dt><dd>見た目を確かめるために入れておく、架空の記録や文章。本物のデータが無いと、一覧の行や結果の欄がどう見えるか分かりません。</dd>
+        <dt>ターミナル</dt><dd>文字で命令（コマンド）を打ち込み、結果を文字で受け取る画面。この回では使いません。</dd>
         <dt>サーバー</dt><dd>画面からの求めに応じてデータを返したり保存したりするプログラム。この回のモックは HTML と CSS だけなので、サーバーは要りません。</dd>
       </dl>
     </div>
@@ -207,13 +250,16 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <tbody>
           <tr><td><strong>裏側の処理は作らない</strong></td><td>作らせると、画面の確認より先に保存や計算の動作確認が始まり、崩れの確認が後回しになります。この回は画面だけを見ます</td></tr>
           <tr><td><strong>HTML は画面の数だけ・CSS は1つ・JavaScript は使わない</strong></td><td>ファイルが増えると、どれを見ればよいか分からなくなります。JavaScript が入ると「押しても動かない」が崩れなのか未完成なのか判断できなくなります</td></tr>
+          <tr><td><strong>見た目の指定は style.css にだけ書く</strong></td><td>HTML の中に書かれていると、あとで「style.css だけを変えて」と頼んでも見た目が変わらず、原因が分からないまま止まります</td></tr>
+          <tr><td><strong>インターネットから読み込むものは使わない</strong></td><td>通信が無いときに表示されず、崩れなのか、読み込みに失敗しただけなのか分からなくなります</td></tr>
           <tr><td><strong>作るのは app/ の中だけ。docs/ は書き換えない</strong></td><td>仕様書を書き換えられても気づけません。決めたことの正本は <code>docs/spec.md</code> に残しておきます</td></tr>
           <tr><td><strong>ブラウザで直接開ける</strong></td><td>サーバーも Node.js も要りません。ダブルクリックだけで確かめられます</td></tr>
-          <tr><td><strong>画面の移動だけはリンクで動かす</strong></td><td>画面が2枚以上あるとき、行き来できないと画面2の見た目を確かめに行けません</td></tr>
-          <tr><td><strong>仮のデータを3件ほど</strong></td><td>一覧や結果の欄が空だと、行の見た目・区切り・文字の揃え方が確かめられません</td></tr>
-          <tr><td><strong>動かさないボタンは、押しても画面が切り替わらない</strong></td><td>HTML の入力欄のまとまりは、ボタンを押すと内容を送って画面を読み込み直す動きが最初から付いています。止めておかないと「押したら画面が変わった」が崩れなのか未完成なのか分からなくなります</td></tr>
-          <tr><td><strong>色や飾りはまだ付けない</strong></td><td>先に色を付けると、配置の崩れが色に隠れて見えなくなります。配置を決めてから色を当てます</td></tr>
-          <tr><td><strong>開き方を聞く</strong></td><td>作ったファイルを自分で開けないと、確かめようがありません</td></tr>
+          <tr><td><strong>「〜を押すと〜へ」のボタンだけはリンクで動かす</strong></td><td>画面が2枚以上あるとき、行き来できないと2枚目の見た目を確かめに行けません</td></tr>
+          <tr><td><strong>それ以外のボタンは、押しても画面が切り替わらない</strong></td><td>HTML の入力欄のまとまりは、ボタンを押すと内容を送って画面を読み込み直す動きが最初から付いています。止めておかないと「押したら画面が変わった」が崩れなのか未完成なのか分からなくなります</td></tr>
+          <tr><td><strong>仮のデータを入れる。長い文字・大きい桁・長い文章も混ぜる</strong></td><td>欄が空だと、行の見た目・区切り・文字の揃え方が確かめられません。全部が短いデータだと、どの行も1行に収まって当たり前に見えます。本物の記録には長いメモが混じり、AI の返事は数百字になることもあるので、先に混ぜておくと、幅を変える前から崩れが見つかります</td></tr>
+          <tr><td><strong>仮のデータは架空のもの</strong></td><td>このあと画面のスクリーンショットを撮って AI に貼ったり、提出したりします。実在の名前は、そのまま人の目に触れます</td></tr>
+          <tr><td><strong>色や飾りはまだ付けない</strong></td><td>色が付くと目が色に行き、要素のずれや文字のはみ出しを見落とします。さらに、テイストでは色と一緒に余白・幅・行間も動くので、配置と色を同時に変えると、どちらの指示で何が変わったのかが分からなくなります。先に配置だけを見て固めます</td></tr>
+          <tr><td><strong>開き方を聞く（Finder やエクスプローラーからの開き方で）</strong></td><td>作ったファイルを自分で開けないと、確かめようがありません。この回はターミナルを使わないので、コマンドで答えられると、どこに打てばよいかで止まります</td></tr>
         </tbody>
       </table>
     </div>
@@ -224,7 +270,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <img src="../../assets/images/lesson03/r3_app_prompt1_typed.png" alt="指示①を入力欄に貼った状態" loading="lazy">
       <figcaption>指示①を入力欄に貼ったところ（例：食費メモ。この例では画面のファイル名を指示の中に書いていますが、上の型では仕様書から読み取らせます）</figcaption>
     </figure>
-    <p>送ると、Claude Code は <code>docs/spec.md</code> を読み、ファイルを1つずつ作ります。「手動」なので、ファイルごとに「書き込みを許可しますか？」の確認画面が出ます。<strong>ファイルの場所が <code>my-app/app/</code> の中であること</strong>と、<strong>中身に、自分が仕様書で決めた見出しや入力欄の名前（「今月の合計」「金額」など）が日本語で出てくること</strong>を見てから「一度だけ許可」を押します（確認画面の実物は <a href="#taste">指示②</a>・<a href="#detail">指示③</a> の節にあります）。<code>app</code> フォルダを作るコマンド（<code>mkdir app</code> のように出ます）の許可を求められることもあります。これは頼んだ作業の一部なので許可します。</p>
+    <p>送ると、Claude Code は <code>docs/spec.md</code> を読み、ファイルを1つずつ作ります。「手動」なので、ファイルごとに「書き込みを許可しますか？」の確認画面が出ます。<strong>ファイルの場所が <code>my-app/app/</code> の中であること</strong>と、<strong>中身に、自分が仕様書で決めた見出しや入力欄の名前（「今月の合計」「金額」など）が日本語で出てくること</strong>を見てから「一度だけ許可」を押します（確認画面の実物は <a href="#taste">指示②</a>・<a href="#detail">指示③</a> の節にあります）。作ったファイルを Claude Code が自分で点検するために、ファイルの一覧を出すコマンド（<code>ls</code> で始まるもの）や、ファイルの中身を探すコマンド（<code>grep</code> や <code>find</code> で始まるもの）の許可を求めてくることがあります。どれもファイルを読むだけで書き換えないので、許可して構いません。<code>app</code> フォルダを作るコマンド（<code>mkdir app</code>）が出ることもあります。これも頼んだ作業の一部なので許可します。</p>
     <figure class="figure">
       <img src="../../assets/images/lesson03/r3_app_prompt1_done.png" alt="3ファイルができたあとの画面。左に返答、右にアプリの中のプレビュー欄" loading="lazy">
       <figcaption>3ファイルができました。返答に「ブラウザでの開き方」も書いてあります。右はアプリの中のブラウザ欄で、この例では CSS が読み込まれず素の状態で出ています</figcaption>
@@ -263,7 +309,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
     <ul>
       <li>ダブルクリックで別のソフト（エディタなど）が開いた場合は、ファイルを右クリック → 「このアプリケーションで開く」（Windows は「プログラムから開く」）→ ブラウザを選びます。ブラウザの窓にファイルをドラッグしても開けます。<span class="why">なぜ：</span>ダブルクリックでどのソフトが開くかは PC の設定で決まっていて、HTML ファイルにエディタが割り当てられていることがあります</li>
-      <li>画面1の「修正」を押して画面2に移り、「キャンセル」で戻れるかを見ます。<strong>画面の移動以外のボタン（画面1の「保存」、一覧の「削除」など）は、押しても何も起きないのが正しい状態です。</strong>画面2の「保存」は、リンクとして画面1に戻るだけで、内容は保存されません</li>
+      <li>画面1の「修正」を押して画面2に移り、「キャンセル」で戻れるかを見ます。<strong>仕様書に「押すと〜へ」と書いたボタン以外（画面1の「保存」、一覧の「削除」など）は、押しても何も起きないのが正しい状態です。</strong>画面2の「保存」は、仕様書で「保存を押すと画面1へ戻る」と決めてあるので、リンクとして画面1に戻るだけで、内容は保存されません。この段階では、リンクで作られた「保存」（青い文字）と、ボタンで作られた「保存」（枠つき）で見た目が違って見えることがあります。色や飾りがまだ無いためで、崩れではありません。テイストを当てると揃います</li>
     </ul>
     <div class="figures figures--2">
       <figure class="figure">
@@ -291,20 +337,21 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </div>
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong>幅を変えても崩れないか</strong></dt>
-        <dd class="explain-list__value"><span class="explain-list__label">見方</span>ブラウザの窓の右端をつかんで、狭くしたり広くしたりします</dd>
-        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>自分ひとりで使うものでも、窓を小さくしたまま開いたり、別の PC や大きい画面で開いたりします。そのときに一覧の文字が折れたり、ボタンが見切れたりします</dd>
+        <dd class="explain-list__value"><span class="explain-list__label">見方</span>ブラウザの窓の右端をつかんで、縮められるところまで狭くし（スマホの幅は横 400px 前後）、そこから最大まで広げて、両端で見ます。一覧のいちばん右の列（「修正」「削除」など）が画面の外に出ていないかも見ます</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>自分ひとりで使うものでも、窓を小さくしたまま開いたり、スマホや大きい画面で開いたりします。列が多い一覧は、幅が足りなくなると右端から画面の外へ押し出され、押せないボタンがあることに気づけません</dd>
       </div>
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong>画面の移動が動くか</strong></dt>
-        <dd class="explain-list__value"><span class="explain-list__label">見方</span>「修正」→ 画面2 → 「キャンセル」→ 画面1</dd>
-        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>移動できないと、画面2の見た目を確かめに行けません</dd>
+        <dd class="explain-list__value"><span class="explain-list__label">見方</span>画面が2枚以上あるときだけ見ます。例：「修正」→ 画面2 → 「キャンセル」→ 画面1</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>移動できないと、2枚目の見た目を確かめに行けません。1枚で完結するアプリは、この点は飛ばして構いません</dd>
       </div>
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong>仮のデータが表示されているか</strong></dt>
-        <dd class="explain-list__value"><span class="explain-list__label">見方</span>一覧に3件あるか</dd>
-        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>空だと行の見た目が確かめられません</dd>
+        <dd class="explain-list__value"><span class="explain-list__label">見方</span>一覧があるアプリは一覧に3件。結果の欄があるアプリは短い文章と長い文章。やり取りが並ぶアプリは3往復</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>空だと行の見た目が確かめられません。長い文章を置いておかないと、欄の高さが足りるかが分かりません</dd>
       </div>
     </dl>
+    <p><strong>折り返しそのものは、崩れではありません。</strong>幅に合わせて文章が複数行になっても、読めて、内容が欠けず、押す場所が見えていれば問題ありません。直すのは、文字の重なり・内容の欠け・1〜2文字ずつの不自然な折り返し・ボタンの見切れです。</p>
     <figure class="figure figure--narrow">
       <img src="../../assets/images/lesson03/r3_mock_narrow.png" alt="窓を狭くしたときの画面1。一覧のメモの文字が途中で折れている" loading="lazy">
       <figcaption>窓を狭くしたときの例。一覧のメモ欄の文字（「スーパー」「コンビニ」）が途中で折り返されています。これが「崩れ」です（この例はテイストを当てたあとの画面）</figcaption>
@@ -312,7 +359,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
     <h3 class="sub">崩れがあったら、その場で直させる</h3>
     <p>直したい箇所を1つ決め、次の型で送ります。<strong>スクリーンショットを撮って、入力欄に貼ります。</strong>Mac は <kbd>⌃⇧⌘4</kbd>（コントロールも一緒に押す）で範囲を選んで撮ると画像がクリップボードに入るので、入力欄で <kbd>⌘V</kbd> を押すと貼れます。<kbd>⇧⌘4</kbd> で撮った場合はデスクトップに画像ファイルができるので、そのファイルを入力欄にドラッグします。Windows は <kbd>Windows＋Shift＋S</kbd> で撮って <kbd>Ctrl+V</kbd> で貼ります。貼る前に、名前・メールアドレス・業務の実データなど、外に出せないものが写っていないかを見ます。写っていたら、範囲を絞って撮り直します。<span class="why">なぜ：</span>貼った画像は AI のサービスに送られます。</p>
-<pre class="prompt" data-label="崩れを直す指示の型 ― 崩れている箇所を1つ書いて、スクショを添えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">画面1の一覧で、メモ欄が狭すぎて文字が1文字ずつ折り返されています（スクショを添付）。
+<pre class="prompt" data-label="崩れを直す指示の型 ― 崩れている箇所を1つ書いて、スクショを添えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">画面1の一覧で、メモ欄が狭すぎて文字が1〜2文字ずつ折り返されています（スクショを添付）。
 メモ欄の幅を広げて、2行までに収まるようにしてください。
 変更は app/style.css だけ。HTML と文言は変えないでください。文字を小さくしたり、内容を隠したりして逃げないでください。ほかは触らないでください。</pre>
     <p><span class="why">なぜスクショを貼るのか：</span>崩れを言葉にすると、どこがどう崩れているかが伝わりません。「一覧が変」では AI は別の場所を直します。画面そのものを見せれば、どの要素の話かが一致します。</p>
@@ -323,7 +370,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       順番を逆にして先に細部を直すと、テイストを変えたときに全体の余白や色が動き、直した細部がやり直しになります。
     </div>
     <div class="note">
-      <strong>崩れが無くなったら、ここで画面ごとに1枚ずつスクリーンショットを撮っておいてください。</strong>テイストを当てるとこの見た目には戻せません。ブラッシュアップの「前」の画面として、この回の提出物になります。
+      <strong>崩れが無くなったら、ここで画面ごとに1枚ずつスクリーンショットを撮っておいてください。</strong>ブラッシュアップの「前」の画面として、この回の提出物になります。テイストを当てると <code>style.css</code> の中身はほぼ全部が書き換わるので、撮るのはこのタイミングしかありません。
     </div>
     <figure class="figure figure--diagram">
       <img src="../../assets/images/lesson03/diagram_brushup.svg" alt="ブラッシュアップの順番。①崩れを直す（はみ出し・重なり・ずれ、画面の幅を変えて見る）②テイストを決める（色・文字・余白・角の丸み、方向性を言葉で伝える）③細部を直す（1回の指示で1箇所、スクショを貼って伝える）" loading="lazy">
@@ -349,7 +396,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </dl>
     </div>
 
-    <h3 class="sub">方向性を決める5つ</h3>
+    <h3 class="sub">方向性を決める6つ</h3>
     <p>ご自身のアプリに合わせて言葉にします。決められないときは、下の例（落ち着いた色・白地・緑1色）をそのまま使って構いません。</p>
     <dl class="explain-list">
       <div class="explain-list__item">
@@ -368,31 +415,46 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>余白の指定が無いと、要素が左上に寄った詰まった画面になります</dd>
       </div>
       <div class="explain-list__item">
-        <dt class="explain-list__term"><strong>角</strong></dt>
-        <dd class="explain-list__value"><span class="explain-list__label">例</span>ボタンと入力欄は少し丸く。ボタンは押せると分かる見た目に</dd>
-        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>押せる場所が分からないと、使う人が迷います</dd>
+        <dt class="explain-list__term"><strong>ボタンと入力欄</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例</span>少し丸く。いちばん押してほしいボタン（例：「保存」）だけを色で強く見せ、それ以外は枠だけにする。「削除」のように取り消せない操作は、いちばん弱い見た目にする</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>押せる場所が分からないと迷います。取り消せない操作が目立つと、押すつもりのなかったときに押してしまいます。強いボタンが画面に2つ以上あると、どれも強く見えなくなります</dd>
       </div>
       <div class="explain-list__item">
-        <dt class="explain-list__term"><strong>一覧</strong></dt>
-        <dd class="explain-list__value"><span class="explain-list__label">例</span>1行ごとに薄い区切り線。金額は右揃え（一覧が無いアプリは、結果の欄や入力欄の見せ方に読み替えます）</dd>
-        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>数字は右で揃えると桁が比べられます</dd>
+        <dt class="explain-list__term"><strong>読みやすさ</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例</span>文字と背景、入力欄やボタンの枠と背景を、はっきり見分けられる濃さにする。色を敷いたボタンの文字は、地の色と強く差を付ける</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>指定しないと、AI は薄い灰色の細い枠を置くことが多いです。作った直後の自分の画面では読めても、明るい場所や目が疲れているときに、どこに入力すればよいか分からなくなります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>並ぶところ</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">例</span>一覧があるアプリ：1行ごとに薄い区切り線。金額は右揃え／結果の欄があるアプリ：読みやすい幅を保ち、長い文章でも行間を詰めない／やり取りが並ぶアプリ：自分の発言と AI の返事を、位置や背景の色で見分けられるようにする</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ言葉にするのか</span>数字は右で揃えると桁が比べられます。長い文章は幅が広すぎると目で追えません。誰の発言か分からないと読み返せません</dd>
       </div>
     </dl>
+    <div class="note">
+      <strong>言葉で決められないときは、好きな見た目を見せます。</strong>ご自身が普段使っていて見やすいと思うアプリやサイトの画面を1枚スクリーンショットで撮り、下の指示②に貼って、「■ 方向性」の代わりに次の一文を添えます。
+      「<strong>色の組み合わせと余白の取り方だけ、この画面の雰囲気に寄せてください。文字の内容・要素の並び・ロゴは真似しないでください。</strong>」
+      <span class="why">なぜ「色と余白だけ」と書くのか：</span>そう書かないと、見出しの文言やボタンの並びまで似せてきます。仕様書で決めた画面とずれるうえ、人の作ったものをそのまま写すことにもなります。貼る前に、名前やデータが写っていないかを見てください。
+    </div>
 
     <h3 class="sub">テイストを当てる指示の型</h3>
-    <p>指示①と同じセッションで、続けて送ります。</p>
+    <p>指示①と同じセッションで、続けて送ります。指示①と違い、<strong>この型はご自身のアプリに合わせて書き換えます</strong>。（　）の中が書き換える箇所です。「並ぶところ」は、上の表からご自身のアプリに当てはまるものを1つ選んで書きます（例：読書の記録なら「1行ごとに薄い区切り線。読み終えた日は右揃え」）。</p>
 <pre class="prompt" data-label="指示②（テイスト）― （ ）の中を自分の方向性に差し替えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">app の見た目の方向性（テイスト）を整えてください。裏側の処理は引き続き作らないでください。
 
 ■ 方向性
 - 全体：（落ち着いた色。地は白、アクセントは緑系を1色だけ）
 - 文字：（本文は 16px 以上、見出しは太く。行間は広め）
 - 余白：（要素どうしの間隔を広めに。画面の左右にも余白を取り、内容は中央に寄せる）
-- 角：（ボタンと入力欄は少し丸く。ボタンは押せると分かる見た目に）
-- 一覧：（1行ごとに薄い区切り線。金額は右揃え）
+- ボタンと入力欄：（少し丸く。いちばん押してほしいボタンだけを色で強く見せ、それ以外は枠だけ。「削除」のように取り消せない操作は、いちばん弱い見た目に）
+- 読みやすさ：（文字と背景、入力欄やボタンの枠と背景は、はっきり見分けられる濃さに。背景とほとんど同じ濃さの薄い灰色の枠は使わない。色を敷いたボタンの文字は、地の色とはっきり差を付ける）
+- 並ぶところ：（1行ごとに薄い区切り線。金額は右揃え）
 
 ■ 条件
+- 書き換える前に、いまの app/style.css を app/style-before.css という名前でコピーして残してください
 - 変更は app/style.css だけ。HTML の構造（要素の並びや文言）は変えないでください
-- （画面1と画面2）の両方に同じテイストを当ててください</pre>
+- CSS だけでは方向性のとおりにできない箇所があれば、HTML は変えずに、どこが・なぜできないかを教えてください
+- すべての画面に同じテイストを当ててください
+- 窓の幅を狭くしても、一覧の文字が1〜2文字ずつ折り返されたり、右端のボタンが画面の外に出たりしないようにしてください</pre>
+    <p><span class="why">なぜ先にコピーを残すのか：</span>テイストを当てると <code>style.css</code> の中身はほぼ全部が書き換わります。当てたあとで「前のほうが良かった」と思ったとき、コピーがあれば「<code>app/style-before.css</code> の中身で <code>app/style.css</code> を上書きしてください」と頼むだけで確実に戻せます。ブラウザは <code>index.html</code> が読み込んでいる <code>style.css</code> だけを使うので、コピーを置いても見た目は変わりません。</p>
     <p><span class="why">なぜ style.css だけを変えさせるのか：</span>HTML を変えると、前の節で確かめた配置がまた変わり、崩れの確認をやり直すことになります。見た目は CSS だけで変えられるので、HTML には触らせません。</p>
     <p>送ると <code>style.css</code> の書き込みの確認画面が出ます。場所が <code>my-app/app/style.css</code> であること、中身が色や文字の指定であることを見てから「一度だけ許可」を押します。</p>
 
@@ -412,6 +474,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <img class="note__mascot" src="../../assets/penguins/penguin_teaching.png" alt="">
       <strong>頼んでいない作業は断ってください。</strong>この例では、<code>style.css</code> を書いたあとに Claude Code が、英語で <code>Create preview copies with inlined CSS</code>（プレビュー用のコピーを作る）と書かれたコマンドの実行を求めてきました。指示に無い作業なので <strong>「拒否」</strong> を押しています。拒否しても、頼んだ <code>style.css</code> の変更はそのまま残ります。
       <span class="why">なぜ断るのか：</span>頼んでいないファイルが増えると、どれが本物か分からなくなります。何をするコマンドか読んで分からないものは、通しません。
+      このほか、Claude Code が自分で見た目を確かめようとして、<strong>ブラウザを起動するコマンド</strong>（<code>Google Chrome</code> を含む長い1行や、<code>--screenshot</code> を含むもの）の許可を求めてくることもあります。これも頼んでいないので「拒否」で構いません。見た目はご自身のブラウザで確かめます。拒否すると返答に「ブラウザでの表示は確認できていません」と書かれることがありますが、<code>style.css</code> の変更は残っています。
     </div>
     <div class="figures figures--2">
       <figure class="figure">
@@ -432,11 +495,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <figcaption>テイストを当てた画面1（例：食費メモ）。白地に緑1色、余白広め、中央寄せ</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson03/r3_mock2_edit.png" alt="テイストを当てた画面2。保存とキャンセルの見た目が揃った" loading="lazy">
-        <figcaption>テイストを当てた画面2。「保存」と「キャンセル」の見た目が揃いました</figcaption>
+        <img src="../../assets/images/lesson03/r3_mock2_edit.png" alt="テイストを当てた画面2。保存とキャンセルがボタンの形になった" loading="lazy">
+        <figcaption>テイストを当てた画面2。「保存」と「キャンセル」がボタンの形になり、押せる場所が分かるようになりました。強く見せるのは「保存」だけです</figcaption>
       </figure>
     </div>
-    <p>テイストを当てたら、<a href="#check">「崩れを見る5つの点」</a>をもう一度通します。色や余白が変わると、幅を狭めたときの折れ方も変わります。</p>
+    <p>テイストを当てたら、<a href="#check">「崩れを見る5つの点」</a>をもう一度通します。余白や文字が大きくなると、列どうしの幅の取り合いが変わります。<strong>テイストの前は読めていた一覧が、当てたあとで1〜2文字ずつ折り返されたり、右端のボタンが画面の外に出たりすることがあります。</strong>あわせて、画面から少し離れて、入力欄の枠が見えるか、ボタンの文字が地の色に溶けていないかも見ます。見つけたら、<a href="#check">崩れを直す指示の型</a>で <code>app/style.css</code> だけを直させます。</p>
   </div>
 </section>
 
@@ -448,12 +511,22 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       テイストが決まったら、気になるところを <strong>1回の指示で1点だけ</strong> 直していきます。
     </p>
     <p><span class="why">なぜ1点ずつなのか：</span>まとめて頼むと、どの指示でどこが変わったか分からなくなります。気に入らない変更だけを戻したいとき、1点ずつなら「さっきの1点を戻して」で済みます。</p>
-    <p><strong>細部の例：</strong>ボタンの位置と目立たせ方／文字の大きさ／一覧の列の幅／余白の広さ／区切り線の濃さ。文言や要素の並びを変えたいときは HTML も直すことになるので、そのむねを指示に書きます。</p>
+    <p><strong>細部の例：</strong>ボタンの位置と目立たせ方／文字の大きさ／一覧の列の幅／余白の広さ／区切り線の濃さ。文言や要素の並びを変えたいときは HTML も直すことになるので、そのむねを指示に書きます（下の「HTML を変えないとできないと言われたら」の型を使います）。</p>
 <pre class="prompt" data-label="指示③（細部）― （ ）の中に直したい1点を書いて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">細かい所を1つずつ直します。次の1点だけ直してください。ほかは触らないでください。
 変更は app/style.css だけ。HTML は変えないでください（HTML を変えないと直せない場合は、直す前に教えてください）。
 
 - （「保存」ボタンを入力欄の右下に寄せて、ほかのボタンより目立つ色にする（画面1・画面2の両方））</pre>
     <p><span class="why">「ほかは触らないでください」を毎回入れる理由：</span>この一言が無いと、AI は頼んだ1点のついでに周りも整え始めます。整えた結果が良くても、何が変わったか把握できなくなります。上の例は位置と色の2つを書いていますが、どちらも「保存を目立たせる」という1つの目的なのでまとめています。目的が別のものは、別の指示に分けます。</p>
+
+    <h3 class="sub">HTML を変えないとできないと言われたら</h3>
+    <p>合計を枠で囲んで目立たせる、複数の要素を1つの箱にまとめる、といった変更は、囲むための入れ物が HTML に無いとできません。そのときだけ、範囲を絞って HTML を触らせます。</p>
+<pre class="prompt" data-label="HTML を変えないとできないと言われたときの型 ― （ ）の中に直したい箇所を書いて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">さきほど「HTML を変えないとできない」と言われた（　　　）を直してください。
+
+■ 条件
+- 変えてよいのは、囲むための入れ物の要素を足すことだけ。文言・要素の順番・入力欄やボタンの数は変えないでください
+- 変える前に、どのファイルのどこに何を足すかを教えてください</pre>
+    <p><span class="why">なぜ「入れ物を足すだけ」と書くのか：</span>範囲を書かずに「HTML を直してよい」と言うと、AI は画面全体を作り直して返してくることがあります。入れ物を1つ足すだけなら、確かめた配置はそのまま残ります。</p>
+    <p>指示③のあとに、頼んだ1点のほかの提案（ファイルの整理、コピーの作成など）が付いてくることがあります。<strong>頼んでいないものは「拒否」を押します。</strong>拒否しても、頼んだ1点の変更はそのまま残ります。</p>
 
     <div class="figures figures--2">
       <figure class="figure">
@@ -481,6 +554,13 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
     <p>直したら、ブラウザを再読み込みして見ます。気になる点が残っていれば、また1点だけ頼みます。<strong>言葉にしにくい細部は、スクショに印を付けて貼ります</strong>（Mac の「プレビュー」、Windows の「Snipping Tool」（以前の「切り取り＆スケッチ」）で丸や矢印を描けます。アプリの名前は更新で変わることがあります）。</p>
     <p>直した1点と、その理由は、そのつどメモに書き残します。この回の提出物になります。</p>
+    <h3 class="sub">メモの書き方（例）</h3>
+    <p>1点につき「何を」と「なぜ」が書いてあれば十分です。1行で構いません。</p>
+    <ul>
+      <li>一覧のメモ欄が1〜2文字ずつ折り返されていたので、メモ欄の幅を広げた。窓を狭くしても読めるようにしたかったから</li>
+      <li>テイストの緑が見出しとボタンの両方に付いて、どこを押すのか分かりにくかったので、見出しは黒に戻した。押せる場所だけに色を使いたかったから</li>
+      <li>AI が「並べ替え」のボタンを足していたので消した。仕様書の「やらないこと」に入れていたから</li>
+    </ul>
   </div>
 </section>
 
@@ -488,16 +568,25 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="section" id="review">
   <div class="section__inner">
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-check-screen.svg" alt=""></span><div><p class="section__kicker">07</p><h2 class="section__title">見直して、<em>仕様書と揃える</em></h2></div></div>
-    <p class="section__lead">ブラッシュアップを終えたら、次の3つを見ます。</p>
+    <p class="section__lead">ブラッシュアップを終えたら、次の4つを見ます。</p>
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h3 class="steps__title"><a href="#check">「崩れを見る5つの点」</a>をもう一度通す</h3><p class="steps__desc">細部を直したあとで幅を変えたら折れる、はよく起きます。</p></div></li>
       <li><span class="steps__n">2</span><div><h3 class="steps__title">仕様書の画面一覧と、実物の画面を見比べる</h3><p class="steps__desc">ブラッシュアップの途中で、要素の名前や並びが変わっている場合があります。まず Claude Code に「<code>docs/spec.md</code> の画面一覧と遷移と、いまの <code>app/</code> の画面で違うところを一覧にしてください。まだ何も変えないでください」と頼み、出てきた違いを1つずつ、<strong>画面を仕様書に戻す</strong>か、<strong>自分が採用した変更として仕様書を直す</strong>かを決めます。決めていない変更は、画面を仕様書に戻します。採用した変更だけ「<code>docs/spec.md</code> の画面一覧と遷移の〜を、〜に直してください。ほかの項目は変えないでください」と頼みます。<span class="why">なぜ：</span>仕様書と画面が食い違ったままだと、あとで裏側の処理を足すとき、AI がどちらを正としてよいか分からなくなります。AI が勝手に変えた画面を仕様にしてしまうと、決めた「やること」「やらないこと」がずれます。</p></div></li>
-      <li><span class="steps__n">3</span><div><h3 class="steps__title">裏側の処理は作っていないことを確かめる</h3><p class="steps__desc">画面1の「保存」を押しても一覧に記録が増えない、ブラウザを閉じて開き直しても記録が増えていない、が正しい状態です（画面2の「保存」「キャンセル」は、リンクとして画面1に戻るだけです）。保存や計算が動いていたら、Claude Code が頼んでいない処理を足しています。「JavaScript や保存の処理は入れないでください。入っていたら外して、作ったファイルの一覧を教えてください」と頼みます。作る順番 <code>docs/tasks.md</code> を作ってある方は、画面を作るタスクの先頭を <code>- [x]</code>（終わった印）に変えておきます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">裏側の処理は作っていないことを確かめる</h3><p class="steps__desc">正しい状態は、アプリの型によって違います。</p>
+        <div class="steps__desc">
+          <ul>
+            <li><strong>記録型：</strong>画面1の「保存」を押しても一覧に記録が増えない。ブラウザを閉じて開き直しても増えていない（画面2の「保存」「キャンセル」は、リンクとして画面1に戻るだけです）</li>
+            <li><strong>変換型：</strong>「変換」「生成」を押しても、結果の欄は最初に置いた仮の文章のまま変わらない</li>
+            <li><strong>相談型：</strong>「送信」を押しても、やり取りは最初に並べたまま増えない</li>
+          </ul>
+          <p><span class="why">なぜ「何も起きない」が正しいのか：</span>この回で作ったのは画面だけで、保存の処理も、AI を呼ぶ処理も入っていません。押して何かが起きたら、Claude Code が頼んでいない処理を足しています。「JavaScript や保存の処理は入れないでください。入っていたら外して、作ったファイルの一覧を教えてください」と頼みます。</p>
+        </div></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title"><code>docs/tasks.md</code> に終わった印を付ける</h3><p class="steps__desc">作る順番 <code>docs/tasks.md</code> を作ってある方は、いまの画面でできたと言えるタスクを <code>- [x]</code>（終わった印）に変えておきます。「画面が1枚出る」のほかに、「修正画面へ移動して戻る」のように、画面の移動だけで確かめられるタスクも終わっています。保存や計算を含むタスクは、まだ終わっていません。<span class="why">なぜ：</span>印が実物とずれていると、次に作り始めるときに、できているものをもう一度作らせることになります。</p></div></li>
     </ol>
     <div class="note note--key">
       <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
-      <strong>ここで作った画面は、あとで裏側の処理を足すときにそのまま使います。</strong>モックは捨てるものではありません。
+      <strong>ここで作った画面は、あとで動きや裏側の処理を足すときの土台になります。</strong>モックは捨てるものではありません。
       だから、この回の時点で「自分が毎回使いたい画面」になっているかを見ておいてください。
     </div>
   </div>
@@ -507,7 +596,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="section section--soft" id="deliverables">
   <div class="section__inner">
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-deliverable.svg" alt=""></span><div><p class="section__kicker">Deliverables</p><h2 class="section__title">この回で<em>作るもの</em></h2></div></div>
-    <p class="section__lead">終わったとき、手元に次の3つがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
+    <p class="section__lead">終わったとき、手元に次の4つがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
@@ -528,7 +617,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <div class="card">
         <img class="card__icon" src="../../assets/icons/icon-file-md.svg" alt="">
         <h3 class="card__title">自分の判断で直した点のメモ</h3>
-        <p class="card__desc">何を、なぜ直したか。指示③で1点ずつ頼んだ内容と、その理由を書き残します。</p>
+        <p class="card__desc">何を、なぜ直したか。指示③で1点ずつ頼んだ内容と、その理由を書き残します（書き方の例は<a href="#detail">「指示③：細部を1つずつ直す」</a>の節にあります）。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="card__title">断った場面のスクリーンショット（あれば）</h3>
+        <p class="card__desc">頼んでいない作業の確認画面が出て断った場面があれば、そのスクリーンショット。出なかった場合は不要です。</p>
       </div>
     </div>
   </div>
@@ -608,6 +702,60 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </div>
       <div class="pitfall">
         <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">仕様書に「画面一覧と遷移」の見出しが無い・名前が違う</h3>
+        <p class="pitfall__what">AI が画面の節を見つけられず、推測で画面を作ります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>指示①の1行目を、ご自身の仕様書の見出しの名前に書き換えます。画面の節が無ければ、先に画面の節を足させてから指示①に進みます（<a href="#mock">「指示①：仕様書の画面一覧から、モックを作らせる」</a>の節の注意書き）。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">仕様書 <code>docs/spec.md</code> が手元に無い</h3>
+        <p class="pitfall__what">読ませるものが無く、最初の指示が送れません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>先に「目的／やること／やらないこと／画面ごとの名前と置く要素」を箇条書きで書き出し、Claude Code に「これを docs/spec.md にまとめてください」と頼んでから、指示①へ進みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">仕様書の「使う技術」に書いた部品の一式を作り始めた</h3>
+        <p class="pitfall__what">HTML と CSS 以外のファイル（設定ファイルや起動用のファイル）が増えます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>確認画面で「拒否」。「この回で作るのは app/ の中の HTML と CSS だけです。ほかのファイルは作らないでください」と送り直します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">確認画面が何度も出て、「常に許可」を押した</h3>
+        <p class="pitfall__what">以後、確認なしでファイルが書き換わり、頼んでいない変更に気づけなくなります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>入力欄の下のモード名を押して「手動」になっているかを見ます。そのうえで「これまでに作った・書き換えたファイルの一覧を教えてください」と頼み、<code>app/</code> の外にファイルが増えていないかを見ます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">「style.css だけを変えて」と頼んでも見た目が変わらない</h3>
+        <p class="pitfall__what">見た目の指定が HTML の中に直接書かれています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「HTML の中に書かれている見た目の指定を、すべて app/style.css に移してください。見た目は変えないでください」と頼みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">テイストを当てたら、前のほうが良かった</h3>
+        <p class="pitfall__what">どこをどう戻せばよいか分かりません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「app/style-before.css の中身で app/style.css を上書きしてください。ほかは触らないでください」と頼みます。テイストを当て直すより確実に戻ります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">テイストを当てたら、狭い幅で一覧が崩れた</h3>
+        <p class="pitfall__what">余白や文字が大きくなり、列の幅が足りなくなっています。</p>
+        <p class="pitfall__how"><strong>対処：</strong><a href="#check">崩れを直す指示の型</a>で、スクショを貼って <code>app/style.css</code> だけを直させます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">ブラッシュアップ前のスクリーンショットを撮り忘れた</h3>
+        <p class="pitfall__what">提出する「前」の画面がありません。</p>
+        <p class="pitfall__how"><strong>対処：</strong><code>app/style-before.css</code> が残っていれば、<code>app</code> フォルダを丸ごとコピーし、コピーした側の <code>style.css</code> を <code>style-before.css</code> の中身に置き換えて開くと、前の画面を撮れます。残っていなければ、撮り直そうとせず、提出時に「前を撮り忘れた」と書いてください。<span class="why">なぜ：</span>色を外す指示を出すと、いま整っている画面が崩れて、そこからやり直しになります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">途中で利用の上限に達して、指示が通らなくなった</h3>
+        <p class="pitfall__what">ブラッシュアップの途中で止まります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>ここまでに作ったファイルはそのまま残っています。使える量が戻ったら、同じフォルダを開き直して続きから頼みます。上限の量と戻る周期は契約の種類で違い、変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">Windows で、フォルダを開く前に Git が必要だと言われる</h3>
         <p class="pitfall__what">Windows の Claude Code は、Git という道具が入っていないと動きません。</p>
         <p class="pitfall__how"><strong>対処：</strong><a href="https://git-scm.com/download/win" target="_blank" rel="noopener">Git for Windows</a> を入れてから、Claude デスクトップアプリを一度終了して開き直します。表示される文言や必要なものは更新で変わることがあるので、画面の案内に従ってください。</p>
@@ -640,7 +788,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
           <tr><td><strong>app</strong></td><td>application の略。画面や処理のファイルを入れるフォルダの名前</td></tr>
           <tr><td><strong>index.html</strong></td><td>アプリを開いたとき最初に出る画面の HTML に付ける、決まりごとの名前</td></tr>
           <tr><td><strong>リンク</strong></td><td>押すと別の画面へ移る文字やボタン。HTML だけで作れる</td></tr>
-          <tr><td><strong>仮のデータ</strong></td><td>見た目を確かめるために入れておく架空の記録</td></tr>
+          <tr><td><strong>仮のデータ</strong></td><td>見た目を確かめるために入れておく架空の記録や文章</td></tr>
           <tr><td><strong>サーバー</strong></td><td>画面からの求めに応じてデータを返したり保存したりするプログラム。この回のモックには要らない</td></tr>
           <tr><td><strong>Node.js</strong></td><td>JavaScript をブラウザの外（PC の上）で動かすための土台のソフト。この回では使わない</td></tr>
           <tr><td><strong>ブラウザ</strong></td><td>Safari や Chrome など、Web ページを見るソフト。HTML ファイルをそのまま開ける</td></tr>
@@ -654,6 +802,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
           <tr><td><strong>px</strong></td><td>ピクセル。画面上の大きさの単位</td></tr>
           <tr><td><strong>余白</strong></td><td>要素と要素のあいだ、画面の端と内容のあいだの空き</td></tr>
           <tr><td><strong>再読み込み</strong></td><td>ブラウザにファイルを読み直させること。<kbd>⌘R</kbd>／<kbd>F5</kbd></td></tr>
+          <tr><td><strong>ターミナル</strong></td><td>文字で命令（コマンド）を打ち込み、結果を文字で受け取る画面。この回では使わない</td></tr>
+          <tr><td><strong>記録型／変換型／相談型</strong></td><td>アプリの3つの型。記録型は入れて・ためて・見返す。変換型は入れたものを別の形にして返す。相談型は質問して答えをもらう</td></tr>
         </tbody>
       </table>
     </div>

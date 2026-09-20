@@ -1,0 +1,76 @@
+<svg id="diagram-build-order" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">作る順番：見た目 → 動き → 裏側</title>
+  <desc id="svg-desc">アプリは「見た目 → 動き → 裏側」の順に1段ずつ足して作る。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む。</desc>
+  <defs id="diagram-definitions">
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
+      <path id="arrow-gray-tip" d="M0 0L10 5L0 10Z" fill="#C9CEDB"/>
+    </marker>
+  </defs>
+
+  <rect id="canvas" x="0" y="0" width="960" height="540" fill="#FFF9F0"/>
+
+  <g id="diagram-content" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text id="main-title" x="28" y="38" font-size="22" font-weight="700">作る順番：見た目 → 動き → 裏側</text>
+
+    <g id="step-1" role="group" aria-labelledby="step-1-title" aria-describedby="step-1-desc">
+      <title id="step-1-title">① 見た目</title>
+      <desc id="step-1-desc">HTML と CSS。モック。ブラウザで開いて、目で見る。</desc>
+      <text id="step-1-add-label" x="50" y="80" font-size="14" font-weight="700">この段で足すもの</text>
+      <rect id="step-1-panel" x="30" y="94" width="270" height="252" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+      <rect id="step-1-heading-box" x="50" y="110" width="230" height="106" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+      <text id="step-1-heading" x="66" y="145" font-size="20" font-weight="700">① 見た目</text>
+      <rect id="mock-tag-box" x="214" y="123" width="52" height="28" rx="10" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="1.5"/>
+      <text id="mock-tag-text" x="240" y="142" font-size="14" font-weight="700" text-anchor="middle">モック</text>
+      <text id="step-1-technology" x="66" y="183" font-size="16">HTML と CSS</text>
+      <text id="step-1-check-label" x="50" y="249" font-size="14" font-weight="700">確かめ方</text>
+      <text id="step-1-check-text" x="50" y="282" font-size="17">ブラウザで開いて、目で見る</text>
+    </g>
+
+    <path id="step-1-to-2-arrow" d="M312 220H333" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <g id="step-2" role="group" aria-labelledby="step-2-title" aria-describedby="step-2-desc">
+      <title id="step-2-title">② 動き</title>
+      <desc id="step-2-desc">画面側の JavaScript。ボタンを押して、画面が変わるかを見る。</desc>
+      <text id="step-2-add-label" x="365" y="80" font-size="14" font-weight="700">この段で足すもの</text>
+      <rect id="step-2-panel" x="345" y="94" width="270" height="252" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+      <rect id="step-2-heading-box" x="365" y="110" width="230" height="106" rx="14" fill="#FF8C42" fill-opacity="0.14"/>
+      <text id="step-2-heading" x="381" y="145" font-size="20" font-weight="700">② 動き</text>
+      <text id="step-2-technology" x="381" y="183" font-size="16">画面側の JavaScript</text>
+      <text id="step-2-check-label" x="365" y="249" font-size="14" font-weight="700">確かめ方</text>
+      <text id="step-2-check-text" font-size="17"><tspan id="step-2-check-line-1" x="365" y="282">ボタンを押して、</tspan><tspan id="step-2-check-line-2" x="365" y="309">画面が変わるかを見る</tspan></text>
+    </g>
+
+    <path id="step-2-to-3-arrow" d="M627 220H648" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <g id="step-3" role="group" aria-labelledby="step-3-title" aria-describedby="step-3-desc">
+      <title id="step-3-title">③ 裏側</title>
+      <desc id="step-3-desc">サーバー・保存・AI の呼び出し。保存して開き直す・AI の返事が出るかを見る。</desc>
+      <text id="step-3-add-label" x="680" y="80" font-size="14" font-weight="700">この段で足すもの</text>
+      <rect id="step-3-panel" x="660" y="94" width="270" height="252" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="3"/>
+      <rect id="step-3-heading-box" x="680" y="110" width="230" height="106" rx="14" fill="#6FD49D" fill-opacity="0.18"/>
+      <text id="step-3-heading" x="696" y="145" font-size="20" font-weight="700">③ 裏側</text>
+      <text id="step-3-technology" font-size="16"><tspan id="step-3-technology-line-1" x="696" y="179">サーバー・保存・</tspan><tspan id="step-3-technology-line-2" x="696" y="203">AI の呼び出し</tspan></text>
+      <text id="step-3-check-label" x="680" y="249" font-size="14" font-weight="700">確かめ方</text>
+      <text id="step-3-check-text" font-size="17"><tspan id="step-3-check-line-1" x="680" y="282">保存して開き直す・</tspan><tspan id="step-3-check-line-2" x="680" y="309">AI の返事が出るかを見る</tspan></text>
+    </g>
+
+    <g id="one-step-benefit" role="group" aria-labelledby="benefit-title" aria-describedby="benefit-desc">
+      <title id="benefit-title">1段ずつ足す</title>
+      <desc id="benefit-desc">うまくいかないとき、先に調べるのは最後に足した1段。</desc>
+      <rect id="benefit-box" x="30" y="370" width="900" height="64" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="2"/>
+      <circle id="benefit-check-circle" cx="57" cy="402" r="14" fill="#6FD49D" fill-opacity="0.18" stroke="#6FD49D" stroke-width="2"/>
+      <path id="benefit-check-mark" d="M50 402L55 407L64 397" fill="none" stroke="#2A2F45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text id="benefit-text" x="84" y="409" font-size="18" font-weight="700">1段ずつ足す → うまくいかないとき、先に調べるのは最後に足した1段</text>
+    </g>
+
+    <g id="all-at-once-caution" role="group" aria-labelledby="caution-title" aria-describedby="caution-desc">
+      <title id="caution-title">一度に全部作る</title>
+      <desc id="caution-desc">見た目・動き・裏側のどこが原因か分からない。</desc>
+      <rect id="caution-box" x="30" y="450" width="900" height="64" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2"/>
+      <path id="caution-triangle" d="M57 467L72 494H42Z" fill="#FF8C42" fill-opacity="0.18" stroke="#FF8C42" stroke-width="2" stroke-linejoin="round"/>
+      <path id="caution-exclamation-line" d="M57 476V484" fill="none" stroke="#2A2F45" stroke-width="2.5" stroke-linecap="round"/>
+      <circle id="caution-exclamation-dot" cx="57" cy="489" r="1.5" fill="#2A2F45"/>
+      <text id="caution-text" x="84" y="489" font-size="18" font-weight="700">一度に全部作る → 見た目・動き・裏側のどこが原因か分からない</text>
+    </g>
+  </g>
+</svg>
