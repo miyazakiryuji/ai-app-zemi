@@ -188,11 +188,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </ol>
     <div class="figures figures--menu">
       <figure class="figure figure--tall">
-        <img src="../../assets/images/lesson02/r2_finder_menu.png" alt="Finder の「ファイル」メニューを開いたところ" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_finder_menu.png" alt="Finder の「ファイル」メニューを開いたところ" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>Finder の「ファイル」メニュー。「新規フォルダ」を選びます（右クリックからでも同じ）</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_finder_my_app.png" alt="デスクトップに my-app というフォルダができた状態" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_finder_my_app.png" alt="デスクトップに my-app というフォルダができた状態" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>デスクトップに my-app というフォルダができた状態</figcaption>
       </figure>
     </div>
@@ -230,26 +230,26 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <dl>
         <dt>セッション</dt><dd>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始めます。</dd>
         <dt>ワークスペース</dt><dd>Claude Code が作業する場所として開いたフォルダのこと。</dd>
-        <dt>権限モード</dt><dd>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」はそうした操作の前に確認画面が出る設定です。</dd>
+        <dt>権限モード</dt><dd>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」は、まだ許可していない操作の前に確認画面が出る設定です（前に「常に許可」を選んだ操作は、確認なしで進むことがあります）。「オート」は、多くの操作を人への確認なしで進める設定です。ファイルの書き換えなどはそのまま進み、それ以外の操作には安全性の確認が入ります。危険と判断された操作は止められますが、そのたびに確認画面が出るとは限らず、安全性の確認もすべてを見分けられるわけではありません。「編集を受け入れる」は、ファイルの書き換えやフォルダの中のファイル操作の一部を確認なしで進める設定です。</dd>
       </dl>
     </div>
 
     <div class="figures figures--2">
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_new_session.png" alt="「＋ 新規」を押した直後の画面" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_new_session.png" alt="「＋ 新規」を押した直後の画面" loading="lazy" data-taken="2026-09-24" title="撮影 2026年9月">
         <figcaption>「＋ 新規」を押した直後。画面の下にフォルダ名のボタンがあります</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_folder_menu.png" alt="フォルダ名のボタンを押すと出るメニュー" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_folder_menu.png" alt="フォルダ名のボタンを押すと出るメニュー" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>フォルダ名のボタンを押すと出るメニュー。いちばん下の「フォルダを開く…」を選びます</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_folder_dialog.png" alt="フォルダを選ぶ画面で my-app を選んだところ" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_folder_dialog.png" alt="フォルダを選ぶ画面で my-app を選んだところ" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>フォルダを選ぶ画面。デスクトップの中の my-app を選んで「開く」</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_opened.png" alt="フォルダを開いた直後の画面。下に my-app と出ている" loading="lazy">
-        <figcaption>開いた直後。画面の下に my-app と出ていれば、この中で Claude Code が動きます</figcaption>
+        <img src="../../assets/images/lesson02/r2_app_opened.png" alt="フォルダを開いた直後の画面。下に my-app と出ている" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
+        <figcaption>開いた直後。画面の下に my-app と出ていれば、この中で Claude Code が動きます。左下の権限モードと右下のモデル名は撮影時点の表示で、人や時期によって違います（2026年9月24日時点の既定のモデルは Opus 5.5）</figcaption>
       </figure>
     </div>
 
@@ -266,7 +266,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       ボタンの名前や配置は、アプリの更新で変わることがあります。ここに書いた文言と違うときは「フォルダを開く」に相当するものを探してください。
     </div>
 
-    <p>入力欄の下に <strong>「手動」</strong> と出ています。これは<strong>権限モード</strong>で、「手動」は、ファイルの書き換えやコマンドの実行の前に確認画面が出る設定です。<strong>この回はこのまま</strong>にします。理由は「仕様書」の節で説明します。表示される名前や選べる設定は、アプリの更新や契約の種類で変わることがあります。</p>
+    <p>入力欄の下に、いまの<strong>権限モード</strong>の名前が出ています。<strong>「手動」になっていなければ、その名前を押して、出てきた一覧から「手動」を選びます</strong>。「手動」は、まだ許可していないファイルの書き換えやコマンドの実行の前に、確認画面が出る設定です。2026年9月24日時点では、新しいセッションが「オート」か「編集を受け入れる」で始まることがあります（どちらになるかは人によって違います）。表示される名前や選べる設定は、アプリの更新や契約の種類で変わることがあります。</p>
+    <p><span class="why">なぜ「手動」にするのか：</span>このあと、仕様書のファイルを Claude Code に書かせます。「オート」や「編集を受け入れる」のままだと、確認画面が出ないまま書き込まれることがあり、書く場所と中身を見てから許可する手順（「仕様書」の節）が踏めません。</p>
   </div>
 </section>
 
@@ -347,15 +348,15 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
     <div class="figures">
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_prompt1_typed.png" alt="壁打ちの指示を入力欄に貼った状態" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_prompt1_typed.png" alt="壁打ちの指示を入力欄に貼った状態" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>指示を入力欄に貼った状態。Enter で送ります</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_reply_questions.png" alt="AI から返ってきた質問3つ" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_reply_questions.png" alt="AI から返ってきた質問3つ" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>返ってきた質問（例：食費メモ）。保存先・月の区切り・分類の有無のように、答えで作りが変わるものを聞いてきます</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_reply_proposals.png" alt="AI から返ってきた提案5つと、必須／あとまわしの仕分け" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_reply_proposals.png" alt="AI から返ってきた提案5つと、必須／あとまわしの仕分け" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>続けて返ってきた提案と、必須／あとまわしの仕分け</figcaption>
       </figure>
     </div>
@@ -534,15 +535,15 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
     <div class="figures">
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_prompt_stack_typed.png" alt="技術スタックの提案を頼む指示を入力欄に貼ったところ" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_prompt_stack_typed.png" alt="技術スタックの提案を頼む指示を入力欄に貼ったところ" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>指示を貼ったところ。壁打ちと同じセッションで続けて送ります</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_reply_stack.png" alt="返ってきたおすすめの構成。画面・保存・動かし方の3つに分けて理由つきで書かれている" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_reply_stack.png" alt="返ってきたおすすめの構成。画面・保存・動かし方の3つに分けて理由つきで書かれている" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>返ってきた「おすすめの構成」（例：食費メモ）。画面／保存／動かし方の3つに分けて、理由つきで返ってきます</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_reply_stack_alternatives.png" alt="続けて返ってきたほかの候補2つと、用語の一言説明の表" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_reply_stack_alternatives.png" alt="続けて返ってきたほかの候補2つと、用語の一言説明の表" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>続けて返ってきた「ほかの候補」と用語の説明。おすすめと何が違うかが1行ずつ書いてあります</figcaption>
       </figure>
     </div>
@@ -642,14 +643,14 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 決めていないことは推測で足さず、質問してください。コードは書かず、コマンドも実行しないでください。</pre>
 
     <figure class="figure">
-      <img src="../../assets/images/lesson02/r2_app_prompt2_answers.png" alt="質問に答え、採用・あとまわしを伝えたところ" loading="lazy">
+      <img src="../../assets/images/lesson02/r2_app_prompt2_answers.png" alt="質問に答え、採用・あとまわしを伝えたところ" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
       <figcaption>質問に答え、採用・あとまわしを伝えたところ。上に AI の仕分けが見えています</figcaption>
     </figure>
 
     <h3 class="sub">書き込みの確認画面が出ます</h3>
-    <p>権限モードが「手動」なので、Claude Code はファイルを作る前に「<code>spec.md</code> の書き込みを許可しますか？」と聞いてきます。</p>
+    <p>権限モードを「手動」にしてあるので、Claude Code はファイルを作る前に「<code>spec.md</code> の書き込みを許可しますか？」と聞いてきます。確認画面が出ないまま <code>spec.md</code> ができたときは、次の指示を送る前に、入力欄の下の権限モードと、この会話で前に「常に許可」を選んでいないかを見ます（手動でも、前に「常に許可」を選んだ操作は確認なしで進みます）。モードが違っていたら「手動」に直し、できた <code>spec.md</code> の場所と中身を、下の「確認のしかた」でご自身の目で確かめます。</p>
     <figure class="figure">
-      <img src="../../assets/images/lesson02/r2_app_permission_spec.png" alt="spec.md を書き込む前の確認画面" loading="lazy">
+      <img src="../../assets/images/lesson02/r2_app_permission_spec.png" alt="spec.md を書き込む前の確認画面" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
       <figcaption>spec.md を書き込む前の確認。書こうとしている中身が表示されます</figcaption>
     </figure>
     <ul>
@@ -658,7 +659,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><span class="why">なぜ「拒否」があるのか：</span>場所や中身が違うときに止めるためです。止めたら、入力欄に「<code>docs/spec.md</code> ではなく〜」のように指示を直して送り直します</li>
     </ul>
     <figure class="figure">
-      <img src="../../assets/images/lesson02/r2_app_spec_done.png" alt="spec.md ができた状態" loading="lazy">
+      <img src="../../assets/images/lesson02/r2_app_spec_done.png" alt="spec.md ができた状態" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
       <figcaption>spec.md ができた状態。この回の成果物の1つ目です</figcaption>
     </figure>
 
@@ -733,11 +734,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
     <div class="figures">
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_permission_tasks.png" alt="tasks.md を書き込む前の確認画面" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_permission_tasks.png" alt="tasks.md を書き込む前の確認画面" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>tasks.md を書き込む前の確認。spec.md のときと同じく、場所と中身を見てから「一度だけ許可」</figcaption>
       </figure>
       <figure class="figure">
-        <img src="../../assets/images/lesson02/r2_app_tasks_done.png" alt="tasks.md ができた状態" loading="lazy">
+        <img src="../../assets/images/lesson02/r2_app_tasks_done.png" alt="tasks.md ができた状態" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>tasks.md ができた状態。順番にした理由も返ってきます</figcaption>
       </figure>
     </div>
@@ -800,7 +801,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </div>
     </div>
     <figure class="figure">
-      <img src="../../assets/images/lesson02/r2_finder_docs.png" alt="my-app/docs に spec.md と tasks.md ができた状態" loading="lazy">
+      <img src="../../assets/images/lesson02/r2_finder_docs.png" alt="my-app/docs に spec.md と tasks.md ができた状態" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
       <figcaption>my-app/docs に spec.md と tasks.md ができた状態。作り始めるときは、ここから始めます</figcaption>
     </figure>
   </div>
@@ -879,7 +880,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
           <tr><td><strong>spec ／ tasks</strong></td><td>spec＝specification（仕様）の略。tasks＝作業の一覧。それぞれ仕様書 <code>spec.md</code>、作る順番 <code>tasks.md</code> のファイル名に使う</td></tr>
           <tr><td><strong>壁打ち</strong></td><td>自分の考えを AI に読ませて、質問や提案を返してもらい、それを見て自分の考えを整えるやり取り</td></tr>
           <tr><td><strong>セッション</strong></td><td>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始める</td></tr>
-          <tr><td><strong>権限モード</strong></td><td>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」はそうした操作の前に確認画面が出る</td></tr>
+          <tr><td><strong>権限モード</strong></td><td>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」はまだ許可していない操作の前に確認画面が出る（前に「常に許可」を選んだ操作は確認なしで進むことがある）。「オート」は多くの操作を確認なしで進め、危険と判断した操作は止める（そのたびに確認画面が出るとは限らない）。「編集を受け入れる」はファイルの書き換えなどを確認なしで進める</td></tr>
           <tr><td><strong>MVP</strong></td><td>1つの流れが最初から最後まで通る、いちばん小さい状態</td></tr>
           <tr><td><strong>ワイヤーフレーム</strong></td><td>色や装飾を付けずに、どこに何を置くかだけを描いた画面の骨組み</td></tr>
           <tr><td><strong>画面遷移</strong></td><td>どの画面からどの画面へ移るかのつながり</td></tr>
@@ -906,5 +907,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
   </div>
 </footer>
 
+<!-- shot-stamp:start -->
+<aside style="max-width:980px;margin:32px auto 0;padding:14px 18px;border:1px solid #e4e4ef;border-radius:12px;background:#fafafd;color:#3f3f52;font-size:13.5px;line-height:1.9"><b>この資料の画面について</b><br>載せているスクリーンショットは <b>2026年9月</b> に撮影したものです。ツールの更新で、ボタンの名前や画面の見た目が変わっていることがあります。手元の画面と違っても、<b>やることは同じ</b>ことがほとんどです。同じ意味のボタンを探しても見つからないときは、Boarding Pass の Q&amp;A から質問してください（似た質問にすでに回答があれば、送る前に表示されます）。各画像にマウスを乗せると、その 1 枚の撮影時期が出ます。</aside>
+<!-- shot-stamp:end -->
 </body>
 </html>
