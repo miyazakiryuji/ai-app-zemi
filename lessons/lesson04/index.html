@@ -441,6 +441,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </dl>
     <p><strong>仕様書の「使う技術」に React などを書いてあっても、この回は <code>app/</code> の HTML に app.js を足す形で作ります。</strong><span class="why">なぜ：</span>ダブルクリックで開いて確かめるので、部品の追加や起動の手順が要る構成は使いません。</p>
     <p>返答に「仕様書には React と書いてありますが…」と断りが付いても、それで正しい状態です。<strong>仕様書は直しません。</strong>仕様書に書いた技術は、あとで裏側を足すときに使います。指示②が「この範囲では作れない」と止まったときは、「この回は、仕様書の『使う技術』ではなく、指示の作り方で作ってください」と送ります。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>React</dt><dd>画面を部品に分けて組み立てるための JavaScript の道具の1つ。使うには部品の追加や起動の手順が要ります。この回では使いません</dd>
+      </dl>
+    </div>
 
     <h3 class="sub">確認画面で見るところ</h3>
     <p>送ると、Claude Code はまず変えるファイルの一覧を書き、それからファイルごとに確認画面を出します。</p>
@@ -539,6 +545,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <h3 class="sub">渡し方</h3>
     <p>先に、下の型の「コピー」を押して入力欄に貼り、（　）の中を書き換えます。次に、コンソールを開いたまま再読み込み（<kbd>⌘R</kbd>／<kbd>F5</kbd>）して同じ操作をもう一度し、赤い文字が出たところをスクリーンショットで撮ります（Mac は <kbd>⌃⇧⌘4</kbd>、Windows は <kbd>Windows＋Shift＋S</kbd> を押して範囲を選ぶと、画像がクリップボードに入ります）。入力欄で <kbd>⌘V</kbd>（Windows は <kbd>Ctrl+V</kbd>）を押すと画像が貼れるので、そのまま送ります。</p>
     <p><span class="why">なぜこの順番なのか：</span>クリップボードに入るのは1つだけです。先にスクリーンショットを撮ってから型の「コピー」を押すと、画像は型の文字に置き換わって消えます。再読み込みしてから操作するのは、開いた直後に止まる不具合の赤い文字も出し直すためです。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>クリップボード</dt><dd>コピーしたものを一時的に置いておく場所。入るのは最後にコピーした1つだけです</dd>
+      </dl>
+    </div>
 <pre class="prompt" data-label="動かないときの型 ― （ ）の中を書き換え、スクショを添えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/actions.md の（　）行目の動きが、うまく動きません。
 - したこと：（例：金額に 500、日付に今日を入れて「保存」を押した）
 - 起きたこと：（例：一覧に何も増えない。画面も変わらない）
@@ -861,6 +873,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
         <dt>localStorage</dt><dd>ブラウザがサイトごとに持っている保存場所。名前と文字列の組を残します。</dd>
+        <dt>npm</dt><dd>Node.js で使う部品（パッケージ）を入れたり、決まった手順を動かしたりする命令。この回では使いません</dd>
       </dl>
     </div>
   </div>
@@ -905,6 +918,9 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
           <tr><td><strong>処理中の表示</strong></td><td>時間のかかる処理（AI の返事を待つ間など）に、ボタンを押せなくして「考え中…」のように出す表示</td></tr>
           <tr><td><strong>失敗したときの表示</strong></td><td>処理がうまくいかなかったときに、決まった文を出し、入力を残しておく表示</td></tr>
           <tr><td><strong>控え（app-mock）</strong></td><td>動きを足す前の <code>app</code> を複製して残したフォルダ。見比べたり、戻したりするのに使う</td></tr>
+                  <tr><td>React</td><td>画面を部品に分けて組み立てるための JavaScript の道具の1つ。使うには部品の追加や起動の手順が要ります。この回では使いません</td></tr>
+          <tr><td>npm</td><td>Node.js で使う部品（パッケージ）を入れたり、決まった手順を動かしたりする命令。この回では使いません</td></tr>
+          <tr><td>クリップボード</td><td>コピーしたものを一時的に置いておく場所。入るのは最後にコピーした1つだけです</td></tr>
         </tbody>
       </table>
     </div>
