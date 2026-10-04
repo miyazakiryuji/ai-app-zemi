@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIアプリ開発入門ゼミ ｜ 第6回 テスト</title>
+<title>第6回 テスト ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第6回 テスト。テストとは何かを押さえ、仕様書をもとにテストコードを Claude Code に書かせ、流し、落ちたら実装側を直させる。UIテストと敵対的テストも Claude Code に実施させ、テストを流す節目を自分で決めるまでの手順。">
 <link rel="stylesheet" href="../../assets/site.css">
 <script>document.documentElement.classList.add("js");
@@ -17,7 +17,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <header class="site-header">
   <div class="site-header__inner">
     <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
-    <nav class="site-header__nav">
+    <nav class="site-header__nav" aria-label="ページ内の見出し">
       <a href="#what">テストとは</a>
       <a href="#kinds">3つのテスト</a>
       <a href="#write">仕様書から書かせる</a>
@@ -28,6 +28,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <a href="#keep">残す</a>
       <a href="#deliverables">この回で作るもの</a>
       <a href="#pitfalls">つまずき</a>
+      <a href="#glossary">用語</a>
     </nav>
   </div>
 </header>
@@ -38,7 +39,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="hero hero--lesson">
   <div class="hero__inner">
     <div>
-      <p class="crumbs"><a href="../../">Home</a> ／ 第6回</p>
+      <p class="crumbs"><a href="../../">Home</a> ／ <a href="../../#lessons">全7回の流れ</a> ／ 第6回</p>
       <p class="hero__kicker">LESSON 06 ／ 作るフェーズ</p>
       <h1 class="hero__title">テスト ― <em>壊れていないこと</em>を確かめる</h1>
       <p class="hero__sub">～ 仕様書からテストコードを書かせ、落ちたら実装側を直す。UIテストと敵対的テストも Claude Code に任せる ～</p>
@@ -66,7 +67,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
     </div>
     <div class="now__actions">
-      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--primary" href="#flow">この回の流れを見る</a>
       <a class="btn btn--ghost" href="../../">Home へ戻る</a>
     </div>
   </div>
@@ -81,7 +82,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </p>
     <div class="table-wrap" tabindex="0" role="region" aria-label="動作確認とテストの違い の表">
       <table class="tbl">
-        <thead><tr><th></th><th>いままでの動作確認</th><th>この回のテスト</th></tr></thead>
+        <thead><tr><th><span class="sr-only">観点</span></th><th>いままでの動作確認</th><th>この回のテスト</th></tr></thead>
         <tbody>
           <tr><td><strong>何を確かめるか</strong></td><td>その場で気になったところ</td><td><strong>仕様書に書いてあること</strong>を、あらかじめ一覧にしておく</td></tr>
           <tr><td><strong>何回できるか</strong></td><td>手で押すので、やるたびに手間が同じ</td><td><strong>同じ手順を何度でも流せる</strong>形にしておく</td></tr>
@@ -105,15 +106,15 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </dl>
     </div>
 
-    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
+    <h3 class="sub" id="flow">この回の流れ（上から順に進めます）</h3>
     <div class="flow">
-      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">3つのテスト</p><p class="flow__desc">テストコード／UI／敵対的</p></div>
-      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">書かせる</p><p class="flow__desc">仕様書から</p></div>
-      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">流す</p><p class="flow__desc">落ちたら実装側を直す</p></div>
-      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">UIテスト</p><p class="flow__desc">ブラウザを操作させる</p></div>
-      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">敵対的テスト</p><p class="flow__desc">壊しにいく</p></div>
-      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">いつ流すか</p><p class="flow__desc">節目を自分で決める</p></div>
-      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">残す</p><p class="flow__desc">README・データ分離</p></div>
+      <a class="flow__step" href="#kinds"><span class="flow__n">02</span><p class="flow__name">3つのテスト</p><p class="flow__desc">テストコード／UI／敵対的</p></a>
+      <a class="flow__step" href="#write"><span class="flow__n">03</span><p class="flow__name">書かせる</p><p class="flow__desc">仕様書から</p></a>
+      <a class="flow__step" href="#run"><span class="flow__n">04</span><p class="flow__name">流す</p><p class="flow__desc">落ちたら実装側を直す</p></a>
+      <a class="flow__step" href="#ui"><span class="flow__n">05</span><p class="flow__name">UIテスト</p><p class="flow__desc">ブラウザを操作させる</p></a>
+      <a class="flow__step" href="#adversarial"><span class="flow__n">06</span><p class="flow__name">敵対的テスト</p><p class="flow__desc">壊しにいく</p></a>
+      <a class="flow__step" href="#when"><span class="flow__n">07</span><p class="flow__name">いつ流すか</p><p class="flow__desc">節目を自分で決める</p></a>
+      <a class="flow__step" href="#keep"><span class="flow__n">08</span><p class="flow__name">残す</p><p class="flow__desc">README・データ分離</p></a>
     </div>
   </div>
 </section>
@@ -190,7 +191,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li>仕様書の「やらないこと」は、テストの対象外の根拠になります。コードを元にすると、AI が勝手に足した機能までテストされます</li>
     </ul>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson05/diagram_test_loop_sp.svg"><img src="../../assets/images/lesson05/diagram_test_loop.svg" alt="テストのまわし方。①仕様書 docs/spec.md → ②テストコード（仕様書の写し・書くのは Claude Code）→ ③全部流す（通った／落ちた）→ 全部通れば次の機能へ。落ちたら ④実装側（アプリ本体）を直す。テストは書き換えない・ゆるめない・飛ばさない。直したら③に戻って全部をもう一度流す。仕様書が古いときだけ、先に仕様書を直す" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson05/diagram_test_loop_sp.svg"><img src="../../assets/images/lesson05/diagram_test_loop.svg" alt="テストのまわし方。①仕様書 docs/spec.md → ②テストコード（仕様書の写し・書くのは Claude Code）→ ③全部流す（通った／落ちた）→ 全部通れば次の機能へ。落ちたら ④実装側（アプリ本体）を直す。テストは書き換えない・ゆるめない・飛ばさない。直したら③に戻って全部をもう一度流す。仕様書が古いときだけ、先に仕様書を直す" loading="lazy"></picture>
       <figcaption>テストのまわし方。仕様書 → テストコード → 流す → 落ちたら実装側を直して、また全部流す。テストのほうを書き換えて通す、はしません</figcaption>
     </figure>
 
@@ -292,8 +293,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <img src="../../assets/images/lesson05/r5_app_all_pass.png" alt="直したあと、全部流し直して26件すべて成功した画面" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
       <figcaption>直したあと、全部を流し直した結果。26件すべて成功（失敗0・スキップ0）。「テストのファイルは1文字も触っていません」と書いてあるかも見ます</figcaption>
     </figure>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <strong>テストの結果を読むときに見るのは3つだけです。</strong>① 通った数と落ちた数 ② 落ちたテストの<strong>名前</strong>（何を確かめていたか）③ <strong>期待と結果</strong>。この3つが読めれば、上の指示の型がそのまま書けます。英語のメッセージが長くても、要るのはこの3つだけです。
     </div>
 
@@ -454,7 +455,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
     <div class="note note--warn">
       <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
-      <strong>上の握り3つ（開発中のアプリだけ／テスト用のデータ／削除は消えても困らない状態で）は、敵対的テストでいちばん効きます。</strong>大量のデータを入れ、消します。<strong>実際に使っているデータの上ではやらないでください。</strong>
+      上の握り3つ（開発中のアプリだけ／テスト用のデータ／削除は消えても困らない状態で）は、敵対的テストでいちばん効きます。大量のデータを入れ、消します。実際に使っているデータの上ではやらないでください。
     </div>
   </div>
 </section>
@@ -588,7 +589,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <p class="card__desc"><code>README</code> に書いたテストの実行コマンド（1行）と、<code>CLAUDE.md</code> に書いた「テストを流す節目」。</p>
       </div>
     </div>
-    <div class="note">
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
       提出の前に、スクリーンショットとファイルに、名前・メールアドレス・業務の実データ・外部サービスの鍵（APIキー・データベースのトークン）が写っていないかを見てください。写っていたら、まだどこにも貼っていなければ、範囲を絞って撮り直すか、その部分を塗りつぶします。一度でも掲示板・提出フォーム・共有の場所に出したキーは、貼り直すのではなく、管理画面でそのキーを無効化して作り直します。<span class="why">なぜ：</span>画像を消しても、それまでに見た人の手元にはキーが残るためです。
     </div>
   </div>
@@ -722,8 +724,16 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
-    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+    <nav class="lesson-pager" aria-label="前後の回">
+      <a class="lesson-pager__prev" href="../lesson05/"><small>← 前の回</small>第5回 API 連携とデータの持ち方</a>
+      <span class="lesson-pager__next"><small>次の回 →</small>第7回 デバッグと卒業制作（準備中）</span>
+    </nav>
+    <p class="site-footer__name">AIアプリ開発入門ゼミ <small>｜ DMM 生成AI CAMP ／ 受講生向けページ</small></p>
+    <nav class="site-footer__links" aria-label="よく使うリンク">
+      <a href="../../">Home</a><a href="../../#schedule">日程・入室</a><a href="../../#stuck">困ったとき</a><a href="../../#boardingpass">Boarding Pass</a>
+      <a href="../lesson02/">第2回</a><a href="../lesson03/">第3回</a><a href="../lesson04/">第4回</a><a href="../lesson05/">第5回</a><a href="../lesson06/" aria-current="page">第6回</a>
+    </nav>
+    <p class="site-footer__note">ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。</p>
   </div>
 </footer>
 

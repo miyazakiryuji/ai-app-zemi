@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIアプリ開発入門ゼミ ｜ 第5回 API 連携で AI 機能を入れ、データの持ち方を決める</title>
+<title>第5回 API 連携とデータの持ち方 ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第5回。API 連携の仕組み、Claude・OpenAI・Gemini の API キーの発行と安全な置き方、経路を先に通してから AI に差し替える手順、上限設定、そしてデータの4つの置き場（ブラウザ・PC のファイル・Turso・スプレッドシート）の選び方。">
 <link rel="stylesheet" href="../../assets/site.css">
 <script>document.documentElement.classList.add("js");
@@ -17,7 +17,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <header class="site-header">
   <div class="site-header__inner">
     <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
-    <nav class="site-header__nav">
+    <nav class="site-header__nav" aria-label="ページ内の見出し">
       <a href="#what">API 連携とは</a>
       <a href="#choose">サービスを選ぶ</a>
       <a href="#key">API キー</a>
@@ -26,6 +26,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <a href="#storage">データの持ち方</a>
       <a href="#deliverables">この回で作るもの</a>
       <a href="#pitfalls">つまずき</a>
+      <a href="#glossary">用語</a>
     </nav>
   </div>
 </header>
@@ -36,7 +37,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="hero hero--lesson">
   <div class="hero__inner">
     <div>
-      <p class="crumbs"><a href="../../">Home</a> ／ 第5回</p>
+      <p class="crumbs"><a href="../../">Home</a> ／ <a href="../../#lessons">全7回の流れ</a> ／ 第5回</p>
       <p class="hero__kicker">LESSON 05 ／ 作るフェーズ</p>
       <h1 class="hero__title">API 連携で AI 機能を入れ、<em>データの持ち方を決める</em></h1>
       <p class="hero__sub">～ 自分のアプリから AI のサービスを呼び出し、データをどこに置くかを仕組みと消える条件から選ぶ ～</p>
@@ -59,12 +60,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div>
       <p class="now__label">この回の前に用意しておくもの</p>
       <p class="now__title">画面（見た目）と、画面の中だけで動く動きが付いた自分のアプリ ＋ Claude デスクトップアプリ ＋ AI のサービスのアカウント</p>
-      <p class="now__meta">アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、画面と動きのファイル（<code>app/</code>。例：<code>app/app.js</code>）と仕様書（<code>docs/spec.md</code>）がある状態から始めます。動きの一覧（<code>docs/actions.md</code>）があれば、それも使います。動きがまだ無い場合の進め方は <a href="#ai">5-1</a> にあります。
+      <p class="now__meta">アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、画面と動きのファイル（<code>app/</code>。例：<code>app/app.js</code>）と仕様書（<code>docs/spec.md</code>）がある状態から始めます。動きの一覧（<code>docs/actions.md</code>）があれば、それも使います。動きがまだ無い場合の進め方は <a href="#ai-nomotion">5-1</a> にあります。
         AI のサービスは、このページの「サービスを選ぶ」を読んで1つ決め、アカウントを作っておいてください（キーの発行はこのページの手順で行います）。
         支払い方法の登録を求められることがあります。料金と無料で使える範囲は変わることがあるので、契約の前に各サービスの公式ページでご確認ください。</p>
     </div>
     <div class="now__actions">
-      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--primary" href="#flow">この回の流れを見る</a>
       <a class="btn btn--ghost" href="../../">Home へ戻る</a>
     </div>
   </div>
@@ -91,7 +92,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <h3 class="sub">API 連携をするときの形（この回でいちばん大事なこと）</h3>
     <p>自分のアプリから AI のサービスを呼ぶときは、<strong>画面（ブラウザ）から直接呼ばず、自分のサーバーを経由します。</strong></p>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04/diagram_api_route_sp.svg"><img src="../../assets/images/lesson04/diagram_api_route.svg" alt="API 連携の形。画面はまず自分のサーバーに要求を送り、サーバーが API キーを付けて AI のサービスを呼ぶ。生成された文章はサーバーを通って画面に表示される。画面から AI のサービスを直接呼ぶ形は取らない" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04/diagram_api_route_sp.svg"><img src="../../assets/images/lesson04/diagram_api_route.svg" alt="API 連携の形。画面はまず自分のサーバーに要求を送り、サーバーが API キーを付けて AI のサービスを呼ぶ。生成された文章はサーバーを通って画面に表示される。画面から AI のサービスを直接呼ぶ形は取らない" loading="lazy"></picture>
       <figcaption>API 連携の形。画面はまず自分のサーバーに要求を送り、サーバーが API キーを付けて AI のサービスを呼びます。画面から AI のサービスを直接呼ぶ形にはしません</figcaption>
     </figure>
     <div class="term">
@@ -109,16 +110,14 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li>自分のサーバーを間にはさんでおくと、あとで AI のサービスを別のものに変えるときも、画面側は一切直さずに済みます</li>
     </ul>
 
-    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
+    <h3 class="sub" id="flow">この回の流れ（上から順に進めます）</h3>
     <div class="flow">
-      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">API を知る</p><p class="flow__desc">呼び出しの形と、サーバー経由の理由</p></div>
-      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">サービスを選ぶ</p><p class="flow__desc">Claude／OpenAI／Gemini</p></div>
-      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">キーを発行</p><p class="flow__desc">管理画面で作り、.env に置く</p></div>
-      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">土台を作る</p><p class="flow__desc">いまの画面をサーバーから開く</p></div>
-      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">経路を先に通す</p><p class="flow__desc">AI を呼ばずに固定の文章を返す</p></div>
-      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">AI に差し替え</p><p class="flow__desc">サーバー側だけを直す</p></div>
-      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">上限を設定</p><p class="flow__desc">管理画面で使いすぎを止める</p></div>
-      <div class="flow__step"><span class="flow__n">8</span><p class="flow__name">データの持ち方</p><p class="flow__desc">4つの置き場から選ぶ</p></div>
+      <a class="flow__step" href="#what"><span class="flow__n">01</span><p class="flow__name">API を知る</p><p class="flow__desc">呼び出しの形と、サーバー経由の理由</p></a>
+      <a class="flow__step" href="#choose"><span class="flow__n">02</span><p class="flow__name">サービスを選ぶ</p><p class="flow__desc">Claude／OpenAI／Gemini</p></a>
+      <a class="flow__step" href="#key"><span class="flow__n">03</span><p class="flow__name">API キー</p><p class="flow__desc">パスワードと同じ扱いで、.env に置く</p></a>
+      <a class="flow__step" href="#issue"><span class="flow__n">04</span><p class="flow__name">キーを発行</p><p class="flow__desc">管理画面で作る</p></a>
+      <a class="flow__step" href="#ai"><span class="flow__n">05</span><p class="flow__name">AI 機能を入れる</p><p class="flow__desc">サーバーから開く → 経路を先に通す → AI に差し替え → 上限を設定</p></a>
+      <a class="flow__step" href="#storage"><span class="flow__n">06</span><p class="flow__name">データの持ち方</p><p class="flow__desc">4つの置き場から選ぶ</p></a>
     </div>
   </div>
 </section>
@@ -141,8 +140,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </table>
     </div>
     <p class="table-hint">表は横にスクロールできます</p>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note">
       管理画面の名前・URL・ボタンの文言は変わることがあります。このページの画面と違うときは、「API キー」「Billing（請求）」「Limits（上限）」に相当するものを探してください。<br>
       <strong>料金と無料で使える範囲は短い期間で変わるので、契約の前に、必ず各サービスの公式ページでご確認ください。</strong>このページに載せる無料枠の数値は、記載した日に講師のプロジェクトで確かめた例です。自分に当てはまる回数は、Gemini なら AI Studio の「レート制限」で確かめます。
     </div>
@@ -207,8 +205,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <dt>node_modules</dt><dd>アプリが使う部品（ライブラリ）を入れるフォルダ。部品を入れる命令を打つと自動で作られ、中身はとても多くなります。部品の一覧があればいつでも作り直せるので、共有や提出には含めません。</dd>
       </dl>
     </div>
-    <div class="note note--key">
-      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_warning_sign.png" alt="">
       <strong>絶対にやってはいけないこと（3つ）</strong><br>
       ① 画面側のコード（HTML や JavaScript）に書く<br>
@@ -261,20 +259,25 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="section__lead">
       3つとも「ログイン → API キーの画面 → 作成 → 表示されたキーをその場で <code>.env</code> に貼る」の流れです。<strong>キーは作った直後にしか全文が表示されないサービスが多いです。</strong>画面を閉じる前に <code>.env</code> に貼り、貼れたことを確認してから閉じます。選んだサービスの節だけ読めば足ります。
     </p>
+    <nav class="jump" aria-label="この節の中（キーを発行する）">
+      <a href="#key-claude">4-1 Claude API</a>
+      <a href="#key-openai">4-2 OpenAI API</a>
+      <a href="#key-gemini">4-3 Gemini API</a>
+    </nav>
     <div class="note note--warn">
       <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
       支払い方法の登録を求められることがあります。登録するときは、<strong>選んだサービスの節にある上限の設定まで一緒に済ませます。</strong>登録だけして上限を置かないまま作り始めないでください。上限を置く画面と、超えたときに止まるかどうかは、3つのサービスでそれぞれ違います。
     </div>
 
-    <h3 class="sub">4-1. Claude API（Anthropic）</h3>
+    <h3 class="sub" id="key-claude">4-1. Claude API（Anthropic）</h3>
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h4 class="steps__title"><a href="https://platform.claude.com/" target="_blank" rel="noopener">platform.claude.com</a>（Claude Platform。旧 Claude Console）を開き、Google アカウントかメールアドレスでログインする</h4><p class="steps__desc"><span class="why">なぜ：</span>API キーはアカウントに紐づきます。ゼミで使っている Claude と同じアカウントでログインできます。ただし Claude の有料プラン（Pro など）に API の利用は含まれず、API は Claude Platform の「請求」で別にクレジットを買います。</p></div></li>
       <li><span class="steps__n">2</span><div><h4 class="steps__title">「使用クレジットを購入して開始する」が出たら、ここでは買わず「今はスキップ」</h4><p class="steps__desc"><span class="why">なぜ：</span>AI を呼ぶまでは費用はかからないため、買うのは経路が通ってからにします。左のメニュー「組織の設定」→「API キー」を開きます。</p></div></li>
       <li><span class="steps__n">3</span><div><h4 class="steps__title">「キーを作成」を押し、名前と有効期限を決めて「キーを作成」</h4><p class="steps__desc">途中で「ID 連携を使用すれば、API キーは不要です」という案内が出たら「API キーで続ける」を選びます（ID 連携はクラウド上で動かす場合の仕組みで、ご自身の PC で動かすアプリには使いません）。キーの全文が1回だけ表示されるので、<strong>その場で <code>.env</code> に貼ります。</strong></p></div></li>
-      <li><span class="steps__n">4</span><div><h4 class="steps__title">（5-2 の手順3 で「テスト応答です」が出たら）「請求」の画面でクレジットを購入し、自動リロードはオフのまま、「Spend limits」で月の上限を置く</h4><p class="steps__desc">Claude API は<strong>前払い</strong>で、買ったクレジットの範囲で使います。最初は少額で十分です。購入のときに「自動リロード（Auto-reload）」を入れる欄があれば、<strong>オフのまま</strong>にします。<span class="why">なぜ：</span>自動リロードを入れると、残高が減るたびに自動で買い足され、残高が上限の役目をしなくなります。<br>
+      <li id="claude-credit"><span class="steps__n">4</span><div><h4 class="steps__title">（5-2 の手順3 で「テスト応答です」が出たら）「請求」の画面でクレジットを購入し、自動リロードはオフのまま、「Spend limits」で月の上限を置く</h4><p class="steps__desc">Claude API は<strong>前払い</strong>で、買ったクレジットの範囲で使います。最初は少額で十分です。購入のときに「自動リロード（Auto-reload）」を入れる欄があれば、<strong>オフのまま</strong>にします。<span class="why">なぜ：</span>自動リロードを入れると、残高が減るたびに自動で買い足され、残高が上限の役目をしなくなります。<br>
         あわせて、同じ「請求」の画面の「Spend limits」で「Set limit」（設定済みなら「Adjust limit」）を押し、月の上限額を入れます。<span class="why">なぜ両方か：</span>月の上限に達すると、その月の呼び出しはエラーで止まります。残高と月の上限の2つで止めておけば、どちらかの設定を変えたときにも使いすぎを防げます。金額の選択肢と画面の文言は変わることがあります。</p></div></li>
     </ol>
-    <div class="figures figures--2">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson04/r4_claude_login.png" alt="Claude Platform のログイン画面。Google で続行か、メールアドレスで続けるかを選ぶ" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>Claude Platform のログイン画面（撮影時は左上に旧名の「Claude Console」が出ていました）。ゼミで使っている Claude と同じアカウントでログインできます</figcaption>
@@ -293,14 +296,14 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <figcaption>「請求」の画面。クレジットを購入すると API を呼べるようになります。自動リロードをオフにしておけば、買った分が上限になります。公式の案内では「Spend limits」の欄もこの「請求」の画面にあります（この画像はクレジットを買う前のもので、その欄は写っていません）</figcaption>
     </figure>
 
-    <h3 class="sub">4-2. OpenAI API（OpenAI）</h3>
+    <h3 class="sub" id="key-openai">4-2. OpenAI API（OpenAI）</h3>
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h4 class="steps__title"><a href="https://platform.openai.com/" target="_blank" rel="noopener">platform.openai.com</a> を開き、ログインする</h4><p class="steps__desc">ChatGPT を使っているアカウントでログインできますが、<strong>ChatGPT の有料プランと API の契約は別</strong>で、API は先にクレジットを買い、その残高から使った分が引かれます。<span class="why">なぜ確認するのか：</span>ChatGPT の月額を払っていれば API も使えると思って作り始め、残高が無いというエラーで止まる人が多いためです。</p></div></li>
       <li><span class="steps__n">2</span><div><h4 class="steps__title">左のメニュー「API Keys」→ 右上の「Create new secret key」</h4><p class="steps__desc">名前を付け、Permissions は「All」のまま「Create secret key」を押します。<span class="why">なぜ All か：</span>「Restricted」を選ぶと使える機能を絞れますが、AI を呼ぶ権限を付け忘れると、正しいキーでもエラーになります。まずは All で動かします。キーの全文が1回だけ表示されるので、<strong>その場で <code>.env</code> に貼ります。</strong></p></div></li>
       <li><span class="steps__n">3</span><div><h4 class="steps__title">「Settings」→「Billing」で支払い方法を登録し、クレジットを買う</h4><p class="steps__desc">画面に「API credits are separate from ChatGPT」（API のクレジットは ChatGPT とは別）と書いてあるとおり、<strong>ChatGPT の契約とは別に、ここで API 用の残高を入れます。</strong><span class="why">なぜ：</span>残高が 0 のままでは、キーが正しくても API を呼べません。最初は少額で十分です。</p></div></li>
       <li><span class="steps__n">4</span><div><h4 class="steps__title">「Settings」→「Limits」（Billing の「Usage limits」からも開けます）の「Spend」で「Edit spend limit」を押し、月の上限額を入れて「Enforce a hard limit」をオンにして保存する</h4><p class="steps__desc">支払いを登録してクレジットを買うと、「Limits」の画面に上限の欄（Spend）が出ます。登録前の画面には、購入額に応じた段階（Usage Tiers）と、1分あたりに送れる回数（レート制限）だけが出ています。<span class="why">なぜ「Enforce a hard limit」までオンにするのか：</span>オフのままだと、上限額に達してもメールが来るだけで呼び出しは止まりません。オンにすると、上限を超えたあとの呼び出しがエラーで止まります。止まるまで少し遅れることがあり、記録上の金額がわずかに上限を超えることがあります。画面の文言は変わることがあります。</p></div></li>
     </ol>
-    <div class="figures figures--2">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson04/r4_openai_login.png" alt="OpenAI Platform のログイン画面。メールアドレスか Google・Apple・Microsoft のアカウントで続ける" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>OpenAI Platform のログイン画面。ChatGPT のアカウントでログインできますが、API の契約は別です</figcaption>
@@ -314,7 +317,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <img src="../../assets/images/lesson04/r4_openai_create.png" alt="「Create new secret key」の画面。Owned by・Name・Project・Permissions を決める" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
       <figcaption>「Create new secret key」の画面。名前は任意。Project は「Default project」のままで構いません</figcaption>
     </figure>
-    <div class="figures figures--2">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson04/r4_openai_billing.png" alt="「Billing」の画面。Free trial・Credit remaining $0.00・API credits are separate from ChatGPT・Usage limits の項目がある" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>「Billing」の画面（支払いの登録前）。ChatGPT とは別の残高で、ここで支払い方法を登録してクレジットを買います。「Usage limits」を押すと、上限を置く「Limits」の画面が開きます</figcaption>
@@ -325,7 +328,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </figure>
     </div>
 
-    <h3 class="sub">4-3. Gemini API（Google）</h3>
+    <h3 class="sub" id="key-gemini">4-3. Gemini API（Google）</h3>
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h4 class="steps__title"><a href="https://aistudio.google.com/" target="_blank" rel="noopener">aistudio.google.com</a> を開き、Google アカウントでログインする</h4><p class="steps__desc">左のメニューに「API キー」があります。</p></div></li>
       <li><span class="steps__n">2</span><div><h4 class="steps__title">右上の「API キーを作成」を押し、名前とプロジェクトを決めて「キーを作成」</h4><p class="steps__desc">初めてなら用意されている「Default Gemini Project」のままで構いません。<span class="why">なぜプロジェクトを聞かれるのか：</span>Google はキーや使用量を「プロジェクト」という単位で管理します。アプリ1つに1プロジェクトが基本ですが、まずは既定のもので進めて差し支えありません。表示されたキー（新しいキーは <code>AQ.</code> で始まります）は<strong>その場で <code>.env</code> に貼ります。</strong>一覧に戻ると、作ったキーは末尾の数文字だけが表示されます。</p></div></li>
@@ -341,7 +344,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <img src="../../assets/images/lesson04/r4_gemini_create_dialog.png" alt="「新しいキーを作成する」の画面。キー名とインポートしたプロジェクトを選んで「キーを作成」" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
       <figcaption>「新しいキーを作成する」の画面。名前を付けて「キーを作成」を押すと、キーの全文が表示されます。表示されたらその場で .env に貼ります</figcaption>
     </figure>
-    <div class="figures figures--2">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson04/r4_gemini_billing.png" alt="「課金」の画面。前払いのお支払い方法が設定されていない状態と「前払いを設定」ボタン" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>「課金」の画面。前払いの支払い方法を設定していない状態では、無料枠で使えます。支払いを設定したら、左のメニューで「課金」のすぐ上にある「利用額」で月の上限を置きます</figcaption>
@@ -377,8 +380,13 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="section__lead">
       ここでやるのは「自分のアプリのサーバー側から AI のサービスに文章を送り、返ってきた文章を画面に出す」ことです。<strong>次の順番を崩さないでください。</strong>最初に、いまの画面をサーバーから開けるようにして土台を作り（5-1）、そのうえで経路を通して AI に差し替えます（5-2）。画面の中だけで動く動き（ボタンを押すと一覧や結果の欄が変わる部分）は、もうできている前提で進めます（まだ無い場合は、5-1 の最後で1つ足します）。
     </p>
+    <nav class="jump" aria-label="この節の中（AI 機能を入れる）">
+      <a href="#ai-base">5-1 いまの画面をサーバーから開く</a>
+      <a href="#ai-route">5-2 経路を通してから AI に差し替える</a>
+      <a href="#ai-errors">接続でよく出るエラーと対処</a>
+    </nav>
 
-    <h3 class="sub">5-1. まず、いまの画面をサーバーから開けるようにする</h3>
+    <h3 class="sub" id="ai-base">5-1. まず、いまの画面をサーバーから開けるようにする</h3>
     <div class="note">
       作る順番の一覧 <code>docs/tasks.md</code> がある場合、画面の中だけでできるタスク（例：「1件保存して一覧に出す（読み込み直すと消えてよい）」「入力の間違いを弾く」）は、動きの一覧 <code>docs/actions.md</code> でその動きが「作った」になっていれば、もう終わっています。06（データの持ち方）は、「消えずに残るようにする」のような、データを残すタスクに当たります。<code>tasks.md</code> の順番と見比べて、終わったタスクには Claude Code に終わった印（<code>- [x]</code>）を付けさせます。<span class="why">なぜ：</span>印が実物とずれていると、次に作り始めるときに、できているものをもう一度作らせることになります。
     </div>
@@ -390,7 +398,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p>この 5-1 では、まずサーバーを立てて、いまの画面をサーバーから開けるようにします。要求を送る部分は 5-2 で足します。</p>
     <p>アプリは<strong>「見た目 → 動き → 裏側」の順に1段ずつ足して作ります。</strong>見た目と、画面の中だけで動く動きができていれば、ここで足すのは裏側だけです。<span class="why">なぜ1段ずつか：</span>一度に全部を作らせると、うまくいかないときに、見た目・動き・裏側のどこが原因か分かりません。1段足すたびに確かめておけば、先に調べるのは最後に足した1段で済みます。</p>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04/diagram_build_order_sp.svg"><img src="../../assets/images/lesson04/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04/diagram_build_order_sp.svg"><img src="../../assets/images/lesson04/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy"></picture>
       <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済みます</figcaption>
     </figure>
     <p><span class="why">なぜ画面を作り直さないのか：</span>いまある HTML と CSS は、ご自身で見て決めた配置と見た目そのものです。動きがある場合は、それもご自身の手で押して確かめたものです。作り直させると配置も文言も動きも変わり、確かめ直しになります。足すのはサーバーと、画面からサーバーを呼ぶ処理だけで、画面のファイルは土台としてそのまま使います。</p>
@@ -411,8 +419,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
     <h4 class="sub2">サーバーを立てて、いまの画面をそのまま出す（指示①）</h4>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h4 class="steps__title">Node.js が入っているかを Claude Code に聞く</h4><p class="steps__desc">「この PC に Node.js が入っているか確かめてください。入っていなければ、入れ方を教えてください」と送ります。入っていなければ、公式サイト（<a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a>）の案内に従って入れます。画面の文言は変わることがあります。<span class="why">なぜ：</span>サーバー側のプログラムは Node.js の上で動きます。入っていないと、次の指示で作ったサーバーを起動できません。</p></div></li>
-      <li><span class="steps__n">2</span><div><h4 class="steps__title">下の指示①を送る</h4><p class="steps__desc">そのまま貼って送ります。返事に出てくる「起動のしかた・止めかた・開くアドレス」は、このあと何度も使うので控えておきます。<span class="why">なぜ：</span><code>.env</code> を直したときなど、サーバーを止めて起動し直す場面がこの先に何度もあるためです。</p></div></li>
+      <li><span class="steps__n">1</span><div><h5 class="steps__title">Node.js が入っているかを Claude Code に聞く</h5><p class="steps__desc">「この PC に Node.js が入っているか確かめてください。入っていなければ、入れ方を教えてください」と送ります。入っていなければ、公式サイト（<a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a>）の案内に従って入れます。画面の文言は変わることがあります。<span class="why">なぜ：</span>サーバー側のプログラムは Node.js の上で動きます。入っていないと、次の指示で作ったサーバーを起動できません。</p></div></li>
+      <li><span class="steps__n">2</span><div><h5 class="steps__title">下の指示①を送る</h5><p class="steps__desc">そのまま貼って送ります。返事に出てくる「起動のしかた・止めかた・開くアドレス」は、このあと何度も使うので控えておきます。<span class="why">なぜ：</span><code>.env</code> を直したときなど、サーバーを止めて起動し直す場面がこの先に何度もあるためです。</p></div></li>
     </ol>
 <pre class="prompt prompt--plain" data-label="指示①（サーバーを立てる）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/spec.md の「使う技術」に沿って、サーバーを1つ作ってください。
 - いまの app/ の HTML・CSS・JavaScript は作り直さず、そのまま使ってください。要素の並び・文言・style.css・いまの動きは変えないでください
@@ -425,9 +433,9 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <h4 class="sub2">いままでの動きを、サーバーから開いた画面で確かめる</h4>
     <p>画面に動きがある方（動きの一覧 <code>docs/actions.md</code> に、状態が「作った」の行がある方など）は、指示①のあと、ここで確かめます。画面にまだ動きが無い方は、この下の「画面にまだ動きが無いときだけ」へ進みます。</p>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h4 class="steps__title">サーバーを起動し、指示①で教えてもらったアドレス（<code>http://localhost:3000</code> など）で画面を開く</h4><p class="steps__desc">ダブルクリックで開いた画面が残っていたら、閉じておきます。<span class="why">なぜ：</span>確かめたいのは、サーバーから開いた画面で動くかどうかです。ダブルクリックで開いた画面（アドレスが <code>file://</code> で始まる）が残っていると、どちらで押したのか分からなくなります。</p></div></li>
-      <li><span class="steps__n">2</span><div><h4 class="steps__title"><code>docs/actions.md</code> の「作った」の行をいくつか選び、その行の「確かめ方」のとおりに押す</h4><p class="steps__desc">1行目（いちばんよく使う動き）と入力のチェックの行、AI を使うアプリなら「処理中」「失敗したとき」の行は、必ず入れます。ダブルクリックで開いていたときと同じに動けば合格です。動きの一覧が無い場合は、ダブルクリックで開いていたときに確かめた操作を、同じように押します。<span class="why">なぜ：</span>開き方を変えると、ファイルの読み込み方も変わります。JavaScript のファイルが読み込まれないと、見た目は同じでも、押しても何も起きない画面になります。よく使う動きと、AI の部分（例：<code>app/ai.js</code>）を通る行を押せば、読み込みの抜けに気づけます。</p></div></li>
-      <li><span class="steps__n">3</span><div><h4 class="steps__title">動かない行があったら、したこと・起きたこと・コンソールの赤い文字を渡して、まず原因を聞く</h4><p class="steps__desc">開発者ツールの「コンソール」を開いたまま同じ操作をもう一度して、赤い文字が出たところをスクリーンショットで撮り、下の型に貼って送ります。名前・メールアドレス・業務の実データが写っていないかを、貼る前に見ます（貼った画像は AI のサービスに送られます）。<span class="why">なぜ3つを渡すのか：</span>「動きません」だけでは、AI はどの操作のことか分からず、推測で別の場所を直します。何を押して何が見えたかと、止まった理由の文があれば、原因を1つに絞れます。</p></div></li>
+      <li><span class="steps__n">1</span><div><h5 class="steps__title">サーバーを起動し、指示①で教えてもらったアドレス（<code>http://localhost:3000</code> など）で画面を開く</h5><p class="steps__desc">ダブルクリックで開いた画面が残っていたら、閉じておきます。<span class="why">なぜ：</span>確かめたいのは、サーバーから開いた画面で動くかどうかです。ダブルクリックで開いた画面（アドレスが <code>file://</code> で始まる）が残っていると、どちらで押したのか分からなくなります。</p></div></li>
+      <li><span class="steps__n">2</span><div><h5 class="steps__title"><code>docs/actions.md</code> の「作った」の行をいくつか選び、その行の「確かめ方」のとおりに押す</h5><p class="steps__desc">1行目（いちばんよく使う動き）と入力のチェックの行、AI を使うアプリなら「処理中」「失敗したとき」の行は、必ず入れます。ダブルクリックで開いていたときと同じに動けば合格です。動きの一覧が無い場合は、ダブルクリックで開いていたときに確かめた操作を、同じように押します。<span class="why">なぜ：</span>開き方を変えると、ファイルの読み込み方も変わります。JavaScript のファイルが読み込まれないと、見た目は同じでも、押しても何も起きない画面になります。よく使う動きと、AI の部分（例：<code>app/ai.js</code>）を通る行を押せば、読み込みの抜けに気づけます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h5 class="steps__title">動かない行があったら、したこと・起きたこと・コンソールの赤い文字を渡して、まず原因を聞く</h5><p class="steps__desc">開発者ツールの「コンソール」を開いたまま同じ操作をもう一度して、赤い文字が出たところをスクリーンショットで撮り、下の型に貼って送ります。名前・メールアドレス・業務の実データが写っていないかを、貼る前に見ます（貼った画像は AI のサービスに送られます）。<span class="why">なぜ3つを渡すのか：</span>「動きません」だけでは、AI はどの操作のことか分からず、推測で別の場所を直します。何を押して何が見えたかと、止まった理由の文があれば、原因を1つに絞れます。</p></div></li>
     </ol>
 <pre class="prompt" data-label="動かないときに送る指示 ― （ ）を埋めて、スクショを添えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">サーバーから開いた画面で、docs/actions.md の（　）行目の動きが、ダブルクリックで開いていたときと違います。
 - したこと：（例：金額に 500、日付に今日を入れて「保存」を押した）
@@ -436,9 +444,9 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 まず原因を教えてください。直すのは、私が「直してください」と言ってからにしてください。</pre>
     <p>原因の説明を読んだら、「直してください。いまの動きと見た目は変えないでください」と送ります。直ったら、サーバーから開いた画面を再読み込み（Mac は <kbd>⌘</kbd>＋<kbd>R</kbd>、Windows は <kbd>F5</kbd>）して、同じ行の「確かめ方」をもう一度通します。<span class="why">なぜ先に原因を聞くのか：</span>すぐに直させると、AI は原因が分からないまま、それらしい場所をまとめて書き換えることがあります。ダブルクリックで開いていたときに動いていたなら、原因の多くは開き方に合わせた読み込みの部分で、動きそのものではありません。説明が読み込みや開き方の話になっているかを確かめてから直させます。</p>
 
-    <h4 class="sub2">画面にまだ動きが無いときだけ：動きを1つだけ足す（指示②）</h4>
+    <h4 class="sub2" id="ai-nomotion">画面にまだ動きが無いときだけ：動きを1つだけ足す（指示②）</h4>
     <div class="note">
-      <strong>この指示②は、画面にまだ動きが無い（ボタンを押しても何も起きない、見た目だけのモックの）ときだけ使います。動きの一覧 <code>docs/actions.md</code> があって、状態が「作った」の行がある方は、ここは飛ばして 5-2 へ進みます。</strong><span class="why">なぜ：</span>動きがある画面に送ると、いまある動きと同じ働きの処理がもう1つ作られたり、確かめ済みの動きが書き換えられたりします。
+      この指示②は、<strong>画面にまだ動きが無い（ボタンを押しても何も起きない、見た目だけのモックの）ときだけ使います</strong>。動きの一覧 <code>docs/actions.md</code> があって、状態が「作った」の行がある方は、ここは飛ばして 5-2 へ進みます。<span class="why">なぜ：</span>動きがある画面に送ると、いまある動きと同じ働きの処理がもう1つ作られたり、確かめ済みの動きが書き換えられたりします。
     </div>
     <p>ご自身のアプリの中心になる操作を1つだけ、画面側の JavaScript で動くようにします。保存はまだしません。</p>
 <pre class="prompt" data-label="指示②（動きを1つだけ足す）― （ ）を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">いまの画面に、動きを1つだけ足してください。
@@ -461,13 +469,13 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="table-hint">表は横にスクロールできます</p>
     <p><span class="why">なぜ保存より先に動きだけを足すのか：</span>保存まで一度に作らせると、一覧に出ないときに、画面の書き換えが悪いのか、保存が悪いのかが分かりません。まず画面の中だけで動くことを確かめておけば、あとで保存を足してうまくいかないとき、調べるのは保存の側だけで済みます。データをどこに残すかは、この回の最後の<a href="#storage">「データの持ち方」</a>で、置き場ごとの違いを知ってから決めます。</p>
 
-    <h3 class="sub">5-2. 経路を先に通してから、AI に差し替える</h3>
+    <h3 class="sub" id="ai-route">5-2. 経路を先に通してから、AI に差し替える</h3>
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h4 class="steps__title"><code>.gitignore</code> と、値が空の <code>.env</code> を用意する（<a href="#key">03</a> の指示）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span><strong>キーを貼る前に、上げない設定と貼る先を用意しておきます。</strong>先にキーを発行すると、貼る先が無く、確かめる前の場所に置いてしまう事故が起きます。</p></div></li>
       <li><span class="steps__n">2</span><div><h4 class="steps__title">サービスを決めてキーを発行し、その場で <code>.env</code> に貼る（<a href="#issue">04</a>）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span>キーの全文は作った直後にしか表示されないためです。キーが無いと、手順4で AI を呼べません。</p></div></li>
       <li><span class="steps__n">3</span><div><h4 class="steps__title">AI を呼ばずに、決まった文章を返すだけのサーバー側の処理を作り、画面から呼んで表示させる（指示③）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span><strong>ここがいちばん大事です。</strong>画面 → サーバー → 画面の経路を先に1本通しておきます。同時に作ると、動かないときに<strong>経路の問題なのか AI 呼び出しの問題なのか切り分けられません。</strong>原因が2つある状態で詰まると、ほぼ抜けられません。<br>
         画面側に、仮の文章を返す関数（例：<code>app/ai.js</code>）がすでにある場合は、新しいボタンを置かずに、その関数の中身を差し替えます（指示③の下の注記）。</p></div></li>
-      <li><span class="steps__n">4</span><div><h4 class="steps__title">その処理の中身を、AI の呼び出しに差し替える（指示④）</h4><p class="steps__desc">Claude API を選んだ方は、送る前に <a href="#issue">4-1</a> の手順4（クレジットの購入と上限）を済ませます。<span class="why">なぜこの順か：</span>経路が通っていることが分かっているので、うまくいかなければ原因は AI の呼び出し側に絞られます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h4 class="steps__title">その処理の中身を、AI の呼び出しに差し替える（指示④）</h4><p class="steps__desc">Claude API を選んだ方は、送る前に <a href="#claude-credit">4-1</a> の手順4（クレジットの購入と上限）を済ませます。<span class="why">なぜこの順か：</span>経路が通っていることが分かっているので、うまくいかなければ原因は AI の呼び出し側に絞られます。</p></div></li>
       <li><span class="steps__n">5</span><div><h4 class="steps__title">返ってきた内容を画面に出し、待機中の表示と失敗したときの表示も入れる（指示⑤）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span>応答は数秒かかります。何も出ないと壊れたと思われ、<strong>何度も押される＝そのたびに課金されます</strong>。<br>
         手順3で関数の中身を差し替えた場合は、この2つの表示はもうあるので、指示⑤は送らずに確かめるだけにします（指示③の下の注記）。</p></div></li>
       <li><span class="steps__n">6</span><div><h4 class="steps__title">管理画面で上限を設定し、スクリーンショットを撮る（<a href="#issue">04</a> の選んだサービスの節）</h4><p class="steps__desc"><span class="why">なぜ：</span>この回の提出物です。作りを間違えたとき、被害が金額で止まります。無料枠のまま使う Gemini の方は、無料枠であることが分かる画面を撮ります。</p></div></li>
@@ -509,7 +517,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
 モデル名は、公式ドキュメントに載っている現在の標準的なものを使い、コードの中の1箇所にまとめてください。
 （Gemini を選んだ場合だけ、この行を残す）モデルは gemini-3.5-flash-lite、ライブラリは @google/genai（Python なら google-genai）を使ってください。
 完成条件：ボタンを押すと、AIが生成した（振り返りの文章）が結果の欄に表示されること。</pre>
-    <p>OpenAI なら「使うサービスは OpenAI API、キーは <code>OPENAI_API_KEY</code>」、Gemini なら「Gemini API、キーは <code>GEMINI_API_KEY</code>」に書き換えます。最後から2行目の「Gemini を選んだ場合だけ」の行は、Gemini 以外の方は消します。Gemini の方は、行の先頭の「（Gemini を選んだ場合だけ、この行を残す）」の部分と、その上の「モデル名は、公式ドキュメントに…」の行を消します。モデル名が変わっていたら <a href="#issue">4-3</a> の注記のモデル名に直します。手順3で画面側の関数の中身を差し替えた方は、最後に、仮の仕組みを外す1行を足します（指示③の下の注記）。</p>
+    <p>OpenAI なら「使うサービスは OpenAI API、キーは <code>OPENAI_API_KEY</code>」、Gemini なら「Gemini API、キーは <code>GEMINI_API_KEY</code>」に書き換えます。最後から2行目の「Gemini を選んだ場合だけ」の行は、Gemini 以外の方は消します。Gemini の方は、行の先頭の「（Gemini を選んだ場合だけ、この行を残す）」の部分と、その上の「モデル名は、公式ドキュメントに…」の行を消します。モデル名が変わっていたら <a href="#key-gemini">4-3</a> の注記のモデル名に直します。手順3で画面側の関数の中身を差し替えた方は、最後に、仮の仕組みを外す1行を足します（指示③の下の注記）。</p>
     <p><span class="why">なぜ「モデル名を1箇所にまとめて」と書くのか：</span>モデル名は変わります。変わったときに直す場所が1つなら、ご自身で直せます。あちこちに書かれていると、直し漏れで一部の機能だけ動かなくなります。</p>
     <p>手順5で送る指示です。待機中の表示と、失敗したときの表示を足します。</p>
 <pre class="prompt" data-label="指示⑤（待機中と失敗時の表示）― （ ）を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">（「今月を振り返る」）ボタンに、次の2つを足してください。
@@ -529,7 +537,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       </dl>
     </div>
 
-    <h3 class="sub">接続でよく出るエラーと対処</h3>
+    <h3 class="sub" id="ai-errors">接続でよく出るエラーと対処</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="エラーの症状・原因・対処の表">
       <table class="tbl tbl--wide-first">
         <thead><tr><th>症状</th><th>原因</th><th>対処</th></tr></thead>
@@ -542,7 +550,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
           <tr><td>短時間に何度も呼んで制限がかかる（<code>429</code> や <code>rate limit</code>）</td><td>画面の再描画のたびに呼び出している／連打</td><td>「ボタンを押したときだけ呼ぶように」と指示します。<strong>課金にも直結するので必ず直します</strong></td></tr>
           <tr><td>Gemini の無料枠で、ふつうに使っているのに <code>429</code>（<code>RESOURCE_EXHAUSTED</code>）が返る</td><td>無料枠の1分あたり・1日あたりの回数の上限に当たった</td><td>1分あたりの上限なら、少し待ってから押し直します。1日の上限なら、回数が戻るまで待ちます（戻る時刻は公式の<a href="https://ai.google.dev/gemini-api/docs/rate-limits" target="_blank" rel="noopener">レート制限のページ</a>で確認）。自分の上限は AI Studio の「レート制限」で見られます</td></tr>
           <tr><td>応答が返る前に止まる</td><td>待ち時間の上限に達している</td><td>送る文章を短くします。長い入力を分けて渡します</td></tr>
-          <tr><td>モデル名が違う・見つからないと言われる（<code>404</code> や <code>model not found</code>）</td><td>モデル名は変わる</td><td>公式ページで現在の名前を確認し、まとめてある1箇所を直します。Gemini で <code>no longer available to new users</code> と出たときは、新しく始める人は使えない 2.5 系を呼んでいます。<a href="#issue">4-3</a> の注記のモデル名に直します</td></tr>
+          <tr><td>モデル名が違う・見つからないと言われる（<code>404</code> や <code>model not found</code>）</td><td>モデル名は変わる</td><td>公式ページで現在の名前を確認し、まとめてある1箇所を直します。Gemini で <code>no longer available to new users</code> と出たときは、新しく始める人は使えない 2.5 系を呼んでいます。<a href="#key-gemini">4-3</a> の注記のモデル名に直します</td></tr>
           <tr><td>画面側でキーが読めない（<code>undefined</code> になる）</td><td>キーを画面側から使おうとしている</td><td><strong>画面側からは読めないのが正しい状態です。</strong>サーバー側の処理から使います</td></tr>
         </tbody>
       </table>
@@ -577,6 +585,13 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     <p class="section__lead">
       ここまでのアプリは、データを画面の中に持っているだけで、再読み込みすると消えます。動きの一覧 <code>docs/actions.md</code> で「あとで」にした行のうち、データを残す・画面をまたいで渡す行（修正画面に選んだ記録を出す・閉じても残る など）は、置き場を決めたあとに1行ずつ作ります（<span class="why">なぜ：</span>残し方は置き場によって変わるため、決める前に作ると作り直しになります）。AI 機能が動いたら、次は「<strong>このデータをどこに置いておくか</strong>」をご自身で決めます。置き場によって、<strong>消える条件</strong>と、<strong>どこから見えるか</strong>と、<strong>設定の手間</strong>が違います。
     </p>
+    <nav class="jump" aria-label="この節の中（データの持ち方）">
+      <a href="#store-choose">6-5 選び方（先に読む）</a>
+      <a href="#store-local">6-1 ブラウザの中</a>
+      <a href="#store-file">6-2 PC のファイル</a>
+      <a href="#store-turso">6-3 データベース（Turso）</a>
+      <a href="#store-sheet">6-4 スプレッドシート</a>
+    </nav>
     <div class="note">
       <strong>app.js に「見本のデータ」がある場合（画面の中だけで動く動きを作ってある場合）は、このあとの置き場の指示を送るとき、型の最後に次の1行を足してください。</strong>「app.js の見本のデータは外して、残したデータだけを一覧に出してください。1件も無いときは、いまの案内を出してください」 <span class="why">なぜ：</span>見本のデータは、見た目を確かめるために入れた架空の記録です。残したまま置き場につなぐと、架空の記録が本物の記録と一緒に並んで合計にも入り、1件も無いときの案内も出なくなります。
     </div>
@@ -588,15 +603,15 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       </dl>
     </div>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04/diagram_storage_sp.svg"><img src="../../assets/images/lesson04/diagram_storage.svg" alt="データの4つの置き場。ブラウザの中（localStorage）、PC のファイル（JSON ファイル／SQLite）、データベース（Turso）、スプレッドシート（Google スプレッドシート）。それぞれの消える条件・設定の手間・向いている場面を並べた図" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04/diagram_storage_sp.svg"><img src="../../assets/images/lesson04/diagram_storage.svg" alt="データの4つの置き場。ブラウザの中（localStorage）、PC のファイル（JSON ファイル／SQLite）、データベース（Turso）、スプレッドシート（Google スプレッドシート）。それぞれの消える条件・設定の手間・向いている場面を並べた図" loading="lazy"></picture>
       <figcaption>4つの置き場。ブラウザの中／自分の PC のフォルダ／インターネット上のデータベース／スプレッドシート。ブラウザの中・PC のファイルは自分の PC の中、データベース・スプレッドシートは PC の外に置きます。外に置く2つは、PC が壊れても、アプリを置き直しても消えません。外に置くほど設定の手間が増えます</figcaption>
     </figure>
     <div class="note note--key">
       <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
-      <strong>置き場は、6-5 の選び方で1つに決めてから、その置き場の指示の型を1つだけ送ります。4つ全部は送りません。</strong>6-1〜6-4 は、それぞれの置き場の仕組みと消える条件を読んで比べるための説明です。<span class="why">なぜ1つだけか：</span>続けて送ると、保存の処理が置き場の数だけ作られ、記録がどこに保存されているのか分からなくなります。
+      <strong>置き場は、<a href="#store-choose">6-5 の選び方</a>で1つに決めてから、その置き場の指示の型を1つだけ送ります。4つ全部は送りません。</strong>6-1〜6-4 は、それぞれの置き場の仕組みと消える条件を読んで比べるための説明です。<span class="why">なぜ1つだけか：</span>続けて送ると、保存の処理が置き場の数だけ作られ、記録がどこに保存されているのか分からなくなります。
     </div>
 
-    <h3 class="sub">6-1. ブラウザの中に持つ（localStorage）</h3>
+    <h3 class="sub" id="store-local">6-1. ブラウザの中に持つ（localStorage）</h3>
     <p>ブラウザには、サイトごとに小さなデータを保存しておく領域があり、その1つが <strong>localStorage</strong> です。JavaScript から「名前」と「文字列」の組で読み書きでき、ブラウザを閉じても残ります。サーバーが無くても動くので、画面側だけで完結します。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -632,7 +647,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
 保存・読み出しの処理は、画面側の1つのファイル（例：app/storage.js）にまとめてください。
 完成条件：記録を1件登録してブラウザを再読み込みしても残っていること。開発者ツールの「アプリケーション」→「ローカルストレージ」に保存した内容が見えること。</pre>
 
-    <h3 class="sub">6-2. 自分の PC のファイルに持つ（JSON ファイル／SQLite）</h3>
+    <h3 class="sub" id="store-file">6-2. 自分の PC のファイルに持つ（JSON ファイル／SQLite）</h3>
     <p>サーバー側のプログラムが、アプリのフォルダの中のファイルにデータを読み書きします。ファイルの形は、JSON ファイル1つ（<code>data.json</code>）か、<strong>SQLite</strong> のファイル1つ（<code>data.db</code>）です。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -669,7 +684,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
 完成条件：記録を1件登録して、5-1 で起動したサーバーを止めて起動し直しても残っていること。</pre>
     <p><span class="why">なぜ data/ を .gitignore に入れるのか：</span>記録の中身はご自身の生活や仕事のデータで、コードと一緒に共有する場所へ上げるものではないからです。</p>
 
-    <h3 class="sub">6-3. インターネット上のデータベースに持つ（Turso）</h3>
+    <h3 class="sub" id="store-turso">6-3. インターネット上のデータベースに持つ（Turso）</h3>
     <p><strong>データベース</strong>は、データを表の形で保存し、検索・並べ替え・書き換えを専門に担当するプログラムです。<strong>Turso</strong> は、6-2 で使った SQLite をインターネット上で動かしてくれるサービスで、自分のサーバーからは接続用の URL とトークンを使ってつなぎます。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -706,13 +721,13 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     </ul>
     <h4 class="sub2">Turso を用意する手順</h4>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h4 class="steps__title"><a href="https://app.turso.tech/" target="_blank" rel="noopener">app.turso.tech</a> を開き、GitHub か Google のアカウント、またはメールアドレスでログインする</h4><p class="steps__desc">アカウントが無ければ Sign up から作ります。<span class="why">なぜ：</span>データベースと接続用のトークンは、このアカウントに紐づきます。</p></div></li>
-      <li><span class="steps__n">2</span><div><h4 class="steps__title">左上の「Create Database」を押し、名前を付けて「Create Database」</h4><p class="steps__desc">名前はアプリ名と同じにしておくと迷いません。Group は「default」のままで構いません。Group の横に地域が出るので、Tokyo（AWS AP NorthEast）になっているか見ておきます。<span class="why">なぜ：</span>Group はデータベースを置く地域のまとまりで、近い地域のほうが応答が速いためです。違っていても動きます。</p></div></li>
-      <li><span class="steps__n">3</span><div><h4 class="steps__title">作ったデータベースの名前を押して「Overview」を開き、「Connect」の枠の接続用 URL（Database URL）をコピーして、<code>.env</code> に <code>TURSO_DATABASE_URL=コピーしたURL</code> の1行を足す</h4><p class="steps__desc">URL は <code>libsql://</code> で始まります。<code>.env</code> の開き方は 03 と同じです。<span class="why">なぜ：</span>サーバーがどのデータベースにつなぐかを、この URL で決めるためです。URL だけではつながらないので、次の手順でトークンも作ります。名前（<code>TURSO_DATABASE_URL</code>）は公式の案内に合わせた例です。</p></div></li>
-      <li><span class="steps__n">4</span><div><h4 class="steps__title">同じ枠の「Create Token」を押し、有効期限と権限（Read &amp; Write）を選んで「Create Token」。表示されたトークンを、<code>.env</code> に <code>TURSO_AUTH_TOKEN=表示されたトークン</code> の1行で足す</h4><p class="steps__desc"><strong>トークンは API キーと同じ扱いです。</strong>画面を閉じる前に貼ります。<span class="why">なぜトークンか：</span>URL を知っているだけでは接続できないようにするためです。URL とトークンの両方が揃って初めてつながります。</p></div></li>
-      <li><span class="steps__n">5</span><div><h4 class="steps__title">Claude Code に、サーバー側の保存先を Turso にさせる</h4><p class="steps__desc">6-2 の SQLite で保存を作ってある方は「SQLite から切り替える場合」、まだ保存を作っていない方は「初めて保存を作る場合」の指示の型を、どちらか1つだけ貼ります。<span class="why">なぜ2つあるのか：</span>すでにある保存の処理を生かすか、一から作るかで、頼む内容が違うためです。</p></div></li>
+      <li><span class="steps__n">1</span><div><h5 class="steps__title"><a href="https://app.turso.tech/" target="_blank" rel="noopener">app.turso.tech</a> を開き、GitHub か Google のアカウント、またはメールアドレスでログインする</h5><p class="steps__desc">アカウントが無ければ Sign up から作ります。<span class="why">なぜ：</span>データベースと接続用のトークンは、このアカウントに紐づきます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h5 class="steps__title">左上の「Create Database」を押し、名前を付けて「Create Database」</h5><p class="steps__desc">名前はアプリ名と同じにしておくと迷いません。Group は「default」のままで構いません。Group の横に地域が出るので、Tokyo（AWS AP NorthEast）になっているか見ておきます。<span class="why">なぜ：</span>Group はデータベースを置く地域のまとまりで、近い地域のほうが応答が速いためです。違っていても動きます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h5 class="steps__title">作ったデータベースの名前を押して「Overview」を開き、「Connect」の枠の接続用 URL（Database URL）をコピーして、<code>.env</code> に <code>TURSO_DATABASE_URL=コピーしたURL</code> の1行を足す</h5><p class="steps__desc">URL は <code>libsql://</code> で始まります。<code>.env</code> の開き方は 03 と同じです。<span class="why">なぜ：</span>サーバーがどのデータベースにつなぐかを、この URL で決めるためです。URL だけではつながらないので、次の手順でトークンも作ります。名前（<code>TURSO_DATABASE_URL</code>）は公式の案内に合わせた例です。</p></div></li>
+      <li><span class="steps__n">4</span><div><h5 class="steps__title">同じ枠の「Create Token」を押し、有効期限と権限（Read &amp; Write）を選んで「Create Token」。表示されたトークンを、<code>.env</code> に <code>TURSO_AUTH_TOKEN=表示されたトークン</code> の1行で足す</h5><p class="steps__desc"><strong>トークンは API キーと同じ扱いです。</strong>画面を閉じる前に貼ります。<span class="why">なぜトークンか：</span>URL を知っているだけでは接続できないようにするためです。URL とトークンの両方が揃って初めてつながります。</p></div></li>
+      <li><span class="steps__n">5</span><div><h5 class="steps__title">Claude Code に、サーバー側の保存先を Turso にさせる</h5><p class="steps__desc">6-2 の SQLite で保存を作ってある方は「SQLite から切り替える場合」、まだ保存を作っていない方は「初めて保存を作る場合」の指示の型を、どちらか1つだけ貼ります。<span class="why">なぜ2つあるのか：</span>すでにある保存の処理を生かすか、一から作るかで、頼む内容が違うためです。</p></div></li>
     </ol>
-    <div class="figures figures--2">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson04/r4_turso_login.png" alt="Turso のログイン画面。GitHub・Google のアカウントか、メールアドレスでログインできる" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>Turso のログイン画面。GitHub・Google のアカウントか、メールアドレスでログインできます</figcaption>
@@ -751,7 +766,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       <figcaption>「Edit Data」の画面。左に表の一覧、右にその表の行が出ます。アプリで登録した記録がここに1行ずつ並びます。画面の例は別のアプリ（ToDo）のデータです（見る場所は同じです）</figcaption>
     </figure>
 
-    <h3 class="sub">6-4. スプレッドシートに持つ（Google スプレッドシート）</h3>
+    <h3 class="sub" id="store-sheet">6-4. スプレッドシートに持つ（Google スプレッドシート）</h3>
     <p>データを Google スプレッドシートの表に持ち、サーバー側から Google の API を通して読み書きします。<strong>1行が1件、1行目が項目名</strong>という形にします。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -796,7 +811,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
 完成条件：アプリで1件登録すると、シートに1行増えること。シートで直した内容がアプリの一覧に反映されること。</pre>
     <p><span class="why">なぜ認証用の JSON ファイルを .gitignore に入れるのか：</span>このファイルを持っていれば、誰でもそのサービスアカウントとして、共有したシートを読み書きできるためです。提出する zip にも入れません。</p>
 
-    <h3 class="sub">6-5. 4つの比較と、選び方</h3>
+    <h3 class="sub" id="store-choose">6-5. 4つの比較と、選び方</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="4つの置き場の比較表">
       <table class="tbl">
         <thead><tr><th>置き場</th><th>どこにあるか</th><th>消える条件</th><th>設定の手間</th><th>向いている場面</th></tr></thead>
@@ -1058,8 +1073,16 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
-    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+    <nav class="lesson-pager" aria-label="前後の回">
+      <a class="lesson-pager__prev" href="../lesson04/"><small>← 前の回</small>第4回 画面側を作る</a>
+      <a class="lesson-pager__next" href="../lesson06/"><small>次の回 →</small>第6回 テスト</a>
+    </nav>
+    <p class="site-footer__name">AIアプリ開発入門ゼミ <small>｜ DMM 生成AI CAMP ／ 受講生向けページ</small></p>
+    <nav class="site-footer__links" aria-label="よく使うリンク">
+      <a href="../../">Home</a><a href="../../#schedule">日程・入室</a><a href="../../#stuck">困ったとき</a><a href="../../#boardingpass">Boarding Pass</a>
+      <a href="../lesson02/">第2回</a><a href="../lesson03/">第3回</a><a href="../lesson04/">第4回</a><a href="../lesson05/" aria-current="page">第5回</a><a href="../lesson06/">第6回</a>
+    </nav>
+    <p class="site-footer__note">ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。</p>
   </div>
 </footer>
 

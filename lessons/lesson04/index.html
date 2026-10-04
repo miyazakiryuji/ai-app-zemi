@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIアプリ開発入門ゼミ ｜ 第4回 画面側を作る</title>
+<title>第4回 画面側を作る ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第4回 画面側を作る。仕様書とモックから、画面に付ける動きの一覧（docs/actions.md）を Claude Code に作らせ、データを残す処理・サーバー・本物の AI を作らずに、いちばんよく使う動きから1つずつ画面の中だけで動くように足して自分の手で確かめ、動かないときはコンソールの赤い文字を渡して直させるまでの手順。">
 <link rel="stylesheet" href="../../assets/site.css">
 <script>document.documentElement.classList.add("js");
@@ -17,7 +17,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <header class="site-header">
   <div class="site-header__inner">
     <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
-    <nav class="site-header__nav">
+    <nav class="site-header__nav" aria-label="ページ内の見出し">
       <a href="#what">動きとは</a>
       <a href="#prepare">準備</a>
       <a href="#list">指示①一覧</a>
@@ -28,6 +28,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <a href="#review">見直す</a>
       <a href="#deliverables">この回で作るもの</a>
       <a href="#pitfalls">つまずき</a>
+      <a href="#glossary">用語</a>
     </nav>
   </div>
 </header>
@@ -38,7 +39,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="hero hero--lesson">
   <div class="hero__inner">
     <div>
-      <p class="crumbs"><a href="../../">Home</a> ／ 第4回</p>
+      <p class="crumbs"><a href="../../">Home</a> ／ <a href="../../#lessons">全7回の流れ</a> ／ 第4回</p>
       <p class="hero__kicker">LESSON 04 ／ 作るフェーズ</p>
       <h1 class="hero__title">画面側を作る ― <em>モックに動きを付ける</em></h1>
       <p class="hero__sub">～ 動きの一覧を作らせ、いちばんよく使う動きから1つずつ、画面の中だけで動くように足していく ～</p>
@@ -66,7 +67,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
     </div>
     <div class="now__actions">
-      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--primary" href="#flow">この回の流れを見る</a>
       <a class="btn btn--ghost" href="../../">Home へ戻る</a>
     </div>
   </div>
@@ -76,10 +77,13 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="section" id="what">
   <div class="section__inner">
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-motion.svg" alt=""></span><div><p class="section__kicker">01</p><h2 class="section__title">動きとは</h2></div></div>
-    <p class="section__lead">
-      この回でやることは3つです。<strong>画面に付ける「動き」の一覧を Claude Code に作らせる</strong>、<strong>いちばんよく使う動きを1つ足させて、自分の手で確かめる</strong>、そして<strong>残りの動きを1行ずつ足していく</strong>。動きを付けるのは、見た目だけの画面（モック）の上です。
-      <strong>この回で作るのは、ブラウザの中だけで動く部分</strong>で、データを残す処理・画面をまたいだデータの受け渡し・サーバー・本物の AI は作りません。
-    </p>
+    <p class="section__lead">この回でやることは3つです。</p>
+    <ol>
+      <li>画面に付ける「動き」の一覧を Claude Code に作らせる</li>
+      <li>いちばんよく使う動きを1つ足させて、自分の手で確かめる</li>
+      <li>残りの動きを1行ずつ足していく</li>
+    </ol>
+    <p>動きを付けるのは、見た目だけの画面（モック）の上です。この回で作るのは、<strong>ブラウザの中だけで動く部分</strong>で、データを残す処理・画面をまたいだデータの受け渡し・サーバー・本物の AI は作りません。</p>
     <p><strong>動き</strong>＝ボタンを押す・文字を入れるといった操作を受け取って、画面の中身を書き換える仕組みです。ブラウザの中で動く <strong>JavaScript</strong> というプログラムで作ります。モックは、ボタンを押しても何も起きない画面でした。この回で、押したら一覧に1行増える、入力が足りなければ理由が出る、といった動きを足します。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -93,6 +97,17 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </dl>
     </div>
 
+    <h3 class="sub" id="flow">この回の流れ（上から順に進めます）</h3>
+    <div class="flow">
+      <a class="flow__step" href="#prepare"><span class="flow__n">02</span><p class="flow__name">準備</p><p class="flow__desc">手動にして、app の控えを取る</p></a>
+      <a class="flow__step" href="#list"><span class="flow__n">03</span><p class="flow__name">指示①</p><p class="flow__desc">動きの一覧を作らせて、読んで直す</p></a>
+      <a class="flow__step" href="#first"><span class="flow__n">04</span><p class="flow__name">指示②</p><p class="flow__desc">いちばんよく使う動きを1つ</p></a>
+      <a class="flow__step" href="#check"><span class="flow__n">05</span><p class="flow__name">確かめる</p><p class="flow__desc">自分の手で試して残す</p></a>
+      <a class="flow__step" href="#console"><span class="flow__n">06</span><p class="flow__name">動かないとき</p><p class="flow__desc">コンソールを渡す</p></a>
+      <a class="flow__step" href="#loop"><span class="flow__n">07</span><p class="flow__name">指示③</p><p class="flow__desc">残りを1行ずつ</p></a>
+      <a class="flow__step" href="#review"><span class="flow__n">08</span><p class="flow__name">見直す</p><p class="flow__desc">全部押す・見た目・仕様書</p></a>
+    </div>
+
     <h3 class="sub">なぜ見た目の次に動きを足すのか</h3>
     <p>アプリは<strong>「見た目 → 動き → 裏側」の順に、1段ずつ足して作ります</strong>。見た目はモックでできているので、この回はその次の段です。</p>
     <ul>
@@ -103,24 +118,32 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><strong>1回の指示が小さくなり、確認画面を読み切れます。</strong>動き1つなら、増えるのは JavaScript のファイル1つ（AI を使うアプリは2つ）と、HTML の数行だけです。確認画面で、自分の画面の入力欄やボタンの名前が出てくるかを目で追えます</li>
     </ul>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04-front/diagram_build_order_now_sp.svg"><img src="../../assets/images/lesson04-front/diagram_build_order_now.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。この回は「② 動き」の段" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04-front/diagram_build_order_now_sp.svg"><img src="../../assets/images/lesson04-front/diagram_build_order_now.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。この回は「② 動き」の段" loading="lazy"></picture>
       <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。この回は「② 動き」の段です</figcaption>
     </figure>
 
     <h3 class="sub">この回で足すもの・足さないもの</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="足すもの・足さないもの の表">
-      <table class="tbl">
-        <thead><tr><th>足す（ブラウザの中で動くもの）</th><th>足さない（裏側。データの置き場を決めてから作る）</th></tr></thead>
-        <tbody>
-          <tr><td>押したときの画面の変化（一覧に1行増える・合計が変わる・結果の欄に文章が出る・やり取りが増える・消す前の確認）</td><td>データを残す（再読み込みしても、ブラウザを閉じても残る）</td></tr>
-          <tr><td>入力のチェック（空・数字でない・範囲の外）</td><td>画面をまたいだデータの受け渡し（修正画面に、選んだ記録の中身を出す など）</td></tr>
-          <tr><td>「1件も無いとき」の案内</td><td>サーバー</td></tr>
-          <tr><td>「処理中」「失敗したとき」の表示（AI を使うアプリ）</td><td>本物の AI の呼び出し（API キーや料金の準備が要る）</td></tr>
-          <tr><td>AI に考えてもらう部分は、仮の文章を返す1か所（<code>app/ai.js</code>）にまとめる</td><td></td></tr>
-        </tbody>
-      </table>
+    <div class="contrast">
+      <div class="contrast__col contrast__col--yes">
+        <p class="contrast__head">足す（ブラウザの中で動くもの）</p>
+        <ul>
+          <li>押したときの画面の変化（一覧に1行増える・合計が変わる・結果の欄に文章が出る・やり取りが増える・消す前の確認）</li>
+          <li>入力のチェック（空・数字でない・範囲の外）</li>
+          <li>「1件も無いとき」の案内</li>
+          <li>「処理中」「失敗したとき」の表示（AI を使うアプリ）</li>
+          <li>AI に考えてもらう部分は、仮の文章を返す1か所（<code>app/ai.js</code>）にまとめる</li>
+        </ul>
+      </div>
+      <div class="contrast__col contrast__col--no">
+        <p class="contrast__head">足さない（裏側。データの置き場を決めてから作る）</p>
+        <ul>
+          <li>データを残す（再読み込みしても、ブラウザを閉じても残る）</li>
+          <li>画面をまたいだデータの受け渡し（修正画面に、選んだ記録の中身を出す など）</li>
+          <li>サーバー</li>
+          <li>本物の AI の呼び出し（API キーや料金の準備が要る）</li>
+        </ul>
+      </div>
     </div>
-    <p class="table-hint">表は横にスクロールできます</p>
 
     <h3 class="sub">なぜデータを残す処理をまだ作らないのか</h3>
     <ul>
@@ -130,7 +153,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </ul>
     <p>だから、この回の動きは<strong>「再読み込みすると最初の状態に戻る」のが正しい状態です</strong>。消えるのは不具合ではありません。</p>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04-front/diagram_front_scope_sp.svg"><img src="../../assets/images/lesson04-front/diagram_front_scope.svg" alt="この回で作るのは、ブラウザの中だけ。画面（HTML・CSS）はそのまま、app.js が押されたことを受け取ってデータを変え、画面を描き直す。サーバー・データの置き場・本物の AI は作らない" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04-front/diagram_front_scope_sp.svg"><img src="../../assets/images/lesson04-front/diagram_front_scope.svg" alt="この回で作るのは、ブラウザの中だけ。画面（HTML・CSS）はそのまま、app.js が押されたことを受け取ってデータを変え、画面を描き直す。サーバー・データの置き場・本物の AI は作らない" loading="lazy"></picture>
       <figcaption>この回で作るのは、ブラウザの中だけです。画面（HTML・CSS）はそのままで、app.js が押されたことを受け取ってデータを変え、画面を描き直します。サーバー・データの置き場・本物の AI は作りません</figcaption>
     </figure>
     <div class="term">
@@ -160,18 +183,6 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div class="note">
       <strong>LIVE講義では、準備 → 指示① → 読んで直す → 指示② → 確かめる まで（動かなかったら、コンソールの赤い文字を渡して原因を聞くところまで）を講師の画面でお見せします。</strong>手元で一緒に試していただく場面もあります。残りの「まだ」の行（指示③の繰り返し）と最後の見直しは、課題として1行ずつ進めます。LIVE講義の中で指示②まで進まなかった場合も、その続きから課題で進めて構いません。<span class="why">なぜ：</span>指示③は行の数だけ同じ型を繰り返すので、人によって行の数も、かかる手間も違います。
     </div>
-
-    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
-    <div class="flow">
-      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">準備</p><p class="flow__desc">手動にして、app の控えを取る</p></div>
-      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">指示①</p><p class="flow__desc">動きの一覧を作らせる</p></div>
-      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">読んで直す</p><p class="flow__desc">仕様書と見比べる</p></div>
-      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">指示②</p><p class="flow__desc">いちばんよく使う動きを1つ</p></div>
-      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">確かめる</p><p class="flow__desc">自分の手で試して残す</p></div>
-      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">動かないとき</p><p class="flow__desc">コンソールを渡す</p></div>
-      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">指示③</p><p class="flow__desc">残りを1行ずつ</p></div>
-      <div class="flow__step"><span class="flow__n">8</span><p class="flow__name">見直す</p><p class="flow__desc">全部押す・見た目・仕様書</p></div>
-    </div>
   </div>
 </section>
 
@@ -189,8 +200,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><span class="steps__n">2</span><div><h4 class="steps__title">画面の下のフォルダ名のボタン →「フォルダを開く…」→ <code>my-app</code> を選んで「開く」</h4><p class="steps__desc">入力欄の近くに「ローカル」と <code>my-app</code> が出ていることを見ます。<span class="why">なぜ：</span>選んだフォルダだけが作業の対象になります。「ローカル」は、この PC の中で動かす設定です。</p></div></li>
       <li><span class="steps__n">3</span><div><h4 class="steps__title">入力欄の下のモード名を押して「手動」を選ぶ</h4><p class="steps__desc"><span class="why">なぜ：</span>この回は JavaScript のファイルを新しく作り、HTML も書き換えます。「手動」なら、どのファイルに何を書くかを確認画面で見てから許可できます。新しいセッションは「オート」や「編集を受け入れる」で始まることがあるので、開くたびに見ます。</p></div></li>
     </ol>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note">
       モードの名前や並びは、アプリの更新や契約の種類で変わることがあります。<strong>ファイルを書き換える前に毎回たずねてくる設定</strong>を選んでください。
     </div>
     <p><strong>確認画面では、毎回「一度だけ許可」を押します。「常に許可」は選びません。</strong><span class="why">なぜ：</span>一度選ぶと、以後その種類の操作は確認なしで進み、頼んでいない <code>style.css</code> の書き換えやファイルの追加に気づけなくなります。確認画面が何回も出ますが、それで正しい状態です。</p>
@@ -440,7 +450,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><strong><code>app/ai.js</code> を作る確認（AI を使うアプリだけ）：</strong>場所が <code>my-app/app/ai.js</code> であること。中身が、1秒待ってから決まった文章を返す関数1つであること</li>
       <li><strong><code>app/index.html</code> を書き換える確認：</strong>変わる行が、<code>&lt;script src="app.js"&gt;&lt;/script&gt;</code> の1行（AI を使うアプリは、その上の <code>&lt;script src="ai.js"&gt;&lt;/script&gt;</code> と合わせて2行）・<code>id="…"</code> の追加・仮のデータの行の削除・入力欄の <code>value="…"</code> の削除だけであること。見出しやボタンの文字が変わっていないこと</li>
       <li><strong><code>docs/actions.md</code> を書き換える確認：</strong>1行目の状態が「まだ」から「作った」に変わるだけであること。<span class="why">なぜ：</span>頼んだ作業です。拒否すると1行目が「まだ」のまま残り、指示③がもう一度1行目を作ります</li>
-      <li><strong>上のファイル以外（<code>style.css</code>・<code>package.json</code>・<code>server.js</code> など）の確認や、頼んでいないコマンド（ブラウザを開くもの、<code>node --check</code> のように <code>node</code> で始まるものなど）の確認が出たら、「拒否」を押します。</strong><span class="why">なぜ：</span>頼んだ範囲の外の作業です。拒否しても、頼んだファイルの変更は残ります</li>
+      <li>上のファイル以外（<code>style.css</code>・<code>package.json</code>・<code>server.js</code> など）の確認や、頼んでいないコマンド（ブラウザを開くもの、<code>node --check</code> のように <code>node</code> で始まるものなど）の確認が出たら、<strong>「拒否」を押します。</strong><span class="why">なぜ：</span>頼んだ範囲の外の作業です。拒否しても、頼んだファイルの変更は残ります</li>
     </ul>
 
     <h3 class="sub">例：食費メモでの返答（要点）</h3>
@@ -470,13 +480,13 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li>再読み込みすると、見本のデータ3件だけに戻ります（<strong>これで正しい状態です</strong>。データを残す処理は、この回では作りません）</li>
     </ol>
     <div class="figures figures--2">
-      <figure class="figure figure--tall">
-        <img src="../../assets/images/lesson04-front/r4f_kiroku_before.png" alt="動きを足す前の食費メモ（モックのまま）。見本のデータが3件並んでいる" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
-        <figcaption>動きを足す前の食費メモ（モックのまま）。見本のデータが3件並んでいます</figcaption>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04-front/r4f_kiroku_before.png" alt="動きを足す前の食費メモ（モックのまま）。見本のデータが3件並んでいる（入力欄の部分は省いている）" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+        <figcaption>動きを足す前の食費メモ（モックのまま）。見本のデータが3件並んでいます（入力欄の部分は省いています）</figcaption>
       </figure>
-      <figure class="figure figure--tall">
-        <img src="../../assets/images/lesson04-front/r4f_kiroku_after_save.png" alt="動きを足したあとの食費メモ。500円・昼食を入れて「保存」を押すと、一覧のいちばん上に1行増え、今月の合計が 4,540 円から 5,040 円に変わった。入力欄は空に戻っている" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
-        <figcaption>動きを足したあとの食費メモ。500円・昼食を入れて「保存」を押すと、一覧のいちばん上に1行増え、今月の合計が 4,540 円から 5,040 円に変わりました。入力欄は空に戻っています</figcaption>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04-front/r4f_kiroku_after_save.png" alt="動きを足したあとの食費メモ。500円・昼食を入れて「保存」を押すと、一覧のいちばん上に1行増え、今月の合計が 4,540 円から 5,040 円に変わった（入力欄の部分は省いている）" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+        <figcaption>動きを足したあとの食費メモ。500円・昼食を入れて「保存」を押すと、一覧のいちばん上に1行増え、今月の合計が 4,540 円から 5,040 円に変わりました（入力欄の部分は省いています）</figcaption>
       </figure>
     </div>
 
@@ -523,8 +533,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <img src="../../assets/images/lesson04-front/r4f_console_error.png" alt="Chrome でコンソールを開いたところ（例：食費メモ。わざと不具合を1つ入れてある）。右側の「Console」に、止まった理由が赤い文字で出ている。最後の「app.js:132」は、app.js の132行目で止まったという意味。この例では、読み込みの時点で止まっているので、合計も一覧も出ていない" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
       <figcaption>Chrome でコンソールを開いたところ（例：食費メモ。わざと不具合を1つ入れてあります）。右側の「Console」に、止まった理由が赤い文字で出ています。最後の「app.js:132」は、app.js の132行目で止まったという意味です。この例では、読み込みの時点で止まっているので、合計も一覧も出ていません</figcaption>
     </figure>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note">
       開発者ツールの上に「DevTools is now available in Japanese」と出ることがあります。「Switch DevTools to Japanese」を押すと表示が日本語になり、「Console」は「コンソール」になります。どちらのままでも構いません。
     </div>
 
@@ -584,7 +593,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - その行の状態を「作った」にして、ブラウザでの確かめ方を教えてください
 完成条件：その行の「確かめ方」のとおりになること。前に作った動きも、これまでどおり動くこと</pre>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04-front/diagram_row_loop_sp.svg"><img src="../../assets/images/lesson04-front/diagram_row_loop.svg" alt="動きは1行ずつ足す。選ぶ → 頼む → 許可する → 確かめる → 前の動きも押す、を「まだ」の行が無くなるまで繰り返す" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04-front/diagram_row_loop_sp.svg"><img src="../../assets/images/lesson04-front/diagram_row_loop.svg" alt="動きは1行ずつ足す。選ぶ → 頼む → 許可する → 確かめる → 前の動きも押す、を「まだ」の行が無くなるまで繰り返す" loading="lazy"></picture>
       <figcaption>動きは1行ずつ足します。選ぶ → 頼む → 許可する → 確かめる → 前の動きも押す、を「まだ」の行が無くなるまで繰り返します</figcaption>
     </figure>
 
@@ -651,8 +660,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <figcaption>失敗したとき。「失敗テスト」を入れて送信すると、失敗の文が出て、入力した文は残ります（例：献立相談）</figcaption>
       </figure>
     </div>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note">
       <strong>「削除」の確認は、ブラウザの小さな確認の窓で出ることが多いです。</strong>「OK」と「キャンセル」の両方を試します。キャンセルで消えてしまったら、NG として<a href="#console">「動かないとき」の節</a>の型で直させます。
     </div>
     <div class="note note--key">
@@ -910,8 +918,16 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
-    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+    <nav class="lesson-pager" aria-label="前後の回">
+      <a class="lesson-pager__prev" href="../lesson03/"><small>← 前の回</small>第3回 モックを作る</a>
+      <a class="lesson-pager__next" href="../lesson05/"><small>次の回 →</small>第5回 API 連携とデータの持ち方</a>
+    </nav>
+    <p class="site-footer__name">AIアプリ開発入門ゼミ <small>｜ DMM 生成AI CAMP ／ 受講生向けページ</small></p>
+    <nav class="site-footer__links" aria-label="よく使うリンク">
+      <a href="../../">Home</a><a href="../../#schedule">日程・入室</a><a href="../../#stuck">困ったとき</a><a href="../../#boardingpass">Boarding Pass</a>
+      <a href="../lesson02/">第2回</a><a href="../lesson03/">第3回</a><a href="../lesson04/" aria-current="page">第4回</a><a href="../lesson05/">第5回</a><a href="../lesson06/">第6回</a>
+    </nav>
+    <p class="site-footer__note">ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。</p>
   </div>
 </footer>
 

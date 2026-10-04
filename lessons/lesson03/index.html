@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIアプリ開発入門ゼミ ｜ 第3回 モックを作る</title>
+<title>第3回 モックを作る ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第3回 モックを作る。仕様書の画面一覧から、裏側の処理を作らずに見た目だけの画面（モック）を Claude Code に作らせ、ブラウザで開いて崩れを確かめ、テイスト → 細部の順にブラッシュアップするまでの手順。">
 <link rel="stylesheet" href="../../assets/site.css">
 <script>document.documentElement.classList.add("js");
@@ -17,7 +17,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <header class="site-header">
   <div class="site-header__inner">
     <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
-    <nav class="site-header__nav">
+    <nav class="site-header__nav" aria-label="ページ内の見出し">
       <a href="#what">モックとは</a>
       <a href="#open">フォルダを開く</a>
       <a href="#mock">指示①モック</a>
@@ -27,6 +27,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <a href="#review">見直す</a>
       <a href="#deliverables">この回で作るもの</a>
       <a href="#pitfalls">つまずき</a>
+      <a href="#glossary">用語</a>
     </nav>
   </div>
 </header>
@@ -37,7 +38,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="hero hero--lesson">
   <div class="hero__inner">
     <div>
-      <p class="crumbs"><a href="../../">Home</a> ／ 第3回</p>
+      <p class="crumbs"><a href="../../">Home</a> ／ <a href="../../#lessons">全7回の流れ</a> ／ 第3回</p>
       <p class="hero__kicker">LESSON 03 ／ 作るフェーズ</p>
       <h1 class="hero__title">モックを作る ― 裏側を作らずに、<em>画面を先に作って整える</em></h1>
       <p class="hero__sub">～ 仕様書の画面一覧から見た目だけの画面を作り、崩れ → テイスト → 細部 の順にブラッシュアップする ～</p>
@@ -65,7 +66,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
     </div>
     <div class="now__actions">
-      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--primary" href="#flow">この回の流れを見る</a>
       <a class="btn btn--ghost" href="../../">Home へ戻る</a>
     </div>
   </div>
@@ -93,6 +94,16 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </dl>
     </div>
 
+    <h3 class="sub" id="flow">この回の流れ（上から順に進めます）</h3>
+    <div class="flow">
+      <a class="flow__step" href="#open"><span class="flow__n">02</span><p class="flow__name">フォルダを開く</p><p class="flow__desc">仕様書のある my-app</p></a>
+      <a class="flow__step" href="#mock"><span class="flow__n">03</span><p class="flow__name">指示①</p><p class="flow__desc">モックを作らせる</p></a>
+      <a class="flow__step" href="#check"><span class="flow__n">04</span><p class="flow__name">ブラウザで開く・崩れを見る</p><p class="flow__desc">ダブルクリックで表示し、幅を変えて確かめる</p></a>
+      <a class="flow__step" href="#taste"><span class="flow__n">05</span><p class="flow__name">指示②</p><p class="flow__desc">テイストを決める</p></a>
+      <a class="flow__step" href="#detail"><span class="flow__n">06</span><p class="flow__name">指示③</p><p class="flow__desc">細部を1つずつ</p></a>
+      <a class="flow__step" href="#review"><span class="flow__n">07</span><p class="flow__name">見直す</p><p class="flow__desc">仕様書と揃える</p></a>
+    </div>
+
     <h3 class="sub">なぜ裏側より先に画面を作るのか</h3>
     <p>このゼミでは、アプリを <strong>「見た目 → 動き → 裏側」の順に、1段ずつ足して作ります</strong>。最初に作るのが、見た目だけのモックです。</p>
     <p><strong>一言でいうと</strong>：画面は目で見て直せますが、裏側の処理は動かすまで合っているか分かりません。目で見て直せるほうを先に終わらせ、そのあとの処理は、できあがった画面の上で1つずつ確かめながら足していきます。</p>
@@ -105,7 +116,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><strong>残りの作業が数えられます。</strong>画面が1枚ずつ手元にあると、このあとの作業を「この画面のこのボタンに処理を足す」という形で、1つずつ数えられます</li>
     </ul>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson03/diagram_build_order_sp.svg"><img src="../../assets/images/lesson03/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson03/diagram_build_order_sp.svg"><img src="../../assets/images/lesson03/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy"></picture>
       <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済みます</figcaption>
     </figure>
     <div class="note note--key">
@@ -114,7 +125,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       処理を足す段階で、「1件も無いときの案内」や「処理中の表示」のように、いまは出しようのない表示が増えることはあります。増えるのは足りなかった表示で、この回で決めた配置と見た目をやり直すわけではありません。
     </div>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson03/diagram_mock_sp.svg"><img src="../../assets/images/lesson03/diagram_mock.svg" alt="モックと完成したアプリの違い。モックには画面（HTML・CSS）だけがあり、完成したアプリには画面に加えて動き（JavaScript）と保存（サーバー・データ）がある。モックの画面はそのまま使う" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson03/diagram_mock_sp.svg"><img src="../../assets/images/lesson03/diagram_mock.svg" alt="モックと完成したアプリの違い。モックには画面（HTML・CSS）だけがあり、完成したアプリには画面に加えて動き（JavaScript）と保存（サーバー・データ）がある。モックの画面はそのまま使う" loading="lazy"></picture>
       <figcaption>モックと完成したアプリの違い。モックは画面だけで、完成したアプリはその画面に動きと保存が足されたものです。モックで作った画面はそのまま使います</figcaption>
     </figure>
 
@@ -133,17 +144,6 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
     <p class="table-hint">表は横にスクロールできます</p>
     <p><span class="why">なぜ短い文章と長い文章の両方を置くのか：</span>本物の AI の返事は長さが毎回違い、1行のときと数百字のときでは、欄の高さも折り返し方も変わります。片方だけだと、もう片方の見た目を確かめられません。</p>
-
-    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
-    <div class="flow">
-      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">フォルダを開く</p><p class="flow__desc">仕様書のある my-app</p></div>
-      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">指示①</p><p class="flow__desc">モックを作らせる</p></div>
-      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">ブラウザで開く</p><p class="flow__desc">ダブルクリックで表示</p></div>
-      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">崩れを見る</p><p class="flow__desc">幅を変えて確かめる</p></div>
-      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">指示②</p><p class="flow__desc">テイストを決める</p></div>
-      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">指示③</p><p class="flow__desc">細部を1つずつ</p></div>
-      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">見直す</p><p class="flow__desc">仕様書と揃える</p></div>
-    </div>
   </div>
 </section>
 
@@ -376,7 +376,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <strong>崩れが無くなったら、ここで画面ごとに1枚ずつスクリーンショットを撮っておいてください。</strong>ブラッシュアップの「前」の画面として、この回の提出物になります。テイストを当てると <code>style.css</code> の中身はほぼ全部が書き換わるので、撮るのはこのタイミングしかありません。
     </div>
     <figure class="figure figure--diagram">
-      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson03/diagram_brushup_sp.svg"><img src="../../assets/images/lesson03/diagram_brushup.svg" alt="ブラッシュアップの順番。①崩れを直す（はみ出し・重なり・ずれ、画面の幅を変えて見る）②テイストを決める（色・文字・余白・角の丸み、方向性を言葉で伝える）③細部を直す（1回の指示で1箇所、スクショを貼って伝える）" loading="lazy"></picture>
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson03/diagram_brushup_sp.svg"><img src="../../assets/images/lesson03/diagram_brushup.svg" alt="ブラッシュアップの順番。①崩れを直す（はみ出し・重なり・ずれ、画面の幅を変えて見る）②テイストを決める（色・文字・余白・角の丸み、方向性を言葉で伝える）③細部を直す（1回の指示で1箇所、スクショを貼って伝える）" loading="lazy"></picture>
       <figcaption>ブラッシュアップの順番。①崩れを直す ②テイストを決める ③細部を直す。逆にすると、細部を直したあとで全体が動いてやり直しになります</figcaption>
     </figure>
   </div>
@@ -607,7 +607,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
       </dl>
     </div>
-    <div class="cards cards--3">
+    <div class="cards cards--2">
       <div class="card">
         <img class="card__icon" src="../../assets/icons/icon-folder.svg" alt="">
         <h3 class="card__title">app/ の中の HTML と style.css</h3>
@@ -820,8 +820,16 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
-    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+    <nav class="lesson-pager" aria-label="前後の回">
+      <a class="lesson-pager__prev" href="../lesson02/"><small>← 前の回</small>第2回 要件定義</a>
+      <a class="lesson-pager__next" href="../lesson04/"><small>次の回 →</small>第4回 画面側を作る</a>
+    </nav>
+    <p class="site-footer__name">AIアプリ開発入門ゼミ <small>｜ DMM 生成AI CAMP ／ 受講生向けページ</small></p>
+    <nav class="site-footer__links" aria-label="よく使うリンク">
+      <a href="../../">Home</a><a href="../../#schedule">日程・入室</a><a href="../../#stuck">困ったとき</a><a href="../../#boardingpass">Boarding Pass</a>
+      <a href="../lesson02/">第2回</a><a href="../lesson03/" aria-current="page">第3回</a><a href="../lesson04/">第4回</a><a href="../lesson05/">第5回</a><a href="../lesson06/">第6回</a>
+    </nav>
+    <p class="site-footer__note">ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。</p>
   </div>
 </footer>
 

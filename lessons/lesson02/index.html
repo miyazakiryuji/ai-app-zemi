@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIアプリ開発入門ゼミ ｜ 第2回 要件定義</title>
+<title>第2回 要件定義 ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第2回 要件定義。アプリのフォルダを作って Claude デスクトップアプリで開き、AI と壁打ちして要件を噛み砕き、使う技術の提案をもらい、仕様書（docs/spec.md）と作業の順番（docs/tasks.md）をフォルダに残すまでの手順。">
 <link rel="stylesheet" href="../../assets/site.css">
 <script>document.documentElement.classList.add("js");
@@ -17,7 +17,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <header class="site-header">
   <div class="site-header__inner">
     <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
-    <nav class="site-header__nav">
+    <nav class="site-header__nav" aria-label="ページ内の見出し">
       <a href="#what">要件定義とは</a>
       <a href="#folder">フォルダを作る</a>
       <a href="#open">アプリで開く</a>
@@ -28,6 +28,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <a href="#tasks">作る順番</a>
       <a href="#deliverables">この回で作るもの</a>
       <a href="#pitfalls">つまずき</a>
+      <a href="#glossary">用語</a>
     </nav>
   </div>
 </header>
@@ -38,7 +39,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="hero hero--lesson">
   <div class="hero__inner">
     <div>
-      <p class="crumbs"><a href="../../">Home</a> ／ 第2回</p>
+      <p class="crumbs"><a href="../../">Home</a> ／ <a href="../../#lessons">全7回の流れ</a> ／ 第2回</p>
       <p class="hero__kicker">LESSON 02 ／ 決めるフェーズ</p>
       <h1 class="hero__title">要件定義 ― 作るものを決めて、<em>仕様書と作業の順番</em>にする</h1>
       <p class="hero__sub">～ フォルダを作り、AIと壁打ちし、docs/spec.md と docs/tasks.md をフォルダに残す ～</p>
@@ -66,7 +67,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
     </div>
     <div class="now__actions">
-      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--primary" href="#flow">この回の流れを見る</a>
       <a class="btn btn--ghost" href="../../">Home へ戻る</a>
     </div>
   </div>
@@ -103,15 +104,15 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li>文章になっていれば、作り始めてからは「<code>docs/spec.md</code> に従って作って」と一言で指示できます。チャットに毎回同じ説明を貼り直さなくてすみます</li>
     </ul>
 
-    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
+    <h3 class="sub" id="flow">この回の流れ（上から順に進めます）</h3>
     <div class="flow">
-      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">フォルダを作る</p><p class="flow__desc">アプリ1つにつき1つ</p></div>
-      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">Claude Code で開く</p><p class="flow__desc">デスクトップアプリから</p></div>
-      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">AI と壁打ち</p><p class="flow__desc">誰が・何を・どんな機能を</p></div>
-      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">削る・決める</p><p class="flow__desc">テーマの3条件／MVP／型／画面</p></div>
-      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">技術の提案</p><p class="flow__desc">Claude Code に候補を出させる</p></div>
-      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">仕様書</p><p class="flow__desc">docs/spec.md</p></div>
-      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">作業の順番</p><p class="flow__desc">docs/tasks.md</p></div>
+      <a class="flow__step" href="#folder"><span class="flow__n">02</span><p class="flow__name">フォルダを作る</p><p class="flow__desc">アプリ1つにつき1つ</p></a>
+      <a class="flow__step" href="#open"><span class="flow__n">03</span><p class="flow__name">Claude Code で開く</p><p class="flow__desc">デスクトップアプリから</p></a>
+      <a class="flow__step" href="#brainstorm"><span class="flow__n">04</span><p class="flow__name">AI と壁打ち</p><p class="flow__desc">誰が・何を・どんな機能を</p></a>
+      <a class="flow__step" href="#decide"><span class="flow__n">05</span><p class="flow__name">削る・決める</p><p class="flow__desc">テーマの3条件／MVP／型／画面</p></a>
+      <a class="flow__step" href="#stack"><span class="flow__n">06</span><p class="flow__name">技術の提案</p><p class="flow__desc">Claude Code に候補を出させる</p></a>
+      <a class="flow__step" href="#spec"><span class="flow__n">07</span><p class="flow__name">仕様書</p><p class="flow__desc">docs/spec.md</p></a>
+      <a class="flow__step" href="#tasks"><span class="flow__n">08</span><p class="flow__name">作業の順番</p><p class="flow__desc">docs/tasks.md</p></a>
     </div>
   </div>
 </section>
@@ -221,10 +222,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
 
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h4 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h4><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<span class="why">なぜ：</span>新しいセッションで始めると、前の会話の内容と混ざりません。</p></div></li>
-      <li><span class="steps__n">2</span><div><h4 class="steps__title">画面の下にある、いまのフォルダ名が書かれたボタンを押す</h4><p class="steps__desc">最近開いたフォルダの一覧と <strong>「フォルダを開く…」</strong> が出ます。</p></div></li>
-      <li><span class="steps__n">3</span><div><h4 class="steps__title">「フォルダを開く…」→ フォルダを作った場所 → <code>my-app</code> を選んで「開く」</h4><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。デスクトップそのものを選ぶと、デスクトップ全体が対象になってしまいます。</p></div></li>
-      <li><span class="steps__n">4</span><div><h4 class="steps__title">画面の下のボタンが <code>my-app</code> になっていれば開けています</h4><p class="steps__desc">フォルダ名の左のボタンが「ローカル」になっているかも見ます。<span class="why">なぜ：</span>「クラウド」だと Anthropic のサーバーの上で動き、自分の PC の <code>my-app</code> を開けないためです。</p></div></li>
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<span class="why">なぜ：</span>新しいセッションで始めると、前の会話の内容と混ざりません。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title">画面の下にある、いまのフォルダ名が書かれたボタンを押す</h3><p class="steps__desc">最近開いたフォルダの一覧と <strong>「フォルダを開く…」</strong> が出ます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">「フォルダを開く…」→ フォルダを作った場所 → <code>my-app</code> を選んで「開く」</h3><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。デスクトップそのものを選ぶと、デスクトップ全体が対象になってしまいます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">画面の下のボタンが <code>my-app</code> になっていれば開けています</h3><p class="steps__desc">フォルダ名の左のボタンが「ローカル」になっているかも見ます。<span class="why">なぜ：</span>「クラウド」だと Anthropic のサーバーの上で動き、自分の PC の <code>my-app</code> を開けないためです。</p></div></li>
     </ol>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -235,7 +236,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </dl>
     </div>
 
-    <div class="figures figures--2">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson02/r2_app_new_session.png" alt="「＋ 新規」を押した直後の画面" loading="lazy" data-taken="2026-09-24" title="撮影 2026年9月">
         <figcaption>「＋ 新規」を押した直後。画面の下にフォルダ名のボタンがあります</figcaption>
@@ -347,7 +348,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
     <p><span class="why">なぜ最初に「まだコードは書かないでください」と書くのか：</span>Claude Code はフォルダを開いた状態なので、頼めばその場でファイルを作り始めます。この回は決める回で、作る回ではありません。書いておかないと、要件が固まる前にアプリの骨組みができてしまいます。</p>
 
-    <div class="figures">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson02/r2_app_prompt1_typed.png" alt="壁打ちの指示を入力欄に貼った状態" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>指示を入力欄に貼った状態。Enter で送ります</figcaption>
@@ -395,7 +396,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
     <h3 class="sub">良いテーマの3条件</h3>
     <p>1つでも外れるなら、テーマを変えるか、条件に合う形に寄せます。</p>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="条件・なぜ の表">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="良いテーマの3条件の表">
       <table class="tbl">
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
         <tbody>
@@ -446,7 +447,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="table-hint">表は横にスクロールできます</p>
 
     <h3 class="sub">使いやすい画面の4条件</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="条件・なぜ の表">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="使いやすい画面の4条件の表">
       <table class="tbl">
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
         <tbody>
@@ -534,7 +535,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 4. ファイルは作らず、コマンドも実行しないでください。仕様書への書き込みは、あとで別に指示します</pre>
     <p><span class="why">なぜ「前提」を書くのか：</span>前提が無いと、AI は世の中で多い構成（React などの大きな部品の組み合わせ）を返してきます。未経験者が自分の PC で動かす、あとで AI 機能を足す、と書いておくと、それに合った小さい構成になります。</p>
 
-    <div class="figures">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson02/r2_app_prompt_stack_typed.png" alt="技術スタックの提案を頼む指示を入力欄に貼ったところ" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>指示を貼ったところ。壁打ちと同じセッションで続けて送ります。撮影時の指示は以前の版で、使う技術の欄の書き方などが本文と違います（見る場所は同じです）。画面に見える「次の回から Node.js を入れます」も撮影時の文面です</figcaption>
@@ -674,11 +675,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <h3 class="sub">spec.md の開き方と直し方</h3>
     <div class="cards cards--2">
       <div class="card">
-        <h3 class="card__title">自分で直す</h3>
+        <h4 class="card__title">自分で直す</h4>
         <p class="card__desc">Finder／エクスプローラーで <code>my-app</code> → <code>docs</code> → <code>spec.md</code> をダブルクリックして開きます（Mac はテキストエディット、Windows はメモ帳で開けます。エディタ（VS Code など）が入っていればそれでも構いません）。直したら保存（Mac は <kbd>⌘S</kbd>、Windows は <kbd>Ctrl+S</kbd>）して閉じます。もう一度開いて、直した箇所が残っていれば保存できています。</p>
       </div>
       <div class="card">
-        <h3 class="card__title">Claude Code に直させる</h3>
+        <h4 class="card__title">Claude Code に直させる</h4>
         <p class="card__desc">入力欄に「<code>docs/spec.md</code> の『やらないこと』から『予算設定・グラフ』の行を消してください」のように、<strong>直す内容を文で</strong>指示します。確認画面で変更箇所を見て「一度だけ許可」。自分で直したあとに Claude に続きを頼むときは「<code>docs/spec.md</code> を自分で直したので、読み直してください」と一言添えます。<span class="why">なぜ：</span>Claude Code は前に読んだ内容を覚えているので、直したことを伝えないと古い内容で進めることがあります。</p>
       </div>
     </div>
@@ -709,7 +710,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </ul>
 
     <h3 class="sub">良いタスクの3条件</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="条件・なぜ の表">
+    <div class="table-wrap" tabindex="0" role="region" aria-label="良いタスクの3条件の表">
       <table class="tbl">
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
         <tbody>
@@ -733,7 +734,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - タスクは10個以内。多いときは「必須」と「余裕があれば」に分けてください。チェックボックス形式（- [ ]）で書いてください
 - 変更するのは docs/tasks.md の1ファイルだけ。すでにある場合は上書きせず、中身を見せて確認を待ってください。作成日・版番号は書かないでください</pre>
 
-    <div class="figures">
+    <div class="figures figures--2 figures--stack">
       <figure class="figure">
         <img src="../../assets/images/lesson02/r2_app_permission_tasks.png" alt="tasks.md を書き込む前の確認画面" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月">
         <figcaption>tasks.md を書き込む前の確認。spec.md のときと同じく、場所と中身を見てから「一度だけ許可」。撮影時の指示は以前の版で、使う技術の欄の書き方などが本文と違います（見る場所は同じです）</figcaption>
@@ -903,8 +904,16 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
-    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+    <nav class="lesson-pager" aria-label="前後の回">
+      <a class="lesson-pager__prev" href="../../"><small>← 前の回</small>第1回 オリエンテーション（Home）</a>
+      <a class="lesson-pager__next" href="../lesson03/"><small>次の回 →</small>第3回 モックを作る</a>
+    </nav>
+    <p class="site-footer__name">AIアプリ開発入門ゼミ <small>｜ DMM 生成AI CAMP ／ 受講生向けページ</small></p>
+    <nav class="site-footer__links" aria-label="よく使うリンク">
+      <a href="../../">Home</a><a href="../../#schedule">日程・入室</a><a href="../../#stuck">困ったとき</a><a href="../../#boardingpass">Boarding Pass</a>
+      <a href="../lesson02/" aria-current="page">第2回</a><a href="../lesson03/">第3回</a><a href="../lesson04/">第4回</a><a href="../lesson05/">第5回</a><a href="../lesson06/">第6回</a>
+    </nav>
+    <p class="site-footer__note">ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。</p>
   </div>
 </footer>
 
