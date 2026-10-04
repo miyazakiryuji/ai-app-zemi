@@ -6,6 +6,9 @@ GitHub Pages で公開している、受講生向けの案内ページです。
 - 第1回 オリエンテーション：Home（<https://miyazakiryuji.github.io/ai-app-zemi/>。`lessons/lesson01/` は Home へ転送）
 - 第2回 要件定義：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson02/>
 - 第3回 モックを作る：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson03/>
+- 第4回 画面側を作る：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson04/>
+- 第5回 API 連携とデータの持ち方：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson05/>
+- 第6回 テスト：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson06/>
 - リポジトリ：<https://github.com/miyazakiryuji/ai-app-zemi>
 
 - Home：ゼミの目的・進め方・全7回の流れ・修了要件・開催スケジュール・参加方法・困ったときの順番
@@ -63,3 +66,10 @@ GitHub Pages で公開している、受講生向けの案内ページです。
 - スクショの元は教材リポジトリ側 `カリキュラム/assets/shots/r3_*.png`（講師の環境が写る箇所は平らに塗ってある）。`assets/images/lesson03/` に置く。図解は `diagram_mock.svg`・`diagram_brushup.svg`（Codex 生成）
 - アイコンを5個追加（Codex 生成・同じ線画）：`icon-mock`（モックとは）・`icon-browser`（ブラウザで開く）・`icon-check-screen`（見直す・成果物）・`icon-palette`（テイスト）・`icon-detail`（細部）
 - Claude デスクトップアプリのスクショは、サイドバーを落としてチャット欄だけを切り出したもの（`r3_app_prompt*`）と、プレビュー欄まで含む全体（`r3_app_prompt1_done`・`r3_app_prompt2_done`）の2種類。切り出しは文字を読ませたい図、全体は「右の欄に画面が出る」を見せたい図
+
+## 回の番号の付け替え（2026-10-04）
+
+第4回に「画面側を作る」を新しく入れ、API 連携の回を `lessons/lesson04/` → `lesson05/`、テストの回を `lesson05/` → `lesson06/` へ移した。
+
+- **画像の置き場と名前は変えていない**（教材の撮影台帳がファイル名で追っているため）。`assets/images/lesson04/`（`r4_*`・`diagram_api_route` など）は第5回（API）のページ、`assets/images/lesson05/`（`r5_*`・`diagram_test_loop`）は第6回（テスト）のページが使っている
+- 新しい第4回の画像を足すときは、上の `r4_*` と名前がぶつからないようにする

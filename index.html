@@ -60,7 +60,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div>
       <p class="now__label">この回</p>
       <p class="now__title">第1回 オリエンテーション ― このページです</p>
-      <p class="now__meta">第2回 要件定義・第3回 モックを作る・第4回 API 連携とデータの持ち方・第5回 テスト のページも公開しています。ご自身の期の開催日と入室先は<a href="#schedule">「日程・入室」</a>でご確認ください</p>
+      <p class="now__meta">第2回 要件定義・第3回 モックを作る・第4回 画面側を作る・第5回 API 連携とデータの持ち方・第6回 テスト のページも公開しています。ご自身の期の開催日と入室先は<a href="#schedule">「日程・入室」</a>でご確認ください</p>
     </div>
     <div class="now__actions">
       <a class="btn btn--primary" href="#contents">この回で押さえたいこと</a>
@@ -84,7 +84,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <ul class="prep">
         <li><strong>第2回まで：Claude デスクトップアプリ ＋ Claude の有料プラン。</strong>第2回は Claude デスクトップアプリでアプリのフォルダを開くところから始めます。Claude Code は無料プランでは使えないため、ここで費用が発生します。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください</li>
         <li><strong>それ以降に使うソフト</strong>は無料のもので、必要になる回のページで入れ方をご案内します</li>
-        <li><strong>第4回：AI 機能のための API</strong>（Claude・OpenAI・Gemini から1つ）。サービスによっては支払い方法の登録や前払いが要ります。Claude を選ぶ場合も、API の利用は第2回の有料プランには含まれず、別の支払いになります（<a href="https://support.claude.com/en/articles/9876003" target="_blank" rel="noopener">Claude の公式ヘルプ</a>）。無料で試せる範囲があるサービスもあります。料金と無料の範囲は変わるので、契約の前に各サービスの公式ページでご確認ください</li>
+        <li><strong>第5回：AI 機能のための API</strong>（Claude・OpenAI・Gemini から1つ）。サービスによっては支払い方法の登録や前払いが要ります。Claude を選ぶ場合も、API の利用は第2回の有料プランには含まれず、別の支払いになります（<a href="https://support.claude.com/en/articles/9876003" target="_blank" rel="noopener">Claude の公式ヘルプ</a>）。無料で試せる範囲があるサービスもあります。料金と無料の範囲は変わるので、契約の前に各サービスの公式ページでご確認ください</li>
       </ul>
       第1回と第2回の間にLIVE講義は入りませんので、早めの着手をおすすめします。
     </div>
@@ -344,14 +344,22 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
       <a class="lesson-card" href="lessons/lesson04/">
         <p class="lesson-card__no">LESSON 04</p>
+        <h3 class="lesson-card__title">画面側を作る ― モックに動きを付ける</h3>
+        <p class="lesson-card__desc">見た目だけの画面（モック）に、画面側の JavaScript で動きを付けます。入力 → 一覧や結果に出る → 画面を移る、の流れをブラウザの中だけで通し、入力チェックと「空のとき・処理中・失敗」の表示も用意します。データはひとまずブラウザの中に置き、AI を呼ぶところは仮の応答を返す1か所にまとめておきます。</p>
+        <p class="lesson-card__meta">この回で作るもの：動きの付いた app/（画面の HTML と CSS はそのまま）＋動きの一覧＋動作確認の記録</p>
+        <span class="lesson-card__cta">この回のページを開く →</span>
+      </a>
+
+      <a class="lesson-card" href="lessons/lesson05/">
+        <p class="lesson-card__no">LESSON 05</p>
         <h3 class="lesson-card__title">API 連携で AI 機能を入れ、データの持ち方を決める</h3>
         <p class="lesson-card__desc">API 連携の仕組みを押さえ、Claude・OpenAI・Gemini のどれかで API キーを発行して安全に置き、経路を先に通してから AI に差し替えて機能を1つ入れます。データの置き場（ブラウザ・PC のファイル・Turso・スプレッドシート）も、消える条件から自分で選びます。</p>
         <p class="lesson-card__meta">この回で作るもの：AI 機能が動くアプリ＋上限設定のスクリーンショット＋.gitignore の確認＋保存先を書き換えた docs/spec.md</p>
         <span class="lesson-card__cta">この回のページを開く →</span>
       </a>
 
-      <a class="lesson-card" href="lessons/lesson05/">
-        <p class="lesson-card__no">LESSON 05</p>
+      <a class="lesson-card" href="lessons/lesson06/">
+        <p class="lesson-card__no">LESSON 06</p>
         <h3 class="lesson-card__title">テスト ― 壊れていないことを確かめる</h3>
         <p class="lesson-card__desc">テストとは何かを押さえ、仕様書をもとにテストコードを Claude Code に書かせて流します。落ちたら直すのはテストではなく実装側。UI テストと、壊すつもりで試す敵対的テストも Claude Code に任せ、テストを流す節目を自分で決めます。</p>
         <p class="lesson-card__meta">この回で作るもの：テストコード一式＋実行結果＋README の実行コマンド＋CLAUDE.md の「流す節目」</p>
@@ -359,18 +367,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </a>
 
       <div class="lesson-card is-locked">
-        <p class="lesson-card__no">LESSON 06</p>
-        <h3 class="lesson-card__title">デバッグ ― 落ちないアプリにする</h3>
-        <p class="lesson-card__desc">不具合の伝え方・原因の切り分け方を身につけ、安定した状態に仕上げます。</p>
-        <p class="lesson-card__meta">この回の後に出すもの：安定版＋不具合ログ</p>
-        <span class="badge-soon">準備中 ― まだ開けません</span>
-      </div>
-
-      <div class="lesson-card is-locked">
         <p class="lesson-card__no">LESSON 07</p>
-        <h3 class="lesson-card__title">機能追加と自走</h3>
-        <p class="lesson-card__desc">自分で機能を足し、ゼミが終わったあとも続けるための手順を持ち帰ります。</p>
-        <p class="lesson-card__meta">この回の後に出すもの：追加機能＋卒業後のロードマップ</p>
+        <h3 class="lesson-card__title">デバッグと卒業制作 ― 落ちないアプリに仕上げる</h3>
+        <p class="lesson-card__desc">不具合の伝え方・原因の切り分け方を身につけ、安定した状態に仕上げます。卒業制作の条件と、ゼミが終わったあとも自分で育てていくための手順もご案内します。</p>
+        <p class="lesson-card__meta">この回の後に出すもの：安定版（卒業制作）＋不具合ログ</p>
         <span class="badge-soon">準備中 ― まだ開けません</span>
       </div>
     </div>
@@ -475,10 +475,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
               <tr><td>第1回</td><td>オリエンテーション</td><td>9月5日(土)</td></tr>
               <tr><td>第2回</td><td>要件定義</td><td>9月19日(土)</td></tr>
               <tr><td>第3回</td><td>モックを作る</td><td>10月3日(土)</td></tr>
-              <tr><td>第4回</td><td>API 連携とデータの持ち方</td><td>10月17日(土)</td></tr>
-              <tr><td>第5回</td><td>テスト</td><td>10月31日(土)</td></tr>
-              <tr><td>第6回</td><td>デバッグ</td><td>11月14日(土)</td></tr>
-              <tr><td>第7回</td><td>機能追加と自走</td><td>11月28日(土)</td></tr>
+              <tr><td>第4回</td><td>画面側を作る</td><td>10月17日(土)</td></tr>
+              <tr><td>第5回</td><td>API 連携とデータの持ち方</td><td>10月31日(土)</td></tr>
+              <tr><td>第6回</td><td>テスト</td><td>11月14日(土)</td></tr>
+              <tr><td>第7回</td><td>デバッグと卒業制作</td><td>11月28日(土)</td></tr>
             </tbody>
           </table>
         </div>
@@ -586,6 +586,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <a href="lessons/lesson03/">第3回のページ</a>
       <a href="lessons/lesson04/">第4回のページ</a>
       <a href="lessons/lesson05/">第5回のページ</a>
+      <a href="lessons/lesson06/">第6回のページ</a>
     </nav>
     <p class="site-footer__note">ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。</p>
   </div>
