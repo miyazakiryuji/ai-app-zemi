@@ -140,7 +140,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><strong>アプリ1つにつきフォルダ1つ</strong>にします。分けないと、別のアプリのファイルまで書き換えられることがあります</li>
     </ul>
     <figure class="figure figure--diagram">
-      <img src="../../assets/images/lesson02/diagram_folder.svg" alt="デスクトップの my-app フォルダの中に docs/spec.md と docs/tasks.md があり、Claude Code がそのフォルダを読んで、作る・書き換える図" loading="lazy">
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson02/diagram_folder_sp.svg"><img src="../../assets/images/lesson02/diagram_folder.svg" alt="デスクトップの my-app フォルダの中に docs/spec.md と docs/tasks.md があり、Claude Code がそのフォルダを読んで、作る・書き換える図" loading="lazy"></picture>
       <figcaption>開いたフォルダと Claude Code の関係。この回で作るのは docs フォルダの中の2ファイルで、app フォルダは作り始めてから増えていきます</figcaption>
     </figure>
 
@@ -166,8 +166,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><strong>小文字にそろえる理由：</strong>大文字と小文字を区別する道具と、しない道具があります。<code>My-App</code> と <code>my-app</code> が別物として扱われる場面があるので、最初から小文字だけにします</li>
     </ul>
 
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note">
       <strong>フォルダの置き場所が iCloud Drive や OneDrive と同期されている方へ：</strong>
       作り始めると、使う技術によってはアプリのフォルダに多数の小さなファイルができます。同期の対象になると同期が終わらなくなったり、PCが遅くなったりすることがあります。
       Mac では、Finder の左の一覧で「デスクトップ」の横に雲のマークがあれば、iCloud Drive と同期されています。
@@ -376,7 +375,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </dl>
     </div>
     <figure class="figure figure--diagram">
-      <img src="../../assets/images/lesson02/diagram_mvp.svg" alt="自分が書いた4つを元に AI が出した提案5つを、必須（MVP に入れる）とあとまわし（やらないことへ）に仕分ける図" loading="lazy">
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson02/diagram_mvp_sp.svg"><img src="../../assets/images/lesson02/diagram_mvp.svg" alt="自分が書いた4つを元に AI が出した提案5つを、必須（MVP に入れる）とあとまわし（やらないことへ）に仕分ける図" loading="lazy"></picture>
       <figcaption>AI の提案を「必須」と「あとまわし」に仕分けて MVP を決めます。判断の基準は「① 目的の流れに必要か」「② 無いと、間違った結果が出る・データが消える・危ない、が起きるか」の2つ。決めるのは自分です</figcaption>
     </figure>
     <div class="note note--key">
@@ -478,7 +477,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </dl>
     </div>
     <figure class="figure figure--diagram">
-      <img src="../../assets/images/lesson02/diagram_screens.svg" alt="食費メモの画面2枚のワイヤーフレーム。画面1 記録画面（今月の合計・入力欄・保存・一覧）から「修正」で画面2 修正画面へ移り、保存かキャンセルで画面1へ戻る" loading="lazy">
+      <picture><source media="(max-width:720px)" srcset="../../assets/images/lesson02/diagram_screens_sp.svg"><img src="../../assets/images/lesson02/diagram_screens.svg" alt="食費メモの画面2枚のワイヤーフレーム。画面1 記録画面（今月の合計・入力欄・保存・一覧）から「修正」で画面2 修正画面へ移り、保存かキャンセルで画面1へ戻る" loading="lazy"></picture>
       <figcaption>画面が2枚の例（食費メモ）。ワイヤーフレームはこの程度の骨組みで十分です。保存と削除は画面1の中で完結し、画面は移動しません</figcaption>
     </figure>
     <p>画面一覧を出させる指示の型です。壁打ちと同じセッションで続けて送って構いません。</p>

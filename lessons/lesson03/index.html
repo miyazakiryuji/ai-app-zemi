@@ -213,8 +213,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="section__lead">
       Claude Code に <code>docs/spec.md</code> を読ませ、その「画面一覧と遷移」のとおりに画面を作らせます。次の型をそのまま入力欄に貼って送ります。画面の数や名前は仕様書から読み取らせるので、書き換える箇所はありません。
     </p>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note">
       仕様書に「画面一覧と遷移」という見出しが無い場合は、指示の1行目の「画面一覧と遷移」を、ご自身の仕様書で画面のことを書いた見出しの名前（「画面構成」など）に書き換えて送ります。
       画面のことを書いた節そのものが無い場合は、先に「docs/spec.md に、画面ごとの名前・何をする画面か・置く要素（入力欄・ボタン・一覧など）・どのボタンを押すとどの画面へ移るかを『画面一覧と遷移』の見出しで足してください。ほかの項目は変えないでください」と頼み、確認画面で中身を見てから許可します。
       <span class="why">なぜ：</span>画面の数と置くものが決まっていないと、AI は推測で画面を作ります。できた画面が意図と違っていても、見比べる相手が無いので気づけません。
@@ -278,8 +277,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <img src="../../assets/images/lesson03/r3_app_prompt1_done.png" alt="3ファイルができたあとの画面。左に返答、右にアプリの中のプレビュー欄" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
       <figcaption>3ファイルができました。返答に「ブラウザでの開き方」も書いてあります。右はアプリの中のブラウザ欄で、この例では CSS が読み込まれず素の状態で出ています</figcaption>
     </figure>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note">
       <strong>アプリの中のブラウザ欄だけで判断しないでください。</strong>Claude デスクトップアプリには画面を表示する欄がありますが、直後は前の状態のままだったり、この例のように <code>style.css</code> が読み込まれていなかったりします。最終の確認は必ずご自身のブラウザで開いて行います（次の節）。
     </div>
   </div>

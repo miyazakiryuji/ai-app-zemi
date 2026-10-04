@@ -222,8 +222,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p><span class="why">なぜ控えを取るのか：</span>動きを足すと、HTML に読み込みの1行や要素の名前が足され、一覧の仮のデータは JavaScript のほうへ移ります。思ったとおりに動かなくなったときや、見た目がいつの間にか変わったとき、<code>app-mock</code> の画面と見比べれば、どこが変わったかが分かります。</p>
     <p><strong>どうしても直らないときは、控えからやり直します。</strong>いまの <code>app</code> の名前を <code>app-broken</code> に変え、<code>app-mock</code> を複製して、できたコピーの名前を <code>app</code> にします。そのあと「<code>docs/actions.md</code> の状態が『作った』の行をすべて『まだ』に戻し、『確かめた結果』を空にしてください。ほかは変えないでください」と頼み、指示②からやり直します。<span class="why">なぜ：</span>一覧を戻さないと、指示③は「作った」の行を飛ばします。<code>app</code> の中身はモックに戻っているので、その行の動きは作られないままになります。</p>
     <p><span class="why">なぜ Claude Code ではなく自分で複製するのか：</span>控えは「AI が手を入れる前の状態」を残すためのものです。複製も頼むと、その作業の確認画面が増え、どれが控えかを自分で見ていないことになります。</p>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+    <div class="note">
       <strong><code>docs/tasks.md</code>（作る順番）は、この回の指示①〜③では Claude Code に読ませません（最後の見直しで印を付けるときだけ読ませます）。</strong><code>docs/tasks.md</code> には、データを残す処理やサーバーまで含めた順番が書いてあります。読ませると、この回では作らないと決めたものまで作り始めます。この回の作る順番は、次の指示①で作る <code>docs/actions.md</code> にまとめます。
     </div>
   </div>
@@ -631,7 +630,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </div>
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong>ai.js は「失敗テスト」の文字のときだけ失敗する</strong></dt>
-        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>失敗したときの表示は、本物の AI がたまたま失敗するまで確かめられません。わざと失敗させる決まりがあれば、自分の手で何度でも確かめられます。本物の AI につなぐときに ai.js ごと差し替わるので、この決まりは残りません</dd>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>失敗したときの表示は、本物の AI がたまたま失敗するまで確かめられません。わざと失敗させる決まりがあれば、自分の手で何度でも確かめられます。この決まりは、本物の AI につなぐまでの仮の仕組みなので、本物につなぐときに外します</dd>
       </div>
     </dl>
 
