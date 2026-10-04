@@ -114,7 +114,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">API を知る</p><p class="flow__desc">呼び出しの形と、サーバー経由の理由</p></div>
       <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">サービスを選ぶ</p><p class="flow__desc">Claude／OpenAI／Gemini</p></div>
       <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">キーを発行</p><p class="flow__desc">管理画面で作り、.env に置く</p></div>
-      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">土台を作る</p><p class="flow__desc">いまの画面に、動きとサーバーを足す</p></div>
+      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">土台を作る</p><p class="flow__desc">いまの画面をサーバーから開く</p></div>
       <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">経路を先に通す</p><p class="flow__desc">AI を呼ばずに固定の文章を返す</p></div>
       <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">AI に差し替え</p><p class="flow__desc">サーバー側だけを直す</p></div>
       <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">上限を設定</p><p class="flow__desc">管理画面で使いすぎを止める</p></div>
@@ -375,32 +375,37 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
   <div class="section__inner">
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-chat.svg" alt=""></span><div><p class="section__kicker">05</p><h2 class="section__title">AI 機能を入れる：<em>経路を先に通してから</em>、中身を差し替える</h2></div></div>
     <p class="section__lead">
-      ここでやるのは「自分のアプリのサーバー側から AI のサービスに文章を送り、返ってきた文章を画面に出す」ことです。<strong>次の順番を崩さないでください。</strong>最初に、いまの画面に動きとサーバーを足して土台を作り（5-1）、そのうえで経路を通して AI に差し替えます（5-2）。
+      ここでやるのは「自分のアプリのサーバー側から AI のサービスに文章を送り、返ってきた文章を画面に出す」ことです。<strong>次の順番を崩さないでください。</strong>最初に、いまの画面をサーバーから開けるようにして土台を作り（5-1）、そのうえで経路を通して AI に差し替えます（5-2）。画面の中だけで動く動き（ボタンを押すと一覧や結果の欄が変わる部分）は、もうできている前提で進めます（まだ無い場合は、5-1 の最後で1つ足します）。
     </p>
 
-    <h3 class="sub">5-1. まず、いまの画面に動きとサーバーを足す</h3>
+    <h3 class="sub">5-1. まず、いまの画面をサーバーから開けるようにする</h3>
     <div class="note">
-      作る順番の一覧 <code>docs/tasks.md</code> がある場合、このページの指示②（動きを1つだけ足す）は「1件保存して一覧に出す（読み込み直すと消えてよい）」、06 は「消えずに残るようにする」のタスクに当たります。<code>tasks.md</code> の順番と見比べて、終わったタスクには Claude Code に終わった印（<code>- [x]</code>）を付けさせます。<span class="why">なぜ：</span>印が実物とずれていると、次に作り始めるときに、できているものをもう一度作らせることになります。
+      作る順番の一覧 <code>docs/tasks.md</code> がある場合、画面の中だけでできるタスク（例：「1件保存して一覧に出す（読み込み直すと消えてよい）」「入力の間違いを弾く」）は、動きの一覧 <code>docs/actions.md</code> でその動きが「作った」になっていれば、もう終わっています。06（データの持ち方）は、「消えずに残るようにする」のような、データを残すタスクに当たります。<code>tasks.md</code> の順番と見比べて、終わったタスクには Claude Code に終わった印（<code>- [x]</code>）を付けさせます。<span class="why">なぜ：</span>印が実物とずれていると、次に作り始めるときに、できているものをもう一度作らせることになります。
     </div>
-    <p>いまのアプリは、<code>app/</code> の中の HTML と CSS だけでできていて、ボタンを押しても何も起きません。AI のサービスを呼ぶには、この画面に次の2つを足します。</p>
+    <p>いまのアプリは、<code>app/</code> の中の HTML と CSS に、画面の中だけで動く JavaScript（例：<code>app/app.js</code>。AI を使うアプリは、仮の文章を返す <code>app/ai.js</code> も）が付いた状態です。ボタンを押すと画面は変わりますが、データは画面の中に持っているだけで、外のサービスにはつながっていません。AI のサービスを呼ぶには、次の2つが要ります。</p>
     <ol>
-      <li><strong>ボタンが押されたことを受け取って、画面を書き換えたり、要求を送ったりする部分</strong>（画面側の JavaScript）</li>
+      <li><strong>自分のサーバーへ要求を送り、返ってきた答えを画面に出す部分</strong>（画面側の JavaScript。いまの動きに足す）</li>
       <li><strong>その要求を受け取って、外部のサービスを呼ぶ部分</strong>（サーバー側のプログラム）</li>
     </ol>
-    <p>アプリは<strong>「見た目 → 動き → 裏側」の順に1段ずつ足して作ります。</strong>見た目はもうできているので、ここで足すのは動きと裏側だけです。<span class="why">なぜ1段ずつか：</span>一度に全部を作らせると、うまくいかないときに、見た目・動き・裏側のどこが原因か分かりません。1段足すたびに確かめておけば、先に調べるのは最後に足した1段で済みます。</p>
+    <p>この 5-1 では、まずサーバーを立てて、いまの画面をサーバーから開けるようにします。要求を送る部分は 5-2 で足します。</p>
+    <p>アプリは<strong>「見た目 → 動き → 裏側」の順に1段ずつ足して作ります。</strong>見た目と、画面の中だけで動く動きができていれば、ここで足すのは裏側だけです。<span class="why">なぜ1段ずつか：</span>一度に全部を作らせると、うまくいかないときに、見た目・動き・裏側のどこが原因か分かりません。1段足すたびに確かめておけば、先に調べるのは最後に足した1段で済みます。</p>
     <figure class="figure figure--diagram">
       <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04/diagram_build_order_sp.svg"><img src="../../assets/images/lesson04/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy"></picture>
       <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済みます</figcaption>
     </figure>
-    <p><span class="why">なぜ画面を作り直さないのか：</span>いまある HTML と CSS は、ご自身で見て決めた配置と見た目そのものです。作り直させると配置も文言も変わり、確かめ直しになります。足すのは動きと処理だけで、画面のファイルは土台としてそのまま使います。</p>
+    <p><span class="why">なぜ画面を作り直さないのか：</span>いまある HTML と CSS は、ご自身で見て決めた配置と見た目そのものです。動きがある場合は、それもご自身の手で押して確かめたものです。作り直させると配置も文言も動きも変わり、確かめ直しになります。足すのはサーバーと、画面からサーバーを呼ぶ処理だけで、画面のファイルは土台としてそのまま使います。</p>
     <p>仕様書の「使う技術」で、HTML をそのまま使わない構成（React など）を選んだ場合は、いまの画面の配置・文言・色・余白を変えずに、その構成の書き方へ移させます。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
+        <dt>動き</dt><dd>ボタンを押す・文字を入れるといった操作を受け取って、画面の中身を書き換える仕組み。画面側の JavaScript で作り、サーバーが無くても動きます。</dd>
+        <dt>動きの一覧（docs/actions.md）</dt><dd>画面に付ける動きを、1行に1つずつ並べた表のファイル。「状態」の欄は「まだ」（まだ作っていない）・「作った」・「あとで」（データを残す・画面をまたいで渡す・本物の AI を呼ぶ、のどれかが要るので後回しにした）のどれかです。「確かめ方」の欄に、その動きを自分の手で確かめる手順が書いてあります。</dd>
+        <dt>仮の文章</dt><dd>本物の AI の代わりに返す、決まった文章。AI のサービスにつなぐ前に、「押す → 待つ → 出る」の流れを画面で確かめるために使います。</dd>
         <dt>モック</dt><dd>見た目だけを作った画面。動きや保存の仕組みは入っていません。</dd>
         <dt>Node.js</dt><dd>JavaScript をブラウザの外（PC の上）で動かすための土台のソフト。サーバー側のプログラムを動かすのに使います。</dd>
         <dt>localhost</dt><dd>自分の PC 自身を指す名前。<code>http://localhost:3000</code> は「自分の PC の中で動いているサーバーの 3000 番の入口」の意味です。インターネットには公開されていません。</dd>
         <dt>ターミナル</dt><dd>文字で命令（コマンド）を打ち込み、結果を文字で受け取る画面。</dd>
+        <dt>コンソール</dt><dd>開発者ツールの中の、JavaScript のエラーや記録が文字で出る欄。動きが止まった理由は、ここに赤い文字で出ます。開発者ツールの上の「コンソール」（英語の表示では「Console」）を押すと開きます。</dd>
       </dl>
     </div>
 
@@ -410,14 +415,31 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><span class="steps__n">2</span><div><h4 class="steps__title">下の指示①を送る</h4><p class="steps__desc">そのまま貼って送ります。返事に出てくる「起動のしかた・止めかた・開くアドレス」は、このあと何度も使うので控えておきます。<span class="why">なぜ：</span><code>.env</code> を直したときなど、サーバーを止めて起動し直す場面がこの先に何度もあるためです。</p></div></li>
     </ol>
 <pre class="prompt prompt--plain" data-label="指示①（サーバーを立てる）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/spec.md の「使う技術」に沿って、サーバーを1つ作ってください。
-- いまの app/ の HTML と CSS は作り直さず、そのまま使ってください。要素の並び・文言・style.css は変えないでください
+- いまの app/ の HTML・CSS・JavaScript は作り直さず、そのまま使ってください。要素の並び・文言・style.css・いまの動きは変えないでください
 - まずは、app/ の中のファイルをそのままブラウザに返すだけのサーバーにしてください。保存や AI の処理はまだ作りません
 - 起動のしかたと、止めかたと、ブラウザで開くアドレスを教えてください
-完成条件：サーバーを起動して、教えてもらったアドレスをブラウザで開くと、いままでと同じ画面が同じ見た目で出ること。</pre>
-    <p><span class="why">なぜ「同じ見た目で出ること」を完成条件にするのか：</span>ファイルの置き場所や読み込み方が変わると、<code>style.css</code> が読み込まれず、色が消えることがあります。ここで気づけば、直すのは1か所で済みます。</p>
+完成条件：サーバーを起動して、教えてもらったアドレスをブラウザで開くと、いままでと同じ画面が同じ見た目で出ること。いままでの動きも、ダブルクリックで開いていたときと同じに動くこと。</pre>
+    <p><span class="why">なぜ「同じ見た目で出ること」「同じに動くこと」を完成条件にするのか：</span>ファイルの置き場所や読み込み方が変わると、<code>style.css</code> が読み込まれずに色が消えたり、JavaScript のファイル（例：<code>app/app.js</code>）が読み込まれずに、押しても何も起きなくなったりすることがあります。ここで気づけば、直すのは1か所で済みます。</p>
     <p><strong>確認：</strong>ブラウザのアドレス欄が、ファイルの場所ではなく <code>http://localhost:3000</code> のような形になっています。ここから先は、HTML ファイルをダブルクリックして開くのではなく、<strong>サーバーを起動してこのアドレスで開きます</strong>（<span class="why">なぜ：</span>ファイルを直接開いた画面からは、自分のサーバーに要求を送れません）。</p>
 
-    <h4 class="sub2">動きを1つだけ足す（指示②）</h4>
+    <h4 class="sub2">いままでの動きを、サーバーから開いた画面で確かめる</h4>
+    <p>画面に動きがある方（動きの一覧 <code>docs/actions.md</code> に、状態が「作った」の行がある方など）は、指示①のあと、ここで確かめます。画面にまだ動きが無い方は、この下の「画面にまだ動きが無いときだけ」へ進みます。</p>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h4 class="steps__title">サーバーを起動し、指示①で教えてもらったアドレス（<code>http://localhost:3000</code> など）で画面を開く</h4><p class="steps__desc">ダブルクリックで開いた画面が残っていたら、閉じておきます。<span class="why">なぜ：</span>確かめたいのは、サーバーから開いた画面で動くかどうかです。ダブルクリックで開いた画面（アドレスが <code>file://</code> で始まる）が残っていると、どちらで押したのか分からなくなります。</p></div></li>
+      <li><span class="steps__n">2</span><div><h4 class="steps__title"><code>docs/actions.md</code> の「作った」の行をいくつか選び、その行の「確かめ方」のとおりに押す</h4><p class="steps__desc">1行目（いちばんよく使う動き）と入力のチェックの行、AI を使うアプリなら「処理中」「失敗したとき」の行は、必ず入れます。ダブルクリックで開いていたときと同じに動けば合格です。動きの一覧が無い場合は、ダブルクリックで開いていたときに確かめた操作を、同じように押します。<span class="why">なぜ：</span>開き方を変えると、ファイルの読み込み方も変わります。JavaScript のファイルが読み込まれないと、見た目は同じでも、押しても何も起きない画面になります。よく使う動きと、AI の部分（例：<code>app/ai.js</code>）を通る行を押せば、読み込みの抜けに気づけます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h4 class="steps__title">動かない行があったら、したこと・起きたこと・コンソールの赤い文字を渡して、まず原因を聞く</h4><p class="steps__desc">開発者ツールの「コンソール」を開いたまま同じ操作をもう一度して、赤い文字が出たところをスクリーンショットで撮り、下の型に貼って送ります。名前・メールアドレス・業務の実データが写っていないかを、貼る前に見ます（貼った画像は AI のサービスに送られます）。<span class="why">なぜ3つを渡すのか：</span>「動きません」だけでは、AI はどの操作のことか分からず、推測で別の場所を直します。何を押して何が見えたかと、止まった理由の文があれば、原因を1つに絞れます。</p></div></li>
+    </ol>
+<pre class="prompt" data-label="動かないときに送る指示 ― （ ）を埋めて、スクショを添えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">サーバーから開いた画面で、docs/actions.md の（　）行目の動きが、ダブルクリックで開いていたときと違います。
+- したこと：（例：金額に 500、日付に今日を入れて「保存」を押した）
+- 起きたこと：（例：一覧に何も増えない。画面も変わらない）
+- コンソール：（赤い文字が出ています。スクショを添付／赤い文字は出ていません）
+まず原因を教えてください。直すのは、私が「直してください」と言ってからにしてください。</pre>
+    <p>原因の説明を読んだら、「直してください。いまの動きと見た目は変えないでください」と送ります。直ったら、サーバーから開いた画面を再読み込み（Mac は <kbd>⌘</kbd>＋<kbd>R</kbd>、Windows は <kbd>F5</kbd>）して、同じ行の「確かめ方」をもう一度通します。<span class="why">なぜ先に原因を聞くのか：</span>すぐに直させると、AI は原因が分からないまま、それらしい場所をまとめて書き換えることがあります。ダブルクリックで開いていたときに動いていたなら、原因の多くは開き方に合わせた読み込みの部分で、動きそのものではありません。説明が読み込みや開き方の話になっているかを確かめてから直させます。</p>
+
+    <h4 class="sub2">画面にまだ動きが無いときだけ：動きを1つだけ足す（指示②）</h4>
+    <div class="note">
+      <strong>この指示②は、画面にまだ動きが無い（ボタンを押しても何も起きない、見た目だけのモックの）ときだけ使います。動きの一覧 <code>docs/actions.md</code> があって、状態が「作った」の行がある方は、ここは飛ばして 5-2 へ進みます。</strong><span class="why">なぜ：</span>動きがある画面に送ると、いまある動きと同じ働きの処理がもう1つ作られたり、確かめ済みの動きが書き換えられたりします。
+    </div>
     <p>ご自身のアプリの中心になる操作を1つだけ、画面側の JavaScript で動くようにします。保存はまだしません。</p>
 <pre class="prompt" data-label="指示②（動きを1つだけ足す）― （ ）を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">いまの画面に、動きを1つだけ足してください。
 - （「保存」を押すと、入力欄の内容が一覧のいちばん上に1行増える）
@@ -443,9 +465,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h4 class="steps__title"><code>.gitignore</code> と、値が空の <code>.env</code> を用意する（<a href="#key">03</a> の指示）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span><strong>キーを貼る前に、上げない設定と貼る先を用意しておきます。</strong>先にキーを発行すると、貼る先が無く、確かめる前の場所に置いてしまう事故が起きます。</p></div></li>
       <li><span class="steps__n">2</span><div><h4 class="steps__title">サービスを決めてキーを発行し、その場で <code>.env</code> に貼る（<a href="#issue">04</a>）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span>キーの全文は作った直後にしか表示されないためです。キーが無いと、手順4で AI を呼べません。</p></div></li>
-      <li><span class="steps__n">3</span><div><h4 class="steps__title">AI を呼ばずに、決まった文章を返すだけのサーバー側の処理を作り、画面から呼んで表示させる（指示③）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span><strong>ここがいちばん大事です。</strong>画面 → サーバー → 画面の経路を先に1本通しておきます。同時に作ると、動かないときに<strong>経路の問題なのか AI 呼び出しの問題なのか切り分けられません。</strong>原因が2つある状態で詰まると、ほぼ抜けられません。</p></div></li>
+      <li><span class="steps__n">3</span><div><h4 class="steps__title">AI を呼ばずに、決まった文章を返すだけのサーバー側の処理を作り、画面から呼んで表示させる（指示③）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span><strong>ここがいちばん大事です。</strong>画面 → サーバー → 画面の経路を先に1本通しておきます。同時に作ると、動かないときに<strong>経路の問題なのか AI 呼び出しの問題なのか切り分けられません。</strong>原因が2つある状態で詰まると、ほぼ抜けられません。<br>
+        画面側に、仮の文章を返す関数（例：<code>app/ai.js</code>）がすでにある場合は、新しいボタンを置かずに、その関数の中身を差し替えます（指示③の下の注記）。</p></div></li>
       <li><span class="steps__n">4</span><div><h4 class="steps__title">その処理の中身を、AI の呼び出しに差し替える（指示④）</h4><p class="steps__desc">Claude API を選んだ方は、送る前に <a href="#issue">4-1</a> の手順4（クレジットの購入と上限）を済ませます。<span class="why">なぜこの順か：</span>経路が通っていることが分かっているので、うまくいかなければ原因は AI の呼び出し側に絞られます。</p></div></li>
-      <li><span class="steps__n">5</span><div><h4 class="steps__title">返ってきた内容を画面に出し、待機中の表示と失敗したときの表示も入れる（指示⑤）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span>応答は数秒かかります。何も出ないと壊れたと思われ、<strong>何度も押される＝そのたびに課金されます</strong>。</p></div></li>
+      <li><span class="steps__n">5</span><div><h4 class="steps__title">返ってきた内容を画面に出し、待機中の表示と失敗したときの表示も入れる（指示⑤）</h4><p class="steps__desc"><span class="why">なぜこの順か：</span>応答は数秒かかります。何も出ないと壊れたと思われ、<strong>何度も押される＝そのたびに課金されます</strong>。<br>
+        手順3で関数の中身を差し替えた場合は、この2つの表示はもうあるので、指示⑤は送らずに確かめるだけにします（指示③の下の注記）。</p></div></li>
       <li><span class="steps__n">6</span><div><h4 class="steps__title">管理画面で上限を設定し、スクリーンショットを撮る（<a href="#issue">04</a> の選んだサービスの節）</h4><p class="steps__desc"><span class="why">なぜ：</span>この回の提出物です。作りを間違えたとき、被害が金額で止まります。無料枠のまま使う Gemini の方は、無料枠であることが分かる画面を撮ります。</p></div></li>
     </ol>
 
@@ -456,6 +480,27 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 画面に（「今月を振り返る」）ボタンを置き、押すとその文章が結果の欄に表示されるところまで作ってください。
 完成条件：ボタンを押すと「テスト応答です」が画面に出ること。</pre>
     <p><strong>確認：</strong>ボタンを押して「テスト応答です」が出れば経路が通っています。開発者ツールの「ネットワーク」の欄で、自分のサーバーへの要求が1回だけ送られていることも見ておきます。<span class="why">なぜ：</span>ここで2回以上送られていると、AI に差し替えたあと、押すたびに2回課金されます。</p>
+    <div class="note">
+      <strong>画面側に、仮の文章を返す関数（例：<code>app/ai.js</code>）をすでに作ってある場合は、指示③の代わりに、下の指示を送ります。</strong>画面に新しいボタンは置かず、その関数の中身を「自分のサーバーの入口を呼ぶ形」に差し替えさせます。入口の中身は、指示③と同じく、まだ決まった文章を返すだけです。<span class="why">なぜ：</span>画面の「処理中」「失敗したとき」の表示は、その関数の答えを待って出す作りになっています。関数の中身だけを差し替えれば、ボタンも表示もそのまま使え、新しく通すのは画面 → サーバー → 画面の経路だけで済みます。新しいボタンを置くと、同じ働きのボタンが2つになり、表示も作り直すことになります。
+    </div>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>関数</dt><dd>プログラムの中で、ひとまとまりの処理に名前を付けたもの。画面側の JavaScript は、その名前で関数を呼び、返ってきた答えを画面に出します。名前と、受け取るもの・返すものの形が変わらなければ、中身を差し替えても、呼ぶ側は直さずに済みます。</dd>
+      </dl>
+    </div>
+<pre class="prompt" data-label="指示③の代わり（仮の文章を返す関数がある場合）― （ ）を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">画面側で仮の文章を返している（app/ai.js）の関数を、自分のサーバーの入口を呼ぶ形に差し替えてください。
+- サーバー側に「AIに聞く」処理の入口を作ってください。中身はまだAIを呼ばず、「テスト応答です」という決まった文章を返すだけにします
+- いまの関数がしている「1秒待つ」と「入力に『失敗テスト』があるとわざと失敗する」は、サーバー側の入口に移してください（どちらも本物のAIに差し替えるまでの仮の仕組み）
+- 関数の名前と、受け取るもの・返すものの形は変えないでください。入口がエラーを返したときや、サーバーにつながらなかったときは、いまと同じく失敗として扱ってください。エラーの詳しい内容はサーバー側のターミナルにだけ出してください
+- 画面に新しいボタンは置かないでください。HTML・style.css・ほかの動きは変えないでください
+完成条件：（「送信」）ボタンを押すと「テスト応答です」が画面に出ること。これまでの「処理中」「失敗したとき」の表示がそのまま出ること（「失敗テスト」を入れて押すと、失敗したときの表示が出る）。</pre>
+    <p><strong>確認：</strong>ボタンを押すと、「処理中」の表示（「考え中…」など）が出たあとに「テスト応答です」が出れば、経路が通っています。入力に「失敗テスト」を入れて押し、失敗したときの表示が出て、入力が消えずに残ることも見ます。ネットワークの欄で、自分のサーバーへの要求が1回だけ送られていることは、指示③と同じく見ておきます。<span class="why">なぜ「1秒待つ」と「失敗テスト」も入口に移すのか：</span>入口がすぐに答えを返すと、「処理中」の表示は一瞬で消えて、目で確かめられません。「失敗テスト」を入口で失敗させると、入口がエラーを返したときに失敗したときの表示が出るかを、本物の AI を呼ぶ前に確かめられます。本物の AI の呼び出しが失敗したときも、画面に届くのは同じ「入口からのエラー」です。</p>
+    <p>この場合、このあとの手順4・5は次のように変わります。</p>
+    <ul>
+      <li><strong>手順4（指示④）：</strong>指示④の最後に「サーバー側の入口に移した『1秒待つ』と『失敗テスト』の仮の仕組みは外してください」の1行を足して送ります。<span class="why">なぜ外すのか：</span>残しておくと、本物の AI の答えが毎回1秒遅れ、入力にたまたま「失敗テスト」の文字が入ったときは、AI を呼ばずに失敗の表示が出ます。</li>
+      <li><strong>手順5（指示⑤）：</strong>「処理中」「失敗したとき」の表示はもうあるので、指示⑤は送りません。ボタンを素早く続けて押してもネットワークの欄の要求が1回だけであることと、指示⑤の下の「確認」（<code>.env</code> のキーをわざと1文字消して、失敗したときの表示が出るか）だけを行います。</li>
+    </ul>
     <p>手順4で送る指示です。（ ）の中を、ご自身が選んだサービスとアプリに合わせて書き換えます。</p>
 <pre class="prompt" data-label="指示④（AI に差し替える）― （ ）を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">さきほど作った入口の中身を、AIの呼び出しに差し替えてください。
 使うサービスは（Claude API）です。公式のライブラリを使ってください。
@@ -464,7 +509,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
 モデル名は、公式ドキュメントに載っている現在の標準的なものを使い、コードの中の1箇所にまとめてください。
 （Gemini を選んだ場合だけ、この行を残す）モデルは gemini-3.5-flash-lite、ライブラリは @google/genai（Python なら google-genai）を使ってください。
 完成条件：ボタンを押すと、AIが生成した（振り返りの文章）が結果の欄に表示されること。</pre>
-    <p>OpenAI なら「使うサービスは OpenAI API、キーは <code>OPENAI_API_KEY</code>」、Gemini なら「Gemini API、キーは <code>GEMINI_API_KEY</code>」に書き換えます。最後から2行目の「Gemini を選んだ場合だけ」の行は、Gemini 以外の方は消します。Gemini の方は、行の先頭の「（Gemini を選んだ場合だけ、この行を残す）」の部分と、その上の「モデル名は、公式ドキュメントに…」の行を消します。モデル名が変わっていたら <a href="#issue">4-3</a> の注記のモデル名に直します。</p>
+    <p>OpenAI なら「使うサービスは OpenAI API、キーは <code>OPENAI_API_KEY</code>」、Gemini なら「Gemini API、キーは <code>GEMINI_API_KEY</code>」に書き換えます。最後から2行目の「Gemini を選んだ場合だけ」の行は、Gemini 以外の方は消します。Gemini の方は、行の先頭の「（Gemini を選んだ場合だけ、この行を残す）」の部分と、その上の「モデル名は、公式ドキュメントに…」の行を消します。モデル名が変わっていたら <a href="#issue">4-3</a> の注記のモデル名に直します。手順3で画面側の関数の中身を差し替えた方は、最後に、仮の仕組みを外す1行を足します（指示③の下の注記）。</p>
     <p><span class="why">なぜ「モデル名を1箇所にまとめて」と書くのか：</span>モデル名は変わります。変わったときに直す場所が1つなら、ご自身で直せます。あちこちに書かれていると、直し漏れで一部の機能だけ動かなくなります。</p>
     <p>手順5で送る指示です。待機中の表示と、失敗したときの表示を足します。</p>
 <pre class="prompt" data-label="指示⑤（待機中と失敗時の表示）― （ ）を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">（「今月を振り返る」）ボタンに、次の2つを足してください。
@@ -530,7 +575,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
   <div class="section__inner">
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-folder.svg" alt=""></span><div><p class="section__kicker">06</p><h2 class="section__title">データの持ち方：<em>4つの置き場</em>と、消える条件</h2></div></div>
     <p class="section__lead">
-      ここまでのアプリは、データを画面の中に持っているだけで、再読み込みすると消えます。AI 機能が動いたら、次は「<strong>このデータをどこに置いておくか</strong>」をご自身で決めます。置き場によって、<strong>消える条件</strong>と、<strong>どこから見えるか</strong>と、<strong>設定の手間</strong>が違います。
+      ここまでのアプリは、データを画面の中に持っているだけで、再読み込みすると消えます。動きの一覧 <code>docs/actions.md</code> で「あとで」にした行のうち、データを残す・画面をまたいで渡す行（修正画面に選んだ記録を出す・閉じても残る など）は、置き場を決めたあとに1行ずつ作ります（<span class="why">なぜ：</span>残し方は置き場によって変わるため、決める前に作ると作り直しになります）。AI 機能が動いたら、次は「<strong>このデータをどこに置いておくか</strong>」をご自身で決めます。置き場によって、<strong>消える条件</strong>と、<strong>どこから見えるか</strong>と、<strong>設定の手間</strong>が違います。
     </p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -575,6 +620,9 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
         <dd class="explain-list__value">試作／表示の設定（並び順・テーマ）／PC 1台・ブラウザ1つで自分だけが使う小さな記録</dd>
       </div>
     </dl>
+    <div class="note">
+      <strong>ダブルクリックで開いていた画面で残したデータは、サーバーから開いた画面からは見えません。</strong>ダブルクリックで開いていたとき（アドレスが <code>file://</code> で始まる）にブラウザの中へデータを残していても、サーバーから開いた画面（<code>http://localhost:3000</code> など）には出てきません。<span class="why">なぜ：</span>ブラウザは、アドレスの始まり（<code>file://</code> か <code>http://localhost:3000</code> か。ポート番号まで含む）ごとに、別の置き場として扱うためです。ポート番号を変えたとき（<code>:3000</code> が <code>:5173</code> になったなど）も同じで、前のアドレスで残したデータは見えません。データは消えたのではなく、前のアドレスの置き場に残っています。
+    </div>
     <p><span class="why">なぜ本番の記録には向かないのか：</span>「履歴を削除」の操作で、貯めた記録がまとめて消えます。使う人はそれが記録の削除だとは思っていません。また、スマホから見たいと思ったときに、PC のブラウザの中にあるデータは取り出せません。</p>
 <pre class="prompt prompt--plain" data-label="置き場の指示（localStorage）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">記録の保存先を localStorage にしてください。
 保存する項目は docs/spec.md の「扱うデータ」のとおりです。
@@ -858,6 +906,18 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       </div>
       <div class="pitfall">
         <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">サーバーから開いたら、ボタンを押しても動かない（ダブルクリックで開いていたときは動いた）</h3>
+        <p class="pitfall__what">JavaScript のファイル（例：<code>app/app.js</code>）が読み込まれていないか、サーバーが返すフォルダと、HTML に書いた読み込み先がずれています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>5-1 の「いままでの動きを、サーバーから開いた画面で確かめる」の型で、したこと・起きたこと・コンソールの赤い文字を渡し、まず原因を聞きます。直させるときは「いまの動きと見た目は変えないでください」と添えます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title"><code>ai.js</code> の中身を差し替えたら、「処理中」の表示が出なくなった（失敗したときの表示が出ない）</h3>
+        <p class="pitfall__what">入口がすぐに答えを返して一瞬で終わっているか、入口が返したエラーを、関数が失敗として扱っていません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「サーバー側の入口は、1秒待ってから返すようにしてください」「入口がエラーを返したときは、いまと同じく失敗として扱ってください。ほかは変えないでください」のうち、当てはまるほうを頼みます。サーバーを起動していないと、どの入力でも失敗したときの表示が出ます。そのときは、5-1 で教えてもらった起動のしかたで起動します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">契約・支払い登録で止まる</h3>
         <p class="pitfall__what">この回の作業に入れません。</p>
         <p class="pitfall__how"><strong>対処：</strong>契約〜キーの発行は LIVE講義の前に済ませておきます。詰まったらスクショ（キーは伏せる）を撮って AI に聞く → ゼミ掲示板の順で。</p>
@@ -891,6 +951,12 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
         <h3 class="pitfall__title">localStorage に本番の記録を貯めてしまった</h3>
         <p class="pitfall__what">履歴削除で消える・スマホから見えません。</p>
         <p class="pitfall__how"><strong>対処：</strong>6-2 か 6-3 に移します。保存の処理が1つのファイルにまとまっていれば、直す場所は1つです。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">サーバーから開いたら、前に入れたデータが無い</h3>
+        <p class="pitfall__what">ダブルクリックで開いていたとき（アドレスが <code>file://</code>）と、サーバーから開いた画面（<code>http://localhost:3000</code> など）では、ブラウザの中のデータの置き場が別です（ポート番号まで含めて、アドレスの始まりごとに分かれます）。データを残す処理をまだ作っていない場合は、再読み込みで最初の状態に戻るのが正しい動きです。</p>
+        <p class="pitfall__how"><strong>対処：</strong>前のアドレスで残したデータは、消えたのではなく、前の置き場に残っています。06 で置き場を決めてから、サーバーから開いた画面で入れ直します（6-1 の注記）。</p>
       </div>
       <div class="pitfall">
         <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
@@ -951,9 +1017,14 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
           <tr><td><strong>自動リロード</strong></td><td>残高が少なくなると自動でクレジットを買い足す設定。入れると残高が上限の役目をしなくなる</td></tr>
           <tr><td><strong>Google Cloud のプロジェクト</strong></td><td>Google のサービスで、キー・使用量・請求をまとめる単位</td></tr>
           <tr><td><strong>ステータスコード</strong></td><td>API が答えと一緒に返す3桁の番号。401＝キーが違う、404＝見つからない、429＝回数や残高の上限</td></tr>
+          <tr><td><strong>動き</strong></td><td>操作（押す・入れる）を受け取って、画面の中身を書き換える仕組み。画面側の JavaScript で作る</td></tr>
+          <tr><td><strong>動きの一覧（docs/actions.md）</strong></td><td>画面に付ける動きを1行に1つずつ並べた表。状態は「まだ」「作った」「あとで」、確かめる手順は「確かめ方」の欄にある</td></tr>
+          <tr><td><strong>仮の文章</strong></td><td>本物の AI の代わりに返す、決まった文章。AI につなぐ前に、押す → 待つ → 出るの流れを確かめるのに使う</td></tr>
           <tr><td><strong>モック</strong></td><td>見た目だけを作った画面。動きや保存の仕組みは入っていない</td></tr>
           <tr><td><strong>Node.js</strong></td><td>JavaScript をブラウザの外（PC の上）で動かすための土台のソフト。サーバー側のプログラムを動かすのに使う</td></tr>
           <tr><td><strong>localhost</strong></td><td>自分の PC 自身を指す名前。<code>http://localhost:3000</code> は自分の PC の中で動いているサーバーの 3000 番の入口を表す</td></tr>
+          <tr><td><strong>コンソール</strong></td><td>開発者ツールの中の、JavaScript のエラーや記録が文字で出る欄。止まった理由が赤い文字で出る</td></tr>
+          <tr><td><strong>関数</strong></td><td>ひとまとまりの処理に名前を付けたもの。名前と、受け取るもの・返すものの形が同じなら、中身を差し替えても呼ぶ側は直さずに済む</td></tr>
           <tr><td><strong>公式のライブラリ</strong></td><td>各サービスが配布している、API を呼ぶためのプログラムの部品</td></tr>
           <tr><td><strong>待機中の表示</strong></td><td>処理が終わるまで進行中であることを画面に出すこと</td></tr>
           <tr><td><strong>ターミナル</strong></td><td>文字で PC に命令する画面。起動したサーバーのメッセージやエラーが出る</td></tr>
