@@ -45,7 +45,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <ul class="hero__facts">
         <li>テストコードを書くのは Claude Code。あなたは「流す」と「読む」</li>
         <li>直すのはテストではなく、アプリ本体</li>
-        <li>成果物：テストコード一式＋実行結果＋README の実行コマンド</li>
+        <li>成果物：テストコード一式と結果＋UI・敵対的テストの記録＋README・CLAUDE.md</li>
         <li>テストを流す節目は、自分で決める</li>
       </ul>
     </div>
@@ -164,11 +164,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <strong>テストコードを書けるようになる必要はありません。</strong>書くのは Claude Code です。ご自身に要るのは ① 流せること ② 落ちたときに、<strong>どのテストが落ちたのかを読める</strong>こと、の2つだけ。
       <span class="why">なぜそれで足りるのか：</span>あとで効くのは、テストを書く力ではなく、<strong>直したあとに前と同じ確認をもう一度流す習慣</strong>だからです。読めれば、次の指示（「このテストが落ちたので実装を直して」）が書けます。
     </div>
-    <p><strong>流し方：</strong>テストを流す命令は、使っている技術で決まります。Claude Code に書かせたあと、「テストを流すコマンドを1行で教えて」と聞けば返ってきます。Node.js を使っている場合は <code>npm test</code> になることが多いです（目安。構成によって変わります）。ターミナルに打つか、Claude Code に「テストを流して」と頼めば流れます。</p>
+    <p><strong>流し方：</strong>テストを流す命令は、使っている技術で決まります。Claude Code に書かせたあと、「テストを流すコマンドを1行で教えて」と聞けば返ってきます。Node.js を使っている場合は <code>npm test</code> になることが多いです（目安。構成によって変わります）。ターミナルに打つか、Claude Code に「テストを流して」と頼めば流れます。例のアプリでは最初は <code>node --test</code> で流し、README を整えたときに <code>npm test</code> で流せるようにしました。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
-        <dt>期待／結果</dt><dd>期待＝テストが「こうなるはず」と決めている値。結果＝実際にアプリが返した値。落ちたテストは、この2つが違っていたということです。</dd>
+        <dt>期待／結果</dt><dd>期待＝テストが「こうなるはず」と決めている値。結果＝実際にアプリが返した値。落ちたテストは、この2つが違っていたということです。英語の結果では expected（期待）／actual（結果）、落ちた行には not ok と出ます。</dd>
         <dt>npm test</dt><dd>Node.js のプロジェクトで、テストを流すときによく使う命令。何が流れるかはプロジェクトの設定で決まります。</dd>
         <dt>ターミナル</dt><dd>文字で PC に命令する画面。Mac は「ターミナル」、Windows は「ターミナル」や「PowerShell」という名前で入っています。</dd>
       </dl>
@@ -190,7 +190,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li>仕様書の「やらないこと」は、テストの対象外の根拠になります。コードを元にすると、AI が勝手に足した機能までテストされます</li>
     </ul>
     <figure class="figure figure--diagram">
-      <img src="../../assets/images/lesson05/diagram_test_loop.svg" alt="テストのまわし方。①仕様書 docs/spec.md → ②テストコード（仕様書の写し・書くのは Claude Code）→ ③全部流す（通った／落ちた）→ 全部通れば次の機能へ。落ちたら ④実装側（アプリ本体）を直す。テストは書き換えない・ゆるめない・飛ばさない。直したら③に戻って全部をもう一度流す。仕様書が古いときだけ、先に仕様書を直す" loading="lazy">
+      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson05/diagram_test_loop_sp.svg"><img src="../../assets/images/lesson05/diagram_test_loop.svg" alt="テストのまわし方。①仕様書 docs/spec.md → ②テストコード（仕様書の写し・書くのは Claude Code）→ ③全部流す（通った／落ちた）→ 全部通れば次の機能へ。落ちたら ④実装側（アプリ本体）を直す。テストは書き換えない・ゆるめない・飛ばさない。直したら③に戻って全部をもう一度流す。仕様書が古いときだけ、先に仕様書を直す" loading="lazy"></picture>
       <figcaption>テストのまわし方。仕様書 → テストコード → 流す → 落ちたら実装側を直して、また全部流す。テストのほうを書き換えて通す、はしません</figcaption>
     </figure>
 
@@ -205,20 +205,22 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - テストの名前は、何を確かめているのか日本語で分かるようにしてください
 - テスト用のデータは、実際に使っているデータと混ざらない場所に置いてください
 - アプリ本体のコードは書き換えないでください。今回作るのはテストのファイルだけです
+- AI のサービスは、テストの中では本物を呼ばず、決まった文章を返す形に差し替えてください（流すたびに料金がかかるため）
 
 ■ 先に見せてほしいこと
 テストのファイルを書く前に、「どのテストを作るか」の一覧を、仕様書のどの行に対応するかを添えて出してください。
 一覧を私が確認してから、ファイルを書いてください。</pre>
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_prompt1_typed.png" alt="指示①を入力欄に貼った状態" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
-      <figcaption>指示①を貼ったところ（例：食費メモ）。入力欄の上に「ローカル」と自分のフォルダ名（my-app）が出ていること、入力欄の下の権限モードが「手動」になっていることを見てから送ります</figcaption>
+      <figcaption>指示①を貼ったところ（例：食費メモ）。入力欄の上に「ローカル」と自分のフォルダ名（my-app）が出ていること、入力欄の下の権限モードが「手動」になっていることを見てから送ります。撮影時の指示には、最後の「AI のサービスは〜」の行はまだ入っていません</figcaption>
     </figure>
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_test_list.png" alt="返ってきたテストの一覧。番号・テスト名・仕様書の該当行が表になっている" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
-      <figcaption>返ってきた一覧（例：食費メモ）。テストごとに、仕様書のどの行に対応するか（spec.md:22 など）が添えられています。この時点ではファイルはまだ書かれていません</figcaption>
+      <figcaption>返ってきた一覧の冒頭（例：食費メモ）。使う道具・テスト用データの置き場・本体を書き換えないことを先に述べてから、22件の一覧が続きます</figcaption>
     </figure>
     <p><span class="why">なぜ一覧を先に出させるのか：</span>いきなりファイルを書かせると、何十行ものプログラムを渡されて、読めずに通してしまいます。一覧なら日本語なので、仕様書と見比べて「抜けている」「やらないことが混ざっている」とご自身で判断できます。</p>
     <p><span class="why">なぜ「アプリ本体を書き換えない」と書くのか：</span>テストを書くついでに、通りやすいようにアプリ側も直されることがあります。この段階で本体が変わると、そのあとテストが落ちたときに「もともと壊れていた」のか「いま書き換えられて壊れた」のかが分からなくなります。</p>
+    <p><span class="why">なぜ AI のサービスを差し替えさせるのか：</span>テストは何十回も流すので、そのたびに AI を呼ぶと、その回数分の請求が来ます。AI の機能を使っていないアプリでも、この行は残したまま貼って構いません。</p>
 
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_test_question.png" alt="一覧の最後で、画面の確認をどこまでテストにするかを AI が質問している" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
@@ -226,11 +228,15 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </figure>
     <h3 class="sub">返ってきた一覧の見方</h3>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h3 class="steps__title">仕様書の「やること（MVP）」の各行に、対応するテストがあるか</h3><p class="steps__desc">無い行があれば「〜のテストも足してください」と頼みます。</p></div></li>
-      <li><span class="steps__n">2</span><div><h3 class="steps__title">「やらないこと」の機能が混ざっていないか</h3><p class="steps__desc">混ざっていれば「〜はやらないことなので、そのテストは消してください」と頼みます。</p></div></li>
-      <li><span class="steps__n">3</span><div><h3 class="steps__title">「扱うデータ」の必須の項目に、空のまま保存できないことを確かめるテストがあるか</h3><p class="steps__desc">必須の項目が空でも保存できてしまう不具合は、いちばんよく起きます。</p></div></li>
-      <li><span class="steps__n">4</span><div><h3 class="steps__title">納得したら「この一覧でファイルを書いてください」と送る</h3><p class="steps__desc">書き込みの確認画面では、ファイルの場所がテスト用のファイル（<code>test</code> や <code>tests</code> と付いたフォルダやファイル名）であることを見てから「一度だけ許可」を押します。<span class="why">なぜ：</span>場所が <code>app/</code> の中なら、アプリ本体を書き換えようとしています。「拒否」して、指示の「アプリ本体は書き換えない」をもう一度伝えます。確認画面が出ないまま書き込まれたときは、次の指示を送る前に、入力欄の下の権限モードと、前に「常に許可」を選んでいないかを見ます（2026年9月24日時点では、新しいセッションが「オート」か「編集を受け入れる」で始まることがあり、手動でも、前に「常に許可」を選んだ操作は確認なしで進みます）。モードが違っていたら「手動」にし、「いま書いたファイルの一覧を出してください」と頼んで、場所を確かめます。</p></div></li>
+      <li><span class="steps__n">1</span><div><h4 class="steps__title">仕様書の「やること（MVP）」の各行に、対応するテストがあるか</h4><p class="steps__desc">無い行があれば「〜のテストも足してください」と頼みます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h4 class="steps__title">「やらないこと」の機能が混ざっていないか</h4><p class="steps__desc">混ざっていれば「〜はやらないことなので、そのテストは消してください」と頼みます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h4 class="steps__title">「扱うデータ」の必須の項目に、空のまま保存できないことを確かめるテストがあるか</h4><p class="steps__desc">必須の項目が空でも保存できてしまう不具合は、いちばんよく起きます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h4 class="steps__title">納得したら「この一覧でファイルを書いてください」と送る</h4><p class="steps__desc">書き込みの確認画面では、ファイルの場所がテスト用のファイル（<code>test</code> や <code>tests</code> と付いたフォルダやファイル名）であることを見てから「一度だけ許可」を押します。<span class="why">なぜ：</span>場所が <code>app/</code> の中なら、アプリ本体を書き換えようとしています。「拒否」して、指示の「アプリ本体は書き換えない」をもう一度伝えます。確認画面が出ないまま書き込まれたときは、次の指示を送る前に、入力欄の下の権限モードと、前に「常に許可」を選んでいないかを見ます（2026年10月3日時点では、デスクトップアプリは前にそのフォルダで選んだモードを覚えていて、次のセッションもそのモードで始まります。ターミナル版は、何も設定していなければ「オート」で始まります。手動でも、前に「常に許可」を選んだ操作は確認なしで進みます。最新は <a href="https://code.claude.com/docs/ja/permission-modes" target="_blank" rel="noopener">Claude Code の公式ドキュメント（権限モード）</a>でご確認ください）。モードが違っていたら「手動」にし、「いま書いたファイルの一覧を出してください」と頼んで、場所を確かめます。</p></div></li>
     </ol>
+    <figure class="figure">
+      <img src="../../assets/images/lesson05/r5_app_test_command.png" alt="テストのファイルを書き終えたあとの報告。テストを流すコマンド node --test と、作ったファイル（tests/ の中）の表" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
+      <figcaption>書き終えたあとの報告（例：食費メモ）。作ったファイルがすべて <code>tests/</code> の中にあること、アプリ本体（<code>server.js</code>・<code>app/</code>）と記録のファイルを変えていないと書いてあることを見ます。テストを流すコマンド（<code>node --test</code>）もここで返ってきます。入力欄の左下が「編集を受け入れる」になっているのは撮影時の設定です。ご自身では「手動」のまま進めてください</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -243,7 +249,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </p>
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_test_fail.png" alt="初めてテストを流した結果。26件中19件成功、7件失敗。落ちた原因が2つにまとめられている" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
-      <figcaption>初めて流した結果（例：食費メモ）。26件中7件が落ち、原因は「一覧の並びが逆」「金額が空でも保存される」の2つでした。テストの元が仕様書なので、いまのコードとのずれがそのまま出てきます</figcaption>
+      <figcaption>初めて流した結果（例：食費メモ）。26件中7件が落ち、原因は「一覧の並びが逆」「金額が空でも保存される」の2つでした。テストの元が仕様書なので、いまのコードとのずれがそのまま出てきます。この撮影では途中から権限モードが「編集を受け入れる」（入力欄の左下）になっていて、テストのファイルは確認なしで書かれました。ご自身では「手動」のまま進めてください</figcaption>
     </figure>
     <div class="note note--key">
       <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
@@ -307,7 +313,19 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       テストコードが通ったら、<strong>画面を実際に操作して</strong>確かめます。Claude Code にブラウザを操作させます（Claude デスクトップアプリに内蔵されているブラウザを使うので、追加で入れるものはありません）。Claude Code はブラウザを開き、入力欄に文字を打ち、ボタンを押し、画面に何が出たかを読んで報告します。
     </p>
     <p><span class="why">なぜテストコードのあとに UI テストなのか：</span>テストコードで「データの処理は仕様どおり」と分かったあとなら、UI テストで見つかる不具合は<strong>画面側に絞られます</strong>。先に UI テストをすると、落ちたときに画面の問題かデータの問題かが分かりません。</p>
-<pre class="prompt" data-label="指示④（UIテスト）― 手順を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">ブラウザで http://localhost:3000 を開いて、次の順で操作し、
+    <p><strong>頼む前に：</strong><code>server.js</code> などサーバー側を直したあとは、サーバーを止めて起動し直してから UI テストを頼みます。<span class="why">なぜ：</span>サーバーは起動したときのコードで動き続けるので、直した内容は起動し直すまで画面に出ません。</p>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_warning_sign.png" alt="">
+      <strong>操作を任せるときの握り（3つ）</strong><br>
+      ① 操作させるのは<strong>自分の PC で動かしている開発中のアプリだけ</strong>。仕事で使っているサービスの画面は触らせない<br>
+      ② <strong>テスト用のデータで動かす。</strong>実際の記録が入っている状態で削除の確認をさせない<br>
+      ③ 削除の操作を任せる前に、消えても困らない状態か確かめる<br>
+      <span class="why">なぜここまで握るのか：</span>画面の操作は、確認のつもりでも<strong>実際にデータを消す操作</strong>になります。人が押すときは手が止まりますが、任せた場合は止まりません。下の指示④の1行目（記録の退避と復元）は、②と③を Claude Code に守らせるための行です。
+    </div>
+<pre class="prompt" data-label="指示④（UIテスト）― 手順を自分のアプリに合わせて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">始める前に、いまの記録をコピーして退避し、終わったら元に戻してください。
+
+ブラウザで http://localhost:3000 を開いて、次の順で操作し、
 各段階で画面のスクリーンショットを撮ってください。
 
 1. 記録を1件登録する
@@ -335,7 +353,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_ui_done.png" alt="6手順が終わった報告。スマホ幅で一覧の表が崩れることを見つけたが、仕様書で対象外と決めているので直していない" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
-      <figcaption>6手順が終わった報告。スマホ幅で一覧の表が崩れることを見つけましたが、仕様書に「スマホ向けの表示は今回は作らない」とあるので「指示がないので直していません」と止まっています。退避していた記録も元に戻してあります</figcaption>
+      <figcaption>6手順が終わった報告。スマホ幅で一覧の表が崩れることを見つけましたが、仕様書に「スマホ向けの表示は今回は作らない」とあるので「指示がないので直していません」と止まっています。退避していた記録も元に戻してあります。Claude Code が別の番号（localhost:65416 など）で起動し直して確かめることもあります</figcaption>
     </figure>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -343,15 +361,6 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <dt>http://localhost:3000</dt><dd>自分の PC の中で動いているアプリを、ブラウザで開くときの住所。番号（3000）は構成によって変わります。ターミナルに出ている住所を使ってください。</dd>
         <dt>開発者ツール</dt><dd>ブラウザに最初から付いている、画面のエラーや通信の記録を見る機能。コンソールは、その中の、画面側のエラーが文字で出る欄です。</dd>
       </dl>
-    </div>
-    <div class="note note--warn">
-      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
-      <img class="note__mascot" src="../../assets/penguins/penguin_warning_sign.png" alt="">
-      <strong>操作を任せるときの握り（3つ）</strong><br>
-      ① 操作させるのは<strong>自分の PC で動かしている開発中のアプリだけ</strong>。仕事で使っているサービスの画面は触らせない<br>
-      ② <strong>テスト用のデータで動かす。</strong>実際の記録が入っている状態で削除の確認をさせない<br>
-      ③ 削除の操作を任せる前に、消えても困らない状態か確かめる<br>
-      <span class="why">なぜここまで握るのか：</span>画面の操作は、確認のつもりでも<strong>実際にデータを消す操作</strong>になります。人が押すときは手が止まりますが、任せた場合は止まりません。
     </div>
   </div>
 </section>
@@ -383,7 +392,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
           <tr><td><strong>大量</strong></td><td>数百件を入れた状態で開く</td><td>表示が返ってこない</td></tr>
           <tr><td><strong>連打</strong></td><td>送信ボタンを続けて押す</td><td>二重に登録される。AI 機能があれば二重に費用がかかる</td></tr>
           <tr><td><strong>途中で中断</strong></td><td>保存の途中で再読み込みする・戻る</td><td>途中のデータが残る／消える</td></tr>
-          <tr><td><strong>わざと失敗させる</strong></td><td>保存先を一時的に読めなくする／外部サービスの接続を一時的に誤った値にする</td><td>何も表示されないまま止まる</td></tr>
+          <tr><td><strong>わざと失敗させる</strong></td><td>保存先を一時的に読めなくする／（テストの中で）外部サービスに誤ったキーを渡す。<code>.env</code> は書き換えさせない</td><td>何も表示されないまま止まる</td></tr>
         </tbody>
       </table>
     </div>
@@ -399,7 +408,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
    - 画面の操作に関わるものは、ブラウザを実際に操作する
 3. 落ちたもの・想定と違う結果になったものは、直す前に次を報告してください。
    何をしたか／何が起きたか／画面側・通信・サーバー側・保存のどこで止まっていたか
-4. 報告するまで修正はしないでください。</pre>
+4. 報告するまで修正はしないでください。
+
+■ 守ること
+- 実際の記録（data/ など）は使わず、テスト用の置き場で試してください。サーバーを止める・ファイルを壊す操作は、実行の前に何をするかを書いて、私の確認を取ってください
+- .env の中身は読まない・書き換えないでください。接続の失敗は、テストの中で偽の値を渡して試してください
+- AI のサービスは、テストの中では本物を呼ばず、決まった文章を返す形に差し替えてください（流すたびに料金がかかるため）</pre>
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_adv_list.png" alt="返ってきた候補の一覧。観点ごとに ID・何をするか・手段（テストかブラウザか）・気になることの表" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
       <figcaption>返ってきた候補の一覧（例：食費メモ）。観点ごとに、ID・何をするか・手段（テストコードかブラウザか）・気になることが表になっています。「この時点では何も実行していません」と断っています</figcaption>
@@ -410,18 +424,28 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </figure>
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_adv_permission.png" alt="壊しにいくテストを実行する前の確認画面。「一度だけ許可」ボタンがある" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
-      <figcaption>実行する前の確認画面。何を実行しようとしているか（コマンド）を見てから「一度だけ許可」を押します。分からないものは通しません</figcaption>
+      <figcaption>実行する前の確認画面。見るのは2点です。先頭が <code>node --test</code> で、流すファイルが <code>tests/</code> の中にあること。<code>rm</code>（削除）や <code>data/</code>・<code>.env</code> が入っていたら「拒否」します</figcaption>
     </figure>
     <p><span class="why">なぜ一覧を先に出させて、人が選ぶのか：</span>全部いっぺんに実行させると、直しきれない量の不具合が一度に出てきて手が止まります。承認なしに大量投入や削除まで走ると、保存先のデータが元に戻せなくなります。</p>
     <p><span class="why">なぜテストコードとブラウザ操作を分けるのか：</span>数百件の投入や連打は、ブラウザで1回ずつ操作すると終わりません。テストコードなら数秒で流せます。逆に「表示が崩れる」「押しても反応しない」はブラウザで見ないと分かりません。<strong>観点ごとに向いている手段が違います。</strong></p>
     <p><span class="why">なぜここでも「報告するまで修正しない」と書くのか：</span>先に直されると、何が起きていたのかが分からないまま消えます。報告があれば、直したあとにそのテストを<strong>テストコードに足して</strong>、同じ不具合が再発しないようにできます。</p>
+    <p><span class="why">なぜ実際の記録を使わせず、壊す操作の前に確認を取らせるのか：</span>敵対的テストは、大量に入れる・消す・保存ファイルを壊す、を実際に行います。実際の記録の上で試すと、退避や復元が1回でも漏れたときに記録が戻りません。</p>
+    <p><span class="why">なぜ <code>.env</code> を読ませず、偽の値で試させるのか：</span><code>.env</code> には API キーなどの鍵が入っています。中身を読ませると、鍵が Claude Code とのやり取りに出てしまいます。書き換えさせると、テストのあとで本物の接続が動かなくなります。接続に失敗したときの動きは、テストの中で偽のキーを渡せば確かめられます。</p>
+    <p><span class="why">なぜ AI のサービスを差し替えさせるのか：</span>連打や大量の入力を試すたびに本物の AI を呼ぶと、その回数分の請求が来ます。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>API キー</dt><dd>外部のサービス（AI のサービスなど）を自分のアプリから呼ぶときに、誰が呼んでいるかを示す鍵。使った分の料金は、このキーの持ち主に請求されます。</dd>
+        <dt>.env</dt><dd>API キーなどの鍵を書いておく、アプリのフォルダの中のファイル。アプリは起動するときにここから鍵を読みます。</dd>
+      </dl>
+    </div>
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_adv_result.png" alt="壊れたものの報告。コンソールの内容、通信の記録、どこで止まっていたか、まだ直していないという断り" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
       <figcaption>壊れたものの報告（例：サーバーを止めた状態で保存を押す）。コンソールの内容・通信の記録・どこで止まっていたか（画面側の app.js:32）が出て、「直す指示はまだいただいていないので、コードには手を付けていません」と止まっています</figcaption>
     </figure>
     <figure class="figure">
       <img src="../../assets/images/lesson05/r5_app_adv_fixed.png" alt="直したあと、見つかった壊し方をふだんのテストに足した表と、直す前／直した後の比較" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月">
-      <figcaption>直したあとの報告。見つかった壊し方（保存ファイルが壊れているとき・実在しない日付など）がふだんのテストに足され、直す前／直した後の動きが比べられています</figcaption>
+      <figcaption>直したあとの報告。見つかった壊し方（保存ファイルが壊れているとき・実在しない日付など）がふだんのテストに足され、直す前／直した後の動きが比べられています。この例では Claude Code が退避してから本物の保存ファイルを壊していました。指示⑤の「■ 守ること」の1行目があれば、テスト用の置き場で試させられます</figcaption>
     </figure>
     <div class="note note--key">
       <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
@@ -464,7 +488,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong>数日空けて作業を再開する</strong></dt>
         <dd class="explain-list__value"><span class="explain-list__label">流すか</span>最初に全部流す</dd>
-        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>前回どこまで動いていたかを、記憶ではなく結果で確かめます。落ちていれば、前回の最後の変更が原因です</dd>
+        <dd class="explain-list__reason"><span class="explain-list__label">なぜ</span>前に作業を終えたときどこまで動いていたかを、記憶ではなく結果で確かめます。落ちていれば、最後に作業したときの変更が原因です</dd>
       </div>
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong>人に見せる・使ってもらう前</strong></dt>
@@ -522,12 +546,15 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <ul>
       <li><span class="why">なぜ実行方法を README に書かせるのか：</span>数週間後には、どう流すのかご自身で分からなくなります。<strong>思い出せない手順は使われません。</strong></li>
       <li><span class="why">なぜテスト用のデータを分けさせるのか：</span>同じ保存先を使うと、テストを流すたびにご自身の記録が消えます。<strong>1回消えた時点で、テストを流さなくなります。</strong></li>
+      <li>保存先をインターネット上のデータベースにしている場合は、指示⑥に「テストでは本物のデータベースにつながず、手元の SQLite ファイル（<code>tests/tmp/</code> など）を使ってください」と足します。<span class="why">なぜ：</span>テストの削除が本物の記録を消し、接続のトークンも読ませることになるためです。</li>
       <li><span class="why">なぜ名前を日本語にさせるのか：</span>落ちたテストの名前が <code>test_case_12</code> では、何が壊れたのか分からず、Claude Code への指示も書けません。「金額が空のとき保存されない」なら、そのまま指示に貼れます。</li>
     </ul>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
         <dt>README</dt><dd>アプリのフォルダの直下に置く、使い方の説明ファイル。名前は「読んで」の意味で、<code>README.md</code> というファイル名にすることが多いです。</dd>
+        <dt>SQLite</dt><dd>データを1つのファイルにまとめて保存する仕組み。別のサーバーを用意せず、自分の PC のフォルダの中で使えます。</dd>
+        <dt>トークン（データベースの）</dt><dd>インターネット上のデータベースにつなぐための鍵。持っている人は、そのデータベースを読み書きできます。</dd>
       </dl>
     </div>
   </div>
@@ -562,7 +589,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </div>
     </div>
     <div class="note">
-      提出の前に、スクリーンショットとファイルに、名前・メールアドレス・業務の実データ・外部サービスの鍵（APIキー）が写っていないかを見てください。写っていたら、範囲を絞って撮り直すか、その部分を塗りつぶします。
+      提出の前に、スクリーンショットとファイルに、名前・メールアドレス・業務の実データ・外部サービスの鍵（APIキー・データベースのトークン）が写っていないかを見てください。写っていたら、まだどこにも貼っていなければ、範囲を絞って撮り直すか、その部分を塗りつぶします。一度でも掲示板・提出フォーム・共有の場所に出したキーは、貼り直すのではなく、管理画面でそのキーを無効化して作り直します。<span class="why">なぜ：</span>画像を消しても、それまでに見た人の手元にはキーが残るためです。
     </div>
   </div>
 </section>
@@ -680,6 +707,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
           <tr><td><strong>節目</strong></td><td>ここで一度テストを流す、と決めた区切り。基本は「タスクが1つ終わったとき」</td></tr>
           <tr><td><strong>CLAUDE.md</strong></td><td>アプリのフォルダに置く、Claude Code への決まりごとを書いたファイル。テストを流す節目をここに書く</td></tr>
           <tr><td><strong>README</strong></td><td>アプリのフォルダの直下に置く、使い方の説明ファイル。テストの実行コマンドをここに書く</td></tr>
+          <tr><td><strong>API キー／.env</strong></td><td>API キー＝外部のサービスを自分のアプリから呼ぶときの鍵。.env＝その鍵を書いておくアプリのフォルダの中のファイル。テストでは読ませず、書き換えさせない</td></tr>
+          <tr><td><strong>SQLite</strong></td><td>データを1つのファイルにまとめて保存する仕組み。テストでは本物のデータベースの代わりに使える</td></tr>
           <tr><td><strong>commmune</strong></td><td>DMM 生成AI CAMP の受講生向けコミュニティサイト</td></tr>
         </tbody>
       </table>

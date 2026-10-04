@@ -2,10 +2,10 @@
   <title id="title">API 連携の形：画面 → 自分のサーバー → AI のサービス</title>
   <desc id="desc">画面は自分のサーバーに要求を送り、サーバーが .env にある API キーを付けて AI のサービスを呼ぶ。画面から AI のサービスを直接呼ぶ形は取らない、という図。</desc>
   <defs>
-    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
       <path d="M0 0L10 5L0 10Z" fill="#4DA8FF"/>
     </marker>
-    <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+    <marker id="arrow-orange" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
       <path d="M0 0L10 5L0 10Z" fill="#FF8C42"/>
     </marker>
   </defs>
@@ -29,11 +29,11 @@
     <rect x="360" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2.5"/>
     <text x="480" y="132" font-size="20" font-weight="700" text-anchor="middle">自分のサーバー</text>
     <text x="480" y="154" font-size="14" fill="#5A6178" text-anchor="middle">自分の PC で動くプログラム</text>
-    <rect x="384" y="172" width="192" height="96" rx="12" fill="#FFF9F0" stroke="#FFE2C7" stroke-width="2"/>
+    <rect x="384" y="172" width="192" height="100" rx="12" fill="#FFF9F0" stroke="#FFE2C7" stroke-width="2"/>
     <text x="400" y="198" font-size="16" font-weight="700">.env</text>
     <text x="400" y="222" font-size="14" fill="#5A6178">ANTHROPIC_API_KEY=</text>
-    <rect x="400" y="232" width="150" height="16" rx="6" fill="#ECE9E4"/>
-    <text x="475" y="258" font-size="13" fill="#5A6178" text-anchor="middle">API キーはここにだけ置く</text>
+    <rect x="400" y="230" width="150" height="14" rx="6" fill="#ECE9E4"/>
+    <text x="400" y="263" font-size="13" fill="#5A6178" text-anchor="start">API キーはここにだけ置く</text>
 
     <!-- AI のサービス -->
     <rect x="684" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
@@ -49,22 +49,21 @@
     <text x="318" y="136" font-size="14" font-weight="700" text-anchor="middle">① 要求</text>
     <!-- 矢印：サーバー→AI -->
     <path d="M604 160H668" fill="none" stroke="#4DA8FF" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
-    <rect x="590" y="118" width="94" height="26" rx="13" fill="#4DA8FF" fill-opacity="0.12"/>
-    <text x="637" y="136" font-size="14" font-weight="700" text-anchor="middle">② キー付き</text>
+    <rect x="602" y="118" width="80" height="26" rx="13" fill="#4DA8FF" fill-opacity="0.12"/>
+    <text x="642" y="136" font-size="14" font-weight="700" text-anchor="middle">② キー付き</text>
     <!-- 矢印：AI→サーバー -->
     <path d="M668 236H604" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
-    <rect x="590" y="246" width="94" height="26" rx="13" fill="#FF8C42" fill-opacity="0.12"/>
-    <text x="637" y="264" font-size="14" font-weight="700" text-anchor="middle">③ 生成文</text>
+    <rect x="602" y="252" width="80" height="26" rx="13" fill="#FF8C42" fill-opacity="0.12"/>
+    <text x="642" y="270" font-size="14" font-weight="700" text-anchor="middle">③ 生成文</text>
     <!-- 矢印：サーバー→画面 -->
     <path d="M344 236H280" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
-    <rect x="278" y="246" width="80" height="26" rx="13" fill="#FF8C42" fill-opacity="0.12"/>
-    <text x="318" y="264" font-size="14" font-weight="700" text-anchor="middle">④ 表示</text>
+    <rect x="278" y="252" width="80" height="26" rx="13" fill="#FF8C42" fill-opacity="0.12"/>
+    <text x="318" y="270" font-size="14" font-weight="700" text-anchor="middle">④ 表示</text>
 
     <!-- やらない形 -->
     <path d="M156 300V352H804V300" fill="none" stroke="#E5484D" stroke-width="3" stroke-dasharray="9 7" stroke-linecap="round"/>
     <rect x="368" y="334" width="224" height="36" rx="18" fill="#FFFFFF" stroke="#E5484D" stroke-width="2"/>
-    <line x1="392" y1="352" x2="410" y2="352" stroke="#E5484D" stroke-width="3" stroke-linecap="round"/>
-    <line x1="401" y1="343" x2="401" y2="361" stroke="#E5484D" stroke-width="3" stroke-linecap="round" transform="rotate(45 401 352)"/>
+    <path d="M394 345L408 359M408 345L394 359" stroke="#E5484D" stroke-width="3" stroke-linecap="round"/>
     <text x="420" y="358" font-size="15" font-weight="700" fill="#E5484D">画面から直接呼ばない</text>
 
     <!-- 下の説明 -->

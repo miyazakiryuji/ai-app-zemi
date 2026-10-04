@@ -3,7 +3,7 @@
   <desc id="svg-desc">モックには画面だけがあり、完成したアプリには画面、動き、保存があることを左右で比較した図。モックで作った画面は完成したアプリにそのまま使う。</desc>
   <defs>
     <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
-      <path d="M0 0L10 5L0 10Z" fill="#C9CEDB"/>
+      <path d="M0 0L10 5L0 10Z" fill="#5A6178"/>
     </marker>
   </defs>
 
@@ -43,7 +43,7 @@
     <text id="app-line-2" x="608" y="444" font-size="18">データが残る</text>
 
     <text id="reuse-label" x="480" y="156" font-size="18" font-weight="700" fill="#5A6178" text-anchor="middle">そのまま使う</text>
-    <path id="reuse-arrow" d="M416 191H544" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="reuse-arrow" d="M416 191H544" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
 
     <rect id="benefit-box" x="24" y="486" width="912" height="42" rx="16" fill="#FFFFFF" stroke="#6FD49D" stroke-width="2"/>
     <circle id="benefit-point" cx="52" cy="507" r="6" fill="#6FD49D"/>

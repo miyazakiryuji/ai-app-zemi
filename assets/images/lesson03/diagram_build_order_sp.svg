@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 1192" role="img" aria-labelledby="title desc">
+  <title id="title">作る順番：見た目 → 動き → 裏側</title>
+  <desc id="desc">アプリは「見た目 → 動き → 裏側」の順に1段ずつ足して作る。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む（スマートフォン向けの縦長版）。</desc>
+  <defs>
+    <marker id="arrow-gray" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#5A6178"/>
+    </marker>
+  </defs>
+  <rect width="360" height="1192" fill="#FFF9F0"/>
+
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text x="16" y="40" font-size="22" font-weight="700">作る順番：</text>
+    <text x="16" y="70" font-size="22" font-weight="700">見た目 → 動き → 裏側</text>
+
+    <!-- ① 見た目（「この段で足すもの」は色の帯の中） -->
+    <rect x="16" y="92" width="328" height="208" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+    <rect x="32" y="108" width="296" height="104" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+    <text x="48" y="134" font-size="16" font-weight="700">この段で足すもの</text>
+    <text x="48" y="166" font-size="20" font-weight="700">① 見た目</text>
+    <rect x="250" y="144" width="62" height="32" rx="10" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="1.5"/>
+    <text x="281" y="166" font-size="16" font-weight="700" text-anchor="middle">モック</text>
+    <text x="48" y="198" font-size="17">HTML と CSS</text>
+    <text x="32" y="244" font-size="16" font-weight="700">確かめ方</text>
+    <text x="32" y="276" font-size="18">ブラウザで開いて、目で見る</text>
+
+    <path d="M180 310V346" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- ② 動き -->
+    <rect x="16" y="356" width="328" height="236" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <rect x="32" y="372" width="296" height="104" rx="14" fill="#FF8C42" fill-opacity="0.14"/>
+    <text x="48" y="398" font-size="16" font-weight="700">この段で足すもの</text>
+    <text x="48" y="430" font-size="20" font-weight="700">② 動き</text>
+    <text x="48" y="462" font-size="17">画面側の JavaScript</text>
+    <text x="32" y="508" font-size="16" font-weight="700">確かめ方</text>
+    <text x="32" y="540" font-size="18">ボタンを押して、</text>
+    <text x="32" y="568" font-size="18">画面が変わるかを見る</text>
+
+    <path d="M180 602V638" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- ③ 裏側 -->
+    <rect x="16" y="648" width="328" height="260" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="3"/>
+    <rect x="32" y="664" width="296" height="128" rx="14" fill="#6FD49D" fill-opacity="0.18"/>
+    <text x="48" y="690" font-size="16" font-weight="700">この段で足すもの</text>
+    <text x="48" y="722" font-size="20" font-weight="700">③ 裏側</text>
+    <text x="48" y="754" font-size="17">サーバー・保存・</text>
+    <text x="48" y="778" font-size="17">AI の呼び出し</text>
+    <text x="32" y="824" font-size="16" font-weight="700">確かめ方</text>
+    <text x="32" y="856" font-size="18">保存して開き直す・</text>
+    <text x="32" y="884" font-size="18">AI の返事が出るかを見る</text>
+
+    <!-- 1段ずつ足す -->
+    <rect x="16" y="936" width="328" height="110" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="2"/>
+    <circle cx="38" cy="966" r="13" fill="#6FD49D" fill-opacity="0.18" stroke="#6FD49D" stroke-width="2"/>
+    <path d="M32 966L36.5 970.5L44.5 961.5" fill="none" stroke="#2A2F45" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="60" y="972" font-size="17" font-weight="700">1段ずつ足す →</text>
+    <text x="60" y="998" font-size="17" font-weight="700">うまくいかないとき、</text>
+    <text x="60" y="1024" font-size="17" font-weight="700">先に調べるのは最後に足した1段</text>
+
+    <!-- 一度に全部作る -->
+    <rect x="16" y="1062" width="328" height="110" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2"/>
+    <path d="M38 1078L52 1104H24Z" fill="#FF8C42" fill-opacity="0.18" stroke="#FF8C42" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M38 1087V1095" fill="none" stroke="#2A2F45" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="38" cy="1100" r="1.5" fill="#2A2F45"/>
+    <text x="60" y="1098" font-size="17" font-weight="700">一度に全部作る →</text>
+    <text x="60" y="1124" font-size="17" font-weight="700">見た目・動き・裏側の</text>
+    <text x="60" y="1150" font-size="17" font-weight="700">どこが原因か分からない</text>
+  </g>
+</svg>

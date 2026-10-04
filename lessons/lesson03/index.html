@@ -105,7 +105,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><strong>残りの作業が数えられます。</strong>画面が1枚ずつ手元にあると、このあとの作業を「この画面のこのボタンに処理を足す」という形で、1つずつ数えられます</li>
     </ul>
     <figure class="figure figure--diagram">
-      <img src="../../assets/images/lesson03/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy">
+      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson03/diagram_build_order_sp.svg"><img src="../../assets/images/lesson03/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy"></picture>
       <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済みます</figcaption>
     </figure>
     <div class="note note--key">
@@ -114,7 +114,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       処理を足す段階で、「1件も無いときの案内」や「処理中の表示」のように、いまは出しようのない表示が増えることはあります。増えるのは足りなかった表示で、この回で決めた配置と見た目をやり直すわけではありません。
     </div>
     <figure class="figure figure--diagram">
-      <img src="../../assets/images/lesson03/diagram_mock.svg" alt="モックと完成したアプリの違い。モックには画面（HTML・CSS）だけがあり、完成したアプリには画面に加えて動き（JavaScript）と保存（サーバー・データ）がある。モックの画面はそのまま使う" loading="lazy">
+      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson03/diagram_mock_sp.svg"><img src="../../assets/images/lesson03/diagram_mock.svg" alt="モックと完成したアプリの違い。モックには画面（HTML・CSS）だけがあり、完成したアプリには画面に加えて動き（JavaScript）と保存（サーバー・データ）がある。モックの画面はそのまま使う" loading="lazy"></picture>
       <figcaption>モックと完成したアプリの違い。モックは画面だけで、完成したアプリはその画面に動きと保存が足されたものです。モックで作った画面はそのまま使います</figcaption>
     </figure>
 
@@ -122,12 +122,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p>このページの例は、記録型の「食費メモ」（画面2枚・一覧あり）です。変換型・相談型のアプリは、次のように読み替えてください。</p>
     <div class="table-wrap" tabindex="0" role="region" aria-label="記録型・変換型・相談型 の読み替えの表">
       <table class="tbl">
-        <thead><tr><th>記録型（入れて、ためて、見返す）。このページの例「食費メモ」</th><th>変換型（入れたものを別の形にして返す）</th><th>相談型（質問して、答えをもらう）</th></tr></thead>
+        <thead><tr><th>読み替えるところ</th><th>記録型（入れて、ためて、見返す）。このページの例「食費メモ」</th><th>変換型（入れたものを別の形にして返す）</th><th>相談型（質問して、答えをもらう）</th></tr></thead>
         <tbody>
-          <tr><td>一覧に仮のデータを3件入れる</td><td>入力欄に長めの仮の文章、結果の欄に短い文章（1行）と長い文章（400字ほど）を置く</td><td>やり取りの欄に、自分の発言と AI の返事を交互に3往復置く</td></tr>
-          <tr><td>画面1の「保存」を押しても何も起きない</td><td>「変換」「生成」を押しても、結果の欄は最初に置いた仮の文章のまま変わらない</td><td>「送信」を押しても、やり取りは最初に並べたまま増えない</td></tr>
-          <tr><td>「修正」→ 画面2 →「キャンセル」で戻れる</td><td>画面が2枚以上あるときだけ見る。1枚で完結するなら飛ばす</td><td>同じ</td></tr>
-          <tr><td>一覧：1行ごとに区切り線、金額は右揃え</td><td>結果の欄：読みやすい幅を保ち、長い文章でも行間を詰めない</td><td>やり取り：自分の発言と AI の返事を、位置や背景の色で見分けられるようにする</td></tr>
+          <tr><th scope="row">仮のデータ</th><td>一覧に仮のデータを3件入れる（1件は20文字以上のメモと大きい桁の金額）</td><td>入力欄に長めの仮の文章、結果の欄に短い文章（1行）と長い文章（400字ほど）を置く</td><td>やり取りの欄に、自分の発言と AI の返事を交互に3往復置く</td></tr>
+          <tr><th scope="row">押したときの<br>正しい状態</th><td>画面1の「保存」を押しても何も起きない</td><td>「変換」「生成」を押しても、結果の欄は最初に置いた仮の文章のまま変わらない</td><td>「送信」を押しても、やり取りは最初に並べたまま増えない</td></tr>
+          <tr><th scope="row">画面の移動</th><td>「修正」→ 画面2 →「キャンセル」で戻れる</td><td>画面が2枚以上あるときだけ見る（1枚で完結するなら飛ばす）</td><td>画面が2枚以上あるときだけ見る（1枚で完結するなら飛ばす）</td></tr>
+          <tr><th scope="row">テイストで<br>並ぶところ</th><td>一覧：1行ごとに区切り線、金額は右揃え</td><td>結果の欄：読みやすい幅を保ち、長い文章でも行間を詰めない</td><td>やり取り：自分の発言と AI の返事を、位置や背景の色で見分けられるようにする</td></tr>
         </tbody>
       </table>
     </div>
@@ -168,11 +168,13 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </dl>
     </div>
 
+    <h3 class="sub">アプリのフォルダを開く</h3>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<span class="why">なぜ：</span>前の会話と混ざりません。仕様書を作ったときの会話は、もう読ませなくて大丈夫です。仕様書はファイルとして残っているので、Claude Code はそれを読めます。</p></div></li>
-      <li><span class="steps__n">2</span><div><h3 class="steps__title">画面の下のフォルダ名のボタン → 「フォルダを開く…」→ <code>my-app</code> を選んで「開く」</h3><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。別のフォルダのままだと、そちらにファイルができます。</p></div></li>
-      <li><span class="steps__n">3</span><div><h3 class="steps__title">入力欄の近くに「ローカル」と <code>my-app</code> の2つが出ていれば開けています</h3><p class="steps__desc">「ローカル」は「この PC の中で動かす」という意味です。「クラウド」や「SSH」のような別の表示になっている場合は、押して「ローカル」に切り替えます。<span class="why">なぜ：</span>この PC の中のフォルダを扱うには、この PC の中で動かす設定になっている必要があります。</p></div></li>
-      <li><span class="steps__n">4</span><div><h3 class="steps__title">「このワークスペースを信頼しますか？」と出たら、場所を見てから「ワークスペースを信頼」</h3><p class="steps__desc">表示されたフォルダの場所が、ご自身の <code>my-app</code> であることを見てから押します。<span class="why">なぜ：</span>この確認は「そのフォルダの中のファイルを Claude Code が読み書きしてよいか」を聞いています。知らないフォルダなら押さないでください。</p></div></li>
+      <li><span class="steps__n">1</span><div><h4 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h4><p class="steps__desc"><span class="why">なぜ：</span><code>&lt;/&gt;</code> を押すと、ファイルを作れる Claude Code の画面に切り替わります。チャットの画面のままだと、フォルダを開けません。</p></div></li>
+      <li><span class="steps__n">2</span><div><h4 class="steps__title">左の一覧の上にある「＋ 新規」を押す</h4><p class="steps__desc"><span class="why">なぜ：</span>新しいセッションで始めると、前の会話と混ざりません。仕様書を作ったときの会話は、もう読ませなくて大丈夫です。仕様書はファイルとして残っているので、Claude Code はそれを読めます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h4 class="steps__title">画面の下のフォルダ名のボタン → 「フォルダを開く…」→ <code>my-app</code> を選んで「開く」</h4><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。別のフォルダのままだと、そちらにファイルができます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h4 class="steps__title">入力欄の近くに「ローカル」と <code>my-app</code> の2つが出ていれば開けています</h4><p class="steps__desc">「ローカル」は「この PC の中で動かす」という意味です。「クラウド」や「SSH」のような別の表示になっている場合は、押して「ローカル」に切り替えます。<span class="why">なぜ：</span>この PC の中のフォルダを扱うには、この PC の中で動かす設定になっている必要があります。</p></div></li>
+      <li><span class="steps__n">5</span><div><h4 class="steps__title">「このワークスペースを信頼しますか？」と出たら、場所を見てから「ワークスペースを信頼」</h4><p class="steps__desc">表示されたフォルダの場所が、ご自身の <code>my-app</code> であることを見てから押します。<span class="why">なぜ：</span>この確認は「そのフォルダの中のファイルを Claude Code が読み書きしてよいか」を聞いています。知らないフォルダなら押さないでください。</p></div></li>
     </ol>
     <figure class="figure figure--half">
       <img src="../../assets/images/lesson03/r3_app_trust.png" alt="「このワークスペースを信頼しますか？」の確認画面。フォルダの場所と「ワークスペースを信頼」ボタンがある" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
@@ -180,7 +182,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </figure>
 
     <h3 class="sub">権限モードを「手動」にする</h3>
-    <p>入力欄の下に、いまの権限モードの名前が出ています。ここを押すとモードの一覧が出るので、<strong>「手動」</strong> を選びます。2026年9月24日時点では、新しいセッションが「オート」か「編集を受け入れる」で始まることがあります（どちらになるかは人によって違います）。新しいセッションを開いたら、そのたびにここを見てください。</p>
+    <p>入力欄の下に、いまの権限モードの名前が出ています。ここを押すとモードの一覧が出るので、<strong>「手動」</strong> を選びます（Mac では <kbd>⇧⌘M</kbd>（Shift と Command と M を一緒に押す）でも一覧を開けます）。2026年10月3日時点では、新しいセッションは「オート」で始まることが多くなっています。一度「手動」を選ぶと、そのフォルダでは次からも「手動」で始まります。それでも、セッションを開いたら毎回ここを見てください。<span class="why">なぜ：</span>アプリの更新で、始まるときのモードが変わることがあるためです。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
@@ -190,11 +192,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
     <figure class="figure figure--half">
       <img src="../../assets/images/lesson03/r3_app_mode_menu.png" alt="入力欄の下のモード名を押すと出る一覧。自動・手動・編集を受け入れる・プラン・権限をバイパス" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
-      <figcaption>入力欄の下のモード名を押すと出る一覧。「手動」を選びます（この例ではすでに「手動」になっていて、✓ の印が付いています）。撮影時点の画面で、いちばん上の「自動」は、2026年9月24日時点では「オート」という名前です</figcaption>
+      <figcaption>入力欄の下のモード名を押すと出る一覧。「手動」を選びます（この例ではすでに「手動」になっていて、✓ の印が付いています）。撮影時点の画面で、いちばん上の「自動」は、2026年10月3日時点では「オート」という名前です。講師の環境では設定で許可してあるため「権限をバイパス」が出ていますが、初期の状態では出ません</figcaption>
     </figure>
     <div class="note note--warn">
       <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
-      <strong>「権限をバイパス」は、確認をすべて省く設定</strong>です（2026年9月24日時点では、設定で許可しない限り一覧に出てきません）。このゼミでは選びません。「オート」と「編集を受け入れる」も、ファイルの書き換えなどを確認なしで進めることがあるので、この回では選びません。
+      <strong>「権限をバイパス」は、確認をすべて省く設定</strong>です（2026年10月3日時点では、設定で許可しない限り一覧に出てきません）。このゼミでは選びません。「オート」と「編集を受け入れる」も、ファイルの書き換えなどを確認なしで進めることがあるので、この回では選びません。
     </div>
     <p><span class="why">なぜ「手動」にするのか：</span>この回は、Claude Code が実際にファイルを作る回です。「手動」なら、どのファイルに何を書こうとしているかを確認画面で見てから許可できます。「オート」や「編集を受け入れる」のままだと、頼んでいないファイルまで確認なしで作られたり書き換えられたりしても気づけません。</p>
     <p>確認画面は、作るファイルの数だけ出ます。画面が3枚なら、HTML 3つと <code>style.css</code> で4回以上出ます。<strong>回数が多いのは異常ではありません。</strong>途中で「常に許可」を選ばないでください。<span class="why">なぜ：</span>一度選ぶと、以後その種類の操作は確認なしで進みます。このあとに出てくる「頼んでいない作業の確認」も、出ないまま通ってしまいます。</p>
@@ -225,7 +227,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - 見た目の指定（CSS）は app/style.css にだけ書いてください。HTML の中に直接書き込まないでください
 - インターネットから読み込むもの（画像・アイコン・書体・部品の詰め合わせ）は使わないでください。画像が要る箇所は、枠と「画像」の文字だけで表してください
 - 作るのは app/ の中のファイルだけ。docs/ の中のファイルは読むだけで、書き換えないでください。すでに同じ名前のファイルがある場合は上書きせず、中身を見せて確認を待ってください
-- ブラウザでファイルを直接開けば表示できるようにしてください（サーバーは使わない）
+- ブラウザでファイルを直接開けば表示できるようにしてください（サーバーは使わない）。確認用のサーバー・設定ファイル（.claude/ など）は作らないでください
 - 仕様書の画面一覧に「〜を押すと〜へ」と書いてあるボタンは、その画面へ移るリンクにしてください。それ以外のボタン（一覧の「削除」など）は、押しても画面が切り替わったり読み込み直されたりしないようにしてください（入力欄の送信は起こさない）
 - 見た目を確かめるための仮のデータを入れてください。一覧があるアプリは一覧に3件ほど。そのうち1件は、文字が長いもの（20文字以上）と桁の大きい数字にしてください。一覧が無いアプリは、入力欄に長めの仮の文章を、結果の欄に短い文章（1行）と長い文章（400字ほど）を置いてください。やり取りが並ぶアプリは、自分の発言と AI の返事を交互に3往復置いてください
 - 仮のデータは架空のものにしてください。実在の人名・社名・メールアドレスは入れないでください
@@ -254,6 +256,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
           <tr><td><strong>インターネットから読み込むものは使わない</strong></td><td>通信が無いときに表示されず、崩れなのか、読み込みに失敗しただけなのか分からなくなります</td></tr>
           <tr><td><strong>作るのは app/ の中だけ。docs/ は書き換えない</strong></td><td>仕様書を書き換えられても気づけません。決めたことの正本は <code>docs/spec.md</code> に残しておきます</td></tr>
           <tr><td><strong>ブラウザで直接開ける</strong></td><td>サーバーも Node.js も要りません。ダブルクリックだけで確かめられます</td></tr>
+          <tr><td><strong>確認用のサーバー・設定ファイル（.claude/ など）は作らない</strong></td><td>Claude Code は、書き換えたあとに自分で見た目を確かめようとして、プレビュー用の設定ファイル <code>.claude/launch.json</code> を作ったり、サーバーを起動したりすることがあります。頼んでいないファイルや動いたままのプログラムが増えると、どれがこの回で作ったものか分からなくなります</td></tr>
           <tr><td><strong>「〜を押すと〜へ」のボタンだけはリンクで動かす</strong></td><td>画面が2枚以上あるとき、行き来できないと2枚目の見た目を確かめに行けません</td></tr>
           <tr><td><strong>それ以外のボタンは、押しても画面が切り替わらない</strong></td><td>HTML の入力欄のまとまりは、ボタンを押すと内容を送って画面を読み込み直す動きが最初から付いています。止めておかないと「押したら画面が変わった」が崩れなのか未完成なのか分からなくなります</td></tr>
           <tr><td><strong>仮のデータを入れる。長い文字・大きい桁・長い文章も混ぜる</strong></td><td>欄が空だと、行の見た目・区切り・文字の揃え方が確かめられません。全部が短いデータだと、どの行も1行に収まって当たり前に見えます。本物の記録には長いメモが混じり、AI の返事は数百字になることもあるので、先に混ぜておくと、幅を変える前から崩れが見つかります</td></tr>
@@ -373,7 +376,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <strong>崩れが無くなったら、ここで画面ごとに1枚ずつスクリーンショットを撮っておいてください。</strong>ブラッシュアップの「前」の画面として、この回の提出物になります。テイストを当てると <code>style.css</code> の中身はほぼ全部が書き換わるので、撮るのはこのタイミングしかありません。
     </div>
     <figure class="figure figure--diagram">
-      <img src="../../assets/images/lesson03/diagram_brushup.svg" alt="ブラッシュアップの順番。①崩れを直す（はみ出し・重なり・ずれ、画面の幅を変えて見る）②テイストを決める（色・文字・余白・角の丸み、方向性を言葉で伝える）③細部を直す（1回の指示で1箇所、スクショを貼って伝える）" loading="lazy">
+      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson03/diagram_brushup_sp.svg"><img src="../../assets/images/lesson03/diagram_brushup.svg" alt="ブラッシュアップの順番。①崩れを直す（はみ出し・重なり・ずれ、画面の幅を変えて見る）②テイストを決める（色・文字・余白・角の丸み、方向性を言葉で伝える）③細部を直す（1回の指示で1箇所、スクショを貼って伝える）" loading="lazy"></picture>
       <figcaption>ブラッシュアップの順番。①崩れを直す ②テイストを決める ③細部を直す。逆にすると、細部を直したあとで全体が動いてやり直しになります</figcaption>
     </figure>
   </div>
@@ -459,11 +462,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p>送ると <code>style.css</code> の書き込みの確認画面が出ます。場所が <code>my-app/app/style.css</code> であること、中身が色や文字の指定であることを見てから「一度だけ許可」を押します。</p>
 
     <div class="figures figures--2">
-      <figure class="figure">
+      <figure class="figure figure--tall">
         <img src="../../assets/images/lesson03/r3_app_prompt2_typed.png" alt="指示②を入力欄に貼った状態" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>指示②を貼ったところ。同じセッションで続けて送ります</figcaption>
       </figure>
-      <figure class="figure">
+      <figure class="figure figure--tall">
         <img src="../../assets/images/lesson03/r3_app_prompt2_permission.png" alt="style.css の書き込みを許可するかの確認画面。場所と、書こうとしている中身が見える" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>style.css の書き込みの確認。場所が my-app/app/style.css であること、中身が色や文字の指定であることを見て「一度だけ許可」</figcaption>
       </figure>
@@ -475,13 +478,14 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <strong>頼んでいない作業は断ってください。</strong>この例では、<code>style.css</code> を書いたあとに Claude Code が、英語で <code>Create preview copies with inlined CSS</code>（プレビュー用のコピーを作る）と書かれたコマンドの実行を求めてきました。指示に無い作業なので <strong>「拒否」</strong> を押しています。拒否しても、頼んだ <code>style.css</code> の変更はそのまま残ります。
       <span class="why">なぜ断るのか：</span>頼んでいないファイルが増えると、どれが本物か分からなくなります。何をするコマンドか読んで分からないものは、通しません。
       このほか、Claude Code が自分で見た目を確かめようとして、<strong>ブラウザを起動するコマンド</strong>（<code>Google Chrome</code> を含む長い1行や、<code>--screenshot</code> を含むもの）の許可を求めてくることもあります。これも頼んでいないので「拒否」で構いません。見た目はご自身のブラウザで確かめます。拒否すると返答に「ブラウザでの表示は確認できていません」と書かれることがありますが、<code>style.css</code> の変更は残っています。
+      <code>.claude/launch.json</code>（Claude Code がプレビュー用のサーバーの起動のしかたを書いておく設定ファイル）を作る確認や、プレビュー用のサーバーを起動するコマンド（<code>python3 -m http.server</code>、<code>npx serve</code> など）が出ることもあります。どれも頼んでいないので「拒否」で構いません。<span class="why">なぜ：</span>この回のモックは、ファイルをダブルクリックするだけでブラウザに出せるので、サーバーも設定ファイルも要りません。
     </div>
     <div class="figures figures--2">
-      <figure class="figure">
+      <figure class="figure figure--tall">
         <img src="../../assets/images/lesson03/r3_app_prompt2_unrequested.png" alt="頼んでいないコマンドの実行を許可するかの確認画面" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>頼んでいないコマンドの確認画面。「Create preview copies with inlined CSS（プレビュー用のコピーを作る）」とありますが、指示していないので「拒否」</figcaption>
       </figure>
-      <figure class="figure">
+      <figure class="figure figure--tall">
         <img src="../../assets/images/lesson03/r3_app_prompt2_done.png" alt="テイストを当てたあとの返答。HTML は触らず style.css だけ書き換えた、とある" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>テイストを当てたあとの返答。「HTML は触らず、style.css だけ書き換えます」とあります。頼んでいないコマンドは「1件失敗」として残りますが、style.css の変更はできています</figcaption>
       </figure>
@@ -529,11 +533,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p>指示③のあとに、頼んだ1点のほかの提案（ファイルの整理、コピーの作成など）が付いてくることがあります。<strong>頼んでいないものは「拒否」を押します。</strong>拒否しても、頼んだ1点の変更はそのまま残ります。</p>
 
     <div class="figures figures--2">
-      <figure class="figure">
+      <figure class="figure figure--tall">
         <img src="../../assets/images/lesson03/r3_app_prompt3_typed.png" alt="指示③を入力欄に貼った状態" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>指示③を貼ったところ。直すのは1点だけです</figcaption>
       </figure>
-      <figure class="figure">
+      <figure class="figure figure--tall">
         <img src="../../assets/images/lesson03/r3_app_prompt3_permission.png" alt="style.css の書き込みの確認画面。変わる行だけが表示されている" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月">
         <figcaption>style.css の書き込みの確認。変わる行だけが表示されます。頼んだ1点に関係する行だけかを見てから「一度だけ許可」</figcaption>
       </figure>

@@ -855,3 +855,103 @@ body.lesson .zoom-hint { font-size: 14px; padding: 6px 13px; }
 body.lesson .explain-list { margin-top: 24px; }
 body.lesson .term { max-width: 900px; }
 /* ヘッダーのメニューを横スクロールにする幅を 760px → 900px に上げた（761〜900px でメニューが2段になり、画面の上を 139px 占めていた） */
+
+/* ==== 第4回の UI レビューを反映（2026-10-03）。番号はレビューの番号。Home と第2〜5回の全ページに効く ==== */
+/* 1) 中央寄せの縦長スクショ：max-width を px だけにすると img { max-width: 100% } に勝ち、スマホでページ全体が横にずれる */
+body.lesson .figure--half img { max-width: min(620px, 100%); }
+body.lesson .figure--narrow img { max-width: min(500px, 100%); }
+/* 5) スクショの2列は 900px 以下で1列に（834px で2列だと中の文字が約6px になる） */
+@media (max-width: 900px) { body.lesson .figures, body.lesson .figures--menu { grid-template-columns: 1fr; } }
+/* 5) スマホの拡大表示：画面幅の96%に縮めず、実寸（最大 1100px）で出して横にずらして読む。
+   スマホ用の縦長の図（*_sp.svg）だけは画面幅に合わせる。閉じるボタンと説明は画面に留める */
+@media (max-width: 720px) {
+  .lightbox { display: block; overflow: auto; -webkit-overflow-scrolling: touch; padding: 60px 12px 24px; }
+  .lightbox img { display: block; width: auto; max-width: 1100px; max-height: none; margin: 0 auto; }
+  .lightbox img[src$=".svg"] { width: 960px; }   /* 図解の SVG は大きさを持たないので、描いた幅（viewBox 960）で出す */
+  .lightbox img[src*="_sp.svg"] { width: 100%; max-width: 100%; }
+  .lightbox figcaption { position: sticky; left: 0; max-width: calc(100vw - 24px); margin: 12px 0 0; text-align: left; }
+  .lightbox .lb-close { position: fixed; top: 8px; right: 10px; background: rgba(42, 47, 69, .9); }
+}
+/* 10) スマホ用の図は <picture> で切り替える。picture を箱にして、中の img が図の幅いっぱいに広がるように */
+body.lesson .figure picture { display: block; min-width: 0; }
+/* 7) 説明カードに「なぜ」が無い項目は2列に（3列のままだと右の3分の1が空く） */
+body.lesson .explain-list__item:not(:has(.explain-list__reason)) { grid-template-columns: minmax(9rem, 20%) 1fr; }
+@media (max-width: 720px) { body.lesson .explain-list__item:not(:has(.explain-list__reason)) { grid-template-columns: 1fr; } }
+/* 11) h3.sub の下に置く子の見出し（本文側で h4.sub2 を付ける）。h3.sub より一段小さく、線も細く淡く */
+body.lesson .section__inner h4.sub2 { font-size: 21px; font-weight: 700; line-height: 1.4; margin: 32px 0 12px;
+  padding-left: 10px; border-left: 3px solid #FFD1A6; }
+body.lesson .section__inner h3.sub + h4.sub2 { margin-top: 16px; }
+@media (max-width: 720px) { body.lesson .section__inner h4.sub2 { font-size: 19px; margin-top: 28px; } }
+/* 11) 手順の見出しを h3 → h4 にしても見た目は変えない（.steps__title のクラスで当てている） */
+body.lesson h4.steps__title { margin: 0 0 6px; }
+/* 12) スマホの指示の型：ラベルを本文の上に積む（重ねて置くと、320px で3行に折れたラベルが本文の1行目にかぶる）。
+   右の 84px はコピーボタンの場所 */
+@media (max-width: 720px) {
+  body.lesson .prompt { padding-top: 0; }
+  body.lesson .prompt::before { position: static; display: block; margin: 0 -16px 14px; padding: 10px 84px 10px 44px; }
+}
+/* 13) 表の中のコードは単語の途中で折らない（834px で authentication が authenticat / ion に割れていた）。
+   1列目に長いコードが入る表は tbl--wide-first で 1列目を 30% に広げる */
+table.tbl code { word-break: keep-all; overflow-wrap: normal; }
+/* スマホでは列が細く、URL（http://localhost:3000）などがセルの外へはみ出すので、折ってよいことに戻す */
+@media (max-width: 720px) { table.tbl code { overflow-wrap: anywhere; } }
+/* :has(thead th) は詳細度合わせ（列数で幅を決める上の2つのルールと同じ強さにし、後ろに置いて勝たせる） */
+body.lesson table.tbl.tbl--wide-first:has(thead th) > :is(thead, tbody) > tr > :first-child { width: 30%; }
+/* 14) 「この回で作るもの」の2列カードは2列で固定（auto-fit だと 1440px で 3＋1 になり、4枚目だけ下に余る） */
+body.lesson #deliverables .cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 720px) { body.lesson #deliverables .cards--2 { grid-template-columns: 1fr; } }
+/* 15) ヘッダー：320px でメニューが1項目しか見えなかった。サイト名を2行（AIアプリ開発／入門ゼミ）にし、
+   メニューの文字・余白を詰めて、いまの節と次の節が見えるようにする */
+@media (max-width: 480px) {
+  .site-header__inner { gap: 8px; padding: 8px 10px; }
+  .site-header__name { font-size: 12px; line-height: 1.3; width: 6.6em; }
+  .site-header__nav a, body.lesson .site-header__nav a { font-size: 13px; padding: 0 9px; }
+}
+/* 15) 901〜1240px では、メニュー（第2〜5回は8〜10項目）が2〜3段に折れて、ヘッダーが 100〜140px を占めていた。
+   900px 以下と同じく横1行＋横スクロールにする。端をぼかすのは、はみ出しているとき（site.js が .is-overflow を付ける）だけ */
+@media (max-width: 1240px) {
+  .site-header__inner { flex-wrap: nowrap; }
+  .site-header__name { flex: none; }
+  .site-header__nav { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .site-header__nav::-webkit-scrollbar { display: none; }
+  .site-header__nav a { white-space: nowrap; }
+}
+@media (min-width: 901px) and (max-width: 1240px) {
+  .site-header__nav { mask-image: none; }
+  .site-header__nav.is-overflow { mask-image: linear-gradient(90deg, transparent 0, #000 12px, #000 92%, transparent); }
+}
+/* 1241px 以上：項目の左右の余白を 11 → 8px に詰めて、10項目（第5回）でも1行に収める */
+@media (min-width: 1241px) { body.lesson .site-header__nav a { padding: 5px 8px; } }
+/* はみ出しの残り（320px の実測）：節見出しの長い英字（docs/tasks.md）と、手順の見出しの URL が横に押し出していた */
+body.lesson .section__head > div { min-width: 0; }
+body.lesson .section__title, body.lesson .steps > li > div { overflow-wrap: anywhere; }
+body.lesson .steps > li > div { min-width: 0; }
+
+/* ==== Home・第2回・第3回・第4回の追加（2026-10-03 第2弾） ==== */
+/* Home 320px：ヒーローの題が「ゼ／ミ」のように1文字だけ次の行に落ちる。開催スケジュールは「内容」の列が細すぎる */
+@media (max-width: 360px) {
+  .hero__title { font-size: 28px; }
+  table.tbl--schedule > :is(thead, tbody) > tr > :first-child { width: 3.75rem; }
+  table.tbl--schedule > :is(thead, tbody) > tr > :last-child { width: 7rem; }
+}
+/* 第2回 スマホ：用語表の1列目（用語）が細く、英字の用語が1文字ずつ折れる */
+/* table-layout: fixed の表は1行目（見出しの th）の幅で列が決まるので、th と td の両方に当てる */
+@media (max-width: 480px) { body.lesson #glossary table.tbl > :is(thead, tbody) > tr > :first-child { width: 42%; word-break: keep-all; } }
+/* 第3回：縦長のスクショ（figure--tall）。max-height 440px のままだと 1440・834 でも幅が約 250px になり文字が読めない。
+   2列の中では高さ 760px まで広げる（第2回の Finder のメニュー＝figures--menu は今の大きさのまま）。
+   900px 以下（1列）は高さで縮めず、幅を 520px までに抑える */
+body.lesson .figures:not(.figures--menu) .figure--tall img { max-height: 760px; }
+@media (max-width: 900px) { body.lesson .figure--tall img, body.lesson .figures:not(.figures--menu) .figure--tall img { max-width: min(520px, 100%); max-height: none; } }
+/* 834px など 721〜900px：スマホ版の図（picture の *_sp.svg。横 360 で描いた縦長の図）が幅いっぱい約 800px に広がり縦に長すぎる */
+@media (max-width: 900px) {
+  body.lesson .figure--diagram picture img { max-width: 520px; margin: 0 auto; }
+  body.lesson .figure--diagram:has(picture) .zoom-hint { align-self: center; }   /* 図を中央に寄せたので「押すと拡大」も図の上の中央に */
+}
+/* 第3回の読み替えの表：行見出し（tbody の th）が折り返さず、列からはみ出す（table.tbl th の nowrap が効いていた） */
+body.lesson table.tbl tbody th { white-space: normal; }
+/* 第4回「この回の流れ」は8枚。auto-fit だと 1240px 以上で 7枚＋1枚に割れるので、901px 以上は4列×2段にする。
+   ほかの回（7枚）は今の並びのまま（8枚目がある .flow だけに効かせる） */
+@media (min-width: 901px) { body.lesson #what .flow:has(> .flow__step:nth-child(8)) { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* 第4回 03：用語の箱の中の長いコード（process.env.ANTHROPIC_API_KEY）が 320px で折れずに箱の外へはみ出す */
+@media (max-width: 720px) { body.lesson .term dl { grid-template-columns: minmax(0, 1fr); } }
+body.lesson .term code { overflow-wrap: anywhere; }

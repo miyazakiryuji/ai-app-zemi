@@ -3,7 +3,7 @@
   <desc id="svg-desc">アプリは「見た目 → 動き → 裏側」の順に1段ずつ足して作る。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む。</desc>
   <defs id="diagram-definitions">
     <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
-      <path id="arrow-gray-tip" d="M0 0L10 5L0 10Z" fill="#C9CEDB"/>
+      <path id="arrow-gray-tip" d="M0 0L10 5L0 10Z" fill="#5A6178"/>
     </marker>
   </defs>
 
@@ -26,7 +26,7 @@
       <text id="step-1-check-text" x="50" y="282" font-size="17">ブラウザで開いて、目で見る</text>
     </g>
 
-    <path id="step-1-to-2-arrow" d="M312 220H333" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="step-1-to-2-arrow" d="M312 220H333" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
 
     <g id="step-2" role="group" aria-labelledby="step-2-title" aria-describedby="step-2-desc">
       <title id="step-2-title">② 動き</title>
@@ -40,7 +40,7 @@
       <text id="step-2-check-text" font-size="17"><tspan id="step-2-check-line-1" x="365" y="282">ボタンを押して、</tspan><tspan id="step-2-check-line-2" x="365" y="309">画面が変わるかを見る</tspan></text>
     </g>
 
-    <path id="step-2-to-3-arrow" d="M627 220H648" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="step-2-to-3-arrow" d="M627 220H648" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
 
     <g id="step-3" role="group" aria-labelledby="step-3-title" aria-describedby="step-3-desc">
       <title id="step-3-title">③ 裏側</title>

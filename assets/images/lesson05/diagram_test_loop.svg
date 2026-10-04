@@ -3,7 +3,7 @@
   <desc id="svg-desc">仕様書からテストコードを書かせ、流し、落ちたら実装側を直し、全部をもう一度流す、という循環を左から右へ示す図。</desc>
   <defs>
     <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
-      <path d="M0 0L10 5L0 10Z" fill="#C9CEDB"/>
+      <path d="M0 0L10 5L0 10Z" fill="#5A6178"/>
     </marker>
     <marker id="arrow-orange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
       <path d="M0 0L10 5L0 10Z" fill="#FF8C42"/>
@@ -13,7 +13,7 @@
   <rect id="canvas" x="0" y="0" width="960" height="500" fill="#FFF9F0"/>
 
   <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
-    <text id="main-title" x="480" y="44" font-size="22" font-weight="700" text-anchor="middle">テストのまわし方 ― 直すのは実装側</text>
+    <text id="main-title" x="30" y="44" font-size="22" font-weight="700">テストのまわし方 ― 直すのは実装側</text>
 
     <!-- 1 仕様書 -->
     <rect id="step-1-box" x="30" y="90" width="200" height="200" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
@@ -23,7 +23,7 @@
     <text id="step-1-line-2" x="130" y="232" font-size="15" fill="#5A6178" text-anchor="middle">「こうあるべき」</text>
     <text id="step-1-line-3" x="130" y="258" font-size="15" fill="#5A6178" text-anchor="middle">が書いてある</text>
 
-    <path id="arrow-1" d="M242 190H268" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="arrow-1" d="M242 190H268" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
 
     <!-- 2 テストコード -->
     <rect id="step-2-box" x="280" y="90" width="200" height="200" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
@@ -33,7 +33,7 @@
     <text id="step-2-line-2" x="380" y="232" font-size="15" fill="#5A6178" text-anchor="middle">書くのは Claude Code</text>
     <text id="step-2-line-3" x="380" y="258" font-size="15" fill="#5A6178" text-anchor="middle">一覧を先に確認</text>
 
-    <path id="arrow-2" d="M492 190H518" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="arrow-2" d="M492 190H518" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
 
     <!-- 3 流す -->
     <rect id="step-3-box" x="530" y="90" width="200" height="200" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
@@ -43,7 +43,7 @@
     <text id="step-3-line-2" x="630" y="232" font-size="15" fill="#5A6178" text-anchor="middle">見るのは3つだけ</text>
     <text id="step-3-line-3" x="630" y="258" font-size="15" fill="#5A6178" text-anchor="middle">数・名前・期待と結果</text>
 
-    <path id="arrow-3" d="M742 190H768" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="arrow-3" d="M742 190H768" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
 
     <!-- 4 通った -->
     <rect id="step-4-box" x="780" y="90" width="150" height="200" rx="18" fill="#FFFFFF" stroke="#3FB26A" stroke-width="3"/>

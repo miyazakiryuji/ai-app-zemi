@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 852" role="img" aria-labelledby="title desc">
+  <title id="title">ブラッシュアップは、この順番で</title>
+  <desc id="desc">崩れを直す、テイストを決める、細部を直す、というブラッシュアップの三段階を上から下へ示す図（スマートフォン向けの縦長版）。</desc>
+  <defs>
+    <marker id="arrow-gray" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#5A6178"/>
+    </marker>
+  </defs>
+  <rect width="360" height="852" fill="#FFF9F0"/>
+
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text x="16" y="40" font-size="22" font-weight="700">ブラッシュアップは、</text>
+    <text x="16" y="70" font-size="22" font-weight="700">この順番で</text>
+
+    <!-- ① 崩れを直す -->
+    <rect x="16" y="92" width="328" height="164" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <rect x="32" y="108" width="296" height="54" rx="14" fill="#FF8C42" fill-opacity="0.14"/>
+    <text x="48" y="142" font-size="20" font-weight="700">①崩れを直す</text>
+    <text x="32" y="198" font-size="17" font-weight="700">はみ出し・重なり・ずれ</text>
+    <text x="32" y="232" font-size="17" fill="#5A6178">画面の幅を変えて見る</text>
+
+    <path d="M180 266V302" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- ② テイストを決める -->
+    <rect x="16" y="312" width="328" height="164" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+    <rect x="32" y="328" width="296" height="54" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+    <text x="48" y="362" font-size="20" font-weight="700">②テイストを決める</text>
+    <text x="32" y="418" font-size="17" font-weight="700">色・文字・余白・角の丸み</text>
+    <text x="32" y="452" font-size="17" fill="#5A6178">方向性を言葉で伝える</text>
+
+    <path d="M180 486V522" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- ③ 細部を直す -->
+    <rect x="16" y="532" width="328" height="164" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="3"/>
+    <rect x="32" y="548" width="296" height="54" rx="14" fill="#6FD49D" fill-opacity="0.18"/>
+    <text x="48" y="582" font-size="20" font-weight="700">③細部を直す</text>
+    <text x="32" y="638" font-size="17" font-weight="700">1回の指示で1箇所</text>
+    <text x="32" y="672" font-size="17" fill="#5A6178">スクショを貼って伝える</text>
+
+    <!-- 注意 -->
+    <rect x="16" y="720" width="328" height="112" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="2"/>
+    <circle cx="40" cy="750" r="6" fill="#6FD49D"/>
+    <text x="60" y="756" font-size="18" font-weight="700">順番を逆にすると、</text>
+    <text x="60" y="784" font-size="18" font-weight="700">細部を直したあとで全体が</text>
+    <text x="60" y="812" font-size="18" font-weight="700">動いてやり直しになる</text>
+  </g>
+</svg>

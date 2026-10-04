@@ -3,7 +3,7 @@
   <desc id="svg-desc">崩れを直す、テイストを決める、細部を直す、というブラッシュアップの三段階を左から右へ示す図。</desc>
   <defs>
     <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
-      <path d="M0 0L10 5L0 10Z" fill="#C9CEDB"/>
+      <path d="M0 0L10 5L0 10Z" fill="#5A6178"/>
     </marker>
   </defs>
 
@@ -18,7 +18,7 @@
     <text id="step-1-line-1" x="50" y="216" font-size="17" font-weight="700">はみ出し・重なり・ずれ</text>
     <text id="step-1-line-2" x="50" y="276" font-size="17" fill="#5A6178">画面の幅を変えて見る</text>
 
-    <path id="arrow-1" d="M312 205H333" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="arrow-1" d="M312 205H333" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
 
     <rect id="step-2-box" x="345" y="82" width="270" height="246" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
     <rect id="step-2-heading-box" x="365" y="102" width="230" height="58" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
@@ -26,7 +26,7 @@
     <text id="step-2-line-1" x="365" y="216" font-size="17" font-weight="700">色・文字・余白・角の丸み</text>
     <text id="step-2-line-2" x="365" y="276" font-size="17" fill="#5A6178">方向性を言葉で伝える</text>
 
-    <path id="arrow-2" d="M627 205H648" fill="none" stroke="#C9CEDB" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="arrow-2" d="M627 205H648" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
 
     <rect id="step-3-box" x="660" y="82" width="270" height="246" rx="18" fill="#FFFFFF" stroke="#6FD49D" stroke-width="3"/>
     <rect id="step-3-heading-box" x="680" y="102" width="230" height="58" rx="14" fill="#6FD49D" fill-opacity="0.18"/>

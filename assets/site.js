@@ -164,8 +164,13 @@
         ticking = false;
       });
     }
+    /* ヘッダのメニューが横にはみ出しているときだけ印を付ける（site.css が端をぼかす。収まっているのにぼかすと最後の項目が薄くなる） */
+    var navBox = header ? header.querySelector('.site-header__nav') : null;
+    function markNav() { if (navBox) { navBox.classList.toggle('is-overflow', navBox.scrollWidth > navBox.clientWidth + 1); } }
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () { measure(); onScroll(); });
+    window.addEventListener('resize', function () { measure(); onScroll(); markNav(); });
+    window.addEventListener('load', markNav);
+    markNav();
     window.addEventListener('load', measure);
     measure();
     onScroll();

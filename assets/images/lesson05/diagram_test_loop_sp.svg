@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 1124" role="img" aria-labelledby="title desc">
+  <title id="title">テストのまわし方</title>
+  <desc id="desc">仕様書からテストコードを書かせ、流し、落ちたら実装側を直し、全部をもう一度流す、という循環を上から下へ示す図（スマートフォン向けの縦長版）。</desc>
+  <defs>
+    <marker id="arrow-gray" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#5A6178"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#FF8C42"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#3FB26A"/>
+    </marker>
+  </defs>
+  <rect width="360" height="1124" fill="#FFF9F0"/>
+
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text x="16" y="40" font-size="22" font-weight="700">テストのまわし方 ―</text>
+    <text x="16" y="70" font-size="22" font-weight="700">直すのは実装側</text>
+
+    <!-- ① 仕様書 -->
+    <rect x="16" y="92" width="272" height="144" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+    <rect x="32" y="108" width="240" height="52" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+    <text x="48" y="141" font-size="20" font-weight="700">①仕様書</text>
+    <text x="32" y="192" font-size="17" font-weight="700">docs/spec.md</text>
+    <text x="32" y="220" font-size="16" fill="#5A6178">「こうあるべき」が書いてある</text>
+
+    <path d="M152 244V280" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- ② テストコード -->
+    <rect x="16" y="288" width="272" height="170" rx="18" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="3"/>
+    <rect x="32" y="304" width="240" height="52" rx="14" fill="#4DA8FF" fill-opacity="0.14"/>
+    <text x="48" y="337" font-size="20" font-weight="700">②テストコード</text>
+    <text x="32" y="388" font-size="17" font-weight="700">仕様書の写し</text>
+    <text x="32" y="416" font-size="16" fill="#5A6178">書くのは Claude Code</text>
+    <text x="32" y="442" font-size="16" fill="#5A6178">一覧を先に確認</text>
+
+    <path d="M152 466V502" fill="none" stroke="#5A6178" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <!-- ③ 全部流す -->
+    <rect x="16" y="510" width="272" height="170" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <rect x="32" y="526" width="240" height="52" rx="14" fill="#FF8C42" fill-opacity="0.14"/>
+    <text x="48" y="559" font-size="20" font-weight="700">③全部流す</text>
+    <text x="32" y="610" font-size="17" font-weight="700">通った／落ちた</text>
+    <text x="32" y="638" font-size="16" fill="#5A6178">見るのは3つだけ</text>
+    <text x="32" y="664" font-size="16" fill="#5A6178">数・名前・期待と結果</text>
+
+    <!-- 全部通る（右） -->
+    <path d="M222 688V716" fill="none" stroke="#3FB26A" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-green)"/>
+    <rect x="152" y="724" width="140" height="144" rx="18" fill="#FFFFFF" stroke="#3FB26A" stroke-width="3"/>
+    <rect x="162" y="734" width="120" height="40" rx="12" fill="#3FB26A" fill-opacity="0.14"/>
+    <text x="222" y="761" font-size="20" font-weight="700" text-anchor="middle">全部通る</text>
+    <text x="222" y="800" font-size="16" font-weight="700" text-anchor="middle">次の機能へ</text>
+    <text x="222" y="826" font-size="16" fill="#5A6178" text-anchor="middle">壊れていない</text>
+    <text x="222" y="850" font-size="16" fill="#5A6178" text-anchor="middle">と分かった状態</text>
+
+    <!-- 落ちたら（左） -->
+    <path d="M52 688V880" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+    <text x="66" y="790" font-size="16" font-weight="700" fill="#FF8C42">落ちたら</text>
+
+    <!-- ④ 実装側を直す -->
+    <rect x="16" y="892" width="328" height="212" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="3"/>
+    <rect x="32" y="908" width="296" height="54" rx="14" fill="#FF8C42" fill-opacity="0.14"/>
+    <text x="44" y="942" font-size="19" font-weight="700" letter-spacing="-0.5">④実装側（アプリ本体）を直す</text>
+    <text x="32" y="996" font-size="16" fill="#5A6178">テストは書き換えない・</text>
+    <text x="32" y="1020" font-size="16" fill="#5A6178">ゆるめない・飛ばさない</text>
+    <text x="32" y="1056" font-size="16" fill="#5A6178">直したら ③ に戻って、</text>
+    <text x="32" y="1080" font-size="16" fill="#5A6178">全部をもう一度流す</text>
+
+    <!-- 仕様書が古いときだけ：④ → ① -->
+    <path d="M320 892V164H296" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-orange)"/>
+    <rect x="301" y="300" width="38" height="352" rx="19" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2"/>
+    <text x="320" y="322" font-size="16" font-weight="700" fill="#FF8C42" writing-mode="vertical-rl" style="writing-mode:vertical-rl">仕様書が古いときだけ<tspan font-weight="400" fill="#5A6178">、先に仕様書を直す</tspan></text>
+  </g>
+</svg>
