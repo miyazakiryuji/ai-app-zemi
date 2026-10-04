@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIアプリ開発入門ゼミ ｜ 第4回 画面側を作る</title>
+<meta name="description" content="AIアプリ開発入門ゼミ 第4回 画面側を作る。仕様書とモックから、画面に付ける動きの一覧（docs/actions.md）を Claude Code に作らせ、データを残す処理・サーバー・本物の AI を作らずに、いちばんよく使う動きから1つずつ画面の中だけで動くように足して自分の手で確かめ、動かないときはコンソールの赤い文字を渡して直させるまでの手順。">
+<link rel="stylesheet" href="../../assets/site.css">
+<script>document.documentElement.classList.add("js");
+setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("is-ready")){r.classList.remove("js");}},2500);</script>
+<script src="../../assets/site.js" defer></script>
+</head>
+<body class="lesson">
+
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <span class="site-header__name"><a href="../../" style="color:inherit;text-decoration:none">AIアプリ開発入門ゼミ</a></span>
+    <nav class="site-header__nav">
+      <a href="#what">動きとは</a>
+      <a href="#prepare">準備</a>
+      <a href="#list">指示①一覧</a>
+      <a href="#first">指示②1つ目</a>
+      <a href="#check">確かめる</a>
+      <a href="#console">動かないとき</a>
+      <a href="#loop">指示③1行ずつ</a>
+      <a href="#review">見直す</a>
+      <a href="#deliverables">この回で作るもの</a>
+      <a href="#pitfalls">つまずき</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ヒーロー -->
+<section class="hero hero--lesson">
+  <div class="hero__inner">
+    <div>
+      <p class="crumbs"><a href="../../">Home</a> ／ 第4回</p>
+      <p class="hero__kicker">LESSON 04 ／ 作るフェーズ</p>
+      <h1 class="hero__title">画面側を作る ― <em>モックに動きを付ける</em></h1>
+      <p class="hero__sub">～ 動きの一覧を作らせ、いちばんよく使う動きから1つずつ、画面の中だけで動くように足していく ～</p>
+      <ul class="hero__facts">
+        <li>Claude デスクトップアプリを使います</li>
+        <li>成果物：動きの付いた app/ と docs/actions.md</li>
+        <li>データを残す処理・サーバー・本物の AI はまだ作りません</li>
+        <li>HTML をダブルクリックで開いて確かめます</li>
+      </ul>
+    </div>
+    <div class="hero__mascot">
+      <img src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="now">
+  <div class="now__inner">
+    <div class="now__icon"><img src="../../assets/icons/icon-mock.svg" alt=""></div>
+    <div>
+      <p class="now__label">この回の前に用意しておくもの</p>
+      <p class="now__title">仕様書 docs/spec.md と、モック（app/ の HTML と style.css）が入ったアプリのフォルダ ＋ Claude デスクトップアプリ</p>
+      <p class="now__meta">アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、仕様書 <code>docs/spec.md</code> と、モック（見た目だけを作った画面。<code>app/</code> の中の HTML と <code>style.css</code>）がある状態から始めます（作る順番 <code>docs/tasks.md</code> は、この回では Claude Code に読ませません）。
+        Claude デスクトップアプリでそのフォルダを開き、Claude Code に指示を出します。Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。
+        間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</p>
+    </div>
+    <div class="now__actions">
+      <a class="btn btn--primary" href="#what">この回の流れを見る</a>
+      <a class="btn btn--ghost" href="../../">Home へ戻る</a>
+    </div>
+  </div>
+</div>
+
+<!-- 1. 動きとは -->
+<section class="section" id="what">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-motion.svg" alt=""></span><div><p class="section__kicker">01</p><h2 class="section__title">動きとは</h2></div></div>
+    <p class="section__lead">
+      この回でやることは3つです。<strong>画面に付ける「動き」の一覧を Claude Code に作らせる</strong>、<strong>いちばんよく使う動きを1つ足させて、自分の手で確かめる</strong>、そして<strong>残りの動きを1行ずつ足していく</strong>。動きを付けるのは、見た目だけの画面（モック）の上です。
+      <strong>この回で作るのは、ブラウザの中だけで動く部分</strong>で、データを残す処理・画面をまたいだデータの受け渡し・サーバー・本物の AI は作りません。
+    </p>
+    <p><strong>動き</strong>＝ボタンを押す・文字を入れるといった操作を受け取って、画面の中身を書き換える仕組みです。ブラウザの中で動く <strong>JavaScript</strong> というプログラムで作ります。モックは、ボタンを押しても何も起きない画面でした。この回で、押したら一覧に1行増える、入力が足りなければ理由が出る、といった動きを足します。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>動き</dt><dd>操作（押す・入れる）を受け取って、画面の中身を書き換える仕組み。この回で足すものです。</dd>
+        <dt>JavaScript</dt><dd>ブラウザの中で動くプログラム。HTML（何を置くか）と CSS（どう見せるか）に対して、「押されたら何をするか」を書きます。ファイル名の最後が <code>.js</code> になります。</dd>
+        <dt>画面側</dt><dd>ブラウザの中で動く部分。HTML・CSS・JavaScript でできています。フロントエンドとも呼びます。</dd>
+        <dt>裏側</dt><dd>利用者から見えない場所で動く部分。データを残す処理や、AI のサービスを呼ぶ処理などです。この回では作りません。</dd>
+        <dt>モック</dt><dd>見た目だけを作った画面。ボタンを押しても何も起きません。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">なぜ見た目の次に動きを足すのか</h3>
+    <p>アプリは<strong>「見た目 → 動き → 裏側」の順に、1段ずつ足して作ります</strong>。見た目はモックでできているので、この回はその次の段です。</p>
+    <ul>
+      <li><strong>押した結果を、できている画面の上で目で確かめられます。</strong>見た目が決まっているので、押したあとに「一覧に1行増えたか」「合計が変わったか」をその場で見て判断できます</li>
+      <li><strong>うまくいかないとき、調べる場所が画面側だけで済みます。</strong>まだ裏側が無いので、押しても動かないなら、原因は足したばかりの JavaScript にあります。裏側まで一度に作ると、画面の書き換えが悪いのか、データを残す処理が悪いのか、AI の呼び出しが悪いのかが分かりません</li>
+      <li><strong>裏側で何を受け取って何を返せばよいかが、具体的に決まります。</strong>画面で「保存」を押したときにどの項目が集まるか、AI に何を渡して何を受け取って表示するかが、動きを作る中で形になります。裏側は、それに合わせて作れば済みます</li>
+      <li><strong>「処理中」「失敗」の見え方を、本物の AI につなぐ前に決められます。</strong>本物の AI につないでから決めると、表示を確かめるために押すたびに料金がかかります。仮の文章を返す状態なら、何度押しても料金はかかりません</li>
+      <li><strong>1回の指示が小さくなり、確認画面を読み切れます。</strong>動き1つなら、増えるのは JavaScript のファイル1つと、HTML の数行だけです。確認画面で、自分の画面の入力欄やボタンの名前が出てくるかを目で追えます</li>
+    </ul>
+    <figure class="figure figure--diagram">
+      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04-front/diagram_build_order_now_sp.svg"><img src="../../assets/images/lesson04-front/diagram_build_order_now.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。この回は「② 動き」の段" loading="lazy"></picture>
+      <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。この回は「② 動き」の段です</figcaption>
+    </figure>
+
+    <h3 class="sub">この回で足すもの・足さないもの</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="足すもの・足さないもの の表">
+      <table class="tbl">
+        <thead><tr><th>足す（ブラウザの中で動くもの）</th><th>足さない（裏側。データの置き場を決めてから作る）</th></tr></thead>
+        <tbody>
+          <tr><td>押したときの画面の変化（一覧に1行増える・合計が変わる・結果の欄に文章が出る・やり取りが増える・消す前の確認）</td><td>データを残す（再読み込みしても、ブラウザを閉じても残る）</td></tr>
+          <tr><td>入力のチェック（空・数字でない・範囲の外）</td><td>画面をまたいだデータの受け渡し（修正画面に、選んだ記録の中身を出す など）</td></tr>
+          <tr><td>「1件も無いとき」の案内</td><td>サーバー</td></tr>
+          <tr><td>「処理中」「失敗したとき」の表示（AI を使うアプリ）</td><td>本物の AI の呼び出し（API キーや料金の準備が要る）</td></tr>
+          <tr><td>AI に考えてもらう部分は、仮の文章を返す1か所（<code>app/ai.js</code>）にまとめる</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">なぜデータを残す処理をまだ作らないのか</h3>
+    <ul>
+      <li><strong>残し方は、置き場で変わります。</strong>ブラウザの中・自分の PC のファイル・インターネット上のデータベースなど、置き場によって作り方も、消える条件も違います。置き場を決める前に作ると、決めたあとに作り直すことになります</li>
+      <li><strong>ダブルクリックで開いた画面では、ブラウザの中にデータを残す動きがブラウザによって違います。</strong>画面のファイルを直接開いた状態（アドレスが <code>file://</code> で始まる状態）でブラウザの中にデータを残す仕組みは、決まりが定められておらず、2026年10月4日に確かめたときも、Chrome と Safari では画面どうしで同じデータが見え、Firefox では画面ごとに別々になりました。ブラウザの更新で変わることもあります。データを残すのは、アプリをサーバーから開く形にしてからにします</li>
+      <li><strong>画面をまたいでデータを渡すのも、データを残す仕組みが前提になります。</strong>画面1から画面2へ移ると、ブラウザは画面2の HTML を読み込み直し、画面1の中に持っていたデータは消えます。修正画面に選んだ記録の中身を出すには、データをどこかに残しておく必要があります</li>
+    </ul>
+    <p>だから、この回の動きは<strong>「再読み込みすると最初の状態に戻る」のが正しい状態です</strong>。消えるのは不具合ではありません。</p>
+    <figure class="figure figure--diagram">
+      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04-front/diagram_front_scope_sp.svg"><img src="../../assets/images/lesson04-front/diagram_front_scope.svg" alt="この回で作るのは、ブラウザの中だけ。画面（HTML・CSS）はそのまま、app.js が押されたことを受け取ってデータを変え、画面を描き直す。サーバー・データの置き場・本物の AI は作らない" loading="lazy"></picture>
+      <figcaption>この回で作るのは、ブラウザの中だけです。画面（HTML・CSS）はそのままで、app.js が押されたことを受け取ってデータを変え、画面を描き直します。サーバー・データの置き場・本物の AI は作りません</figcaption>
+    </figure>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>再読み込み</dt><dd>ブラウザに、いま開いている画面のファイルを読み直させること。Mac は <kbd>⌘R</kbd>、Windows は <kbd>F5</kbd> です。動きの中で持っていたデータは、再読み込みすると最初の状態に戻ります。</dd>
+        <dt>file://</dt><dd>ブラウザのアドレスが <code>file://</code> で始まるのは、自分の PC の中のファイルを直接開いている状態です。ダブルクリックで HTML を開くとこの形になります。ブラウザによっては「ファイル」と表示されます。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">自分のアプリの型で、読み替えるところ</h3>
+    <p>このページの例は、記録型の「食費メモ」（画面2枚・一覧あり）です。変換型・相談型のアプリは、次のように読み替えてください。</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="記録型・変換型・相談型 の読み替えの表">
+      <table class="tbl">
+        <thead><tr><th>読み替えるところ</th><th>記録型（入れて、ためて、見返す）。このページの例「食費メモ」</th><th>変換型（入れたものを別の形にして返す）</th><th>相談型（質問して、答えをもらう）</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">いちばんよく使う動き</th><td>金額・日付・メモを入れて「保存」→ 一覧のいちばん上に1行増え、合計が変わる</td><td>文章を入れて「変換」→ 少し待って、結果の欄に仮の文章が出る</td><td>入力して「送信」→ 自分の発言が増え、少し待って AI の仮の返事が増える</td></tr>
+          <tr><th scope="row">この回で作れるもの</th><td>入力のチェック／削除（確認してから消す）／1件も無いときの案内</td><td>入力のチェック／処理中／失敗したとき／結果のコピー</td><td>入力のチェック／処理中／失敗したとき／やり取りを空にする（確認してから）</td></tr>
+          <tr><th scope="row">「あとで」に回すもの</th><td>修正画面に選んだ記録を出す／修正の保存／閉じても残る</td><td>履歴を残す・見返す／本物の AI で変換する</td><td>閉じても残る／本物の AI の返事</td></tr>
+          <tr><th scope="row"><code>app/ai.js</code></th><td>作らない（AI を使う動きが無いため）</td><td>作る（仮の文章を返す）</td><td>作る（仮の返事を返す）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">この回の流れ（上から順に進めます）</h3>
+    <div class="flow">
+      <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">準備</p><p class="flow__desc">手動にして、app の控えを取る</p></div>
+      <div class="flow__step"><span class="flow__n">2</span><p class="flow__name">指示①</p><p class="flow__desc">動きの一覧を作らせる</p></div>
+      <div class="flow__step"><span class="flow__n">3</span><p class="flow__name">読んで直す</p><p class="flow__desc">仕様書と見比べる</p></div>
+      <div class="flow__step"><span class="flow__n">4</span><p class="flow__name">指示②</p><p class="flow__desc">いちばんよく使う動きを1つ</p></div>
+      <div class="flow__step"><span class="flow__n">5</span><p class="flow__name">確かめる</p><p class="flow__desc">自分の手で試して残す</p></div>
+      <div class="flow__step"><span class="flow__n">6</span><p class="flow__name">動かないとき</p><p class="flow__desc">コンソールを渡す</p></div>
+      <div class="flow__step"><span class="flow__n">7</span><p class="flow__name">指示③</p><p class="flow__desc">残りを1行ずつ</p></div>
+      <div class="flow__step"><span class="flow__n">8</span><p class="flow__name">見直す</p><p class="flow__desc">全部押す・見た目・仕様書</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 準備 -->
+<section class="section section--soft" id="prepare">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-folder-open.svg" alt=""></span><div><p class="section__kicker">02</p><h2 class="section__title">準備：権限モードを「手動」にして、<em>app の控えを取る</em></h2></div></div>
+    <p class="section__lead">
+      仕様書 <code>docs/spec.md</code> とモック <code>app/</code> が入っているアプリのフォルダ（このページでは <code>my-app</code>。名前はご自身で付けたもの）を、Claude デスクトップアプリで開きます。
+    </p>
+
+    <h3 class="sub">フォルダを開いて、権限モードを「手動」にする</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h4 class="steps__title">Claude デスクトップアプリで <code>&lt;/&gt;</code>（Claude Code）→「＋ 新規」を押す</h4><p class="steps__desc"><span class="why">なぜ：</span>前の会話と混ざりません。モックを作ったときの会話には「JavaScript は使わない」という条件が残っていて、新しい指示とぶつかります。</p></div></li>
+      <li><span class="steps__n">2</span><div><h4 class="steps__title">画面の下のフォルダ名のボタン →「フォルダを開く…」→ <code>my-app</code> を選んで「開く」</h4><p class="steps__desc">入力欄の近くに「ローカル」と <code>my-app</code> が出ていることを見ます。<span class="why">なぜ：</span>選んだフォルダだけが作業の対象になります。「ローカル」は、この PC の中で動かす設定です。</p></div></li>
+      <li><span class="steps__n">3</span><div><h4 class="steps__title">入力欄の下のモード名を押して「手動」を選ぶ</h4><p class="steps__desc"><span class="why">なぜ：</span>この回は JavaScript のファイルを新しく作り、HTML も書き換えます。「手動」なら、どのファイルに何を書くかを確認画面で見てから許可できます。新しいセッションは「オート」や「編集を受け入れる」で始まることがあるので、開くたびに見ます。</p></div></li>
+    </ol>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      モードの名前や並びは、アプリの更新や契約の種類で変わることがあります。<strong>ファイルを書き換える前に毎回たずねてくる設定</strong>を選んでください。
+    </div>
+
+    <h3 class="sub">app の控えを取る</h3>
+    <p>Finder（Windows はエクスプローラー）で <code>my-app</code> の中の <code>app</code> フォルダを複製し、名前を <strong><code>app-mock</code></strong> に変えます。</p>
+    <ul>
+      <li><strong>Mac：</strong><code>app</code> を右クリック →「複製」→ できた「app のコピー」を右クリック →「名前を変更」→ <code>app-mock</code></li>
+      <li><strong>Windows：</strong><code>app</code> を選んで <kbd>Ctrl+C</kbd> → <kbd>Ctrl+V</kbd> → できた「app - コピー」を右クリック →「名前の変更」→ <code>app-mock</code></li>
+    </ul>
+    <p><span class="why">なぜ控えを取るのか：</span>動きを足すと、HTML に読み込みの1行や要素の名前（id）が足され、一覧の仮のデータは JavaScript のほうへ移ります。思ったとおりに動かなくなったときや、見た目がいつの間にか変わったとき、<code>app-mock</code> の画面と見比べれば、どこが変わったかが分かります。どうしても直らないときは、<code>app-mock</code> を複製して <code>app</code> に戻せば、モックの状態からやり直せます。</p>
+    <p><span class="why">なぜ Claude Code ではなく自分で複製するのか：</span>控えは「AI が手を入れる前の状態」を残すためのものです。複製も頼むと、その作業の確認画面が増え、どれが控えかを自分で見ていないことになります。</p>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <strong><code>docs/tasks.md</code>（作る順番）は、この回では Claude Code に読ませません。</strong><code>docs/tasks.md</code> には、データを残す処理やサーバーまで含めた順番が書いてあります。読ませると、この回では作らないと決めたものまで作り始めます。この回の作る順番は、次の指示①で作る <code>docs/actions.md</code> にまとめます。
+    </div>
+  </div>
+</section>
+
+<!-- 3. 指示① 動きの一覧 -->
+<section class="section" id="list">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-tasks.svg" alt=""></span><div><p class="section__kicker">03</p><h2 class="section__title">指示①：<em>動きの一覧</em>を作らせる</h2></div></div>
+    <p class="section__lead">
+      いきなり動きを作らせず、<strong>どの画面で、何をすると、何が起きるか</strong>の一覧を先に作らせます。次の型をそのまま入力欄に貼って送ります。書き換える箇所はありません。
+    </p>
+<pre class="prompt prompt--plain" data-label="指示①（動きの一覧を作らせる）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/spec.md と、app/ の中の画面（HTML）を読んで、画面に付ける「動き」の一覧を docs/actions.md に書いてください。まだ動きは作らないでください。
+
+■ 一覧の書き方
+- 表にする。列は「番号｜画面｜何をすると｜何が起きるか｜確かめ方｜状態｜確かめた結果」
+- 1行に1つの動き。仕様書の「やること」を、画面での操作に分けて書く。「やらないこと」に入っているものは書かない
+- 状態の欄は、次のどちらかにする
+  - 「まだ」：画面の中だけで作れる動き（押すと画面が変わる・入力をチェックする・仮の文章を出す など）
+  - 「あとで」：データを残す・画面をまたいでデータを渡す・本物の AI を呼ぶ、のどれかが要る動き（この回では作らない）
+- 「確かめた結果」の欄は空のままにする
+- 入力のチェックは画面ごとに1行にまとめ、仕様書の「扱うデータ」の必須・種類・範囲から決める
+- 「1件も無いとき」の表示は1行入れる。「処理中」と「失敗したとき」の表示は、AI に考えてもらう動きがあるときだけ、それぞれ1行入れる。この2行は、仮の文章で試せるので「まだ」にする（失敗は、入力に「失敗テスト」という文字があるときだけ仮の文章がわざと失敗する形で試す）
+- AI に考えてもらう動きは、「何が起きるか」に「AI（いまは仮の文章）」と書く
+- 上から作る順番に並べる。1行目は、このアプリでいちばんよく使う操作
+- 行は「あとで」も含めて12行まで
+- 「確かめ方」は、ブラウザでその画面を開いて、画面の操作だけで自分の手で確かめる手順を1〜2文で書く。ファイルを書き換えて確かめる手順にはしない。画面の操作だけでは試せない行（例：1件も無いとき）は、試せるようにする行（例：削除）より後ろに並べる
+
+■ 条件
+- 書き込むのは docs/actions.md だけ。ほかのファイルは読むだけで、書き換えないでください
+- app-mock フォルダは読まないでください</pre>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>docs/actions.md</dt><dd>この回で作る「動きの一覧」のファイル。actions は「操作・動作」の意味です。<code>docs</code> フォルダの中に、仕様書 <code>spec.md</code> と並べて置きます。</dd>
+        <dt>表</dt><dd><code>.md</code> のファイルの中では、<code>|</code> で区切った行が表として表示されます。Claude Code の画面やエディタで開くと、列がそろって見えます。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">条件の1行ずつに理由があります</h3>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>まだ動きは作らない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>作る前に、何をいくつ作るのかを自分の目で見ます。いきなり作らせると、仕様書に無い動きが混じっても、作られたあとでしか気づけません</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>1行に1つの動き</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>この一覧の1行が、このあとの指示1回分になります。1行に2つ入っていると、1回の指示で2つ作ることになり、どちらが原因で動かないのかが分からなくなります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>「やらないこと」は書かない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>一覧に載ったものは作られます。仕様書で外したものが紛れ込むと、AI が機能を足してきます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>状態を「まだ」と「あとで」に分ける</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>この回で作るのは、画面の中だけで動くものです。データを残す・画面をまたぐ・本物の AI が要るものを最初から分けておけば、この回の指示で手を付けさせずに済みます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>入力のチェックは画面ごとに1行・仕様書の「扱うデータ」から</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>チェックを1項目ずつ別の行にすると、行の数が増えすぎて終わりません。仕様書に無いチェック（必要のない桁数の上限など）を AI が足すのも防ぎます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>「処理中」「失敗したとき」は AI を使うときだけ・どちらも「まだ」</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>画面の中だけで終わる処理は一瞬で終わり、失敗することもほとんどありません。表示を作っても、出る場面がありません。AI を使うときは、仮の文章でも「待つ」「失敗する」を起こせるので、本物の AI につなぐ前に作れます。書いておかないと、AI は「失敗は本物の AI を呼んだときの話」と考えて「あとで」に回すことがあります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>上から作る順番・1行目はいちばんよく使う操作</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>いちばんよく使う操作が動けば、アプリの中心ができます。そのあとの行は、その上に足していけます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>12行まで</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>行が多すぎると、全部を確かめきれません。食費メモ（できること6つ・画面2枚）で10〜12行に収まります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>「確かめ方」を画面の操作だけで試せる文で・試せない行は後ろへ</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>動いたかどうかの判断が、自分の手でできるようになります。「正しく動くこと」のような書き方だと、何を見ればよいか分かりません。書いておかないと、「app.js の見本のデータを消してから開く」のような、ファイルを書き換える確かめ方が出てくることがあります（実際に出ました）。「1件も無いとき」は、削除などで全部消せるようになってからなら、画面の操作だけで試せます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>書き込むのは docs/actions.md だけ</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>一覧を作るだけの指示で、画面のファイルに手が入るのを防ぎます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>app-mock は読まない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>同じ画面が2つあると、AI が控えのほうを見て一覧を作ることがあります</dd>
+      </div>
+    </dl>
+    <p>送ると、Claude Code は <code>docs/spec.md</code> と <code>app/</code> の HTML を読み、<code>docs/actions.md</code> を作ります。確認画面で、<strong>ファイルの場所が <code>my-app/docs/actions.md</code> であること</strong>を見てから「一度だけ許可」を押します。</p>
+
+    <h3 class="sub">例：食費メモでできた一覧（抜き出し）</h3>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="食費メモでできた動きの一覧（抜き出し）の表">
+      <table class="tbl">
+        <thead><tr><th style="width:4em">番号</th><th>画面</th><th>何をすると</th><th>何が起きるか</th><th>確かめ方</th><th style="width:5em">状態</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>記録画面</td><td>金額・日付を入れて「保存」を押す</td><td>一覧に1行増え、今月の合計がその場で変わる。入力欄は空に戻る</td><td>金額と日付を入れて「保存」を押し、一覧に1行増えて合計が変わるのを見る</td><td>まだ</td></tr>
+          <tr><td>2</td><td>記録画面</td><td>入力が正しくないまま「保存」を押す</td><td>金額が空・小数・マイナス、日付が空のときは保存せず、欄の近くに理由を出す。メモは空でも保存できる</td><td>金額を空や <code>-5</code>、<code>12.5</code> にして「保存」を押し、理由が出て一覧が増えないのを見る</td><td>まだ</td></tr>
+          <tr><td>5</td><td>記録画面</td><td>一覧の「削除」を押す</td><td>「削除しますか？」と確認を出す。OK なら行が消えて合計が変わる</td><td>キャンセルで行が残り、OK で行が消えるのを見る</td><td>まだ</td></tr>
+          <tr><td>6</td><td>記録画面</td><td>記録を全部削除する</td><td>一覧の場所に「まだ記録がありません」と出る</td><td>全部削除して、案内が出るのを見る</td><td>まだ</td></tr>
+          <tr><td>9</td><td>記録画面→修正画面</td><td>一覧の「修正」を押す</td><td>修正画面に、選んだ記録の金額・日付・メモが入っている</td><td>2行目の「修正」を押し、その行の中身が入っているのを見る</td><td>あとで</td></tr>
+          <tr><td>11</td><td>記録画面</td><td>ブラウザを閉じて開き直す</td><td>前回までの記録が残っている</td><td>1件保存して閉じ、開き直して残っているのを見る</td><td>あとで</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+
+    <h3 class="sub">読んで直す</h3>
+    <p>一覧ができたら、<code>docs/spec.md</code> を横に開いて、次の5つを見ます。</p>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h4 class="steps__title">仕様書の「やること」が、どれかの行に入っているか</h4><p class="steps__desc">抜けていたら、あとで作り忘れます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h4 class="steps__title">仕様書の「やらないこと」が混じっていないか</h4><p class="steps__desc">混じっていたら、その行を消させます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h4 class="steps__title">「あとで」の振り分けが合っているか</h4><p class="steps__desc">データを残す・画面をまたぐ・本物の AI が要るものだけが「あとで」になっているかを見ます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h4 class="steps__title">1行目が、いちばんよく使う操作か</h4></div></li>
+      <li><span class="steps__n">5</span><div><h4 class="steps__title">「確かめ方」が、自分で試せる文になっているか</h4><p class="steps__desc">何を入れて、何を押して、何が見えればよいかが書いてあるかを見ます。</p></div></li>
+    </ol>
+    <p>直したいところがあれば、1回に1つずつ頼みます。例：「<code>docs/actions.md</code> の7行目は、仕様書の『やらないこと』に入っている並べ替えなので消してください。ほかの行は変えないでください」。</p>
+    <p><span class="why">なぜ人が読んで直すのか：</span>この一覧が、このあとの指示の順番と、動いたかどうかの判断の基準になります。AI が作ったまま進めると、仕様書に無い動きを作らせたり、作るべき動きを飛ばしたりしても気づけません。</p>
+  </div>
+</section>
+
+<!-- 4. 指示② いちばんよく使う動きを1つ -->
+<section class="section section--soft" id="first">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-chat.svg" alt=""></span><div><p class="section__kicker">04</p><h2 class="section__title">指示②：<em>いちばんよく使う動き</em>を1つ足す</h2></div></div>
+    <p class="section__lead">
+      一覧の1行目の動きを作らせます。次の型をそのまま貼って送ります。書き換える箇所はありません（1行目の中身は、一覧から読み取らせます）。
+    </p>
+<pre class="prompt prompt--plain" data-label="指示②（いちばんよく使う動きを1つ）― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/actions.md の1行目の動きを作ってください。
+
+■ 作り方
+- 動きは app/app.js に書き、使う画面の HTML の &lt;/body&gt; の直前に &lt;script src="app.js"&gt;&lt;/script&gt; を1行足して読み込んでください
+- この回は HTML をダブルクリックで開いて確かめます。そのため type="module"・import・fetch は使わないでください
+- データは画面の中（app.js の中）に持つだけにしてください。再読み込みすると最初の状態に戻って構いません。データを残す処理はまだ作りません
+- HTML に直接書いてある仮のデータ（一覧の行・やり取り・結果の文章など）は、app.js の最初に「見本のデータ」としてまとめ、画面はそこから描いてください。同じものが二重に出ないように、HTML に直接書いてある仮のデータは消してください。描いたものの見た目（タグと class）は、いまと同じにしてください
+- 入力欄に最初から入っている仮の値は消して、空から入力できるようにしてください
+- ボタンを押したときに、画面が読み込み直されたり別の画面へ移ったりしないようにしてください（仕様書で「押すと〜へ」と決めたボタンは除く）
+- AI に考えてもらう部分は app/ai.js の関数1つにまとめ、いまは1秒待ってから決まった文章を返すだけにしてください。AI を使わない動きなら ai.js は作りません
+
+■ 変えてよい範囲
+- 新しく作ってよいのは app/app.js と、AI を使う場合の app/ai.js だけ
+- HTML で変えてよいのは、読み込みの1行を足す・動きを付ける要素に id を付ける・上の「仮のデータを消す」「仮の値を消す」だけ。要素の並び・文言・ほかの属性は変えないでください
+- app/style.css は変えないでください
+- サーバーの作成・起動、パッケージの追加、設定ファイルの作成、ブラウザの起動はしないでください
+- 書き換える前に、変えるファイルと変える中身を短く一覧で教えてください。この範囲で作れない場合は、作り始めずに理由を教えてください
+
+■ 終わったら
+- docs/actions.md の1行目の状態を「作った」にしてください
+- ブラウザでの確かめ方を、Finder やエクスプローラーから開く手順で教えてください
+完成条件：docs/actions.md の1行目の「確かめ方」のとおりになること</pre>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>app.js</dt><dd>この回で作る、画面の動きを書く JavaScript のファイル。<code>app</code> フォルダの中に置きます。</dd>
+        <dt>ai.js</dt><dd>AI に考えてもらう部分だけをまとめるファイル。この回では、1秒待って決まった文章（仮の文章）を返すだけです。AI を使うアプリだけが作ります。</dd>
+        <dt>関数</dt><dd>プログラムの中で、ひとまとまりの処理に名前を付けたもの。app.js は、ai.js の関数を名前で呼び、返ってきた文章を画面に出します。</dd>
+        <dt>読み込み</dt><dd>HTML に「この JavaScript のファイルを使う」と書く1行（<code>&lt;script src="app.js"&gt;&lt;/script&gt;</code>）。これが無いと、app.js を作っても画面は動きません。</dd>
+        <dt>id</dt><dd>HTML の要素に付ける名前。JavaScript は、この名前で「どの入力欄の値を読むか」「どの一覧に行を足すか」を見分けます。名前を付けても見た目は変わりません。</dd>
+        <dt>タグ・class</dt><dd>タグは、HTML で要素の種類を表す印（<code>&lt;button&gt;</code>・<code>&lt;input&gt;</code> など）。class は、要素に付ける分類の名前（<code>class="…"</code>）です。style.css は、タグと class を目印にして色や余白を当てています。</dd>
+        <dt>見本のデータ</dt><dd>モックで HTML に直接書いていた仮のデータを、app.js の中にまとめ直したもの。画面はここから描かれます。</dd>
+        <dt>仮の文章</dt><dd>本物の AI の代わりに返す、決まった文章。表示の流れを作って確かめるために使います。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">条件の1行ずつに理由があります</h3>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>動きは <code>app/app.js</code> に書き、<code>&lt;script src&gt;</code> で読み込む</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>動きを1つのファイルにまとめておくと、動かないときに見るファイルが1つで済みます。HTML の中に直接書かれると、見た目の HTML と動きが混ざり、どこを変えたのかが追えません</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong><code>type="module"</code>・<code>import</code>・<code>fetch</code> は使わない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span><strong>ダブルクリックで開いた画面（<code>file://</code>）では、ブラウザがこの3つを止めます。</strong>2026年10月4日に Chrome と Safari の中身（WebKit）で確かめ、どちらも動きませんでした。使われると、ボタンを押しても何も起きない画面になり、原因がコードの中身ではなく開き方にあるので見つけにくくなります。あくまで、この回の開き方に合わせた条件です</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>データは画面の中に持つだけ・再読み込みで戻ってよい</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>この回はデータを残す処理を作りません（<a href="#what">「動きとは」の節</a>）。「残してください」と書かなくても、AI はブラウザの中に残す処理まで作ることがあります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>仮のデータを app.js の「見本のデータ」に移し、HTML からは消す</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>一覧を JavaScript で描くようにすると、HTML に書いてある3行と、JavaScript が描いた3行が両方出て、同じ行が二重に並びます。出どころを app.js の1か所にまとめます。見本のデータがあれば、画面を開いた直後の見た目はモックと同じになります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>描いたものの見た目（タグと class）はいまと同じ</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>見た目の指定（style.css）は、HTML のタグと class に結び付いています。違うタグや class で描かれると、色や区切り線が外れて、モックで整えた見た目が崩れます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>入力欄の仮の値を消す</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>モックでは、見た目を確かめるために入力欄にも仮の値が入っていることがあります。残っていると、毎回その値を消してから入力することになります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>画面が読み込み直されたり、別の画面へ移ったりしない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>HTML の入力欄のまとまり（フォーム）は、ボタンを押すと内容を送って画面を読み込み直す動きが最初から付いています。止めておかないと、押した瞬間に画面が最初の状態に戻り、「動いていない」ように見えます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>AI の部分は ai.js の関数1つ・いまは仮の文章</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>本物の AI を呼ぶには、API キーと料金の準備が要ります。先に「押す → 待つ → 出る」の流れを仮の文章で作っておけば、本物につなぐときは ai.js の中身を差し替えるだけで済み、画面側は直さずに済みます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>新しく作ってよいのは app.js と ai.js だけ／HTML は決めた範囲だけ／style.css は変えない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>モックで整えた配置と見た目を、動きを足す指示で崩させないためです。範囲を書かないと、AI は「ついでに」HTML の構造や色を直すことがあります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>サーバー・パッケージ・設定ファイル・ブラウザの起動をしない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>この回は、ファイルをダブルクリックで開くだけで確かめます。頼んでいないファイルや道具が増えると、どれが本物か分からなくなります。ブラウザを起動するコマンドは、Claude Code が自分で確かめようとして出してくることがあります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>書き換える前に、変えるファイルと中身を一覧で</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>確認画面の前に、何がどこに入るのかを言葉で読めます。一覧に app.js・ai.js・HTML 以外のファイルが出てきたら、その時点で止められます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>状態を「作った」に・確かめ方を教えてもらう</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>一覧と実物を揃えておきます。確かめ方を Finder やエクスプローラーの手順で聞くのは、この回はターミナルを使わないためです</dd>
+      </div>
+    </dl>
+
+    <h3 class="sub">確認画面で見るところ</h3>
+    <p>送ると、Claude Code はまず変えるファイルの一覧を書き、それからファイルごとに確認画面を出します。</p>
+    <ul>
+      <li><strong><code>app/app.js</code> を作る確認：</strong>場所が <code>my-app/app/app.js</code> であること。中身の最初のほうに、見本のデータ（モックに書いていた仮のデータと同じ中身）が並んでいること</li>
+      <li><strong><code>app/index.html</code> を書き換える確認：</strong>変わる行が、<code>&lt;script src="app.js"&gt;&lt;/script&gt;</code> の1行・<code>id="…"</code> の追加・仮のデータの行の削除・入力欄の <code>value="…"</code> の削除だけであること。見出しやボタンの文字が変わっていないこと</li>
+      <li><strong>それ以外のファイル（<code>style.css</code>・<code>package.json</code>・<code>server.js</code> など）の確認や、ブラウザを開くコマンドの確認が出たら、「拒否」を押します。</strong><span class="why">なぜ：</span>頼んだ範囲の外の作業です。拒否しても、頼んだ app.js と HTML の変更は残ります</li>
+    </ul>
+
+    <h3 class="sub">例：食費メモでの返答（要点）</h3>
+    <p>返答には、変えたファイルと、確かめ方が書かれます。</p>
+    <ul>
+      <li><code>app/app.js</code>（新規）：見本のデータ3件をまとめ、一覧と合計はそこから描く。「保存」を押すと、一覧の先頭に1行足して合計を変え、入力欄を空に戻す</li>
+      <li><code>app/index.html</code>：一覧の仮の3行・合計の仮の文字・入力欄の仮の値を消し、<code>id</code> を付け、<code>&lt;/body&gt;</code> の直前に読み込みの1行を足した</li>
+      <li><code>docs/actions.md</code>：1行目の状態を「作った」にした</li>
+      <li>次の動きに回したこと：金額か日付が空のときは何も起きない（エラーの表示は2行目で作る）</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 5. 自分の手で確かめる -->
+<section class="section" id="check">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-check-screen.svg" alt=""></span><div><p class="section__kicker">05</p><h2 class="section__title"><em>自分の手で</em>確かめる</h2></div></div>
+    <p class="section__lead">
+      <strong>開き方：</strong>Finder（Windows はエクスプローラー）で <code>my-app</code> → <code>app</code> → <code>index.html</code> をダブルクリックします。すでにブラウザで開いているときは、<strong>再読み込み</strong>（<kbd>⌘R</kbd>／<kbd>F5</kbd>）します。<span class="why">なぜ：</span>ブラウザは前に読んだファイルを表示し続けています。読み直させないと、新しく足した動きが入っていない画面のまま試すことになります。
+    </p>
+    <p><code>docs/actions.md</code> の1行目の<strong>「確かめ方」のとおりに、自分の手で試します</strong>。食費メモなら次のとおりです。</p>
+    <ol>
+      <li>開いた直後、一覧に見本のデータ3件が出ていて、入力欄は空です。見た目はモックのときと同じです</li>
+      <li>金額に <code>500</code>、日付に今日の日付、メモに <code>昼食</code> を入れて「保存」を押します</li>
+      <li>一覧のいちばん上に1行増え、今月の合計が 500 円増え、入力欄が空に戻ります</li>
+      <li>画面が一瞬白くなったり、別の画面へ移ったりしません</li>
+      <li>再読み込みすると、見本のデータ3件だけに戻ります（<strong>これで正しい状態です</strong>。データを残す処理は、この回では作りません）</li>
+    </ol>
+    <div class="figures figures--2">
+      <figure class="figure figure--tall">
+        <img src="../../assets/images/lesson04-front/r4f_kiroku_before.png" alt="動きを足す前の食費メモ（モックのまま）。見本のデータが3件並んでいる" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+        <figcaption>動きを足す前の食費メモ（モックのまま）。見本のデータが3件並んでいます</figcaption>
+      </figure>
+      <figure class="figure figure--tall">
+        <img src="../../assets/images/lesson04-front/r4f_kiroku_after_save.png" alt="動きを足したあとの食費メモ。500円・昼食を入れて「保存」を押すと、一覧のいちばん上に1行増え、今月の合計が 4,540 円から 5,040 円に変わった。入力欄は空に戻っている" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+        <figcaption>動きを足したあとの食費メモ。500円・昼食を入れて「保存」を押すと、一覧のいちばん上に1行増え、今月の合計が 4,540 円から 5,040 円に変わりました。入力欄は空に戻っています</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="sub">確かめた結果を一覧に残す</h3>
+    <p>試したら、結果を Claude Code に伝えて <code>docs/actions.md</code> に書かせます。</p>
+<pre class="prompt" data-label="確かめた結果を書かせる型 ― 行の番号と結果を書き換えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/actions.md の「確かめた結果」の欄に、次のとおり書いてください。ほかの欄は変えないでください。
+- 1行目：OK</pre>
+    <p>うまく動かなかったときは、「1行目：NG（保存を押しても一覧が増えない）」のように、<strong>何をしたら、何が起きたか</strong>を書きます。<a href="#console">次の節</a>の型で直させます。</p>
+    <p><span class="why">なぜ自分の手で確かめるのか：</span>Claude Code は「作りました」と答えますが、実際の画面で押して確かめたわけではありません。確かめ方を自分の手で通して初めて、その動きができたと言えます。何を確かめるべきかを自分が持っていないと、あとで AI に確かめさせたときに、その報告が正しいかどうかを判断できません。</p>
+    <p><span class="why">なぜ結果をファイルに書かせるのか：</span>どこまで確かめたかを、覚えておかなくて済みます。あとで別の動きを足して前の動きが壊れたとき、「前は OK だった」と分かれば、壊したのは最後に足した動きだと絞り込めます。</p>
+  </div>
+</section>
+
+<!-- 6. 動かないとき -->
+<section class="section section--soft" id="console">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-console.svg" alt=""></span><div><p class="section__kicker">06</p><h2 class="section__title">動かないとき：<em>コンソールの赤い文字</em>を渡す</h2></div></div>
+    <p class="section__lead">
+      ボタンを押しても何も起きないときは、JavaScript がどこかで止まっていることが多いです。止まった理由は、ブラウザの<strong>コンソール</strong>に赤い文字で出ます。
+    </p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>開発者ツール</dt><dd>ブラウザに最初から付いている、画面の中身やエラーを調べる機能。</dd>
+        <dt>コンソール</dt><dd>開発者ツールの中の、JavaScript のエラーや記録が文字で出る欄。止まった理由が赤い文字で出ます。</dd>
+        <dt>エラー</dt><dd>プログラムが途中で止まった理由を知らせる文。英語で出ることが多いですが、読めなくて構いません。そのまま Claude Code に渡します。</dd>
+      </dl>
+    </div>
+
+    <h3 class="sub">コンソールの開き方</h3>
+    <p>2026年10月4日時点の開き方です。メニューの名前は、更新で変わることがあります。</p>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="ブラウザ・開き方 の表">
+      <table class="tbl">
+        <thead><tr><th>ブラウザ</th><th>開き方</th></tr></thead>
+        <tbody>
+          <tr><td>Chrome</td><td>Mac は <kbd>⌥⌘J</kbd>（option＋command＋J）、Windows は <kbd>Ctrl+Shift+J</kbd>。開いた欄の上の「Console」を押す</td></tr>
+          <tr><td>Edge</td><td>Mac は <kbd>⌥⌘J</kbd>、Windows は <kbd>Ctrl+Shift+J</kbd></td></tr>
+          <tr><td>Safari</td><td>先に「Safari」→「設定」→「詳細」→「Web デベロッパ用の機能を表示」をオンにする（1回だけ）。そのあと <kbd>⌥⌘C</kbd></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <figure class="figure">
+      <img src="../../assets/images/lesson04-front/r4f_console_error.png" alt="Chrome でコンソールを開いたところ（例：食費メモ。わざと不具合を1つ入れてある）。右側の「Console」に、止まった理由が赤い文字で出ている。最後の「app.js:132」は、app.js の132行目で止まったという意味。この例では、読み込みの時点で止まっているので、合計も一覧も出ていない" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+      <figcaption>Chrome でコンソールを開いたところ（例：食費メモ。わざと不具合を1つ入れてあります）。右側の「Console」に、止まった理由が赤い文字で出ています。最後の「app.js:132」は、app.js の132行目で止まったという意味です。この例では、読み込みの時点で止まっているので、合計も一覧も出ていません</figcaption>
+    </figure>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      開発者ツールの上に「DevTools is now available in Japanese」と出ることがあります。「Switch DevTools to Japanese」を押すと表示が日本語になり、「Console」は「コンソール」になります。どちらのままでも構いません。
+    </div>
+
+    <h3 class="sub">渡し方</h3>
+    <p>コンソールを開いたまま、もう一度同じ操作をして、赤い文字が出たところをスクリーンショットで撮ります（Mac は <kbd>⌃⇧⌘4</kbd> で範囲を選ぶと、画像がクリップボードに入ります。Windows は <kbd>Windows＋Shift＋S</kbd>）。次の型に貼って送ります。</p>
+<pre class="prompt" data-label="動かないときの型 ― （ ）の中を書き換え、スクショを添えて貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/actions.md の（　）行目の動きが、うまく動きません。
+- したこと：（例：金額に 500、日付に今日を入れて「保存」を押した）
+- 起きたこと：（例：一覧に何も増えない。画面も変わらない）
+- コンソール：赤い文字が出ています（スクショを添付）
+まず原因を教えてください。直すのは、私が「直してください」と言ってからにしてください。</pre>
+    <p>原因の説明を読んだら、「直してください。変えるのは app/ の .js のファイルだけにして、見た目は変えないでください」と送ります。直ったら、再読み込みして、もう一度「確かめ方」を通します。</p>
+    <p><span class="why">なぜ「したこと・起きたこと・コンソール」の3つを渡すのか：</span>「動きません」だけでは、AI はどの操作のことか分からず、推測で別の場所を直します。何を押して、何が見えたかと、止まった理由の文があれば、原因を1つに絞れます。</p>
+    <p><span class="why">なぜ先に原因を説明させるのか：</span>すぐに直させると、AI は原因が分からないまま、それらしい場所をまとめて書き換えることがあります。直ったように見えても、何が悪かったのかが分からず、同じことが起きたときにまた一からになります。説明を読んで、自分のした操作の話になっているかを確かめてから直させます。</p>
+
+    <h3 class="sub">赤い文字が出ていないとき</h3>
+    <p>JavaScript が止まったのではなく、別の理由で動いていないことが多いです。</p>
+    <ul>
+      <li>HTML に読み込みの1行（<code>&lt;script src="app.js"&gt;&lt;/script&gt;</code>）が無い、またはファイル名が違う</li>
+      <li>再読み込みをしていない（前の画面のまま）</li>
+      <li>別のフォルダの HTML を開いている（<code>app-mock</code> の中の <code>index.html</code> を開いていないか、アドレス欄で見ます）</li>
+    </ul>
+    <p>このときも、「したこと・起きたこと・赤い文字は出ていない」の3つを渡して、まず原因を聞きます。</p>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <strong>スクリーンショットを貼る前に、名前・メールアドレス・業務の実データが写っていないかを見てください。</strong>貼った画像は AI のサービスに送られます。写っていたら、範囲を絞って撮り直します。
+    </div>
+  </div>
+</section>
+
+<!-- 7. 指示③ 1行ずつ -->
+<section class="section" id="loop">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-loop.svg" alt=""></span><div><p class="section__kicker">07</p><h2 class="section__title">指示③：残りの動きを<em>1行ずつ</em>足す</h2></div></div>
+    <p class="section__lead">
+      1行目が動いたら、残りの「まだ」の行を、<strong>上から1行ずつ</strong>足していきます。毎回、次の型を<strong>そのまま</strong>貼って送ります。書き換える箇所はありません（次にどの行を作るかは、一覧の「状態」から読み取らせます）。
+    </p>
+<pre class="prompt prompt--plain" data-label="指示③（残りの動きを1行ずつ）― 毎回そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/actions.md で、状態が「まだ」の行のうち、いちばん上の1行の動きを作ってください。ほかの行の動きは変えないでください。
+
+■ 作り方
+- 動きは app/app.js に足してください。AI に考えてもらう部分は app/ai.js の関数を使ってください
+- type="module"・import・fetch は使わないでください。データは画面の中に持つだけにしてください（残す処理は作らない）
+- サーバーの作成・起動、パッケージの追加、設定ファイルの作成、ブラウザの起動はしないでください
+
+■ 変えてよい範囲
+- HTML の要素の並び・文言は変えないでください。新しい表示（エラーの文・案内の文・処理中の表示）が要るときだけ、HTML に要素を足して構いません。足す前に、どの画面のどこに足すかを教えてください
+- 新しい表示に見た目が要るときだけ、app/style.css のいちばん最後に指定を足して構いません。今ある指定は変えないでください。色と余白は、いまの画面に合わせてください
+
+■ 行の種類ごとの決まり（当てはまる行のときだけ）
+- 入力のチェック：だめなときは保存・送信・変換をせず、欄の近くに理由を出す。入力した内容は消さない。チェックするのは docs/spec.md の「扱うデータ」に書いてある必須・種類・範囲だけ
+- 1件も無いとき：一覧などの場所に、次に何をすればよいかが分かる案内の文を出す
+- 処理中：終わるまでボタンを押せなくし、処理中だと分かる文（例：「考え中…」）を出す
+- 失敗したとき：「うまくいきませんでした。もう一度お試しください」と出し、入力した内容は消さない。試せるように、ai.js は入力に「失敗テスト」という文字が入っているときだけ失敗するようにする（本物の AI につなぐまでの仮の仕組み）
+
+■ 終わったら
+- その行の状態を「作った」にして、ブラウザでの確かめ方を教えてください
+完成条件：その行の「確かめ方」のとおりになること。前に作った動きも、これまでどおり動くこと</pre>
+    <figure class="figure figure--diagram">
+      <picture><source media="(max-width:900px)" srcset="../../assets/images/lesson04-front/diagram_row_loop_sp.svg"><img src="../../assets/images/lesson04-front/diagram_row_loop.svg" alt="動きは1行ずつ足す。選ぶ → 頼む → 許可する → 確かめる → 前の動きも押す、を「まだ」の行が無くなるまで繰り返す" loading="lazy"></picture>
+      <figcaption>動きは1行ずつ足します。選ぶ → 頼む → 許可する → 確かめる → 前の動きも押す、を「まだ」の行が無くなるまで繰り返します</figcaption>
+    </figure>
+
+    <h3 class="sub">1行足すたびにすること</h3>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h4 class="steps__title">確認画面で、変わるファイルと中身を見てから許可する</h4><p class="steps__desc">HTML に要素を足すときは、どの画面のどこに足すかが返答に書かれているので、それと確認画面の中身が合っているかを見ます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h4 class="steps__title">ブラウザで再読み込みして、その行の「確かめ方」を試す</h4></div></li>
+      <li><span class="steps__n">3</span><div><h4 class="steps__title">前に作った動きも、もう一度押してみる</h4><p class="steps__desc"><span class="why">なぜ：</span>AI は新しい動きを足すときに、前の動きと共通の部分を書き換えることがあります。入力のチェックを足したら、正しい入力でも保存できなくなった、ということが起きます。すぐに気づけば、原因は最後に足した1行に絞れます。</p></div></li>
+      <li><span class="steps__n">4</span><div><h4 class="steps__title">結果を <code>docs/actions.md</code> の「確かめた結果」に書かせる</h4><p class="steps__desc"><a href="#check">「自分の手で確かめる」の節</a>の型を使います。OK の行は、1回でまとめて伝えて構いません。</p></div></li>
+    </ol>
+    <p><span class="why">なぜ1回の指示で1行なのか：</span>まとめて頼むと、確認画面の中身が長くなって読み切れず、動かないときに、どの行の作業が原因か分かりません。1行ずつなら、うまくいかなかったときに「さっきの1行を作る前に戻して」と頼むだけで済みます。</p>
+    <p><span class="why">なぜ毎回同じ型を貼るのか：</span>型の中に、変えてよい範囲と、この回で作らないものが全部入っています。2回目以降に条件を省くと、AI はその回の指示だけを見て、データを残す処理や見た目の変更を始めることがあります。</p>
+
+    <h3 class="sub">行の種類ごとの決まりの理由</h3>
+    <dl class="explain-list">
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>入力のチェック：だめなときは保存しない・欄の近くに理由・入力は消さない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>空の金額で保存されると、一覧に金額の無い行ができ、合計が計算できなくなります。理由が欄から離れた場所に出ると、どこを直せばよいか分かりません。入力を消すと、長いメモを最初から打ち直すことになります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>入力のチェック：仕様書の「扱うデータ」の必須・種類・範囲だけ</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>仕様書に無いチェック（メモの文字数の上限など）を AI が足すと、自分が決めていない理由で保存できなくなります。たとえば食費メモの金額は「0以上の整数」なので、空・マイナス・小数・数字でないものを止めます。メモは「任意」なので、空でも止めません</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>1件も無いとき：次に何をすればよいかが分かる案内</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>一覧が空白のままだと、壊れたのか、まだ何も無いのかが区別できません。使い始めの最初の画面は、この「1件も無い」状態になります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>処理中：ボタンを押せなくし、処理中だと分かる文</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>AI の返事は数秒かかります。何も変わらないと、動いていないと思って何度も押します。本物の AI につないだあとは、押した回数だけ料金がかかります</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>失敗したとき：決まった文を出し、入力は消さない</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>本物の AI は、通信や混み具合で失敗することがあります。何も出ないと、待ち続けることになります。入力が残っていれば、もう一度押すだけでやり直せます</dd>
+      </div>
+      <div class="explain-list__item">
+        <dt class="explain-list__term"><strong>ai.js は「失敗テスト」の文字のときだけ失敗する</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>失敗したときの表示は、本物の AI がたまたま失敗するまで確かめられません。わざと失敗させる決まりがあれば、自分の手で何度でも確かめられます。本物の AI につなぐときに ai.js ごと差し替わるので、この決まりは残りません</dd>
+      </div>
+    </dl>
+
+    <h3 class="sub">自分のアプリの型での見え方</h3>
+    <p><strong>記録型：</strong>入力のチェックでは、理由が金額欄の下に赤い文字で出て、一覧は増えません。全部削除すると、一覧の場所に「まだ記録がありません」の案内が出ます。</p>
+    <figure class="figure figure--half">
+      <img src="../../assets/images/lesson04-front/r4f_kiroku_validation.png" alt="入力のチェック。金額にマイナスを入れて保存を押すと、金額の欄の近くに理由が出て、一覧は増えない（例：食費メモ）" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+      <figcaption>入力のチェック。金額にマイナスを入れて保存を押すと、金額の欄の近くに理由が出て、一覧は増えません（例：食費メモ）</figcaption>
+    </figure>
+    <figure class="figure figure--half">
+      <img src="../../assets/images/lesson04-front/r4f_kiroku_empty.png" alt="1件も無いとき。全部削除すると、一覧の場所に案内の文が出る（例：食費メモ）" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+      <figcaption>1件も無いとき。全部削除すると、一覧の場所に案内の文が出ます（例：食費メモ）</figcaption>
+    </figure>
+    <p><strong>変換型・相談型：</strong>「変換」「送信」を押すと、ボタンが押せなくなって処理中の文（「考え中…」「まとめています…」など）が出て、1秒後に仮の文章が出ます。入力に「失敗テスト」を入れて押すと、失敗の文が出て、入力は残ります。</p>
+    <figure class="figure figure--half">
+      <img src="../../assets/images/lesson04-front/r4f_henkan_result.png" alt="変換型の例（会議メモ要点まとめ）。「要点にする」を押して1秒後、結果の欄に仮の要点が出た。本物の AI につなぐまでは、毎回この決まった文章が出る" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+      <figcaption>変換型の例（会議メモ要点まとめ）。「要点にする」を押して1秒後、結果の欄に仮の要点が出ました。本物の AI につなぐまでは、毎回この決まった文章が出ます</figcaption>
+    </figure>
+    <div class="figures figures--2">
+      <figure class="figure">
+        <img src="../../assets/images/lesson04-front/r4f_soudan_thinking.png" alt="処理中。送信を押すと、ボタンが押せなくなり「考え中…」が出る（例：献立相談）" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+        <figcaption>処理中。送信を押すと、ボタンが押せなくなり「考え中…」が出ます（例：献立相談）</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="../../assets/images/lesson04-front/r4f_soudan_fail.png" alt="失敗したとき。「失敗テスト」を入れて送信すると、失敗の文が出て、入力した文は残る（例：献立相談）" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月">
+        <figcaption>失敗したとき。「失敗テスト」を入れて送信すると、失敗の文が出て、入力した文は残ります（例：献立相談）</figcaption>
+      </figure>
+    </div>
+    <div class="note note--warn">
+      <img class="note__icon" src="../../assets/icons/icon-warn.svg" alt="">
+      <strong>「削除」の確認は、ブラウザの小さな確認の窓で出ることが多いです。</strong>「OK」と「キャンセル」の両方を試します。キャンセルで消えてしまったら、NG として<a href="#console">「動かないとき」の節</a>の型で直させます。
+    </div>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_koko_daiji_board.png" alt="">
+      <strong>「あとで」の行は、この回では作りません。</strong>「まだ」の行が無くなったら、この回の指示③は終わりです。「あとで」の行（修正画面に選んだ記録を出す・閉じても残る・本物の AI など）は、データの置き場とサーバーを決めてから作ります。「あとで」の行を作らせようとして、データを残す処理を頼まないでください。
+    </div>
+  </div>
+</section>
+
+<!-- 8. 見直す -->
+<section class="section section--soft" id="review">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-detail.svg" alt=""></span><div><p class="section__kicker">08</p><h2 class="section__title">見直す：全部押す・見た目を見比べる・<em>仕様書と揃える</em></h2></div></div>
+    <p class="section__lead">「まだ」の行が無くなったら、次の4つを見ます。</p>
+    <ol class="steps">
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">一覧の「作った」の行を、上から全部もう一度押す</h3><p class="steps__desc">最後に足した動きのせいで、最初のほうの動きが壊れていないかを見ます。結果を「確かめた結果」に書かせます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title"><code>app-mock</code> の画面と見比べる</h3><p class="steps__desc"><code>app-mock</code> の中の <code>index.html</code> を別の窓で開き、<code>app</code> の画面と並べて、見出し・ボタンの文字・色・余白が変わっていないかを見ます。足した表示（エラーの文・案内の文・処理中）以外が変わっていたら、「<code>app/index.html</code> の（　）が、<code>app-mock/index.html</code> と変わっています。元に戻してください。動きは変えないでください」と頼みます。<span class="why">なぜ：</span>動きを足す指示の途中で、見た目が少しずつ変わることがあります。毎回の確認画面では気づきにくいので、最後に控えと並べて見ます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">仕様書と揃える</h3><p class="steps__desc">Claude Code に「<code>docs/spec.md</code> と、<code>docs/actions.md</code>・いまの <code>app/</code> の画面で、違うところを一覧にしてください。まだ何も変えないでください」と頼みます。出てきた違い（足したエラーの文・案内の文、入力のチェックの決まりなど）を1つずつ、<strong>仕様書に書き足す</strong>か、<strong>画面を仕様書に戻す</strong>かを決めます。書き足すものだけ「<code>docs/spec.md</code> の（　）に、（　）を足してください。ほかの項目は変えないでください」と頼みます。<span class="why">なぜ：</span>仕様書と画面が食い違ったままだと、データを残す処理やテストを足すとき、AI がどちらを正としてよいか分かりません。</p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title"><code>docs/tasks.md</code> に終わった印を付ける</h3><p class="steps__desc">作る順番 <code>docs/tasks.md</code> のうち、画面の中だけでできたタスクを <code>- [x]</code> にしてもらいます。データを残す・画面をまたぐタスクは、まだ終わっていません。<span class="why">なぜ：</span>印が実物とずれていると、次に作り始めるときに、できているものをもう一度作らせることになります。</p></div></li>
+    </ol>
+    <div class="note note--key">
+      <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
+      <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
+      <strong>ここで作った動きは、あとで裏側をつなぐときの土台になります。</strong>画面側の流れ（押す → 待つ → 出る／失敗）ができていれば、裏側をつなぐときは「どこからデータを持ってくるか」「仮の文章を本物に変える」だけを考えれば済みます。
+    </div>
+  </div>
+</section>
+
+<!-- この回で作るもの -->
+<section class="section" id="deliverables">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-deliverable.svg" alt=""></span><div><p class="section__kicker">Deliverables</p><h2 class="section__title">この回で<em>作るもの</em></h2></div></div>
+    <p class="section__lead">終わったとき、手元に次の4つ（AI を使うアプリは5つ）がある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
+    <div class="term">
+      <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
+      <dl>
+        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
+      </dl>
+    </div>
+    <div class="cards cards--2">
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-folder.svg" alt="">
+        <h3 class="card__title">変えたファイルの一覧</h3>
+        <p class="card__desc">Claude Code に「この会話で作った・変えたファイルの一覧を出してください」と頼んだ返答。スクリーンショットか、文字をそのまま貼ります。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-tasks.svg" alt="">
+        <h3 class="card__title"><code>docs/actions.md</code>（動きの一覧）</h3>
+        <p class="card__desc">「状態」と「確かめた結果」（OK／NG／まだ確かめていない）が入ったもの。NG が残っていても構いません。そのときは、何が起きたかを書いておきます。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-check-screen.svg" alt="">
+        <h3 class="card__title">いちばんよく使う動きの、前と後のスクリーンショット</h3>
+        <p class="card__desc">押す前の画面と、押したあとの画面を各1枚。名前やメールアドレス、業務の実データが写っていないものにします。</p>
+      </div>
+      <div class="card">
+        <img class="card__icon" src="../../assets/icons/icon-console.svg" alt="">
+        <h3 class="card__title">つまずきの記録</h3>
+        <p class="card__desc">動かなかったときに、何をして、何を渡して、どう直ったか（または、まだ直っていないか）を1件以上。無ければ「なし」と書きます。</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>AI を使うアプリは、もう1つ：</strong>仮の文章が出たときと、「失敗テスト」で失敗の文が出たときのスクリーンショット（各1枚）。
+    </div>
+    <p><span class="why">なぜこの4つなのか：</span>動いている様子は、スクリーンショット1枚だけでは伝わりません。一覧と確かめた結果があれば、どこまで作って、どこまで自分の手で確かめたかが分かります。つまずきの記録は、動かなかったときの渡し方を自分で回せたかを見るためのものです。</p>
+  </div>
+</section>
+
+<!-- つまずき -->
+<section class="section section--soft" id="pitfalls">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-pitfall.svg" alt=""></span><div><p class="section__kicker">Pitfalls</p><h2 class="section__title">よくある<em>つまずき</em>と対処</h2></div></div>
+    <p class="section__lead">詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板）で進めてください。</p>
+    <div class="pitfalls">
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">ボタンを押しても何も起きない（赤い文字が出る）</h3>
+        <p class="pitfall__what">JavaScript が途中で止まっています。</p>
+        <p class="pitfall__how"><strong>対処：</strong><a href="#console">「動かないとき」の節</a>の型で、したこと・起きたこと・コンソールのスクショを渡し、原因を先に説明させます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">コンソールに、自分のファイルと関係が薄そうな赤い文字も出る</h3>
+        <p class="pitfall__what">例：<code>Unsafe attempt to load URL file:///… 'file:' URLs are treated as unique security origins.</code> ダブルクリックで開いた画面（<code>file://</code>）で、Chrome が出すことがある知らせです。アプリの動きとは関係しないことが多いです。</p>
+        <p class="pitfall__how"><strong>対処：</strong>見分けようとしなくて構いません。赤い文字はまとめてスクショに入れて渡せば、Claude Code が関係のあるものを見分けます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">ボタンを押しても何も起きない（赤い文字も出ない）</h3>
+        <p class="pitfall__what">読み込みの1行が無い・再読み込みしていない・別のフォルダの HTML を開いている、のどれかです。</p>
+        <p class="pitfall__how"><strong>対処：</strong>HTML の最後に <code>&lt;script src="app.js"&gt;&lt;/script&gt;</code> があるかを Claude Code に聞きます。再読み込み（<kbd>⌘R</kbd>／<kbd>F5</kbd>）します。アドレス欄が <code>app-mock</code> になっていないかを見ます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">押すと画面が一瞬白くなって、最初の状態に戻る</h3>
+        <p class="pitfall__what">フォームの送信で、画面が読み込み直されています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「『保存』を押すと画面が読み込み直されます。読み込み直さないようにしてください。ほかは変えないでください」と頼みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">一覧に同じ行が2回ずつ出る</h3>
+        <p class="pitfall__what">HTML の仮のデータと、app.js の見本のデータの両方が描かれています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「一覧に同じ行が二重に出ています。HTML に直接書いてある仮のデータを消して、app.js の見本のデータだけから描くようにしてください」と頼みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">動きを足したら、色や余白が変わった</h3>
+        <p class="pitfall__what">HTML の構造や style.css を書き換えられています。</p>
+        <p class="pitfall__how"><strong>対処：</strong><code>app-mock</code> と並べて違いを見つけ、元に戻させます（<a href="#review">「見直す」の節</a>）。次からは、型の「変えてよい範囲」を省かずに貼ります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title"><code>type="module"</code> や <code>import</code> が使われて、何も動かない</h3>
+        <p class="pitfall__what">ダブルクリックで開いた画面では、ブラウザがこれを止めます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「type="module" と import を使わずに、普通の <code>&lt;script src&gt;</code> で読み込む形にしてください」と頼みます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">Claude Code がサーバーを作ろうとする・<code>npm</code> のコマンドを出してくる</h3>
+        <p class="pitfall__what">この回では使わない道具が増えます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>確認画面で「拒否」。「この回はサーバーを使いません。ダブルクリックで開いて動く形にしてください」と送り直します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">Claude Code がブラウザを起動して確かめようとする</h3>
+        <p class="pitfall__what">頼んでいないコマンドの確認が出ます。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「拒否」で構いません。確かめるのは、ご自身のブラウザで行います。拒否しても、頼んだ変更は残っています。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">再読み込みすると、足したデータが消える</h3>
+        <p class="pitfall__what">正しい動きです。この回はデータを残しません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>不具合ではありません。「残す」は一覧の「あとで」の行で、データの置き場を決めてから作ります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">「修正」を押すと、修正画面に選んだ記録が出ない</h3>
+        <p class="pitfall__what">画面をまたぐ受け渡しは、この回では作りません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>一覧の「あとで」の行です。この回では、修正画面はモックのまま（決まった仮の値が出る）で正しい状態です。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">Claude Code がデータを残す処理（localStorage など）まで作った</h3>
+        <p class="pitfall__what">指示の「データは画面の中に持つだけ」が抜けた、または AI が先回りしました。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「データを残す処理は外してください。画面の中に持つだけにしてください」と頼みます。型は省かずに貼ります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">入力のチェックで、正しい入力まで止められる</h3>
+        <p class="pitfall__what">仕様書に無いチェックが足されたか、範囲を読み違えています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>理由の文を読んで、どのチェックかを確かめます。「メモは任意なので、空でも保存できるようにしてください」のように、仕様書の決まりを示して直させます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">「削除」の確認でキャンセルしても消える</h3>
+        <p class="pitfall__what">確認の結果を見ずに消しています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>NG として、<a href="#console">「動かないとき」の節</a>の型で直させます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">処理中の表示が一瞬で消えて見えない</h3>
+        <p class="pitfall__what">仮の文章が、待たずに返っています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「ai.js は1秒待ってから返すようにしてください」と頼みます。待つ時間があると、処理中の表示を目で確かめられます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">Safari でコンソールが開けない</h3>
+        <p class="pitfall__what">開発用のメニューが出ていません。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「Safari」→「設定」→「詳細」→「Web デベロッパ用の機能を表示」をオンにします。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">ダブルクリックで、ブラウザ以外のソフトが開く</h3>
+        <p class="pitfall__what">HTML ファイルに、エディタが割り当てられています。</p>
+        <p class="pitfall__how"><strong>対処：</strong>右クリック →「このアプリケーションで開く」（Windows は「プログラムから開く」）→ ブラウザ。ブラウザの窓にファイルをドラッグしても開けます。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">一覧（<code>docs/actions.md</code>）の行が多すぎる・仕様書に無い動きが混じった</h3>
+        <p class="pitfall__what">指示①の条件が守られていないか、仕様書の「やらないこと」があいまいです。</p>
+        <p class="pitfall__how"><strong>対処：</strong>1行ずつ消させます。「やらないこと」に書き足すべきものなら、仕様書も直します。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title"><code>app-mock</code> のほうを書き換えられた</h3>
+        <p class="pitfall__what">控えのフォルダも、作業の対象として読まれました。</p>
+        <p class="pitfall__how"><strong>対処：</strong>「app-mock は控えです。元に戻して、以後は読まないでください」と頼みます。指示①の型には「app-mock フォルダは読まないでください」を入れてあります。</p>
+      </div>
+      <div class="pitfall">
+        <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
+        <h3 class="pitfall__title">途中で利用の上限に達した</h3>
+        <p class="pitfall__what">指示が通らなくなります。</p>
+        <p class="pitfall__how"><strong>対処：</strong>ここまでに作ったファイルは残っています。使える量が戻ったら、同じフォルダを開き直し、指示③の型を貼れば、一覧の「まだ」から続きを作れます。上限の量と戻る周期は契約で違い、変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 用語 -->
+<section class="section" id="glossary">
+  <div class="section__inner">
+    <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-glossary.svg" alt=""></span><div><p class="section__kicker">Glossary</p><h2 class="section__title">この回で出てきた<em>用語</em></h2></div></div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
+      <table class="tbl">
+        <thead><tr><th>用語</th><th>意味</th></tr></thead>
+        <tbody>
+          <tr><td><strong>動き</strong></td><td>操作（押す・入れる）を受け取って、画面の中身を書き換える仕組み</td></tr>
+          <tr><td><strong>JavaScript</strong></td><td>ブラウザの中で動くプログラム。「押されたら何をするか」を書く。ファイル名の最後が <code>.js</code></td></tr>
+          <tr><td><strong>画面側（フロントエンド）</strong></td><td>ブラウザの中で動く部分。HTML・CSS・JavaScript でできている</td></tr>
+          <tr><td><strong>裏側</strong></td><td>利用者から見えない場所で動く部分。データを残す処理や、AI のサービスを呼ぶ処理など</td></tr>
+          <tr><td><strong>docs/actions.md</strong></td><td>この回で作る動きの一覧。1行が1回分の指示になる</td></tr>
+          <tr><td><strong>app.js</strong></td><td>画面の動きを書く JavaScript のファイル</td></tr>
+          <tr><td><strong>ai.js</strong></td><td>AI に考えてもらう部分だけをまとめるファイル。この回は仮の文章を返すだけ</td></tr>
+          <tr><td><strong>関数</strong></td><td>プログラムの中で、ひとまとまりの処理に名前を付けたもの。名前で呼ぶと、その処理が動く</td></tr>
+          <tr><td><strong>読み込み（<code>&lt;script src&gt;</code>）</strong></td><td>HTML に「この JavaScript のファイルを使う」と書く1行</td></tr>
+          <tr><td><strong>id</strong></td><td>HTML の要素に付ける名前。JavaScript が要素を見分けるのに使う</td></tr>
+          <tr><td><strong>タグ・class</strong></td><td>タグは HTML で要素の種類を表す印、class は要素に付ける分類の名前。style.css はこの2つを目印に見た目を当てる</td></tr>
+          <tr><td><strong>見本のデータ</strong></td><td>モックの仮のデータを、app.js の中にまとめ直したもの</td></tr>
+          <tr><td><strong>仮の文章</strong></td><td>本物の AI の代わりに返す、決まった文章</td></tr>
+          <tr><td><strong>再読み込み</strong></td><td>ブラウザに画面のファイルを読み直させること。<kbd>⌘R</kbd>／<kbd>F5</kbd></td></tr>
+          <tr><td><strong>file://</strong></td><td>自分の PC の中のファイルを直接開いている状態を表す、アドレスの始まり</td></tr>
+          <tr><td><strong>フォーム</strong></td><td>HTML の入力欄のまとまり。ボタンを押すと内容を送って画面を読み込み直す動きが、最初から付いている</td></tr>
+          <tr><td><strong>開発者ツール</strong></td><td>ブラウザに最初から付いている、画面の中身やエラーを調べる機能</td></tr>
+          <tr><td><strong>コンソール</strong></td><td>開発者ツールの中の、JavaScript のエラーや記録が文字で出る欄</td></tr>
+          <tr><td><strong>エラー</strong></td><td>プログラムが途中で止まった理由を知らせる文</td></tr>
+          <tr><td><strong>入力のチェック</strong></td><td>入力が仕様書の決まり（必須・種類・範囲）に合っているかを確かめ、合わないときは保存せず理由を出すこと</td></tr>
+          <tr><td><strong>処理中の表示</strong></td><td>時間のかかる処理（AI の返事を待つ間など）に、ボタンを押せなくして「考え中…」のように出す表示</td></tr>
+          <tr><td><strong>失敗したときの表示</strong></td><td>処理がうまくいかなかったときに、決まった文を出し、入力を残しておく表示</td></tr>
+          <tr><td><strong>控え（app-mock）</strong></td><td>動きを足す前の <code>app</code> を複製して残したフォルダ。見比べたり、戻したりするのに使う</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-hint">表は横にスクロールできます</p>
+    <p><a class="backlink" href="../../">← Home（ゼミ全体の案内）へ戻る</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    AIアプリ開発入門ゼミ ｜ DMM 生成AI CAMP　—　受講生向けページ<br>
+    ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。
+  </div>
+</footer>
+
+<!-- shot-stamp:start -->
+<aside style="max-width:980px;margin:32px auto 0;padding:14px 18px;border:1px solid #e4e4ef;border-radius:12px;background:#fafafd;color:#3f3f52;font-size:13.5px;line-height:1.9"><b>この資料の画面について</b><br>載せているスクリーンショットは <b>2026年10月</b> に撮影したものです。ツールの更新で、ボタンの名前や画面の見た目が変わっていることがあります。手元の画面と違っても、<b>やることは同じ</b>ことがほとんどです。同じ意味のボタンを探しても見つからないときは、Boarding Pass の Q&amp;A から質問してください（似た質問にすでに回答があれば、送る前に表示されます）。各画像にマウスを乗せると、その 1 枚の撮影時期が出ます。</aside>
+<!-- shot-stamp:end -->
+</body>
+</html>

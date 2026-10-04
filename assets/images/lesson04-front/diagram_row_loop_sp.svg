@@ -1,0 +1,51 @@
+<svg id="diagram-row-loop-sp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 856" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">動きは1行ずつ足す</title>
+  <desc id="svg-desc">5つの段階を縦に進み、前の動きも確かめながら一つずつ足していく図。</desc>
+  <defs id="diagram-definitions">
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10"><path id="arrow-gray-tip" d="M0 0L10 5L0 10Z" fill="#5A6178"/></marker>
+  </defs>
+  <rect id="canvas" x="0" y="0" width="360" height="856" fill="#FFF9F0"/>
+  <g id="diagram-content" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text id="main-title" x="24" y="34" font-size="20" font-weight="700">動きは1行ずつ足す</text>
+    <text id="center-message" x="180" y="69" text-anchor="middle" font-size="17" font-weight="700" fill="#FF8C42"><tspan id="center-message-line-1" x="180" y="69">1回の指示で、</tspan><tspan id="center-message-line-2" x="180" y="91">動きは1つ</tspan></text>
+
+    <path id="step-1-to-2" d="M180 246V263" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="step-2-to-3" d="M180 376V393" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="step-3-to-4" d="M180 506V523" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="step-4-to-5" d="M180 636V653" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+    <path id="step-5-to-1" d="M46 718H24V198H46" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-gray)"/>
+    <path id="debug-branch" d="M316 625H338V785" fill="none" stroke="#5A6178" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 5" marker-end="url(#arrow-gray)"/>
+
+    <g id="step-1" role="group" aria-labelledby="step-1-title" aria-describedby="step-1-desc">
+      <rect id="step-1-box" x="46" y="132" width="270" height="114" rx="16" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2.5"/>
+      <circle id="step-1-number-circle" cx="66" cy="152" r="15" fill="#4DA8FF"/><text id="step-1-number" x="66" y="158" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+      <text id="step-1-title" x="91" y="159" font-size="17" font-weight="700">選ぶ</text>
+      <text id="step-1-desc" x="62" y="188" font-size="15"><tspan id="step-1-desc-line-1" x="62" y="188">docs/actions.md の</tspan><tspan id="step-1-desc-line-2" x="62" y="207">「まだ」のうち、</tspan><tspan id="step-1-desc-line-3" x="62" y="226">いちばん上の行</tspan></text>
+    </g>
+    <g id="step-2" role="group" aria-labelledby="step-2-title" aria-describedby="step-2-desc">
+      <rect id="step-2-box" x="46" y="262" width="270" height="114" rx="16" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2.5"/>
+      <circle id="step-2-number-circle" cx="66" cy="282" r="15" fill="#4DA8FF"/><text id="step-2-number" x="66" y="288" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+      <text id="step-2-title" x="91" y="289" font-size="17" font-weight="700">頼む</text>
+      <text id="step-2-desc" x="62" y="318" font-size="15"><tspan id="step-2-desc-line-1" x="62" y="318">いつもの型の指示を、</tspan><tspan id="step-2-desc-line-2" x="62" y="337">そのまま送る</tspan></text>
+    </g>
+    <g id="step-3" role="group" aria-labelledby="step-3-title" aria-describedby="step-3-desc">
+      <rect id="step-3-box" x="46" y="392" width="270" height="114" rx="16" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2.5"/>
+      <circle id="step-3-number-circle" cx="66" cy="412" r="15" fill="#4DA8FF"/><text id="step-3-number" x="66" y="418" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+      <text id="step-3-title" x="91" y="419" font-size="17" font-weight="700">許可する</text>
+      <text id="step-3-desc" x="62" y="448" font-size="15"><tspan id="step-3-desc-line-1" x="62" y="448">確認画面で、変わる</tspan><tspan id="step-3-desc-line-2" x="62" y="467">ファイルと中身を</tspan><tspan id="step-3-desc-line-3" x="62" y="486">見てから</tspan></text>
+    </g>
+    <g id="step-4" role="group" aria-labelledby="step-4-title" aria-describedby="step-4-desc">
+      <rect id="step-4-box" x="46" y="522" width="270" height="114" rx="16" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2.5"/>
+      <circle id="step-4-number-circle" cx="66" cy="542" r="15" fill="#4DA8FF"/><text id="step-4-number" x="66" y="548" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+      <text id="step-4-title" x="91" y="549" font-size="17" font-weight="700">確かめる</text>
+      <text id="step-4-desc" x="62" y="578" font-size="15"><tspan id="step-4-desc-line-1" x="62" y="578">ブラウザで再読み込みして、</tspan><tspan id="step-4-desc-line-2" x="62" y="597">その行の「確かめ方」を</tspan><tspan id="step-4-desc-line-3" x="62" y="616">試す</tspan></text>
+    </g>
+    <g id="step-5" role="group" aria-labelledby="step-5-title" aria-describedby="step-5-desc">
+      <rect id="step-5-box" x="46" y="652" width="270" height="114" rx="16" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2.5"/>
+      <circle id="step-5-number-circle" cx="66" cy="672" r="15" fill="#4DA8FF"/><text id="step-5-number" x="66" y="678" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+      <text id="step-5-title" x="91" y="679" font-size="17" font-weight="700">前の動きも押す</text>
+      <text id="step-5-desc" x="62" y="708" font-size="15"><tspan id="step-5-desc-line-1" x="62" y="708">壊れていなければ、</tspan><tspan id="step-5-desc-line-2" x="62" y="727">その行を「作った」に</tspan></text>
+    </g>
+    <text id="debug-branch-label" x="48" y="811" font-size="14" font-weight="700" fill="#5A6178"><tspan id="debug-branch-label-line-1" x="48" y="811">動かないとき → コンソールの</tspan><tspan id="debug-branch-label-line-2" x="48" y="830">赤い文字をスクショで渡す</tspan></text>
+  </g>
+</svg>

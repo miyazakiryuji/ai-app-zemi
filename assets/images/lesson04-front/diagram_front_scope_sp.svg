@@ -1,0 +1,70 @@
+<svg id="diagram-front-scope-sp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 1336" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">この回で作るのは、ブラウザの中だけ</title>
+  <desc id="svg-desc">画面、app.js、ai.js、画面の中のデータを縦に並べ、この回では作らない裏側の要素も示す図。</desc>
+  <defs id="diagram-definitions">
+    <marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10"><path id="arrow-gray-tip" d="M0 0L10 5L0 10Z" fill="#5A6178"/></marker>
+  </defs>
+  <rect id="canvas" x="0" y="0" width="360" height="1336" fill="#FFF9F0"/>
+  <g id="diagram-content" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+    <text id="main-title" x="24" y="32" font-size="20" font-weight="700"><tspan id="main-title-line-1" x="24" y="32">この回で作るのは、</tspan><tspan id="main-title-line-2" x="24" y="57">ブラウザの中だけ</tspan></text>
+    <circle id="human-head" cx="66" cy="103" r="8" fill="none" stroke="#5A6178" stroke-width="2.5"/>
+    <path id="human-shoulders" d="M51 129Q52 114 66 114Q80 114 81 129" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round"/>
+    <text id="human-action" x="92" y="117" font-size="15" font-weight="700" fill="#5A6178">押す・入れる</text>
+    <path id="human-to-screen" d="M66 133V226" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+
+    <g id="browser-scope" role="group" aria-labelledby="browser-scope-title">
+      <rect id="browser-scope-frame" x="16" y="170" width="328" height="724" rx="18" fill="#FFFFFF" fill-opacity="0.45" stroke="#FF8C42" stroke-width="3"/>
+      <text id="browser-scope-title" x="96" y="198" font-size="17" font-weight="700" fill="#FF8C42">ブラウザの中（画面側）</text>
+      <g id="screen-box" role="group" aria-labelledby="screen-box-name" aria-describedby="screen-box-desc">
+        <rect id="screen-box-box" x="32" y="226" width="296" height="118" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+        <text id="screen-box-name" x="48" y="253" font-size="17" font-weight="700">画面（HTML・CSS）</text>
+        <text id="screen-box-desc" x="48" y="280" font-size="15"><tspan id="screen-box-desc-line-1" x="48" y="280">いまのモックのまま。</tspan><tspan id="screen-box-desc-line-2" x="48" y="300">見た目は変えない</tspan></text>
+      </g>
+      <path id="screen-to-app" d="M112 352V387" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+      <text id="screen-to-app-label" x="128" y="375" font-size="14" font-weight="700" fill="#5A6178">押された</text>
+      <g id="app-box" role="group" aria-labelledby="app-box-name" aria-describedby="app-box-desc">
+        <rect id="app-box-box" x="32" y="396" width="296" height="124" rx="14" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2"/>
+        <text id="app-box-name" x="48" y="423" font-size="17" font-weight="700">app.js（動き）</text>
+        <text id="app-box-desc" x="48" y="450" font-size="15"><tspan id="app-box-desc-line-1" x="48" y="450">押された・入力されたを</tspan><tspan id="app-box-desc-line-2" x="48" y="470">受け取り、データを変えて、</tspan><tspan id="app-box-desc-line-3" x="48" y="490">画面を描き直す</tspan></text>
+      </g>
+      <path id="app-to-screen" d="M328 410H337V286H328" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-gray)"/>
+      <text id="app-to-screen-label" x="319" y="369" text-anchor="end" font-size="14" font-weight="700" fill="#5A6178">描き直す</text>
+
+      <path id="app-to-ai-request" d="M194 526V570" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+      <text id="app-to-ai-label" x="178" y="553" text-anchor="end" font-size="14" font-weight="700" fill="#5A6178">聞く</text>
+      <path id="ai-to-app-reply" d="M253 578V534" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" marker-end="url(#arrow-gray)"/>
+      <text id="ai-to-app-label" x="267" y="560" font-size="14" font-weight="700" fill="#5A6178">仮の文章</text>
+      <g id="ai-box" role="group" aria-labelledby="ai-box-name" aria-describedby="ai-box-desc">
+        <rect id="ai-box-box" x="32" y="578" width="296" height="104" rx="14" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2" stroke-dasharray="7 5"/>
+        <text id="ai-box-name" x="48" y="605" font-size="17" font-weight="700">ai.js（AI を使うアプリだけ）</text>
+        <text id="ai-box-desc" x="48" y="634" font-size="15"><tspan id="ai-box-desc-line-1" x="48" y="634">1秒待って、</tspan><tspan id="ai-box-desc-line-2" x="48" y="654">仮の文章を返す</tspan></text>
+      </g>
+      <path id="app-to-data" d="M32 432H23V746H32" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-gray)"/>
+      <text id="app-to-data-label" x="39" y="721" font-size="14" font-weight="700" fill="#5A6178">足す・消す</text>
+      <g id="data-box" role="group" aria-labelledby="data-box-name" aria-describedby="data-box-desc">
+        <rect id="data-box-box" x="32" y="746" width="296" height="126" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
+        <text id="data-box-name" x="48" y="773" font-size="17" font-weight="700">画面の中のデータ</text>
+        <text id="data-box-desc" x="48" y="801" font-size="15"><tspan id="data-box-desc-line-1" x="48" y="801">見本のデータ＋足したもの。</tspan><tspan id="data-box-desc-line-2" x="48" y="821">再読み込みすると</tspan><tspan id="data-box-desc-line-3" x="48" y="841">最初に戻る</tspan></text>
+      </g>
+    </g>
+
+    <g id="out-of-scope" role="group" aria-labelledby="out-of-scope-title">
+      <rect id="out-of-scope-frame" x="16" y="920" width="328" height="350" rx="18" fill="#FFFFFF" fill-opacity="0.35" stroke="#7A8094" stroke-width="2.5" stroke-dasharray="8 6"/>
+      <text id="out-of-scope-title" x="28" y="948" font-size="16" font-weight="700" fill="#7A8094">この回では作らない（裏側）</text>
+      <g id="server-box" role="group" aria-labelledby="server-box-name">
+        <rect id="server-box-box" x="32" y="966" width="296" height="62" rx="14" fill="#FFFFFF" stroke="#7A8094" stroke-width="2" stroke-dasharray="6 4"/>
+        <text id="server-box-name" x="48" y="1003" font-size="17" font-weight="700" fill="#7A8094">サーバー</text>
+      </g>
+      <g id="storage-box" role="group" aria-labelledby="storage-box-name" aria-describedby="storage-box-desc">
+        <rect id="storage-box-box" x="32" y="1044" width="296" height="82" rx="14" fill="#FFFFFF" stroke="#7A8094" stroke-width="2" stroke-dasharray="6 4"/>
+        <text id="storage-box-name" x="48" y="1072" font-size="17" font-weight="700" fill="#7A8094">データの置き場</text>
+        <text id="storage-box-desc" x="48" y="1100" font-size="15" fill="#7A8094">閉じても残るようにする</text>
+      </g>
+      <g id="real-ai-box" role="group" aria-labelledby="real-ai-box-name">
+        <rect id="real-ai-box-box" x="32" y="1142" width="296" height="70" rx="14" fill="#FFFFFF" stroke="#7A8094" stroke-width="2" stroke-dasharray="6 4"/>
+        <text id="real-ai-box-name" x="48" y="1183" font-size="17" font-weight="700" fill="#7A8094">本物の AI のサービス</text>
+      </g>
+    </g>
+    <text id="out-of-scope-note" x="28" y="1293" font-size="15" font-weight="700" fill="#7A8094"><tspan id="out-of-scope-note-line-1" x="28" y="1293">データの置き場を</tspan><tspan id="out-of-scope-note-line-2" x="28" y="1312">決めてから足す</tspan></text>
+  </g>
+</svg>
