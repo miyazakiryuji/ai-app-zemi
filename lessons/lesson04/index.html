@@ -155,6 +155,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
     <p class="table-hint">表は横にスクロールできます</p>
 
+    <div class="note">
+      <strong>LIVE講義で一緒に進めるのは、準備 → 指示① → 読んで直す → 指示② → 確かめる までです。</strong>動かなかったら、コンソールの赤い文字を渡して原因を聞くところまで行います。残りの「まだ」の行（指示③の繰り返し）と最後の見直しは、課題として1行ずつ進めてください。LIVE講義の中で指示②まで終わらなかったときも、その続きから課題で進めて構いません。<span class="why">なぜ：</span>指示③は行の数だけ同じ型を繰り返すので、人によって行の数も、かかる手間も違います。LIVE講義では、全員が同じところまで確実に通します。
+    </div>
+
     <h3 class="sub">この回の流れ（上から順に進めます）</h3>
     <div class="flow">
       <div class="flow__step"><span class="flow__n">1</span><p class="flow__name">準備</p><p class="flow__desc">手動にして、app の控えを取る</p></div>
@@ -223,7 +227,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - 「1件も無いとき」の表示は1行入れる。「処理中」と「失敗したとき」の表示は、AI に考えてもらう動きがあるときだけ、それぞれ1行入れる。この2行は、仮の文章で試せるので「まだ」にする（失敗は、入力に「失敗テスト」という文字があるときだけ仮の文章がわざと失敗する形で試す）
 - AI に考えてもらう動きは、「何が起きるか」に「AI（いまは仮の文章）」と書く
 - 上から作る順番に並べる。1行目は、このアプリでいちばんよく使う操作
-- 行は「あとで」も含めて12行まで
+- 行は「あとで」も含めて12行まで。収まらないときは、動きを省かずに、一覧を書く前に、収まらない理由と、仕様書の「やること」から外せそうなものを教えて、そこで止まってください
 - 「確かめ方」は、ブラウザでその画面を開いて、画面の操作だけで自分の手で確かめる手順を1〜2文で書く。ファイルを書き換えて確かめる手順にはしない。画面の操作だけでは試せない行（例：1件も無いとき）は、試せるようにする行（例：削除）より後ろに並べる
 
 ■ 条件
@@ -268,8 +272,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>いちばんよく使う操作が動けば、アプリの中心ができます。そのあとの行は、その上に足していけます</dd>
       </div>
       <div class="explain-list__item">
-        <dt class="explain-list__term"><strong>12行まで</strong></dt>
-        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>行が多すぎると、全部を確かめきれません。食費メモ（できること6つ・画面2枚）で10〜12行に収まります</dd>
+        <dt class="explain-list__term"><strong>12行まで・収まらないときは止める</strong></dt>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>行が多すぎると、全部を確かめきれません。食費メモ（できること6つ・画面2枚）で10〜12行に収まります。収まらないのは、仕様書の「やること」が多すぎることが多いためです。黙って行を削られると、作り忘れに気づけません。省かずに止めさせて、何を「やらないこと」に回すかをご自身で決めます</dd>
       </div>
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong>「確かめ方」を画面の操作だけで試せる文で・試せない行は後ろへ</strong></dt>
@@ -367,7 +371,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </div>
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong><code>type="module"</code>・<code>import</code>・<code>fetch</code> は使わない</strong></dt>
-        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span><strong>ダブルクリックで開いた画面（<code>file://</code>）では、ブラウザがこの3つを止めます。</strong>2026年10月4日に Chrome と Safari の中身（WebKit）で確かめ、どちらも動きませんでした。使われると、ボタンを押しても何も起きない画面になり、原因がコードの中身ではなく開き方にあるので見つけにくくなります。あくまで、この回の開き方に合わせた条件です</dd>
+        <dd class="explain-list__value"><span class="explain-list__label">なぜ</span><strong><code>type="module"</code> と <code>import</code> は、ダブルクリックで開いた画面（<code>file://</code>）では、ブラウザが読み込みを止めます。</strong>2026年10月4日に Chrome と Safari の中身（WebKit）で確かめ、どちらも動きませんでした。<strong><code>fetch</code> は、通信でデータを取りに行く機能です。</strong>この回は通信の相手（サーバー）を作らないので使いません。ダブルクリックで開いた画面から同じフォルダのファイルを <code>fetch</code> で読もうとしても、同じ日の確認で止められました。どれも、使われるとボタンを押しても何も起きない画面になり、原因がコードの中身ではなく開き方にあるので見つけにくくなります。あくまで、この回の開き方に合わせた条件です</dd>
       </div>
       <div class="explain-list__item">
         <dt class="explain-list__term"><strong>データは画面の中に持つだけ・再読み込みで戻ってよい</strong></dt>
@@ -651,7 +655,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div class="note note--key">
       <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
-      <strong>ここで作った動きは、あとで裏側をつなぐときの土台になります。</strong>画面側の流れ（押す → 待つ → 出る／失敗）ができていれば、裏側をつなぐときは「どこからデータを持ってくるか」「仮の文章を本物に変える」だけを考えれば済みます。
+      <strong>ここで作った画面側の流れ（押す → 待つ → 出る／失敗）は、裏側をつないだあともそのまま使います。</strong>裏側をつなぐときに変えるのは、「データをどこから持ってきて、どこに残すか」と「仮の文章を返す1か所を、本物の AI を呼ぶ形に変える」ことだけになります。画面側で受け渡すデータの項目と、差し替える場所が、すでに決まっているためです。
     </div>
   </div>
 </section>
