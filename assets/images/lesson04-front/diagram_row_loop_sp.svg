@@ -44,7 +44,7 @@
       <rect id="step-5-box" x="46" y="652" width="270" height="114" rx="16" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2.5"/>
       <circle id="step-5-number-circle" cx="66" cy="672" r="15" fill="#4DA8FF"/><text id="step-5-number" x="66" y="678" font-size="17" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
       <text id="step-5-title" x="91" y="679" font-size="17" font-weight="700">前の動きも押す</text>
-      <text id="step-5-desc" x="62" y="708" font-size="15"><tspan id="step-5-desc-line-1" x="62" y="708">壊れていなければ、</tspan><tspan id="step-5-desc-line-2" x="62" y="727">その行を「作った」に</tspan></text>
+      <text id="step-5-desc" x="62" y="708" font-size="15"><tspan id="step-5-desc-line-1" x="62" y="708">壊れていなければ、</tspan><tspan id="step-5-desc-line-2" x="62" y="727">「確かめた結果」に OK を</tspan><tspan id="step-5-desc-line-3" x="62" y="746">書かせる</tspan></text>
     </g>
     <text id="debug-branch-label" x="48" y="811" font-size="14" font-weight="700" fill="#5A6178"><tspan id="debug-branch-label-line-1" x="48" y="811">動かないとき → コンソールの</tspan><tspan id="debug-branch-label-line-2" x="48" y="830">赤い文字をスクショで渡す</tspan></text>
   </g>
