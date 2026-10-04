@@ -60,11 +60,11 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div>
       <p class="now__label">この回</p>
       <p class="now__title">第1回 オリエンテーション ― このページです</p>
-      <p class="now__meta">第2回 要件定義・第3回 モックを作る・第4回 画面側を作る・第5回 API 連携とデータの持ち方・第6回 テスト のページも公開しています。ご自身の期の開催日と入室先は<a href="#schedule">「日程・入室」</a>でご確認ください</p>
+      <p class="now__meta"><a href="lessons/lesson02/">第2回 要件定義</a>・<a href="lessons/lesson03/">第3回 モックを作る</a>・<a href="lessons/lesson04/">第4回 画面側を作る</a>・<a href="lessons/lesson05/">第5回 API 連携とデータの持ち方</a>・<a href="lessons/lesson06/">第6回 テスト</a> のページも公開しています。ご自身の期の開催日と入室先は<a href="#schedule">「日程・入室」</a>でご確認ください</p>
     </div>
     <div class="now__actions">
       <a class="btn btn--primary" href="#contents">この回で押さえたいこと</a>
-      <a class="btn btn--ghost" href="lessons/lesson02/">第2回のページを見る</a>
+      <a class="btn btn--ghost" href="#lessons">各回のページを開く（全7回の流れ）</a>
       <a class="btn btn--ghost" href="#schedule">開催日と入室先を見る</a>
     </div>
   </div>
@@ -354,7 +354,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <p class="lesson-card__no">LESSON 05</p>
         <h3 class="lesson-card__title">API 連携で AI 機能を入れ、データの持ち方を決める</h3>
         <p class="lesson-card__desc">API 連携の仕組みを押さえ、Claude・OpenAI・Gemini のどれかで API キーを発行して安全に置き、経路を先に通してから AI に差し替えて機能を1つ入れます。データの置き場（ブラウザ・PC のファイル・Turso・スプレッドシート）も、消える条件から自分で選びます。</p>
-        <p class="lesson-card__meta">この回で作るもの：AI 機能が動くアプリ＋上限設定のスクリーンショット＋.gitignore の確認＋保存先を書き換えた docs/spec.md</p>
+        <p class="lesson-card__meta">この回で作るもの：AI 機能が動くアプリ（スクリーンショットとソースの zip）＋上限設定のスクリーンショット＋.gitignore のスクリーンショット＋選んだ置き場に保存が残る画面と、書き換えた docs/spec.md</p>
         <span class="lesson-card__cta">この回のページを開く →</span>
       </a>
 
@@ -362,7 +362,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <p class="lesson-card__no">LESSON 06</p>
         <h3 class="lesson-card__title">テスト ― 壊れていないことを確かめる</h3>
         <p class="lesson-card__desc">テストとは何かを押さえ、仕様書をもとにテストコードを Claude Code に書かせて流します。落ちたら直すのはテストではなく実装側。UI テストと、壊すつもりで試す敵対的テストも Claude Code に任せ、テストを流す節目を自分で決めます。</p>
-        <p class="lesson-card__meta">この回で作るもの：テストコード一式＋実行結果＋README の実行コマンド＋CLAUDE.md の「流す節目」</p>
+        <p class="lesson-card__meta">この回で作るもの：テストコード一式と全部通った結果＋UI テストと敵対的テストの記録＋README のテストの実行コマンドと CLAUDE.md の「テストを流す節目」</p>
         <span class="lesson-card__cta">この回のページを開く →</span>
       </a>
 
@@ -472,12 +472,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
           <table class="tbl tbl--schedule">
             <thead><tr><th>回</th><th>内容</th><th>開催日</th></tr></thead>
             <tbody>
-              <tr><td>第1回</td><td>オリエンテーション</td><td>9月5日(土)</td></tr>
-              <tr><td>第2回</td><td>要件定義</td><td>9月19日(土)</td></tr>
-              <tr><td>第3回</td><td>モックを作る</td><td>10月3日(土)</td></tr>
-              <tr><td>第4回</td><td>画面側を作る</td><td>10月17日(土)</td></tr>
-              <tr><td>第5回</td><td>API 連携とデータの持ち方</td><td>10月31日(土)</td></tr>
-              <tr><td>第6回</td><td>テスト</td><td>11月14日(土)</td></tr>
+              <tr><td>第1回</td><td><a href="#about">オリエンテーション</a></td><td>9月5日(土)</td></tr>
+              <tr><td>第2回</td><td><a href="lessons/lesson02/">要件定義</a></td><td>9月19日(土)</td></tr>
+              <tr><td>第3回</td><td><a href="lessons/lesson03/">モックを作る</a></td><td>10月3日(土)</td></tr>
+              <tr><td>第4回</td><td><a href="lessons/lesson04/">画面側を作る</a></td><td>10月17日(土)</td></tr>
+              <tr><td>第5回</td><td><a href="lessons/lesson05/">API 連携とデータの持ち方</a></td><td>10月31日(土)</td></tr>
+              <tr><td>第6回</td><td><a href="lessons/lesson06/">テスト</a></td><td>11月14日(土)</td></tr>
               <tr><td>第7回</td><td>デバッグと卒業制作</td><td>11月28日(土)</td></tr>
             </tbody>
           </table>
@@ -491,8 +491,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         </div>
       </div>
 
-      <!-- 6期（日程が決まったら、5期の枠をコピーして表と入室先を入れる） -->
-      <div class="cohorts__panel" id="cohort-6" role="tabpanel" aria-labelledby="tab-cohort-6" hidden>
+      <!-- 6期（日程が決まったら、5期の枠をコピーして表と入室先を入れる）。
+           hidden は JS が動くときだけ効く（JS が動かないときは site.css がタブを隠して両方の期を並べる）。
+           tabindex="0" は、パネルの中に Tab で止まれる物が無くても、パネルへ入れるようにするため -->
+      <div class="cohorts__panel" id="cohort-6" role="tabpanel" aria-labelledby="tab-cohort-6" tabindex="0" hidden>
         <p class="cohorts__meta"><strong>6期</strong>：開催日・時間・入室先は準備中です</p>
         <div class="card card--join">
           <h3 class="card__title">6期の日程と入室先</h3>

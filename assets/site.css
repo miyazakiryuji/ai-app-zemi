@@ -31,7 +31,7 @@
 }
 * { box-sizing: border-box; }
 a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #B84A00; outline-offset: 3px; border-radius: 8px; }
-.btn--primary:focus-visible { outline-color: #FFD166; }
+.btn--primary:focus-visible { outline-color: #2A2F45; }   /* 淡い黄色だと地との比が 1.4:1 で見えなかった。紺は白地で 13:1 */
 html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 body {
   margin: 0; background: var(--bg-main); color: var(--text-main);
@@ -62,7 +62,7 @@ a { color: var(--text-accent); }
   radial-gradient(900px 420px at 8% 8%, rgba(255, 158, 195, .28), transparent 60%), var(--bg-main); }
 .hero__inner { max-width: var(--container); margin: 0 auto; display: grid;
   grid-template-columns: 1fr 240px; gap: 40px; align-items: center; }
-.hero__kicker { font-size: 12.5px; font-weight: 800; letter-spacing: .12em; color: var(--text-accent); margin: 0 0 10px; }
+.hero__kicker { font-size: 12.5px; font-weight: 800; letter-spacing: .12em; color: #9E3F00; margin: 0 0 10px; }   /* 桃・黄のグラデーションの上で 4.5:1 を超える濃さに */
 .hero__title { font-size: 44px; font-weight: 900; line-height: 1.3; margin: 0 0 12px; letter-spacing: -.01em; }
 .hero__title em { font-style: normal; background: linear-gradient(180deg, transparent 62%, rgba(255, 209, 102, .75) 62%); }
 .hero__sub { font-size: 17px; color: var(--text-sub); margin: 0 0 22px; font-weight: 700; }
@@ -292,8 +292,8 @@ table.tbl tr:last-child td { border-bottom: 0; }
 .site-footer__name { font-size: 15px; font-weight: 800; color: var(--text-main); margin: 0 0 12px; }
 .site-footer__name small { font-size: 12.5px; font-weight: 600; color: var(--text-mute); }
 .site-footer__links { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
-.site-footer__links a { text-decoration: none; font-weight: 700; font-size: 13px; padding: 7px 14px; border-radius: 100px;
-  background: var(--bg-card); border: 1px solid var(--border); }
+.site-footer__links a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-weight: 700; font-size: 13px;
+  padding: 0 14px; border-radius: 100px; background: var(--bg-card); border: 1px solid var(--border); }
 .site-footer__links a:hover { border-color: var(--accent-orange); }
 .site-footer__note { margin: 0; }
 .url-text { font-size: 12.5px; color: var(--text-mute); word-break: break-all; }
@@ -309,8 +309,8 @@ table.tbl tr:last-child td { border-bottom: 0; }
      折り返すと3段になり、画面の上3割が常時メニューで埋まってしまうため */
   .site-header__inner { flex-wrap: nowrap; gap: 10px; padding: 10px 14px; }
   .site-header__name { flex: none; font-size: 13.5px; }
-  .site-header__nav { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; mask-image: linear-gradient(90deg, transparent 0, #000 12px, #000 88%, transparent); }
+  .site-header__nav { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  /* 端のぼかしは末尾の「ヘッダーの目次」の節（続きがある側だけ。site.js の .at-start／.at-end） */
   .site-header__nav::-webkit-scrollbar { display: none; }
   /* タップ領域を 44px 前後に */
   .site-header__nav a { white-space: nowrap; display: inline-flex; align-items: center; min-height: 42px; padding: 0 12px; }
@@ -330,11 +330,7 @@ table.tbl tr:last-child td { border-bottom: 0; }
   .message__mascot { position: static; display: block; width: 90px; margin-top: 10px; }
   .section__title { font-size: 24px; }
   .section { padding: 36px 18px; }
-  /* 小さすぎる文字の下限（スマホで既定文字を大きくしている人も読める） */
-  .card__desc, .cycle__desc, .lesson-card__desc, .steps__desc, .stepcard__desc, .card--join .card__desc { font-size: 15px; }
-  .meta-card__label, .app-card__store, .lesson-card__meta { font-size: 13px; }
-  .app-card__desc, .tech-stack li { font-size: 13px; }
-  .tech-stack li small { font-size: 11px; }
+  /* 小さすぎる文字の下限は、PC にも効くように末尾の「Home の文字の下限」へ移した（PC のほうがスマホより小さかった） */
   .instructor__avatar { position: relative; top: auto; }
   .hero { padding: 40px 18px 36px; }
   .card, .steps li, .agenda__item { padding: 16px 18px; }
@@ -406,7 +402,7 @@ table.tbl tr:last-child td { border-bottom: 0; }
 /* ---- 固定ヘッダ：スクロールで影／読み進みバー／いま見ている節 ---- */
 .site-header { transition: box-shadow .3s var(--ease); }
 .site-header.is-scrolled { box-shadow: 0 6px 24px rgba(255, 140, 66, .14); }
-.progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; transform-origin: 0 50%; transform: scaleX(0); will-change: transform;
+.progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 5px; transform-origin: 0 50%; transform: scaleX(0); will-change: transform;
   background: linear-gradient(90deg, var(--accent-orange), var(--accent-pink)); pointer-events: none; }
 .site-header__nav a.is-active { background: var(--bg-soft); color: var(--text-accent); box-shadow: inset 0 -2px 0 var(--accent-orange); }
 
@@ -477,7 +473,10 @@ html.lb-open { overflow: hidden; }
 /* ---- 強調の注意書き（黄色の .note に加えて、橙＝大事・赤＝注意） ---- */
 .note { display: flow-root; }
 .note--key { border-left-color: var(--accent-orange); background: #FFF7EE; }
-.note--warn { border-left-color: #E0563F; background: #FFF4F0; }
+/* 赤＝データ・鍵・個人情報・お金が失われる／漏れるものだけ。色を濃くし（薄橙の節の上でも橙の .note--key と見分けられる）、頭に「注意」を出す */
+.note--warn { border-color: #F2C4BF; border-left-color: #C62828; background: #FDEDEC; }
+.note--warn::before { content: "注意"; display: block; margin: 0 0 6px; font-size: 15px; font-weight: 800; line-height: 1.4;
+  letter-spacing: .08em; color: #B3261E; }
 .note__mascot { float: right; width: 84px; margin: -6px 0 6px 14px; }
 
 /* ---- 本文中の小見出し・段落 ---- */
@@ -489,10 +488,12 @@ html.lb-open { overflow: hidden; }
 .section__inner > ul li { margin: 4px 0; }
 .why { font-weight: 800; color: var(--text-main); }
 table.tbl td strong { color: var(--text-main); }
-kbd { font-family: inherit; font-size: 12.5px; font-weight: 800; background: var(--bg-soft); border: 1px solid var(--border);
-  border-bottom-width: 2px; border-radius: 6px; padding: 1px 7px; }
-code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: .92em; background: var(--bg-soft);
-  border: 1px solid var(--border); border-radius: 6px; padding: 1px 6px; color: var(--text-accent); }
+/* キー操作：本文に合わせた大きさ（本文 20px の中で 17px）・白地（薄橙の節の上でも、キーの箱として見える） */
+kbd { font-family: inherit; font-size: .85em; font-weight: 800; color: var(--text-main); background: #fff; border: 1px solid #CFC6B8;
+  border-bottom-width: 2px; border-radius: 6px; padding: 1px 8px; white-space: nowrap; }
+/* コードの表記は紺（約 8.7:1）。リンクと同じ橙だと、段落の中で見分けられず、ファイル名に先に目が行っていた */
+code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: .92em; background: #F6F1EA;
+  border: 1px solid #E4D9CA; border-radius: 6px; padding: 1px 6px; color: #3D4357; }
 .prompt code { background: none; border: 0; padding: 0; color: inherit; }
 
 /* ---- 各回ページのヒーロー（Home より一回り小さく） ---- */
@@ -524,8 +525,11 @@ code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: .92em; bac
   opacity: 0; transform: translateY(12px);
   transition: opacity .45s var(--ease), transform .45s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease); }
 .js:not(.reduce) .section__inner > h3.sub.is-visible { opacity: 1; transform: none; }
-.js:not(.reduce) .pitfall.is-visible.is-visible:hover, .js:not(.reduce) .flow__step.is-visible.is-visible:hover {
-  transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: #FFD1A6; }
+/* 浮かせるのは押せる流れのカード（a.flow__step）だけ。押せないカード（div の流れ・つまずき）は浮かせず、影だけ少し強める */
+.js:not(.reduce) a.flow__step.is-visible.is-visible:hover {
+  transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--accent-orange); }
+.js:not(.reduce) .pitfall.is-visible.is-visible:hover, .js:not(.reduce) div.flow__step.is-visible.is-visible:hover {
+  box-shadow: var(--shadow-md); border-color: #FFD1A6; }
 body.lesson .table-hint { display: none; }
 .section__title, .hero__title { line-break: strict; }
 @media (max-width: 900px) {
@@ -835,7 +839,7 @@ body.lesson .crumbs { font-size: 16px; }
 .cohorts__tab small { font-size: 12.5px; font-weight: 700; color: var(--text-mute); margin-left: 4px; }
 .cohorts__tab:hover { border-color: var(--accent-orange); color: var(--text-accent); }
 .cohorts__tab[aria-selected="true"] { background: var(--on-orange); border-color: var(--on-orange); color: #fff; }
-.cohorts__tab[aria-selected="true"] small { color: rgba(255, 255, 255, .85); }
+.cohorts__tab[aria-selected="true"] small { color: #fff; }   /* 白 85% だと橙の上で 4.2:1 だった */
 .cohorts__panel[hidden] { display: none; }
 .cohorts__meta { font-size: 15.5px; color: var(--text-sub); margin: 0 0 12px; }
 .cohorts__meta strong { color: var(--text-main); }
@@ -862,13 +866,14 @@ body.lesson .figure--half img { max-width: min(620px, 100%); }
 body.lesson .figure--narrow img { max-width: min(500px, 100%); }
 /* 5) スクショの2列は 900px 以下で1列に（834px で2列だと中の文字が約6px になる） */
 @media (max-width: 900px) { body.lesson .figures, body.lesson .figures--menu { grid-template-columns: 1fr; } }
-/* 5) スマホの拡大表示：画面幅の96%に縮めず、実寸（最大 1100px）で出して横にずらして読む。
-   スマホ用の縦長の図（*_sp.svg）だけは画面幅に合わせる。閉じるボタンと説明は画面に留める */
-@media (max-width: 720px) {
+/* 5) スマホ・タブレットの拡大表示（900px 以下）：画面幅の96%に縮めず、実寸（最大 1100px）で出して横にずらして読む
+   （834px でも 96vw・84vh に縮めると、本文の大きさとほぼ変わらなかった）。
+   スマホ用の縦長の図（*_sp.svg）は高さで縮めず、幅を画面か 520px までにする。閉じるボタンと説明は画面に留める */
+@media (max-width: 900px) {
   .lightbox { display: block; overflow: auto; -webkit-overflow-scrolling: touch; padding: 60px 12px 24px; }
   .lightbox img { display: block; width: auto; max-width: 1100px; max-height: none; margin: 0 auto; }
   .lightbox img[src$=".svg"] { width: 960px; }   /* 図解の SVG は大きさを持たないので、描いた幅（viewBox 960）で出す */
-  .lightbox img[src*="_sp.svg"] { width: 100%; max-width: 100%; }
+  .lightbox img[src*="_sp.svg"] { width: min(100%, 520px); max-width: 100%; }
   .lightbox figcaption { position: sticky; left: 0; max-width: calc(100vw - 24px); margin: 12px 0 0; text-align: left; }
   .lightbox .lb-close { position: fixed; top: 8px; right: 10px; background: rgba(42, 47, 69, .9); }
 }
@@ -916,10 +921,7 @@ body.lesson #deliverables .cards--2 { grid-template-columns: repeat(2, minmax(0,
   .site-header__nav::-webkit-scrollbar { display: none; }
   .site-header__nav a { white-space: nowrap; }
 }
-@media (min-width: 901px) and (max-width: 1240px) {
-  .site-header__nav { mask-image: none; }
-  .site-header__nav.is-overflow { mask-image: linear-gradient(90deg, transparent 0, #000 12px, #000 92%, transparent); }
-}
+/* 端のぼかしは末尾の「ヘッダーの目次」の節（900px 以下と同じ扱いにまとめた） */
 /* 1241px 以上：項目の左右の余白を 11 → 8px に詰めて、10項目（第5回）でも1行に収める */
 @media (min-width: 1241px) { body.lesson .site-header__nav a { padding: 5px 8px; } }
 /* はみ出しの残り（320px の実測）：節見出しの長い英字（docs/tasks.md）と、手順の見出しの URL が横に押し出していた */
@@ -942,16 +944,187 @@ body.lesson .steps > li > div { min-width: 0; }
    900px 以下（1列）は高さで縮めず、幅を 520px までに抑える */
 body.lesson .figures:not(.figures--menu) .figure--tall img { max-height: 760px; }
 @media (max-width: 900px) { body.lesson .figure--tall img, body.lesson .figures:not(.figures--menu) .figure--tall img { max-width: min(520px, 100%); max-height: none; } }
-/* 834px など 721〜900px：スマホ版の図（picture の *_sp.svg。横 360 で描いた縦長の図）が幅いっぱい約 800px に広がり縦に長すぎる */
-@media (max-width: 900px) {
-  body.lesson .figure--diagram picture img { max-width: 520px; margin: 0 auto; }
-  body.lesson .figure--diagram:has(picture) .zoom-hint { align-self: center; }   /* 図を中央に寄せたので「押すと拡大」も図の上の中央に */
+/* スマホ版の図（picture の *_sp.svg。横 360 で描いた縦長の図）は 720px 以下だけで出す（各回の <source media="(max-width:720px)">）。
+   幅いっぱいに広げると縦に長すぎるので 520px まで。721〜900px は PC 版の横長の図が本文の幅いっぱいに出る */
+@media (max-width: 720px) {
+  body.lesson .figure--diagram picture img { max-width: min(520px, 100%); margin: 0 auto; }
+  /* スマホ版の図は、押して拡大しても同じ大きさ（画面の幅）なので「押すと拡大」の札を出さない */
+  body.lesson .figure--diagram:has(picture) .zoom-hint { display: none; }
 }
 /* 第3回の読み替えの表：行見出し（tbody の th）が折り返さず、列からはみ出す（table.tbl th の nowrap が効いていた） */
 body.lesson table.tbl tbody th { white-space: normal; }
-/* 第4回「この回の流れ」は8枚。auto-fit だと 1240px 以上で 7枚＋1枚に割れるので、901px 以上は4列×2段にする。
-   ほかの回（7枚）は今の並びのまま（8枚目がある .flow だけに効かせる） */
-@media (min-width: 901px) { body.lesson #what .flow:has(> .flow__step:nth-child(8)) { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* 「この回の流れ」は 721px 以上で4列（8枚は 4×2、7枚は 4＋3）。7枚を1段に並べると1枚が 125px しかなく、
+   「確かめ／る」のように語の途中で折れていた。5・6・9枚は3列（3＋2・3×2・3×3）にして、1枚だけ残る段を作らない */
+@media (min-width: 721px) {
+  body.lesson .flow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  body.lesson .flow:has(> .flow__step:nth-child(5):last-child),
+  body.lesson .flow:has(> .flow__step:nth-child(6):last-child),
+  body.lesson .flow:has(> .flow__step:nth-child(9):last-child) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 /* 第4回 03：用語の箱の中の長いコード（process.env.ANTHROPIC_API_KEY）が 320px で折れずに箱の外へはみ出す */
 @media (max-width: 720px) { body.lesson .term dl { grid-template-columns: minmax(0, 1fr); } }
 body.lesson .term code { overflow-wrap: anywhere; }
+
+/* ==== 全回の UI レビュー（2026-10-04：PC・スマホ・情報設計・アクセシビリティ・Codex の5系統）を反映 ==== */
+
+/* ---- ヘッダーの目次（1240px 以下は横1行＋横スクロール） ----
+   - 端のぼかしは、続きがある側だけ（site.js が端に着いたら .at-start／.at-end を付ける）。幅は site.js の NAV_FADE_L／_R と同じ
+   - フォーカス枠は内側に描く（外側 3px だと横スクロールの箱に上下を切られ、括弧のような弧しか見えなかった）
+   - マウスで使う画面では細いスクロールバーを出す（ホイールでも横に送れる。site.js） */
+@media (max-width: 1240px) {
+  .site-header__nav, .site-header__nav.is-overflow { mask-image: none; }
+  .site-header__nav.is-overflow:not(.at-start):not(.at-end) { mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 40px), transparent); }
+  .site-header__nav.is-overflow.at-start:not(.at-end) { mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+  .site-header__nav.is-overflow.at-end:not(.at-start) { mask-image: linear-gradient(90deg, transparent 0, #000 20px); }
+  .site-header__nav a:focus-visible { outline-offset: -3px; }
+}
+@media (max-width: 1240px) and (hover: hover) and (pointer: fine) {
+  .site-header__nav { scrollbar-width: thin; scrollbar-color: #E7C7A6 transparent; padding-bottom: 2px; }
+  .site-header__nav::-webkit-scrollbar { display: block; height: 6px; }
+  .site-header__nav::-webkit-scrollbar-thumb { background: #E7C7A6; border-radius: 6px; }
+}
+/* ヘッダーのサイト名（各回のページは Home へのリンク）は押せる高さを 44px に。上下の負の余白で、ヘッダーの高さは変えない */
+.site-header__name a { display: inline-flex; align-items: center; min-height: 44px; margin: -8px 0; }
+
+/* ---- ページ内の移動：JS でフォーカスを移した移動先（h3・h4・li など）も、キーボード操作のときだけ枠を出す ---- */
+main [tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
+main :is(h2, h3, h4, h5, li)[tabindex="-1"]:focus-visible { outline: 3px solid #B84A00; outline-offset: 6px; border-radius: 6px; }
+
+/* ---- 3列以上の表：720px 以下では1行を1枚のカードに積む（列の名前は site.js が各セルの data-label に写し、セルの上に出す）。
+   横スクロールのままだと 390px で左の1〜2列しか見えず、縦にも間延びしていた。
+   JS が動かないときは data-label が無いので、今までどおり横スクロールの表のまま（.js が付いたときだけ効かせる） ---- */
+@media (max-width: 720px) {
+  .js body.lesson .table-wrap:has(table.tbl thead th:nth-child(3)) { overflow: visible; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) { min-width: 0; table-layout: auto; }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) :is(tbody, tr, th, td) { display: block; width: auto !important; }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) tbody tr { margin: 0 0 12px; background: var(--bg-card); border: 1px solid #D9D3C8;
+    border-radius: 12px; overflow: hidden; }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) tbody tr:last-child { margin-bottom: 0; }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) tbody tr > * { padding: 12px 16px; border: 0; border-bottom: 1px solid var(--border); }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) tbody tr > :first-child { background: var(--bg-soft); }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) tbody tr > :last-child { border-bottom: 0; }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) [data-label]:not(:first-child)::before { content: attr(data-label); display: block;
+    margin: 0 0 2px; font-size: 14px; font-weight: 800; line-height: 1.5; color: var(--text-accent); }
+  .js body.lesson table.tbl:has(thead th:nth-child(3)) td:empty { display: none; }
+  .js body.lesson .table-wrap:has(table.tbl thead th:nth-child(3)) + .table-hint { display: none; }
+}
+
+/* ---- 拡大表示：900px 以下で箱にフォーカスを置いたとき（矢印キーで縦横に動かせる。site.js）の枠 ---- */
+.lightbox:focus { outline: none; }
+.lightbox:focus-visible { outline: 3px solid var(--accent-yellow); outline-offset: -3px; }
+
+/* ---- 指示の型の「コピー」：ボタンを 44px に（タッチで押しやすく、PC でも見つけやすく）。ラベルの帯をボタンが収まる 52px にし、
+   ラベルの文字を上下の中央に。1画面を超える長い型には、下にもボタンを置く（site.js の .copybtn--bottom） ---- */
+body.lesson .copybtn { min-height: 44px; padding: 0 18px; top: 4px; right: 6px; }
+body.lesson .prompt::before { display: flex; align-items: center; box-sizing: border-box; min-height: 52px; line-height: 1.4;
+  padding-top: 10px; padding-bottom: 10px; padding-right: 108px; }
+body.lesson .prompt__icon { top: 17px; }
+@media (min-width: 721px) { body.lesson .prompt { padding-top: 66px; } }
+body.lesson .copybtn--bottom { position: static; display: block; margin: 16px 0 0 auto; }
+/* 画面には出さず、読み上げソフトにだけ伝える文字（コピーの結果など） */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0);
+  clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* ---- 文字と行の長さ：注意書き・手順・図の説明の1行を、本文（900px・45字前後）と同じくらいに。
+   指示の型（濃紺の箱）は狭めると折り返しが増えて箇条の切れ目が分かりにくくなるので、今の幅のまま ---- */
+body.lesson .section__inner > .note, body.lesson .section__inner > ol.steps { max-width: 900px; }
+body.lesson .figure figcaption { max-width: 46em; }
+body.lesson .figure--half figcaption { align-self: center; width: min(620px, calc(100% - 8px)); }
+body.lesson .figure--narrow figcaption { align-self: center; width: min(500px, calc(100% - 8px)); }
+/* h3.sub の下の子の見出し（h4.sub2）：下の手順カードの題（22px）より小さく、淡い線も見えなかった。h3 26 → h4 24 → カードの題 22 の順に */
+body.lesson .section__inner h4.sub2 { border-left: 4px solid #F4A261; padding-left: 12px; }
+@media (min-width: 721px) { body.lesson .section__inner h4.sub2 { font-size: 24px; font-weight: 700; margin: 40px 0 16px; } }
+
+/* ---- 「この回の流れ」のカードを節へのリンクにしたとき（a.flow__step）。押せるカードだけホバーで浮かせる（上の .js の指定） ---- */
+body.lesson a.flow__step { display: block; color: inherit; text-decoration: none; }
+body.lesson a.flow__step:hover { border-color: var(--accent-orange); }
+body.lesson a.flow__step:focus-visible { outline: 3px solid var(--text-accent); outline-offset: 3px; }
+
+/* ---- コントラスト：ヒーローのパンくず（桃・黄のグラデーションの上で 4.1:1 だった。LESSON 表記は .hero__kicker で直した） ---- */
+.hero .crumbs { color: var(--text-sub); }
+.hero .crumbs a { color: #9E3F00; }
+
+/* ---- タップできるものを 44px に：各回の末尾の「Home へ戻る」（フッターのリンクは .site-footer__links a、サイト名は上） ---- */
+body.lesson .backlink { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ---- 「この回の前に用意しておくもの」の帯：アイコンの列を固定する（題の長い回だけ、アイコンが文の上に1つ浮いていた） ---- */
+body.lesson .now__inner { display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: start; }
+body.lesson .now__actions { grid-column: 2; justify-self: end; margin-left: 0; }
+@media (max-width: 720px) {
+  body.lesson .now__inner { grid-template-columns: minmax(0, 1fr); }
+  body.lesson .now__actions { grid-column: 1; justify-self: stretch; }
+}
+
+/* ---- 各回のページで使う部品 ---- */
+/* スクショの組を PC でも1列・全幅に（2列だと1枚が 578px に縮み、中の文字が約 7px になっていた） */
+body.lesson .figures.figures--stack { grid-template-columns: minmax(0, 1fr); }
+/* 節の中の小見出しへの飛び先の列（nav.jump）：丸い札のリンクを横に並べ、入らなければ折り返す */
+body.lesson .jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
+body.lesson .jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 100px;
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--text-accent); font-size: 16px; font-weight: 800;
+  line-height: 1.4; text-decoration: none; transition: border-color .2s var(--ease), background .2s var(--ease); }
+body.lesson .jump a:hover { border-color: var(--accent-orange); background: #FFF7EE; }
+body.lesson .jump + h3.sub { margin-top: 0; }
+/* 対比の部品（.contrast。Home と同じ作り）を各回のページでも使う。文字は本文に合わせる */
+body.lesson .contrast { margin-top: 24px; }
+body.lesson .contrast__col { padding: 24px; border-radius: 12px; }
+body.lesson .contrast__head { font-size: 17px; line-height: 1.5; }
+body.lesson .contrast li { font-size: 19px; line-height: 1.8; }
+@media (max-width: 720px) { body.lesson .contrast li { font-size: 17px; } }
+/* 第2回の図（横スクロールの箱 .figure__scroll の中の img）：外側の枠は箱に切られて見えないので、内側に描く */
+body.lesson .figure__scroll img:focus-visible { outline-offset: -3px; }
+
+/* ---- フッター：前後の回（.lesson-pager）と、Home と同じリンクの列（.site-footer__links）。押せない側（準備中の回）は span ---- */
+.lesson-pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 32px; }
+.lesson-pager > a, .lesson-pager > span { display: block; padding: 16px 20px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; text-decoration: none; color: var(--text-main); font-size: 17px; font-weight: 800; line-height: 1.5; }
+.lesson-pager > a:hover { border-color: var(--accent-orange); }
+.lesson-pager small { display: block; margin: 0 0 4px; font-size: 14px; font-weight: 800; color: var(--text-accent); }
+.lesson-pager__prev { grid-column: 1; }
+.lesson-pager__next { grid-column: 2; text-align: right; }
+span.lesson-pager__prev, span.lesson-pager__next { background: #FBFAF7; border-style: dashed; border-color: #C9CEDB; color: #565D71; font-weight: 700; }
+span.lesson-pager__prev small, span.lesson-pager__next small { color: #565D71; }
+@media (max-width: 720px) {
+  .lesson-pager { grid-template-columns: minmax(0, 1fr); }
+  .lesson-pager__prev, .lesson-pager__next { grid-column: auto; }
+}
+.site-footer__links a[aria-current="page"] { background: var(--on-orange); border-color: var(--on-orange); color: #fff; }
+
+/* ---- Home の文字の下限（PC・スマホとも）。各回のページは body.lesson の指定が勝つので変わらない ----
+   説明の文は 15〜16px（手順・注意書き・対比は本文に近いので 16px、1行は 50字前後まで）、補助の文字（ラベル・メタ情報）も 14px を下回らない。
+   以前は 900px 以下にだけ下限があり、PC のほうがスマホより文字が小さかった */
+.card__desc, .cycle__desc, .lesson-card__desc, .steps__desc, .stepcard__desc, .card--join .card__desc { font-size: 15px; }
+body:not(.lesson) :is(.note, .steps__desc, .stepcard__desc, .contrast li, .contrast__head, .stepcard__box-title, .stepcard__box li,
+  .stepcard__box-foot) { font-size: 16px; }
+body:not(.lesson) :is(.steps__title, .cycle__name) { font-size: 17px; }
+body:not(.lesson) :is(.now__meta, .instructor__h4, .app-card__name) { font-size: 15px; }
+body:not(.lesson) :is(.hero__kicker, .section__kicker, .now__label, .hero__facts li, .instructor__role, .instructor__sns a,
+  .meta-card__label, .app-card__desc, .app-card__store, .tech-stack li, .tech-stack li small, .career__when,
+  .lesson-card__no, .lesson-card__meta, .lesson-card__cta, .badge-soon, .stepcard__eyebrow, .table-hint, .url-text,
+  .cohorts__tab small) { font-size: 14px; }
+body:not(.lesson) .note { max-width: 860px; }
+body:not(.lesson) .steps__desc { max-width: 50em; }
+/* Home のスマホの節見出し：24px だとカードの題との差が小さく、節の境目を見落としやすかった。
+   折り返しは文節で（「あり／ません」「この／順番で」のように語の途中で折れていた。対応していないブラウザは今までどおり） */
+@media (max-width: 720px) { body:not(.lesson) .section__title { font-size: 27px; } }
+body:not(.lesson) .section__title { word-break: auto-phrase; }
+
+/* ---- 期のタブ：JS が動かないとき（.js が無い）は、タブを隠して両方の期を縦に並べる（6期のパネルが hidden のまま開けなかった） ---- */
+html:not(.js) .cohorts__tabs { display: none; }
+html:not(.js) .cohorts__panel[hidden] { display: block; }
+html:not(.js) .cohorts__panel + .cohorts__panel { margin-top: 32px; }
+/* 中に Tab で止まれる物が無いパネル（6期の準備中）は、パネル自体に止まる（index.html の tabindex="0"）。そのときの枠 */
+.cohorts__panel:focus-visible { outline: 3px solid #B84A00; outline-offset: 4px; border-radius: 12px; }
+
+/* ---- 印刷・PDF に保存：まだ出現していない部分（透明のまま）が白紙で出ていた。全部を見える状態にし、画面用の部品は外す。
+   白抜きの文字（番号の丸・ラベル）が消えないよう背景も印刷し、指示の型だけは淡い地＋濃い文字にする ---- */
+@media print {
+  .js * { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; }
+  .js .hero__title em { background-size: 100% 100% !important; }
+  .site-header, .totop, .copybtn, .zoom-hint, .skip-link, .lightbox { display: none !important; }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .prompt { background: #F6F4EF !important; color: var(--text-main) !important; border: 1px solid #CFC6B8; }
+  .prompt::before { color: var(--text-accent) !important; background: none !important; }
+  .figure, .note, .term, .card, .pitfall { break-inside: avoid; }
+}
