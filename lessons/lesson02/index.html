@@ -183,7 +183,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 
     <h3 class="sub">Mac での作り方</h3>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h4 class="steps__title">Finder を開き、左の一覧からフォルダを作る場所（同期されていなければデスクトップ、同期されていればホームフォルダ直下の <code>apps</code>）を選ぶ</h4><p class="steps__desc">Finder＝Mac でファイルやフォルダを見たり動かしたりするソフト。Dock（画面下の帯）の左端にある顔のアイコンです。Windows では「エクスプローラー」が同じ役割です。<span class="why">なぜ：</span>作る場所を先に開いておかないと、別の場所にフォルダができて見失います。</p></div></li>
+      <li><span class="steps__n">1</span><div><h4 class="steps__title">Finder を開き、左の一覧からフォルダを作る場所（同期されていなければデスクトップ、同期されていればホームフォルダ直下の <code>apps</code>）を選ぶ</h4><p class="steps__desc">Finder＝Mac でファイルやフォルダを見たり動かしたりするソフト。Dock（画面下の帯）の左端にある顔のアイコンです。Windows では「エクスプローラー」が同じ役割です。<br><span class="why">なぜ：</span>作る場所を先に開いておかないと、別の場所にフォルダができて見失います。</p></div></li>
       <li><span class="steps__n">2</span><div><h4 class="steps__title">メニューの「ファイル」→「新規フォルダ」（<kbd>⇧⌘N</kbd>）</h4><p class="steps__desc">何もない場所で右クリック →「新規フォルダ」でも同じです。</p></div></li>
       <li><span class="steps__n">3</span><div><h4 class="steps__title">できた「名称未設定フォルダ」の名前を <code>my-app</code> のように打ち直して Enter</h4><p class="steps__desc"><span class="why">なぜ：</span>「名称未設定フォルダ」のままだと、あとで増える別のフォルダと区別がつきません。</p></div></li>
     </ol>
@@ -221,10 +221,10 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </div>
 
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<span class="why">なぜ：</span>新しいセッションで始めると、前の会話の内容と混ざりません。</p></div></li>
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<br><span class="why">なぜ：</span>新しいセッションで始めると、前の会話の内容と混ざりません。</p></div></li>
       <li><span class="steps__n">2</span><div><h3 class="steps__title">画面の下にある、いまのフォルダ名が書かれたボタンを押す</h3><p class="steps__desc">最近開いたフォルダの一覧と <strong>「フォルダを開く…」</strong> が出ます。</p></div></li>
       <li><span class="steps__n">3</span><div><h3 class="steps__title">「フォルダを開く…」→ フォルダを作った場所 → <code>my-app</code> を選んで「開く」</h3><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。デスクトップそのものを選ぶと、デスクトップ全体が対象になってしまいます。</p></div></li>
-      <li><span class="steps__n">4</span><div><h3 class="steps__title">画面の下のボタンが <code>my-app</code> になっていれば開けています</h3><p class="steps__desc">フォルダ名の左のボタンが「ローカル」になっているかも見ます。<span class="why">なぜ：</span>「クラウド」だと Anthropic のサーバーの上で動き、自分の PC の <code>my-app</code> を開けないためです。</p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title">画面の下のボタンが <code>my-app</code> になっていれば開けています</h3><p class="steps__desc">フォルダ名の左のボタンが「ローカル」になっているかも見ます。<br><span class="why">なぜ：</span>「クラウド」だと Anthropic のサーバーの上で動き、自分の PC の <code>my-app</code> を開けないためです。</p></div></li>
     </ol>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -410,7 +410,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <h3 class="sub">業務データを扱う場合の確認</h3>
     <p>社外に出せない情報（業務の実データ・顧客の個人情報・秘密情報）を扱うテーマは、次の3つを守ってください。</p>
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h4 class="steps__title">開発中は、実データを入れない</h4><p class="steps__desc">架空のデータか、名前や金額を置き換えた（匿名化した）データで作ります。<span class="why">なぜ：</span>Claude Code は自分の PC で動きますが、指示に必要なファイルの中身やエラーの内容は、クラウドにある AI のサービスに送られます。「自分の PC 内で動いているから外に出ない」とは言えません。</p></div></li>
+      <li><span class="steps__n">1</span><div><h4 class="steps__title">開発中は、実データを入れない</h4><p class="steps__desc">架空のデータか、名前や金額を置き換えた（匿名化した）データで作ります。<br><span class="why">なぜ：</span>Claude Code は自分の PC で動きますが、指示に必要なファイルの中身やエラーの内容は、クラウドにある AI のサービスに送られます。「自分の PC 内で動いているから外に出ない」とは言えません。</p></div></li>
       <li><span class="steps__n">2</span><div><h4 class="steps__title">完成後のアプリのデータの保存先と、開発中に AI へ渡る情報は、別の話として確認する</h4><p class="steps__desc">あとで AI 機能を組み込むと、アプリが扱うデータもその場で AI サービスに送られるようになります。</p></div></li>
       <li><span class="steps__n">3</span><div><h4 class="steps__title">業務で使うなら、所属先の AI 利用ルールを確認する</h4><p class="steps__desc">確認できないうちは、社外に出せない情報を含まない範囲で作ります。</p></div></li>
     </ol>
@@ -432,7 +432,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     </ul>
 
     <h3 class="sub">3類型への当てはめ</h3>
-    <p>主たる型を1つ選びます（記録型／変換型／相談型）。両方の性格を持つ場合も<strong>主たる型を1つ</strong>に決めます。<span class="why">なぜ：</span>この先の解説を型ごとに進めるためです。型が決まらないと、自分がどの例を見ればよいか分からなくなります。</p>
+    <p>主たる型を1つ選びます（記録型／変換型／相談型）。両方の性格を持つ場合も<strong>主たる型を1つ</strong>に決めます。<br><span class="why">なぜ：</span>この先の解説を型ごとに進めるためです。型が決まらないと、自分がどの例を見ればよいか分からなくなります。</p>
     <div class="table-wrap" tabindex="0" role="region" aria-label="型・何をするアプリか・例 の表">
       <table class="tbl">
         <thead><tr><th>型</th><th>何をするアプリか</th><th>例</th></tr></thead>
@@ -464,7 +464,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p><span class="why">なぜ人が先に決めるのか：</span>決めずに「いい感じの画面を作って」と指示すると、AI は指示のたびに違う画面構成を作ります。作り直しのたびに前の画面が消え、いつまでも完成しません。</p>
     <ul>
       <li><strong>ワイヤーフレーム</strong>を作ります。紙に手描き／Claude に箇条書きで出させる／Claude に画面遷移の図を出させる、のいずれかで構いません</li>
-      <li>Figma などの専用ツールは使いません。<span class="why">なぜ：</span>操作を覚えるだけで、次の LIVE講義までの時間が終わってしまいます。必要なのは見た目の完成度ではなく、画面の数と役割が決まっていることです</li>
+      <li>Figma などの専用ツールは使いません。<br><span class="why">なぜ：</span>操作を覚えるだけで、次の LIVE講義までの時間が終わってしまいます。必要なのは見た目の完成度ではなく、画面の数と役割が決まっていることです</li>
       <li>3類型それぞれの画面構成の例：記録型＝一覧＋入力／変換型＝入力＋結果／相談型＝やり取り＋履歴</li>
       <li>画面数の目安：MVP なら2〜4枚。5枚以上になった場合は MVP が大きすぎるので、戻って削ります</li>
     </ul>
@@ -668,8 +668,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <img class="note__icon" src="../../assets/icons/icon-key.svg" alt="">
       <img class="note__mascot" src="../../assets/penguins/penguin_pointing.png" alt="">
       <strong>確認のしかた：</strong>できた <code>docs/spec.md</code> を開いて読み、<strong>1箇所以上は自分の判断で直してください</strong>（直した箇所は提出時に書きます）。
-      <span class="why">なぜ：</span>AI の出力を読まずに通す癖がつくと、デバッグのときに手が止まります。
-      上の例では、AI が「予算設定・グラフ」を「やらないこと」に勝手に足していました。要らなければ消す、残すなら自分が納得して残す、です。
+      <br><span class="why">なぜ：</span>AI の出力を読まずに通す癖がつくと、デバッグのときに手が止まります。
+      <br>上の例では、AI が「予算設定・グラフ」を「やらないこと」に勝手に足していました。要らなければ消す、残すなら自分が納得して残す、です。
     </div>
     <h3 class="sub">spec.md の開き方と直し方</h3>
     <div class="cards cards--2">
@@ -679,7 +679,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </div>
       <div class="card">
         <h4 class="card__title">Claude Code に直させる</h4>
-        <p class="card__desc">入力欄に「<code>docs/spec.md</code> の『やらないこと』から『予算設定・グラフ』の行を消してください」のように、<strong>直す内容を文で</strong>指示します。確認画面で変更箇所を見て「一度だけ許可」。自分で直したあとに Claude に続きを頼むときは「<code>docs/spec.md</code> を自分で直したので、読み直してください」と一言添えます。<span class="why">なぜ：</span>Claude Code は前に読んだ内容を覚えているので、直したことを伝えないと古い内容で進めることがあります。</p>
+        <p class="card__desc">入力欄に「<code>docs/spec.md</code> の『やらないこと』から『予算設定・グラフ』の行を消してください」のように、<strong>直す内容を文で</strong>指示します。確認画面で変更箇所を見て「一度だけ許可」。自分で直したあとに Claude に続きを頼むときは「<code>docs/spec.md</code> を自分で直したので、読み直してください」と一言添えます。<br><span class="why">なぜ：</span>Claude Code は前に読んだ内容を覚えているので、直したことを伝えないと古い内容で進めることがあります。</p>
       </div>
     </div>
   </div>

@@ -181,7 +181,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="table-hint">表は横にスクロールできます</p>
 
     <div class="note">
-      <strong>LIVE講義では、準備 → 指示① → 読んで直す → 指示② → 確かめる まで（動かなかったら、コンソールの赤い文字を渡して原因を聞くところまで）を講師の画面でお見せします。</strong>手元で一緒に試していただく場面もあります。残りの「まだ」の行（指示③の繰り返し）と最後の見直しは、課題として1行ずつ進めます。LIVE講義の中で指示②まで進まなかった場合も、その続きから課題で進めて構いません。<span class="why">なぜ：</span>指示③は行の数だけ同じ型を繰り返すので、人によって行の数も、かかる手間も違います。
+      <strong>LIVE講義では、準備 → 指示① → 読んで直す → 指示② → 確かめる まで（動かなかったら、コンソールの赤い文字を渡して原因を聞くところまで）を講師の画面でお見せします。</strong>手元で一緒に試していただく場面もあります。残りの「まだ」の行（指示③の繰り返し）と最後の見直しは、課題として1行ずつ進めます。LIVE講義の中で指示②まで進まなかった場合も、その続きから課題で進めて構いません。<br><span class="why">なぜ：</span>指示③は行の数だけ同じ型を繰り返すので、人によって行の数も、かかる手間も違います。
     </div>
   </div>
 </section>
@@ -197,13 +197,13 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <h3 class="sub">フォルダを開いて、権限モードを「手動」にする</h3>
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h4 class="steps__title">Claude デスクトップアプリで <code>&lt;/&gt;</code>（Claude Code）→「＋ 新規」を押す</h4><p class="steps__desc"><span class="why">なぜ：</span>前の会話と混ざりません。モックを作ったときの会話には「JavaScript は使わない」という条件が残っていて、新しい指示とぶつかります。</p></div></li>
-      <li><span class="steps__n">2</span><div><h4 class="steps__title">画面の下のフォルダ名のボタン →「フォルダを開く…」→ <code>my-app</code> を選んで「開く」</h4><p class="steps__desc">入力欄の近くに「ローカル」と <code>my-app</code> が出ていることを見ます。<span class="why">なぜ：</span>選んだフォルダだけが作業の対象になります。「ローカル」は、この PC の中で動かす設定です。</p></div></li>
-      <li><span class="steps__n">3</span><div><h4 class="steps__title">入力欄の下のモード名を押して「手動」を選ぶ</h4><p class="steps__desc"><span class="why">なぜ：</span>この回は JavaScript のファイルを新しく作り、HTML も書き換えます。「手動」なら、どのファイルに何を書くかを確認画面で見てから許可できます。新しいセッションは「オート」や「編集を受け入れる」で始まることがあるので、開くたびに見ます。</p></div></li>
+      <li><span class="steps__n">2</span><div><h4 class="steps__title">画面の下のフォルダ名のボタン →「フォルダを開く…」→ <code>my-app</code> を選んで「開く」</h4><p class="steps__desc">入力欄の近くに「ローカル」と <code>my-app</code> が出ていることを見ます。<br><span class="why">なぜ：</span>選んだフォルダだけが作業の対象になります。「ローカル」は、この PC の中で動かす設定です。</p></div></li>
+      <li><span class="steps__n">3</span><div><h4 class="steps__title">入力欄の下のモード名を押して「手動」を選ぶ</h4><p class="steps__desc"><span class="why">なぜ：</span>この回は JavaScript のファイルを新しく作り、HTML も書き換えます。「手動」なら、どのファイルに何を書くかを確認画面で見てから許可できます。<br>新しいセッションは「オート」や「編集を受け入れる」で始まることがあるので、開くたびに見ます。</p></div></li>
     </ol>
     <div class="note">
       モードの名前や並びは、アプリの更新や契約の種類で変わることがあります。<strong>ファイルを書き換える前に毎回たずねてくる設定</strong>を選んでください。
     </div>
-    <p><strong>確認画面では、毎回「一度だけ許可」を押します。「常に許可」は選びません。</strong><span class="why">なぜ：</span>一度選ぶと、以後その種類の操作は確認なしで進み、頼んでいない <code>style.css</code> の書き換えやファイルの追加に気づけなくなります。確認画面が何回も出ますが、それで正しい状態です。</p>
+    <p><strong>確認画面では、毎回「一度だけ許可」を押します。「常に許可」は選びません。</strong><br><span class="why">なぜ：</span>一度選ぶと、以後その種類の操作は確認なしで進み、頼んでいない <code>style.css</code> の書き換えやファイルの追加に気づけなくなります。確認画面が何回も出ますが、それで正しい状態です。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
       <dl>
@@ -220,7 +220,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><strong>Windows：</strong><code>app</code> を選んで <kbd>Ctrl+C</kbd> → <kbd>Ctrl+V</kbd> → できた「app - コピー」を右クリック →「名前の変更」→ <code>app-mock</code></li>
     </ul>
     <p><span class="why">なぜ控えを取るのか：</span>動きを足すと、HTML に読み込みの1行や要素の名前が足され、一覧の仮のデータは JavaScript のほうへ移ります。思ったとおりに動かなくなったときや、見た目がいつの間にか変わったとき、<code>app-mock</code> の画面と見比べれば、どこが変わったかが分かります。</p>
-    <p><strong>どうしても直らないときは、控えからやり直します。</strong>いまの <code>app</code> の名前を <code>app-broken</code> に変え、<code>app-mock</code> を複製して、できたコピーの名前を <code>app</code> にします。そのあと「<code>docs/actions.md</code> の状態が『作った』の行をすべて『まだ』に戻し、『確かめた結果』を空にしてください。ほかは変えないでください」と頼み、指示②からやり直します。<span class="why">なぜ：</span>一覧を戻さないと、指示③は「作った」の行を飛ばします。<code>app</code> の中身はモックに戻っているので、その行の動きは作られないままになります。</p>
+    <p><strong>どうしても直らないときは、控えからやり直します。</strong>いまの <code>app</code> の名前を <code>app-broken</code> に変え、<code>app-mock</code> を複製して、できたコピーの名前を <code>app</code> にします。そのあと「<code>docs/actions.md</code> の状態が『作った』の行をすべて『まだ』に戻し、『確かめた結果』を空にしてください。ほかは変えないでください」と頼み、指示②からやり直します。<br><span class="why">なぜ：</span>一覧を戻さないと、指示③は「作った」の行を飛ばします。<code>app</code> の中身はモックに戻っているので、その行の動きは作られないままになります。</p>
     <p><span class="why">なぜ Claude Code ではなく自分で複製するのか：</span>控えは「AI が手を入れる前の状態」を残すためのものです。複製も頼むと、その作業の確認画面が増え、どれが控えかを自分で見ていないことになります。</p>
     <div class="note">
       <strong><code>docs/tasks.md</code>（作る順番）は、この回の指示①〜③では Claude Code に読ませません（最後の見直しで印を付けるときだけ読ませます）。</strong><code>docs/tasks.md</code> には、データを残す処理やサーバーまで含めた順番が書いてあります。読ませると、この回では作らないと決めたものまで作り始めます。この回の作る順番は、次の指示①で作る <code>docs/actions.md</code> にまとめます。
@@ -310,7 +310,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       </div>
     </dl>
     <p>送ると、Claude Code は <code>docs/spec.md</code> と <code>app/</code> の HTML を読み、<code>docs/actions.md</code> を作ります。確認画面で、<strong>ファイルの場所が <code>my-app/docs/actions.md</code> であること</strong>を見てから「一度だけ許可」を押します。</p>
-    <p><strong>12行に収まらずに止まったときは</strong>、返答の「外せそうなもの」から作らないものを選び、「<code>docs/spec.md</code> の『やること』の（　）を『やらないこと』に移してください。ほかの項目は変えないでください」と頼みます。許可したら、指示①をもう一度そのまま送ります。<span class="why">なぜ：</span>指示①は、仕様書の「やること」から一覧を作り、「やらないこと」は書きません。仕様書のほうを直してから送り直せば、外したものは一覧に入らず、仕様書と一覧も食い違いません。</p>
+    <p><strong>12行に収まらずに止まったときは</strong>、返答の「外せそうなもの」から作らないものを選び、「<code>docs/spec.md</code> の『やること』の（　）を『やらないこと』に移してください。ほかの項目は変えないでください」と頼みます。許可したら、指示①をもう一度そのまま送ります。<br><span class="why">なぜ：</span>指示①は、仕様書の「やること」から一覧を作り、「やらないこと」は書きません。仕様書のほうを直してから送り直せば、外したものは一覧に入らず、仕様書と一覧も食い違いません。</p>
 
     <h3 class="sub">例：食費メモでできた一覧（抜き出し）</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="食費メモでできた動きの一覧（抜き出し）の表">
@@ -439,7 +439,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <dd class="explain-list__value"><span class="explain-list__label">なぜ</span>一覧と実物を揃えておきます。確かめ方を Finder やエクスプローラーの手順で聞くのは、この回はターミナルを使わないためです</dd>
       </div>
     </dl>
-    <p><strong>仕様書の「使う技術」に React などを書いてあっても、この回は <code>app/</code> の HTML に app.js を足す形で作ります。</strong><span class="why">なぜ：</span>ダブルクリックで開いて確かめるので、部品の追加や起動の手順が要る構成は使いません。</p>
+    <p><strong>仕様書の「使う技術」に React などを書いてあっても、この回は <code>app/</code> の HTML に app.js を足す形で作ります。</strong><br><span class="why">なぜ：</span>ダブルクリックで開いて確かめるので、部品の追加や起動の手順が要る構成は使いません。</p>
     <p>返答に「仕様書には React と書いてありますが…」と断りが付いても、それで正しい状態です。<strong>仕様書は直しません。</strong>仕様書に書いた技術は、あとで裏側を足すときに使います。指示②が「この範囲では作れない」と止まったときは、「この回は、仕様書の『使う技術』ではなく、指示の作り方で作ってください」と送ります。</p>
     <div class="term">
       <p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p>
@@ -454,8 +454,8 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <li><strong><code>app/app.js</code> を作る確認：</strong>場所が <code>my-app/app/app.js</code> であること。中身の最初のほうに、見本のデータ（モックに書いていた仮のデータと同じ中身）が並んでいること</li>
       <li><strong><code>app/ai.js</code> を作る確認（AI を使うアプリだけ）：</strong>場所が <code>my-app/app/ai.js</code> であること。中身が、1秒待ってから決まった文章を返す関数1つであること</li>
       <li><strong><code>app/index.html</code> を書き換える確認：</strong>変わる行が、<code>&lt;script src="app.js"&gt;&lt;/script&gt;</code> の1行（AI を使うアプリは、その上の <code>&lt;script src="ai.js"&gt;&lt;/script&gt;</code> と合わせて2行）・<code>id="…"</code> の追加・仮のデータの行の削除・入力欄の <code>value="…"</code> の削除だけであること。見出しやボタンの文字が変わっていないこと</li>
-      <li><strong><code>docs/actions.md</code> を書き換える確認：</strong>1行目の状態が「まだ」から「作った」に変わるだけであること。<span class="why">なぜ：</span>頼んだ作業です。拒否すると1行目が「まだ」のまま残り、指示③がもう一度1行目を作ります</li>
-      <li>上のファイル以外（<code>style.css</code>・<code>package.json</code>・<code>server.js</code> など）の確認や、頼んでいないコマンド（ブラウザを開くもの、<code>node --check</code> のように <code>node</code> で始まるものなど）の確認が出たら、<strong>「拒否」を押します。</strong><span class="why">なぜ：</span>頼んだ範囲の外の作業です。拒否しても、頼んだファイルの変更は残ります</li>
+      <li><strong><code>docs/actions.md</code> を書き換える確認：</strong>1行目の状態が「まだ」から「作った」に変わるだけであること。<br><span class="why">なぜ：</span>頼んだ作業です。拒否すると1行目が「まだ」のまま残り、指示③がもう一度1行目を作ります</li>
+      <li>上のファイル以外（<code>style.css</code>・<code>package.json</code>・<code>server.js</code> など）の確認や、頼んでいないコマンド（ブラウザを開くもの、<code>node --check</code> のように <code>node</code> で始まるものなど）の確認が出たら、<strong>「拒否」を押します。</strong><br><span class="why">なぜ：</span>頼んだ範囲の外の作業です。拒否しても、頼んだファイルの変更は残ります</li>
     </ul>
 
     <h3 class="sub">例：食費メモでの返答（要点）</h3>
@@ -474,7 +474,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
   <div class="section__inner">
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-check-screen.svg" alt=""></span><div><p class="section__kicker">05</p><h2 class="section__title"><em>自分の手で</em>確かめる</h2></div></div>
     <p class="section__lead">
-      <strong>開き方：</strong>Finder（Windows はエクスプローラー）で <code>my-app</code> → <code>app</code> → <code>index.html</code> をダブルクリックします。すでにブラウザで開いているときは、<strong>再読み込み</strong>（<kbd>⌘R</kbd>／<kbd>F5</kbd>）します。<span class="why">なぜ：</span>ブラウザは前に読んだファイルを表示し続けています。読み直させないと、新しく足した動きが入っていない画面のまま試すことになります。
+      <strong>開き方：</strong>Finder（Windows はエクスプローラー）で <code>my-app</code> → <code>app</code> → <code>index.html</code> をダブルクリックします。すでにブラウザで開いているときは、<strong>再読み込み</strong>（<kbd>⌘R</kbd>／<kbd>F5</kbd>）します。<br><span class="why">なぜ：</span>ブラウザは前に読んだファイルを表示し続けています。読み直させないと、新しく足した動きが入っていない画面のまま試すことになります。
     </p>
     <p><code>docs/actions.md</code> の1行目の<strong>「確かめ方」のとおりに、自分の手で試します</strong>。食費メモなら次のとおりです。</p>
     <ol>
@@ -556,7 +556,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 - 起きたこと：（例：一覧に何も増えない。画面も変わらない）
 - コンソール：赤い文字が出ています（スクショを添付）
 まず原因を教えてください。直すのは、私が「直してください」と言ってからにしてください。</pre>
-    <p>原因の説明を読んだら、「直してください。変えるのは、いま説明してくれた原因の箇所だけにしてください。HTML の要素の並び・文言と style.css は変えないでください」と送ります。<span class="why">なぜ：</span>読み込みの1行が無い・ファイル名が違う・id の付け忘れのように、HTML を直さないと直らない原因もあります。</p>
+    <p>原因の説明を読んだら、「直してください。変えるのは、いま説明してくれた原因の箇所だけにしてください。HTML の要素の並び・文言と style.css は変えないでください」と送ります。<br><span class="why">なぜ：</span>読み込みの1行が無い・ファイル名が違う・id の付け忘れのように、HTML を直さないと直らない原因もあります。</p>
     <p>直ったら、再読み込みして、もう一度「確かめ方」を通します。</p>
     <p><span class="why">なぜ「したこと・起きたこと・コンソール」の3つを渡すのか：</span>「動きません」だけでは、AI はどの操作のことか分からず、推測で別の場所を直します。何を押して、何が見えたかと、止まった理由の文があれば、原因を1つに絞れます。</p>
     <p><span class="why">なぜ先に原因を説明させるのか：</span>すぐに直させると、AI は原因が分からないまま、それらしい場所をまとめて書き換えることがあります。直ったように見えても、何が悪かったのかが分からず、同じことが起きたときにまた一からになります。説明を読んで、自分のした操作の話になっているかを確かめてから直させます。</p>
@@ -689,9 +689,9 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <p class="section__lead">「まだ」の行が無くなったら、次の4つを見ます。</p>
     <ol class="steps">
       <li><span class="steps__n">1</span><div><h3 class="steps__title">一覧の「作った」の行を、上から全部もう一度押す</h3><p class="steps__desc">最後に足した動きのせいで、最初のほうの動きが壊れていないかを見ます。結果を「確かめた結果」に書かせます。</p></div></li>
-      <li><span class="steps__n">2</span><div><h3 class="steps__title"><code>app-mock</code> の画面と見比べる</h3><p class="steps__desc"><code>app-mock</code> の中の <code>index.html</code> を別の窓で開き、<code>app</code> の画面と並べて、見出し・ボタンの文字・色・余白が変わっていないかを見ます。足した表示（エラーの文・案内の文・処理中）以外が変わっていたら、「<code>app/index.html</code> の（　）が、<code>app-mock/index.html</code> と変わっています。元に戻してください。動きは変えないでください」と頼みます。<span class="why">なぜ：</span>動きを足す指示の途中で、見た目が少しずつ変わることがあります。毎回の確認画面では気づきにくいので、最後に控えと並べて見ます。</p></div></li>
-      <li><span class="steps__n">3</span><div><h3 class="steps__title">仕様書と揃える</h3><p class="steps__desc">Claude Code に「<code>docs/spec.md</code> と、<code>docs/actions.md</code>・いまの <code>app/</code> の画面で、違うところを一覧にしてください。まだ何も変えないでください」と頼みます。出てきた違い（足したエラーの文・案内の文、入力のチェックの決まりなど）を1つずつ、<strong>仕様書に書き足す</strong>か、<strong>画面を仕様書に戻す</strong>かを決めます。書き足すものだけ「<code>docs/spec.md</code> の（　）に、（　）を足してください。ほかの項目は変えないでください」と頼みます。<span class="why">なぜ：</span>仕様書と画面が食い違ったままだと、データを残す処理やテストを足すとき、AI がどちらを正としてよいか分かりません。</p></div></li>
-      <li><span class="steps__n">4</span><div><h3 class="steps__title"><code>docs/tasks.md</code> に終わった印を付ける</h3><p class="steps__desc">作る順番 <code>docs/tasks.md</code> のうち、画面の中だけでできたタスクを <code>- [x]</code> にしてもらいます。データを残す・画面をまたぐタスクは、まだ終わっていません。次の型をそのまま貼って送ります。<span class="why">なぜ：</span>印が実物とずれていると、次に作り始めるときに、できているものをもう一度作らせることになります。</p></div></li>
+      <li><span class="steps__n">2</span><div><h3 class="steps__title"><code>app-mock</code> の画面と見比べる</h3><p class="steps__desc"><code>app-mock</code> の中の <code>index.html</code> を別の窓で開き、<code>app</code> の画面と並べて、見出し・ボタンの文字・色・余白が変わっていないかを見ます。足した表示（エラーの文・案内の文・処理中）以外が変わっていたら、「<code>app/index.html</code> の（　）が、<code>app-mock/index.html</code> と変わっています。元に戻してください。動きは変えないでください」と頼みます。<br><span class="why">なぜ：</span>動きを足す指示の途中で、見た目が少しずつ変わることがあります。毎回の確認画面では気づきにくいので、最後に控えと並べて見ます。</p></div></li>
+      <li><span class="steps__n">3</span><div><h3 class="steps__title">仕様書と揃える</h3><p class="steps__desc">Claude Code に「<code>docs/spec.md</code> と、<code>docs/actions.md</code>・いまの <code>app/</code> の画面で、違うところを一覧にしてください。まだ何も変えないでください」と頼みます。出てきた違い（足したエラーの文・案内の文、入力のチェックの決まりなど）を1つずつ、<strong>仕様書に書き足す</strong>か、<strong>画面を仕様書に戻す</strong>かを決めます。書き足すものだけ「<code>docs/spec.md</code> の（　）に、（　）を足してください。ほかの項目は変えないでください」と頼みます。<br><span class="why">なぜ：</span>仕様書と画面が食い違ったままだと、データを残す処理やテストを足すとき、AI がどちらを正としてよいか分かりません。</p></div></li>
+      <li><span class="steps__n">4</span><div><h3 class="steps__title"><code>docs/tasks.md</code> に終わった印を付ける</h3><p class="steps__desc">作る順番 <code>docs/tasks.md</code> のうち、画面の中だけでできたタスクを <code>- [x]</code> にしてもらいます。データを残す・画面をまたぐタスクは、まだ終わっていません。次の型をそのまま貼って送ります。<br><span class="why">なぜ：</span>印が実物とずれていると、次に作り始めるときに、できているものをもう一度作らせることになります。</p></div></li>
     </ol>
 <pre class="prompt prompt--plain" data-label="終わった印を付けさせる型 ― そのまま貼る"><img class="prompt__icon" src="../../assets/icons/icon-copy.svg" alt="">docs/tasks.md のうち、docs/actions.md で状態が「作った」の動きだけで終わるタスクに - [x] を付けてください。データを残す・画面をまたいでデータを渡す・サーバー・本物の AI が要るタスクには付けないでください。書き換えるのは印だけで、タスクの中身は作らないでください</pre>
     <div class="note note--key">
@@ -717,7 +717,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
       <div class="card">
         <img class="card__icon" src="../../assets/icons/icon-folder.svg" alt="">
         <h3 class="card__title">変えたファイルの一覧</h3>
-        <p class="card__desc">Claude Code に「<code>app-mock</code> と見比べて、この回で作った・変えたファイルの一覧（<code>app/</code> と <code>docs/</code> の中）を出してください。ファイルは変えないでください」と頼んだ返答。スクリーンショットか、文字をそのまま貼ります。<span class="why">なぜ：</span>会話が LIVE講義と課題で分かれても、一覧から漏れません。</p>
+        <p class="card__desc">Claude Code に「<code>app-mock</code> と見比べて、この回で作った・変えたファイルの一覧（<code>app/</code> と <code>docs/</code> の中）を出してください。ファイルは変えないでください」と頼んだ返答。スクリーンショットか、文字をそのまま貼ります。<br><span class="why">なぜ：</span>会話が LIVE講義と課題で分かれても、一覧から漏れません。</p>
       </div>
       <div class="card">
         <img class="card__icon" src="../../assets/icons/icon-tasks.svg" alt="">
