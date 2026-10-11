@@ -216,12 +216,12 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-folder-open.svg" alt=""></span><div><p class="section__kicker">03</p><h2 class="section__title">Claude デスクトップアプリで<em>フォルダを開く</em></h2></div></div>
     <p class="section__lead">作ったフォルダを、Claude デスクトップアプリの中の Claude Code で開きます。</p>
     <div class="note">
-      <strong>始める前の4つの確認：</strong>① アプリが最新版になっている ② ゼミで使う有料プランのアカウントでログインしている ③ 画面左上に <code>&lt;/&gt;</code>（Claude Code）が出ている ④ 下の手順でフォルダを開ける。
+      <strong>始める前の4つの確認：</strong>① アプリが最新版になっている ② ゼミで使う有料プランのアカウントでログインしている ③ 画面左上に <code>&lt;/&gt;</code>（Claude Code）が出ている（アプリの版によっては「コード」（Code）タブ） ④ 下の手順でフォルダを開ける。
       ③ が出ない場合は、契約の種類か、ログインしているアカウントが違います。
     </div>
 
     <ol class="steps">
-      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<br><span class="why">なぜ：</span>新しいセッションで始めると、前の会話の内容と混ざりません。</p></div></li>
+      <li><span class="steps__n">1</span><div><h3 class="steps__title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す（アプリの版によっては「コード」（Code）タブ）</h3><p class="steps__desc">左の一覧の上にある <strong>「＋ 新規」</strong> を押します。<br><span class="why">なぜ：</span>新しいセッションで始めると、前の会話の内容と混ざりません。</p></div></li>
       <li><span class="steps__n">2</span><div><h3 class="steps__title">画面の下にある、いまのフォルダ名が書かれたボタンを押す</h3><p class="steps__desc">最近開いたフォルダの一覧と <strong>「フォルダを開く…」</strong> が出ます。</p></div></li>
       <li><span class="steps__n">3</span><div><h3 class="steps__title">「フォルダを開く…」→ フォルダを作った場所 → <code>my-app</code> を選んで「開く」</h3><p class="steps__desc"><span class="why">なぜ：</span>ここで選んだフォルダだけが Claude Code の作業対象になります。デスクトップそのものを選ぶと、デスクトップ全体が対象になってしまいます。</p></div></li>
       <li><span class="steps__n">4</span><div><h3 class="steps__title">画面の下のボタンが <code>my-app</code> になっていれば開けています</h3><p class="steps__desc">フォルダ名の左のボタンが「ローカル」になっているかも見ます。<br><span class="why">なぜ：</span>「クラウド」だと Anthropic のサーバーの上で動き、自分の PC の <code>my-app</code> を開けないためです。</p></div></li>
@@ -812,7 +812,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 <section class="section section--soft" id="pitfalls">
   <div class="section__inner">
     <div class="section__head"><span class="section__icon"><img src="../../assets/icons/icon-pitfall.svg" alt=""></span><div><p class="section__kicker">Pitfalls</p><h2 class="section__title">よくある<em>つまずき</em>と対処</h2></div></div>
-    <p class="section__lead">詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板）で進めてください。</p>
+    <p class="section__lead">詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄）で進めてください。</p>
     <div class="pitfalls">
       <div class="pitfall">
         <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
@@ -848,7 +848,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">書き込みの確認画面で止まってしまった</h3>
         <p class="pitfall__what">先に進めません。</p>
-        <p class="pitfall__how"><strong>対処：</strong>場所と中身を見て「一度だけ許可」。何を聞かれているか分からないときは、確認画面のスクショを撮ってゼミ掲示板へ。</p>
+        <p class="pitfall__how"><strong>対処：</strong>場所と中身を見て「一度だけ許可」。何を聞かれているか分からないときは、確認画面のスクショを撮って、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（まず生成AIに聞く → ゼミ掲示板 → 課題提出フォームの質問欄）で進めます。</p>
       </div>
       <div class="pitfall">
         <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
@@ -860,7 +860,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
         <img class="pitfall__icon" src="../../assets/icons/icon-warn.svg" alt="">
         <h3 class="pitfall__title">Claude デスクトップアプリが入っていない／有料プランが未契約</h3>
         <p class="pitfall__what">フォルダを開くところから先に進めません。</p>
-        <p class="pitfall__how"><strong>対処：</strong>LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。導入で詰まったら、スクショを撮って AI に聞く → ゼミ掲示板の順で。</p>
+        <p class="pitfall__how"><strong>対処：</strong>LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。導入で詰まったら、スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄の順で。</p>
       </div>
     </div>
   </div>
@@ -917,7 +917,7 @@ setTimeout(function(){var r=document.documentElement;if(!r.classList.contains("i
 </footer>
 
 <!-- shot-stamp:start -->
-<aside style="max-width:980px;margin:32px auto 0;padding:14px 18px;border:1px solid #e4e4ef;border-radius:12px;background:#fafafd;color:#3f3f52;font-size:13.5px;line-height:1.9"><b>この資料の画面について</b><br>載せているスクリーンショットは <b>2026年9月</b> に撮影したものです。ツールの更新で、ボタンの名前や画面の見た目が変わっていることがあります。手元の画面と違っても、<b>やることは同じ</b>ことがほとんどです。同じ意味のボタンを探しても見つからないときは、Boarding Pass の Q&amp;A から質問してください（似た質問にすでに回答があれば、送る前に表示されます）。各画像にマウスを乗せると、その 1 枚の撮影時期が出ます。</aside>
+<aside style="max-width:980px;margin:32px auto 0;padding:14px 18px;border:1px solid #e4e4ef;border-radius:12px;background:#fafafd;color:#3f3f52;font-size:13.5px;line-height:1.9;break-inside:avoid;page-break-inside:avoid"><b>この資料の画面について</b><br>載せているスクリーンショットは <b>2026年9月</b> に撮影したものです。ツールの更新で、ボタンの名前や画面の見た目が変わっていることがあります。手元の画面と違っても、<b>やることは同じ</b>ことがほとんどです。同じ意味のボタンを探しても見つからないときは、手元の画面のスクリーンショットを普段使っている生成AIに見せて聞くか、課題提出フォームの質問欄に書いてください（共通の内容は LIVE 講義で回答します）。各画像にマウスを乗せると、その 1 枚の撮影時期が出ます。</aside>
 <!-- shot-stamp:end -->
 </body>
 </html>
