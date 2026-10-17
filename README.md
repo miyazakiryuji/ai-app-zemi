@@ -9,67 +9,65 @@ GitHub Pages で公開している、受講生向けの案内ページです。
 - 第4回 画面側を作る：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson04/>
 - 第5回 API 連携とデータの持ち方：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson05/>
 - 第6回 テスト：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson06/>
+- 第7回 デバッグと卒業制作：<https://miyazakiryuji.github.io/ai-app-zemi/lessons/lesson07/>
 - リポジトリ：<https://github.com/miyazakiryuji/ai-app-zemi>
 
 - Home：ゼミの目的・進め方・全7回の流れ・修了要件・開催スケジュール・参加方法・困ったときの順番
-- 各回のページ：その回のLIVE講義に合わせて順次公開します
+- 各回のページ：その回の LIVE 講義に合わせて順次公開します
 
-編集元は教材リポジトリ側の `AIアプリ開発入門ゼミ/site/`。ここへコピーして push します。
+編集元は教材リポジトリ側の `AIアプリ開発入門ゼミ/site/`（このフォルダが公開リポジトリの git チェックアウト）。Boarding Pass も同じ HTML を取り込んでいる（`boarding-pass/tools/build-curriculum.mjs` の `ai-app-lessons`）ので、**フォルダ構成・ファイル名・画像のパスと名前は変えない**。
+
+## 見た目の型（2026-10 に載せ替え）
+
+ClaudeCode マスターゼミ「各回の資料」（`../../ClaudeCodeゼミ/各回の資料/template.html`）と同じ型。CSS は `assets/lesson.css` の1本だけ。
+
+- `assets/lesson.css`：マスターゼミの `各回の資料/assets/lesson.css` の写し＋末尾の「入門ゼミ追加」の節（入門ゼミにしか無い部品）。**上の部品の見た目は変えない。** マスターゼミ側の CSS が変わったら、「入門ゼミ追加」の節より上を写し直す
+- `assets/site.js`：指示の型（`pre.prompt`）にコピーボタンを付けるだけ。JS が動かなくても中身は全部読める。図版の拡大は `a.zoom`（画像そのものを開くリンク）で JS を使わない
+- `assets/figs/`：各回の「この回の地図」と Home の「全7回の流れ」の図解（Codex の画像生成で描き、cwebp で webp に）。画風は `../../ClaudeCodeゼミ/各回の資料/_work/STYLE.md`
+- `assets/penguins/`：ペンギン先生。マスターゼミと同じ画像
+- `assets/images/`：各回のスクリーンショットと旧デザインで描いた SVG の図解（置き場と名前はそのまま。教材の撮影台帳がファイル名で追っている）
+- `<style>`・`style=""`・外部フォント・外部画像は使わない
+
+### ページの並び（どの回も同じ）
+
+`header.hero`（kicker「AIアプリ開発入門ゼミ ｜ 第N回」・題・lead・chips・ペンギン）→ `ol.course-band.band-3`（決める／作る／仕上げる。この回の段に `is-here`）→ `.howto`（この回でやること／できたかの確認）→ `.goal` → `.box.box-point`（この回の前に用意しておくもの）→ `nav.toc` → `#map`（この回の地図の図と道順）→ 本文（`section.ep` を `.ep-head` の帯で区切る。節の番号は `.ep-no`）→ `#deliverables` → `#pitfalls`（`.box.box-trouble`）→ `#glossary` → `#guides`（Boarding Pass の演習ボタン `https://quiz-gpassport.vercel.app/s/AIA0N`）→ `footer.footer`（前後の回へのリンク）
+
+### 入門ゼミ追加の部品（lesson.css 末尾）
+
+- 用語の囲み：`<div class="box box-term"><span class="box-title">📗 用語</span><dl><dt>語</dt><dd>説明</dd></dl></div>`
+- 補足（色の付かない囲み）：`.box.box-note`
+- 手順：`<ol class="steps"><li><p class="step-title">見出し</p><p>本文</p></li></ol>`
+- 項目｜内容｜なぜ のカード：`.explain > .explain-item > .explain-term / .explain-value / .explain-why`
+- リンクでないカード：`.cards > div.card`（`.card-no`・`.card-title`・`.card-desc`）
+- 節の中の小さな目次：`nav.toc-mini`
+- 期ごとの開催スケジュール：`details.cohort`（下の「期が増えたとき」）
+- 講師紹介：`.instructor`・`.facts`・`details.more`
+- 前後の回：`nav.pager`
+
+### 書き方の決まり（`../CLAUDE.md` 2章）
+
+比喩を使わない／「なぜ：」は `<br><span class="why">なぜ：</span>` で行の頭から／各回のページに日付・時刻・期を書かない（期タブの中だけ）／金額を断定しない／アンケート欄を貼らない／ASCII のファイル名。
 
 ## 期（5期・6期…）が増えたとき
 
-開催日・時間・入室先は期ごとに違うので、Home の「開催スケジュールと参加方法」は期のタブで切り替える作りになっている
-（`index.html` の `<div class="cohorts" data-tabs>`。タブの動きは `site.js` の「8) タブ」）。
+開催日・時間・入室先は期ごとに違うので、Home の「開催スケジュールと参加方法」は期ごとの `<details class="cohort">` で切り替える（JS は使わない）。
 
-1. `index.html` の `<!-- 6期 -->` の枠（`id="cohort-6"` のパネル）に、5期の枠をコピーして表（回・内容・開催日）と入室先（Google Meet）を入れる。
-   タブのボタン（`id="tab-cohort-6"`）の `<small>準備中</small>` を開催期間に書き換える
-2. 次の期（7期）は、パネルとタブを1組ずつ足す。`aria-controls` と `id` を対にする。最初に開いておく期は `aria-selected="true"`（他は `false` と `tabindex="-1"`）
-3. 進め方・全7回の流れ・修了要件は期をまたいで同じ前提。期で違うものはこの節の中だけに書く（ヒーローや「この回」の帯に日付や曜日を書かない）
-4. `#cohort-6` のようにパネルの id を付けた URL で開くと、その期が選ばれた状態で表示される（案内文に貼れる）
+1. `index.html` の `id="cohort-6"` の `<details>` に、5期の `<details>` をコピーして表（回・内容・開催日）と入室先（Google Meet）を入れる。`<summary>` の `<small>準備中</small>` を開催期間に書き換える
+2. 次の期（7期）は `<details class="cohort" id="cohort-7">` を1つ足す
+3. 最初に開いておく期にだけ `open` を付ける（ほかは外す）
+4. 進め方・全7回の流れ・修了要件は期をまたいで同じ前提。期で違うものはこの節の中だけに書く（ヒーローや各回のページに日付や曜日を書かない）
 
 ## ページを増やすとき
 
-新しい回のページ（`lessons/lessonNN/index.html`）は、`<head>` に次の3行を入れると Home と同じ見た目と動きになります。
+`lessons/lessonNN/index.html` を、いちばん近い回のページをコピーして作る。`<head>` は次の2行だけ。
 
 ```html
-<link rel="stylesheet" href="../../assets/site.css">
-<script>document.documentElement.classList.add("js");</script>
+<link rel="stylesheet" href="../../assets/lesson.css">
 <script src="../../assets/site.js" defer></script>
 ```
 
-- `assets/site.js`：スクロールに合わせてカードや見出しを順に出す／固定ヘッダの影と読み進みバー／
-  メニューのいま見ている節の強調／「上へ戻る」ボタン／図版（`.figure img`）の拡大表示／指示の型（`.prompt`）のコピーボタン。対象の部品は `site.js` 先頭の `REVEAL` と
-  `site.css` 末尾の「動き」の節で同じ一覧を持っているので、部品を足すときは両方に足す
-- JS が無効でも中身は全部見える。OS の「視差効果を減らす」が有効なときは動かさない
-
-## 各回ページの部品（第2回で追加）
-
-- 図版：`<figure class="figure"><img …><figcaption>…</figcaption></figure>`。2枚並べるときは `<div class="figures">` で包む。押すと拡大
-- 指示の型：`<pre class="prompt">…</pre>`（（ ）を差し替える型）／`prompt prompt--plain`（そのまま貼る型）。コピーボタンが自動で付く
-- 注意書き：`.note`（黄）／`.note note--key`（橙＝大事）／`.note note--warn`（赤＝注意）。`<img class="note__mascot">` でペンギン先生を右に添えられる
-- 流れ図：`.flow > .flow__step`、つまずき：`.pitfalls > .pitfall`、本文の小見出し：`<h3 class="sub">`
-- スクショの元は教材リポジトリ側 `カリキュラム/assets/shots/r2_*.png`（講師の環境が写る箇所はぼかし済み）。`assets/images/lesson02/` に置く
-
-## 第2回ページのその後の部品（2026-09-06）
-
-- 用語の箱：`<div class="term"><p class="term__title"><img src="../../assets/icons/icon-glossary.svg" alt="">用語</p><dl><dt>語</dt><dd>説明</dd></dl></div>`。
-  初出の語は本文に（＝…）で足さず、その段落の直後にこの箱で説明する（講義資料の「📗 用語」と同じ役割。（ ）書きが多いと読みづらい）
-- 説明カード：「項目｜内容｜なぜ」のような表は `<dl class="explain-list">`（1項目ずつ縦に読む）。行どうしを比較する表（3類型・開催スケジュール）だけ `table.tbl` のまま
-- 表：`table.tbl` の見た目は Codex の提案で統一（見出しの下線・見える罫線・上揃え・列幅固定）。Home の開催スケジュールは `tbl--schedule`
-- アイコン：`assets/icons/icon-*.svg`（Codex 生成・16個・線画・橙）。節見出しは `.section__head > .section__icon`、カードは `.card__icon` `.pitfall__icon`、注意書きは `.note__icon`、指示の型は `.prompt__icon`
-- 図版の並び：`figures--2`（2列固定）、`figures--menu`（縦長1枚＋横長1枚）
-- スクショの伏せ字は「ぼかし」ではなく薄いグレーの角丸で平らに塗る（ぼかしは壊れて見える）
-- 余白・文字組みは `body.lesson` 配下で上書き（本文 16px／行間 1.7〜1.8／字間 0／8px 単位）。根拠は `10_products/_references/design/`
-
-## 第3回ページ（2026-09-07）
-
-- スクショの元は教材リポジトリ側 `カリキュラム/assets/shots/r3_*.png`（講師の環境が写る箇所は平らに塗ってある）。`assets/images/lesson03/` に置く。図解は `diagram_mock.svg`・`diagram_brushup.svg`（Codex 生成）
-- アイコンを5個追加（Codex 生成・同じ線画）：`icon-mock`（モックとは）・`icon-browser`（ブラウザで開く）・`icon-check-screen`（見直す・成果物）・`icon-palette`（テイスト）・`icon-detail`（細部）
-- Claude デスクトップアプリのスクショは、サイドバーを落としてチャット欄だけを切り出したもの（`r3_app_prompt*`）と、プレビュー欄まで含む全体（`r3_app_prompt1_done`・`r3_app_prompt2_done`）の2種類。切り出しは文字を読ませたい図、全体は「右の欄に画面が出る」を見せたい図
+地図の図は `assets/figs/lNN_map.webp`。スクリーンショットは `assets/images/lessonNN/`（講師の環境が写る箇所は薄いグレーの角丸で平らに塗る。ぼかしは使わない）。撮り直したら教材リポジトリ側の `_共通/教材保守/` で `scan.py` → `stamp.py`。
 
 ## 回の番号の付け替え（2026-10-04）
 
-第4回に「画面側を作る」を新しく入れ、API 連携の回を `lessons/lesson04/` → `lesson05/`、テストの回を `lesson05/` → `lesson06/` へ移した。
-
-- **画像の置き場と名前は変えていない**（教材の撮影台帳がファイル名で追っているため）。`assets/images/lesson04/`（`r4_*`・`diagram_api_route` など）は第5回（API）のページ、`assets/images/lesson05/`（`r5_*`・`diagram_test_loop`）は第6回（テスト）のページが使っている
-- 新しい第4回の画像を足すときは、上の `r4_*` と名前がぶつからないようにする
+第4回に「画面側を作る」を新しく入れ、API 連携の回を `lessons/lesson04/` → `lesson05/`、テストの回を `lessons/lesson05/` → `lesson06/` へ移した。**画像の置き場と名前は変えていない**。`assets/images/lesson04/`（`r4_*`）は第5回（API）のページ、`assets/images/lesson05/`（`r5_*`）は第6回（テスト）のページが使っている。新しい第4回の画像は `assets/images/lesson04-front/`。

@@ -1,0 +1,382 @@
+/* ==========================================================
+   Claude Code マスターゼミ 各回の資料（第1回〜第13回）共通スタイル
+   画面で読む前提（PC・スマホ）。印刷はしない（Boarding Pass は印刷を止めている）
+   部品の使い方は ../template.html を見本にする
+   ========================================================== */
+:root {
+  --ink: #1f2430;
+  --ink-soft: #4b5361;
+  --muted: #6b7280;
+  --line: #d8dde6;
+  --bg: #eef2f6;
+  --paper: #ffffff;
+  --primary: #0f766e;
+  --primary-soft: #e6f4f2;
+  --accent: #4338ca;
+  --link: #1d4ed8;
+  --why: #7c3aed;
+  --why-bg: #f5f3ff;
+  --point: #0f766e;
+  --point-bg: #f0fdfa;
+  --warn: #dc2626;
+  --warn-bg: #fef2f2;
+  --term: #2563eb;
+  --term-bg: #eff6ff;
+  --diff: #c2410c;
+  --diff-bg: #fff7ed;
+  --os: #475569;
+  --os-bg: #f8fafc;
+  --trouble: #b45309;
+  --trouble-bg: #fffbeb;
+  --code-bg: #eef1f6;
+  --cmd-bg: #1e2430;
+  --radius: 10px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--ink);
+  background: var(--bg);
+  font-feature-settings: "palt";
+  overflow-wrap: anywhere;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+strong { font-weight: 700; }
+p { margin: 0.6em 0; }
+ul, ol { padding-left: 1.5em; margin: 0.5em 0; }
+li { margin: 0.25em 0; }
+h2, h3, h4 { line-height: 1.45; scroll-margin-top: 16px; }
+h3 { font-size: 1.18rem; margin: 1.8em 0 0.5em; padding-left: 0.6em; border-left: 5px solid var(--primary); }
+h4 { font-size: 1.04rem; margin: 1.4em 0 0.4em; }
+code {
+  font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--code-bg);
+  border: 1px solid #dde3ec;
+  border-radius: 4px;
+  padding: 0.05em 0.35em;
+  overflow-wrap: anywhere;
+}
+kbd {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.86em;
+  border: 1px solid #c4cbd6;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0 0.35em;
+  background: #fff;
+  white-space: nowrap;
+}
+
+/* ---------- ページの枠 ---------- */
+.page { max-width: 880px; margin: 0 auto; padding: 24px 16px 64px; }
+.sheet { background: var(--paper); border-radius: 14px; box-shadow: 0 2px 18px rgba(30, 40, 70, 0.10); padding: 32px 36px 40px; }
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .page { padding: 12px 8px 48px; }
+  .sheet { padding: 20px 16px 28px; border-radius: 10px; }
+}
+
+/* ---------- 先頭（ヒーロー） ---------- */
+.hero {
+  background: linear-gradient(120deg, #0f766e 0%, #3730a3 70%);
+  color: #fff;
+  border-radius: 12px;
+  padding: 24px 26px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.hero .hero-text { flex: 1; min-width: 0; }
+.hero .kicker { font-size: 0.82rem; letter-spacing: 0.08em; opacity: 0.92; }
+.hero h1 { font-size: 1.7rem; line-height: 1.4; margin: 6px 0 8px; }
+.hero .lead { font-size: 0.98rem; opacity: 0.97; margin: 0; }
+.hero img.penguin { width: 120px; flex: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.chip { display: inline-block; font-size: 0.8rem; line-height: 1.5; padding: 2px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.4); color: #fff; white-space: nowrap; }
+@media (max-width: 640px) {
+  .hero { padding: 18px 16px; flex-direction: column-reverse; align-items: flex-start; }
+  .hero h1 { font-size: 1.32rem; }
+  .hero img.penguin { width: 84px; }
+}
+
+/* ---------- ゴール・目次 ---------- */
+.goal { margin: 22px 0 0; border: 2px solid var(--primary); border-radius: var(--radius); padding: 14px 18px; background: var(--point-bg); }
+.goal-title { font-weight: 700; color: var(--primary); }
+.toc { margin: 18px 0 0; border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 18px; background: #fafbfc; }
+.toc-title { font-weight: 700; font-size: 0.95rem; color: var(--ink-soft); }
+.toc ol { margin: 4px 0 0; }
+.toc a { text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+
+/* ---------- 大きな節 ---------- */
+section.part { margin-top: 44px; }
+.part-head { display: flex; align-items: center; gap: 12px; padding-bottom: 8px; border-bottom: 3px solid var(--primary); margin-bottom: 14px; }
+.part-head h2 { font-size: 1.42rem; flex: 1; min-width: 0; }
+.part-head img.penguin { width: 56px; flex: none; }
+.part-head .tag { font-size: 0.8rem; font-weight: 700; color: #fff; background: var(--primary); border-radius: 6px; padding: 2px 8px; white-space: nowrap; }
+
+/* EP の節：頭に EP 番号と動画へのリンク */
+section.ep { margin-top: 48px; scroll-margin-top: 16px; }
+.ep-head { border-radius: var(--radius); background: var(--primary-soft); border-left: 6px solid var(--primary); padding: 12px 16px; }
+.ep-head .ep-no { display: inline-block; font-weight: 700; font-size: 0.82rem; color: #fff; background: var(--primary); border-radius: 6px; padding: 1px 8px; margin-right: 6px; }
+.ep-head h2 { font-size: 1.32rem; margin-top: 4px; }
+.ep-head .ep-meta { font-size: 0.86rem; color: var(--ink-soft); margin-top: 4px; }
+.level { display: inline-block; font-size: 0.76rem; font-weight: 700; border-radius: 999px; padding: 0 9px; margin-left: 4px; vertical-align: 2px; white-space: nowrap; }
+.level-large { background: #fee2e2; color: #991b1b; }
+.level-medium { background: #ffedd5; color: #9a3412; }
+.level-small { background: #fef9c3; color: #854d0e; }
+.level-none { background: #dcfce7; color: #166534; }
+
+/* ---------- 囲み（なぜ・ポイント・注意・用語・動画との違い・OS の違い・つまずき） ---------- */
+.box { margin: 16px 0; border-radius: var(--radius); padding: 12px 16px; border: 1px solid var(--line); border-left-width: 6px; }
+.box > .box-title, .box .box-body > .box-title { display: block; font-weight: 700; margin-bottom: 4px; }
+.box > :last-child { margin-bottom: 0; }
+.box-why { border-color: var(--why); background: var(--why-bg); }
+.box-why > .box-title, .box-why .box-body > .box-title { color: var(--why); }
+.box-point { border-color: var(--point); background: var(--point-bg); }
+.box-point > .box-title, .box-point .box-body > .box-title { color: var(--point); }
+.box-warn { border-color: var(--warn); background: var(--warn-bg); }
+.box-warn > .box-title, .box-warn .box-body > .box-title { color: var(--warn); }
+.box-term { border-color: var(--term); background: var(--term-bg); }
+.box-term > .box-title, .box-term .box-body > .box-title { color: var(--term); }
+.box-trouble { border-color: var(--trouble); background: var(--trouble-bg); }
+.box-trouble > .box-title, .box-trouble .box-body > .box-title { color: var(--trouble); }
+.box-diff { border-color: var(--diff); background: var(--diff-bg); }
+.box-diff > .box-title, .box-diff .box-body > .box-title { color: var(--diff); }
+.box-os { border-color: var(--os); background: var(--os-bg); }
+.box-os > .box-title, .box-os .box-body > .box-title { color: var(--os); }
+.box-with-penguin { display: flex; gap: 12px; align-items: flex-start; }
+.box-with-penguin > img.penguin { width: 52px; flex: none; }
+.box-with-penguin > .box-body { flex: 1; min-width: 0; }
+
+/* 「なぜ：」は行の頭から（直前に <br> を入れる） */
+.why { font-weight: 700; color: var(--why); }
+
+/* 動画では／今は の2列 */
+.diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
+.diff-grid > div { background: #fff; border: 1px solid #f3d5bf; border-radius: 8px; padding: 8px 12px; font-size: 0.95rem; }
+.diff-grid .was::before { content: "動画では"; display: block; font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+.diff-grid .now::before { content: "今は"; display: block; font-size: 0.78rem; font-weight: 700; color: var(--diff); }
+.diff-grid .now { border-color: var(--diff); }
+.diff-date { font-size: 0.8rem; color: var(--muted); }
+
+/* Mac／Windows の2列 */
+.os-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
+.os-grid > div { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-size: 0.95rem; min-width: 0; }
+.os-grid .os-name { display: block; font-size: 0.8rem; font-weight: 700; color: var(--os); margin-bottom: 2px; }
+@media (max-width: 640px) {
+  .diff-grid, .os-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- 手順 ---------- */
+ol.steps { list-style: none; padding-left: 0; counter-reset: step; margin: 12px 0; }
+ol.steps > li { counter-increment: step; position: relative; padding: 10px 12px 10px 48px; margin: 8px 0; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+ol.steps > li::before { content: counter(step); position: absolute; left: 12px; top: 10px; width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: #fff; font-weight: 700; font-size: 0.86rem; display: flex; align-items: center; justify-content: center; line-height: 1; }
+ol.steps > li > .box, ol.steps > li > figure { margin-left: 0; }
+
+/* ---------- 予習の進め方（EP ごとのチェック表） ---------- */
+.prep { display: grid; gap: 10px; margin: 12px 0; }
+.prep-item { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; background: #fff; }
+.prep-item .prep-ep { font-weight: 700; }
+.prep-item .prep-ep .ep-no { display: inline-block; font-size: 0.78rem; color: #fff; background: var(--primary); border-radius: 6px; padding: 0 7px; margin-right: 6px; vertical-align: 1px; }
+.prep-item dl { display: grid; grid-template-columns: 7.5em 1fr; gap: 2px 10px; margin-top: 6px; font-size: 0.95rem; }
+.prep-item dt { color: var(--ink-soft); font-weight: 700; }
+.prep-item dd { margin: 0; min-width: 0; }
+@media (max-width: 640px) {
+  .prep-item dl { grid-template-columns: 1fr; }
+  .prep-item dt { margin-top: 4px; }
+}
+
+/* ---------- コマンド・プロンプト ---------- */
+.code-label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--ink-soft); margin: 12px 0 2px; }
+pre.cmd, pre.prompt {
+  font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 4px 0 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+pre.cmd { background: var(--cmd-bg); color: #e5e7eb; }
+pre.prompt { background: #f7f7fb; border: 1px dashed #a5b4fc; color: var(--ink); font-family: inherit; font-size: 0.95rem; }
+
+/* ---------- 図・スクショ ---------- */
+figure { margin: 16px 0; }
+figure.shot img { border: 1px solid #cfd6e0; border-radius: 8px; box-shadow: 0 1px 6px rgba(30, 40, 70, 0.08); margin: 0 auto; }
+figure.fig img { border-radius: 10px; margin: 0 auto; }
+figure a.zoom { display: block; position: relative; }
+figure a.zoom::after { content: "押すと拡大"; position: absolute; right: 8px; bottom: 8px; font-size: 0.72rem; color: #fff; background: rgba(31, 36, 48, 0.72); border-radius: 4px; padding: 1px 6px; }
+figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 6px; line-height: 1.6; }
+figure.narrow img { max-width: min(520px, 100%); }
+.figs-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+.figs-2 > figure { margin: 0; min-width: 0; }
+@media (max-width: 640px) {
+  .figs-2 { grid-template-columns: 1fr; }
+}
+
+/* ---------- 表 ---------- */
+.table-wrap { overflow-x: auto; margin: 12px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+th, td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { background: #f1f5f9; }
+
+/* ---------- 比べる（よい例・わるい例） ---------- */
+.ba { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+.ba > div { border-radius: 8px; padding: 10px 14px; border: 1px solid var(--line); min-width: 0; }
+.ba .ba-no { background: #fef2f2; border-color: #fecaca; }
+.ba .ba-yes { background: #f0fdf4; border-color: #bbf7d0; }
+.ba .ba-h { display: block; font-weight: 700; font-size: 0.86rem; margin-bottom: 4px; }
+@media (max-width: 640px) { .ba { grid-template-columns: 1fr; } }
+
+/* ---------- 過去の LIVE で出た質問 ---------- */
+.qa { margin: 12px 0; }
+.qa-item { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; margin: 8px 0; background: #fff; }
+.qa-q { font-weight: 700; }
+.qa-q::before { content: "Q. "; color: var(--accent); }
+.qa-a::before { content: "A. "; font-weight: 700; color: var(--primary); }
+
+/* ---------- この回で使うガイド・演習 ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; margin: 12px 0; }
+a.card { display: block; text-decoration: none; color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; background: #fff; }
+a.card:hover { border-color: var(--primary); box-shadow: 0 2px 10px rgba(15, 118, 110, 0.12); }
+a.card .card-title { display: block; font-weight: 700; color: var(--link); }
+a.card .card-desc { display: block; font-size: 0.86rem; color: var(--ink-soft); margin-top: 2px; }
+.practice { border: 2px solid var(--accent); border-radius: var(--radius); padding: 14px 18px; background: #eef2ff; margin: 16px 0; }
+.practice .box-title { color: var(--accent); font-weight: 700; display: block; }
+.btn { display: inline-block; text-decoration: none; background: var(--accent); color: #fff; font-weight: 700; border-radius: 8px; padding: 6px 16px; margin-top: 6px; }
+.btn:hover { opacity: 0.9; }
+
+/* ---------- 小さな文字・末尾 ---------- */
+.smallnote { font-size: 0.86rem; color: var(--ink-soft); }
+.footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.86rem; color: var(--ink-soft); }
+.nowrap { white-space: nowrap; }
+
+/* ---------- コースの中の位置（ページ上部の帯） ----------
+   <ol class="course-band"> の li に is-here を付けた段が、この回の位置 */
+.course-band { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; counter-reset: none; }
+.course-band li { margin: 0; font-size: 0.78rem; line-height: 1.4; text-align: center; padding: 6px 4px; border-radius: 6px; background: #eef2f6; color: var(--muted); border: 1px solid transparent; }
+.course-band li b { display: block; font-size: 0.86rem; color: var(--ink-soft); }
+.course-band li.is-here { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); font-weight: 700; }
+.course-band li.is-here b { color: var(--primary); }
+@media (max-width: 640px) {
+  .course-band { grid-template-columns: 1fr 1fr; }
+  .course-band li:last-child { grid-column: 1 / -1; }
+}
+
+/* ---------- このページの使い方（冒頭） ---------- */
+.howto { margin: 18px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.howto > div { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; background: #fff; min-width: 0; }
+.howto .howto-title { display: block; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+@media (max-width: 640px) { .howto { grid-template-columns: 1fr; } }
+
+/* 必須・任意・参考 */
+.need { display: inline-block; font-size: 0.74rem; font-weight: 700; border-radius: 4px; padding: 0 6px; margin-left: 4px; vertical-align: 2px; white-space: nowrap; }
+.need-must { background: var(--primary); color: #fff; }
+.need-opt { background: #e0e7ff; color: #3730a3; }
+.need-ref { background: #f1f5f9; color: var(--ink-soft); border: 1px solid var(--line); }
+
+/* 差分の4段（動画では → 今は → 自分の操作 → できたサイン）の最後の2段 */
+.diff-do, .diff-ok { margin: 6px 0 0; font-size: 0.95rem; }
+.diff-do::before { content: "自分の操作"; display: inline-block; font-size: 0.74rem; font-weight: 700; color: #fff; background: var(--diff); border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px; }
+.diff-ok::before { content: "できたサイン"; display: inline-block; font-size: 0.74rem; font-weight: 700; color: #fff; background: #15803d; border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px; }
+
+/* 古い URL の案内ページ（legacy/） */
+.legacy-h { font-size: 1.3rem; margin-bottom: 8px; }
+
+/* ==========================================================
+   入門ゼミ追加（AIアプリ開発入門ゼミだけで使う部品。上の部品の見た目は変えない。
+   色・角丸は上の変数をそのまま使う）
+   ========================================================== */
+
+/* 3段のコースの帯（決める／作る／仕上げる） */
+.course-band.band-3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 640px) {
+  .course-band.band-3 { grid-template-columns: 1fr 1fr; }
+  .course-band.band-3 li:last-child { grid-column: 1 / -1; }
+}
+
+/* 補足（色の付かない囲み。注意でも大事でもない添え書き） */
+.box-note { border-color: #94a3b8; background: #f8fafc; }
+.box-note > .box-title, .box-note .box-body > .box-title { color: var(--os); }
+
+/* 用語の囲みの中の dl（語と説明を縦に並べる） */
+.box-term dl { margin: 4px 0 0; }
+.box-term dt { font-weight: 700; margin-top: 6px; }
+.box-term dt:first-child { margin-top: 0; }
+.box-term dd { margin: 0; }
+
+/* 手順の中の見出しと本文 */
+ol.steps > li > .step-title { margin: 0; font-weight: 700; }
+ol.steps > li > .step-title + p { margin-top: 4px; }
+ol.steps > li > p:last-child { margin-bottom: 0; }
+
+/* 項目｜内容｜なぜ のカード */
+.explain { display: grid; gap: 10px; margin: 12px 0; }
+.explain-item { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; background: #fff; min-width: 0; }
+.explain-term { font-weight: 700; color: var(--primary); }
+.explain-value { margin-top: 2px; }
+.explain-label { display: inline-block; font-size: 0.74rem; font-weight: 700; color: var(--ink-soft); background: #f1f5f9; border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px; }
+.explain-why { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--line); font-size: 0.95rem; }
+
+/* カードをリンクにしないとき（成果物・入口など） */
+.cards > div.card { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; background: #fff; min-width: 0; }
+.cards .card-title { display: block; font-weight: 700; }
+.cards > div.card .card-title { color: var(--ink); }
+.cards .card-desc { display: block; font-size: 0.86rem; color: var(--ink-soft); margin-top: 2px; }
+.card-no { display: block; font-size: 0.74rem; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2px; }
+.cards > div.card.is-locked { background: #f8fafc; color: var(--muted); }
+
+/* 節の中の小さな目次（4-1／4-2／4-3 のように飛ぶ） */
+.toc-mini { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.toc-mini a { font-size: 0.86rem; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 1px 10px; background: #fff; }
+.toc-mini a:hover { border-color: var(--primary); }
+
+/* この回の地図の下に置く道順 */
+ol.route { margin: 10px 0 0; }
+ol.route a { text-decoration: none; }
+ol.route a:hover { text-decoration: underline; }
+ol.route b { color: var(--primary); }
+
+/* 指示の型のコピーボタン（site.js が付ける。JS が無いときは出ない） */
+pre.prompt { position: relative; }
+pre.prompt .copy-btn { position: absolute; right: 8px; top: 8px; font-family: inherit; font-size: 0.76rem; font-weight: 700; color: var(--accent); background: #fff; border: 1px solid #a5b4fc; border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+pre.prompt .copy-btn:hover { background: #eef2ff; }
+pre.prompt.has-copy { padding-top: 34px; }
+
+/* 講師紹介 */
+.instructor { display: flex; gap: 16px; align-items: flex-start; }
+.instructor img.face { width: 96px; height: 96px; border-radius: 50%; flex: none; object-fit: cover; border: 3px solid var(--primary-soft); }
+.instructor .instructor-body { flex: 1; min-width: 0; }
+.instructor .instructor-name { font-size: 1.2rem; font-weight: 700; margin: 0; }
+.instructor .instructor-name small { font-size: 0.8rem; font-weight: 400; color: var(--muted); margin-left: 6px; }
+@media (max-width: 640px) { .instructor { flex-direction: column; } }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 10px 0; }
+.facts > div { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: #fff; font-size: 0.9rem; min-width: 0; }
+.facts b { display: block; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+details.more { margin: 10px 0; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+details.more > summary { padding: 10px 14px; font-weight: 700; cursor: pointer; color: var(--link); }
+details.more > .more-body { padding: 0 14px 12px; }
+
+/* 期ごとの開催スケジュール（<details> で切り替える。JS は使わない） */
+details.cohort { margin: 10px 0; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+details.cohort > summary { padding: 10px 14px; font-weight: 700; cursor: pointer; color: var(--primary); }
+details.cohort > summary small { font-weight: 400; color: var(--muted); margin-left: 8px; }
+details.cohort[open] > summary { border-bottom: 1px solid var(--line); }
+details.cohort > .cohort-body { padding: 10px 14px 12px; }
+
+/* 前後の回・Home へのリンク（末尾） */
+.pager { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 28px 0 0; }
+.pager a { flex: 1 1 200px; text-decoration: none; border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; background: #fff; color: var(--ink); min-width: 0; }
+.pager a small { display: block; font-size: 0.76rem; color: var(--muted); }
+.pager a:hover { border-color: var(--primary); }
+.pager a.pager-next { text-align: right; }
+
+/* 読み上げだけに残す文字 */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
