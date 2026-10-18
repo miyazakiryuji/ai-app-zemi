@@ -2,32 +2,32 @@
   <title id="svg-title">この回で作るのは、ブラウザの中だけ</title>
   <desc id="svg-desc">画面側のモックと動き、画面内データ、仮の AI 応答を示し、この回では裏側を作らない範囲を示す図。</desc>
   <defs id="diagram-definitions"><marker id="arrow-gray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10"><path id="arrow-gray-tip" d="M0 0L10 5L0 10Z" fill="#5A6178"/></marker></defs>
-  <rect id="canvas" x="0" y="0" width="960" height="540" fill="#FFF9F0"/>
-  <g id="diagram-content" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+  <rect id="canvas" x="0" y="0" width="960" height="540" fill="#F7F9FB"/>
+  <g id="diagram-content" font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#1F2430">
 
 <text id="main-title" x="24" y="38" font-size="22" font-weight="700">この回で作るのは、ブラウザの中だけ</text>
 <g id="browser-scope" role="group" aria-labelledby="browser-scope-title">
-<rect id="browser-scope-frame" x="24" y="112" width="626" height="398" rx="18" fill="#FFFFFF" fill-opacity="0.45" stroke="#FF8C42" stroke-width="3"/>
-<text id="browser-scope-title" x="48" y="145" font-size="19" font-weight="700" fill="#FF8C42">ブラウザの中（画面側）</text>
+<rect id="browser-scope-frame" x="24" y="112" width="626" height="398" rx="18" fill="#FFFFFF" fill-opacity="0.45" stroke="#0F766E" stroke-width="3"/>
+<text id="browser-scope-title" x="48" y="145" font-size="19" font-weight="700" fill="#0F766E">ブラウザの中（画面側）</text>
 <g id="screen-box" role="group" aria-labelledby="screen-box-name" aria-describedby="screen-box-desc">
-<rect id="screen-box-box" x="48" y="176" width="250" height="112" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
-<text id="screen-box-name" x="62" y="203" font-size="18" font-weight="700" fill="#2A2F45">画面（HTML・CSS）</text>
-<text id="screen-box-desc" x="62" y="225" font-size="15" fill="#2A2F45"><tspan id="screen-box-desc-line-1" x="62" y="225">いまのモックのまま。</tspan><tspan id="screen-box-desc-line-2" x="62" y="244.5">見た目は変えない</tspan></text>
+<rect id="screen-box-box" x="48" y="176" width="250" height="112" rx="14" fill="#FFFFFF" stroke="#4338CA" stroke-width="2"/>
+<text id="screen-box-name" x="62" y="203" font-size="18" font-weight="700" fill="#1F2430">画面（HTML・CSS）</text>
+<text id="screen-box-desc" x="62" y="225" font-size="15" fill="#1F2430"><tspan id="screen-box-desc-line-1" x="62" y="225">いまのモックのまま。</tspan><tspan id="screen-box-desc-line-2" x="62" y="244.5">見た目は変えない</tspan></text>
 </g>
 <g id="app-box" role="group" aria-labelledby="app-box-name" aria-describedby="app-box-desc">
-<rect id="app-box-box" x="376" y="176" width="250" height="112" rx="14" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2"/>
-<text id="app-box-name" x="390" y="203" font-size="18" font-weight="700" fill="#2A2F45">app.js（動き）</text>
-<text id="app-box-desc" x="390" y="225" font-size="14" fill="#2A2F45"><tspan id="app-box-desc-line-1" x="390" y="225">押された・入力されたを</tspan><tspan id="app-box-desc-line-2" x="390" y="243.2">受け取り、データを変えて、</tspan><tspan id="app-box-desc-line-3" x="390" y="261.4">画面を描き直す</tspan></text>
+<rect id="app-box-box" x="376" y="176" width="250" height="112" rx="14" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+<text id="app-box-name" x="390" y="203" font-size="18" font-weight="700" fill="#1F2430">app.js（動き）</text>
+<text id="app-box-desc" x="390" y="225" font-size="14" fill="#1F2430"><tspan id="app-box-desc-line-1" x="390" y="225">押された・入力されたを</tspan><tspan id="app-box-desc-line-2" x="390" y="243.2">受け取り、データを変えて、</tspan><tspan id="app-box-desc-line-3" x="390" y="261.4">画面を描き直す</tspan></text>
 </g>
 <g id="data-box" role="group" aria-labelledby="data-box-name" aria-describedby="data-box-desc">
-<rect id="data-box-box" x="48" y="354" width="250" height="112" rx="14" fill="#FFFFFF" stroke="#4DA8FF" stroke-width="2"/>
-<text id="data-box-name" x="62" y="381" font-size="18" font-weight="700" fill="#2A2F45">画面の中のデータ</text>
-<text id="data-box-desc" x="62" y="403" font-size="14" fill="#2A2F45"><tspan id="data-box-desc-line-1" x="62" y="403">見本のデータ＋足したもの。</tspan><tspan id="data-box-desc-line-2" x="62" y="421.2">再読み込みすると最初に戻る</tspan></text>
+<rect id="data-box-box" x="48" y="354" width="250" height="112" rx="14" fill="#FFFFFF" stroke="#4338CA" stroke-width="2"/>
+<text id="data-box-name" x="62" y="381" font-size="18" font-weight="700" fill="#1F2430">画面の中のデータ</text>
+<text id="data-box-desc" x="62" y="403" font-size="14" fill="#1F2430"><tspan id="data-box-desc-line-1" x="62" y="403">見本のデータ＋足したもの。</tspan><tspan id="data-box-desc-line-2" x="62" y="421.2">再読み込みすると最初に戻る</tspan></text>
 </g>
 <g id="ai-box" role="group" aria-labelledby="ai-box-name" aria-describedby="ai-box-desc">
-<rect id="ai-box-box" x="376" y="354" width="250" height="112" rx="14" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2" stroke-dasharray="7 5"/>
-<text id="ai-box-name" x="390" y="381" font-size="17" font-weight="700" fill="#2A2F45">ai.js（AI を使うアプリだけ）</text>
-<text id="ai-box-desc" x="390" y="403" font-size="15" fill="#2A2F45"><tspan id="ai-box-desc-line-1" x="390" y="403">1秒待って、仮の文章を返す</tspan></text>
+<rect id="ai-box-box" x="376" y="354" width="250" height="112" rx="14" fill="#FFFFFF" stroke="#0F766E" stroke-width="2" stroke-dasharray="7 5"/>
+<text id="ai-box-name" x="390" y="381" font-size="17" font-weight="700" fill="#1F2430">ai.js（AI を使うアプリだけ）</text>
+<text id="ai-box-desc" x="390" y="403" font-size="15" fill="#1F2430"><tspan id="ai-box-desc-line-1" x="390" y="403">1秒待って、仮の文章を返す</tspan></text>
 </g>
 <circle id="human-head" cx="173" cy="68" r="8" fill="none" stroke="#5A6178" stroke-width="2.5"/><path id="human-shoulders" d="M158 93Q159 78 173 78Q187 78 188 93" fill="none" stroke="#5A6178" stroke-width="2.5" stroke-linecap="round"/>
 <path id="human-to-screen" d="M173 97V169" fill="none" stroke="#5A6178" stroke-width="3" stroke-linecap="round" marker-end="url(#arrow-gray)"/>

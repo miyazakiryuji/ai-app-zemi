@@ -3,72 +3,72 @@
   <desc id="desc">画面は自分のサーバーに要求を送り、サーバーが .env にある API キーを付けて AI のサービスを呼ぶ。画面から AI のサービスを直接呼ぶ形は取らない、という図。</desc>
   <defs>
     <marker id="arrow-blue" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
-      <path d="M0 0L10 5L0 10Z" fill="#4DA8FF"/>
+      <path d="M0 0L10 5L0 10Z" fill="#4338CA"/>
     </marker>
     <marker id="arrow-orange" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="8" refY="5" orient="auto">
-      <path d="M0 0L10 5L0 10Z" fill="#FF8C42"/>
+      <path d="M0 0L10 5L0 10Z" fill="#0F766E"/>
     </marker>
   </defs>
 
-  <rect width="960" height="520" fill="#FFF9F0"/>
+  <rect width="960" height="520" fill="#F7F9FB"/>
 
-  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#2A2F45">
+  <g font-family="'Hiragino Kaku Gothic ProN','Hiragino Sans','Noto Sans JP',sans-serif" fill="#1F2430">
     <text x="36" y="42" font-size="24" font-weight="700">API 連携の形：画面 → 自分のサーバー → AI のサービス</text>
 
     <!-- 画面 -->
-    <rect x="36" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
+    <rect x="36" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#CFE5E1" stroke-width="2"/>
     <rect x="60" y="120" width="192" height="112" rx="10" fill="#F4F6FB" stroke="#5A6178" stroke-opacity="0.35" stroke-width="2"/>
     <rect x="60" y="120" width="192" height="22" rx="10" fill="#5A6178" fill-opacity="0.18"/>
     <rect x="80" y="160" width="152" height="18" rx="6" fill="#FFFFFF" stroke="#5A6178" stroke-opacity="0.4" stroke-width="1.5"/>
-    <rect x="80" y="190" width="104" height="26" rx="8" fill="#4DA8FF"/>
+    <rect x="80" y="190" width="104" height="26" rx="8" fill="#4338CA"/>
     <text x="132" y="208" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">今月を振り返る</text>
     <text x="156" y="262" font-size="20" font-weight="700" text-anchor="middle">画面（ブラウザ）</text>
     <text x="156" y="284" font-size="14" fill="#5A6178" text-anchor="middle">中身は誰でも見られる</text>
 
     <!-- 自分のサーバー -->
-    <rect x="360" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#FF8C42" stroke-width="2.5"/>
+    <rect x="360" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#0F766E" stroke-width="2.5"/>
     <text x="480" y="132" font-size="20" font-weight="700" text-anchor="middle">自分のサーバー</text>
     <text x="480" y="154" font-size="14" fill="#5A6178" text-anchor="middle">自分の PC で動くプログラム</text>
-    <rect x="384" y="172" width="192" height="100" rx="12" fill="#FFF9F0" stroke="#FFE2C7" stroke-width="2"/>
+    <rect x="384" y="172" width="192" height="100" rx="12" fill="#F7F9FB" stroke="#CFE5E1" stroke-width="2"/>
     <text x="400" y="198" font-size="16" font-weight="700">.env</text>
     <text x="400" y="222" font-size="14" fill="#5A6178">ANTHROPIC_API_KEY=</text>
-    <rect x="400" y="230" width="150" height="14" rx="6" fill="#ECE9E4"/>
+    <rect x="400" y="230" width="150" height="14" rx="6" fill="#E5E7EB"/>
     <text x="400" y="263" font-size="13" fill="#5A6178" text-anchor="start">API キーはここにだけ置く</text>
 
     <!-- AI のサービス -->
-    <rect x="684" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
-    <circle cx="804" cy="152" r="28" fill="#FFD166"/>
-    <path d="M804 134V170M786 152H822M792 140L816 164M816 140L792 164" fill="none" stroke="#2A2F45" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="684" y="96" width="240" height="196" rx="18" fill="#FFFFFF" stroke="#CFE5E1" stroke-width="2"/>
+    <circle cx="804" cy="152" r="28" fill="#C7D2FE"/>
+    <path d="M804 134V170M786 152H822M792 140L816 164M816 140L792 164" fill="none" stroke="#1F2430" stroke-width="2.5" stroke-linecap="round"/>
     <text x="804" y="216" font-size="20" font-weight="700" text-anchor="middle">AI のサービス</text>
     <text x="804" y="240" font-size="14" fill="#5A6178" text-anchor="middle">Claude／OpenAI／Gemini</text>
     <text x="804" y="262" font-size="14" fill="#5A6178" text-anchor="middle">インターネット上</text>
 
     <!-- 矢印：画面→サーバー -->
-    <path d="M280 160H344" fill="none" stroke="#4DA8FF" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
-    <rect x="278" y="118" width="80" height="26" rx="13" fill="#4DA8FF" fill-opacity="0.12"/>
+    <path d="M280 160H344" fill="none" stroke="#4338CA" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <rect x="278" y="118" width="80" height="26" rx="13" fill="#4338CA" fill-opacity="0.12"/>
     <text x="318" y="136" font-size="14" font-weight="700" text-anchor="middle">① 要求</text>
     <!-- 矢印：サーバー→AI -->
-    <path d="M604 160H668" fill="none" stroke="#4DA8FF" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
-    <rect x="602" y="118" width="80" height="26" rx="13" fill="#4DA8FF" fill-opacity="0.12"/>
+    <path d="M604 160H668" fill="none" stroke="#4338CA" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <rect x="602" y="118" width="80" height="26" rx="13" fill="#4338CA" fill-opacity="0.12"/>
     <text x="642" y="136" font-size="14" font-weight="700" text-anchor="middle">② キー付き</text>
     <!-- 矢印：AI→サーバー -->
-    <path d="M668 236H604" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
-    <rect x="602" y="252" width="80" height="26" rx="13" fill="#FF8C42" fill-opacity="0.12"/>
+    <path d="M668 236H604" fill="none" stroke="#0F766E" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+    <rect x="602" y="252" width="80" height="26" rx="13" fill="#0F766E" fill-opacity="0.12"/>
     <text x="642" y="270" font-size="14" font-weight="700" text-anchor="middle">③ 生成文</text>
     <!-- 矢印：サーバー→画面 -->
-    <path d="M344 236H280" fill="none" stroke="#FF8C42" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
-    <rect x="278" y="252" width="80" height="26" rx="13" fill="#FF8C42" fill-opacity="0.12"/>
+    <path d="M344 236H280" fill="none" stroke="#0F766E" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-orange)"/>
+    <rect x="278" y="252" width="80" height="26" rx="13" fill="#0F766E" fill-opacity="0.12"/>
     <text x="318" y="270" font-size="14" font-weight="700" text-anchor="middle">④ 表示</text>
 
     <!-- やらない形 -->
-    <path d="M156 300V352H804V300" fill="none" stroke="#E5484D" stroke-width="3" stroke-dasharray="9 7" stroke-linecap="round"/>
-    <rect x="368" y="334" width="224" height="36" rx="18" fill="#FFFFFF" stroke="#E5484D" stroke-width="2"/>
-    <path d="M394 345L408 359M408 345L394 359" stroke="#E5484D" stroke-width="3" stroke-linecap="round"/>
-    <text x="420" y="358" font-size="15" font-weight="700" fill="#E5484D">画面から直接呼ばない</text>
+    <path d="M156 300V352H804V300" fill="none" stroke="#C2410C" stroke-width="3" stroke-dasharray="9 7" stroke-linecap="round"/>
+    <rect x="368" y="334" width="224" height="36" rx="18" fill="#FFFFFF" stroke="#C2410C" stroke-width="2"/>
+    <path d="M394 345L408 359M408 345L394 359" stroke="#C2410C" stroke-width="3" stroke-linecap="round"/>
+    <text x="420" y="358" font-size="15" font-weight="700" fill="#C2410C">画面から直接呼ばない</text>
 
     <!-- 下の説明 -->
-    <rect x="36" y="392" width="888" height="104" rx="16" fill="#FFFFFF" stroke="#FFE2C7" stroke-width="2"/>
-    <circle cx="62" cy="420" r="8" fill="#6FD49D"/>
+    <rect x="36" y="392" width="888" height="104" rx="16" fill="#FFFFFF" stroke="#CFE5E1" stroke-width="2"/>
+    <circle cx="62" cy="420" r="8" fill="#15803D"/>
     <path d="M58 420H66M62 416V424" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
     <text x="84" y="426" font-size="18" font-weight="700">API キーを使うのは自分のサーバーだけ。画面のコードにキーを書かない</text>
     <text x="84" y="454" font-size="15" fill="#5A6178">画面のコードは開発者ツールで誰でも読める。そこにキーがあると、他人が自分の請求でサービスを使える</text>
