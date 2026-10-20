@@ -182,7 +182,7 @@
       <strong>API キー</strong>は、そのサービスに「自分として」アクセスするための長い文字列です。これを付けて要求を送ると、サービスは「この人からの要求」と判断し、使った分をその人に請求します。
     </p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>API キー</dt><dd>サービスが発行する、本人確認のための長い文字列。<code>sk-ant-…</code>（Claude）、<code>sk-…</code>（OpenAI）、<code>AQ.…</code>（Gemini。以前に作られたキーは <code>AIza…</code>）のような決まった文字で始まることが多いです（形式は変わることがあります）。</dd>
+        <dt>API キー</dt><dd>サービスが発行する、本人確認のための長い文字列。<code>sk-ant-…</code>（Claude）、<code>sk-…</code>（OpenAI）、<code>AQ.…</code>（Gemini。2026年5月28日より前に作られたキーは <code>AIza…</code>）のような決まった文字で始まることが多いです（形式は変わることがあります）。</dd>
         <dt>.env</dt><dd>API キーのような秘密の文字列を書いておくファイル。アプリのフォルダの直下に置きます。名前は「環境（environment）」の略です。</dd>
         <dt>環境変数</dt><dd>プログラムの外側から渡す設定値。<code>.env</code> に書いた内容は、起動時に環境変数として読み込まれ、サーバー側のプログラムから <code>process.env.ANTHROPIC_API_KEY</code> のような名前で取り出せます。</dd>
         <dt>.gitignore</dt><dd>共有の場所に上げないファイルの名前を書いておく一覧。ここに <code>.env</code> を書いておくと、コードを共有するときに <code>.env</code> だけが除かれます。</dd>
@@ -329,7 +329,9 @@
       <a class="zoom" href="../../assets/images/lesson04/r4_gemini_spend_free.png"><img src="../../assets/images/lesson04/r4_gemini_spend_free.png" alt="Google AI Studio の「Gemini API の利用額」画面。無料枠の印があり、「このプロジェクトには現在、請求先が設定されていません」と「お支払い情報を設定」ボタンが出ている。左のメニューの「利用額」が囲まれている" loading="lazy" data-taken="2026-10-03" title="撮影 2026年10月"></a>
       <figcaption>無料枠のまま使う場合の「利用額」の画面。「このプロジェクトには現在、請求先が設定されていません」と出ていれば、支払い方法が未設定（無料枠）です。無料枠のまま使う方は、この画面を上限設定の代わりの提出物として撮ります</figcaption>
     </figure>
-    <div class="box box-note"><strong>Gemini のモデル名とライブラリ（2026年10月3日時点）：</strong>新しく始める人に Google が勧めているモデルは <code>gemini-3.5-flash-lite</code> と <code>gemini-3.8-flash</code> の2つで、どちらも無料枠があります（<code>gemini-3.8-flash</code> は、無料枠で1日に呼べる回数が少なめです）。このページでは、軽くて回数の多い <code>gemini-3.5-flash-lite</code> を使います（2026年9月24日に講師のプロジェクトで確かめたとき、無料枠は1日500回でした）。<br>
+    <div class="box box-note"><strong>Gemini のモデル名とライブラリ（2026年10月20日時点）：</strong>新しく始める人に Google が勧めているモデルは <code>gemini-3.5-flash-lite</code> と <code>gemini-3.8-flash</code> の2つで、どちらも無料枠があります（<code>gemini-3.8-flash</code> は、無料枠で1日に呼べる回数が少なめです）。このページでは、軽くて回数の多い <code>gemini-3.5-flash-lite</code> を使います（2026年9月24日に講師のプロジェクトで確かめたとき、無料枠は1日500回でした）。<br>
+      2026年10月13日に一般提供が始まった <code>gemini-4-argon</code>（Gemini 4 Argon）は、公式ドキュメントで新しいモデルとして案内されていますが、無料枠では使えません（支払い方法を設定した有料の利用だけです）。無料枠のまま使う方は選びません。<br>
+      <span class="why">なぜ：</span>支払い方法を設定していないプロジェクトからは、このモデルを呼び出せません。この回の指示ではモデル名を <code>gemini-3.5-flash-lite</code> と指定しているので、指示のまま使えば当たりません。<br>
       <code>gemini-2.5-flash</code> などの 2.5 系は、廃止ではありませんが、2026年9月18日の Gemini API の変更履歴で、以前から使っていた人だけが使えるものになりました。新しく始める人が呼ぶと <code>404</code>（<code>no longer available to new users</code>）で止まります。Claude Code が 2.5 系の名前を書くことがあるので、指示の中でモデル名を渡します。<br>
       ライブラリは Google の新しいもの（JavaScript は <code>@google/genai</code>、Python は <code>google-genai</code>）を使います。古いライブラリは 2025年11月30日に非推奨になりました。名前は変わることがあるので、最新は <a href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noopener">Gemini API の公式のモデル一覧</a>で確かめます。</div>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
@@ -498,6 +500,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
         <tbody>
           <tr><td>ボタンを押しても画面に何も出ない。開発者ツールに <code>Failed to fetch</code> や <code>CORS</code> を含む文言が出る</td><td>サーバーが起動していない／HTML ファイルをダブルクリックで開いた（アドレスが <code>file://</code> で始まる）／開いているアドレスのポート番号（<code>:3000</code> の部分）が違う</td><td>5-1 で起動したサーバーを起動し、教えてもらったアドレスで開き直します。<code>CORS</code> は、ブラウザが「開いている画面と違うアドレスへの要求」を止める仕組みの名前で、<code>file://</code> で開いたときやポート番号が違うときに出ます</td></tr>
           <tr><td>認証エラー（<code>401</code> や <code>authentication</code> を含む文言）が返る</td><td>キーが読み込まれていない／文字列が違う／（Gemini）PC に別の用途で <code>GOOGLE_API_KEY</code> が設定されている</td><td><code>.env</code> の場所（アプリのフォルダ直下）と名前を確認。<strong><code>.env</code> を作ったり直したりしたあとは、5-1 で起動したサーバーを、5-1 で教えてもらった止め方（多くはターミナルで <kbd>Ctrl</kbd>＋<kbd>C</kbd>）で止めて起動し直します</strong>（起動時にしか読み込まれません）。Gemini のライブラリは、<code>GOOGLE_API_KEY</code> もあるとそちらを使います。Claude Code に「GEMINI_API_KEY を使うようにしてください」と頼みます</td></tr>
+          <tr><td>（Gemini）以前に作った API キーで呼ぶと、認証や権限のエラーが返る。AI Studio のキーの一覧で、そのキーに使えないことを示す印（英語の表示では <code>Blocked</code>）が付いていることがある</td><td>Gemini API は、使い道を制限していない古い形式のキーを受け付けません。長く使っていない制限なしのキーも止められます（2026年5月7日から）</td><td>AI Studio で新しくキーを作り直し、<code>.env</code> の値を差し替えてサーバーを起動し直します。使わなくなった古いキーは削除します。<br><span class="why">なぜ：</span>2026年5月28日からは、AI Studio で作るキーが最初からこの制限に合った形式で作られるためです。古いキーを残しておくと、どれが使えるキーか分からなくなります（<a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener">Gemini API の API キーのページ</a>）</td></tr>
           <tr><td>サーバーのターミナルで、キーが <code>undefined</code>（値が無い）と出る</td><td><code>.env</code> が読まれていない。名前が <code>.env.txt</code> になっている／<code>app/</code> の中など別の場所に置いた／起動時に <code>.env</code> を読み込む設定が無い</td><td>アプリのフォルダ直下に、<code>.env</code> の名前で置きます（03 の開き方）。読み込みの設定は、Claude Code に「サーバーの起動時に .env を読み込む設定になっているか確かめてください。.env の中身は読まないでください」と頼みます</td></tr>
           <tr><td>残高が無い・支払い方法が無いと言われる（<code>insufficient_quota</code>、<code>credit balance</code>、<code>429</code> や <code>402</code> など）</td><td>支払い方法が未登録／クレジットが 0</td><td>管理画面で支払い方法を登録してクレジットを買い、<strong>同時に上限も設定します</strong>（04 の選んだサービスの節）</td></tr>
           <tr><td>Claude で <code>400</code>（<code>specified API usage limits</code>）と言われる</td><td>自分で置いた月の上限（Spend limits）に達した</td><td>上限額を上げるか、翌月まで待ちます。上げる前に、なぜ使いすぎたのか（ボタンの連打・二重の送信など）を確かめます</td></tr>
@@ -647,7 +650,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     <ul>
       <li><strong>手元の SQLite と同じ SQL が使えます。</strong>6-2 で SQLite にしておけば、変える場所は主に接続の部分です（使う部品の違いで、少し直しが入ることがあります）。保存・読み出しの処理を一から書き直さずに済みます</li>
       <li>Supabase や Firebase には、画面側から直接データベースにつなぐ使い方が多くあります。この作りは便利ですが、<strong>アクセス制限の設定を1つ誤ると、データが誰からでも読める状態になります。</strong>このゼミでは「データベースにつなぐのはサーバー側だけ」という作りに統一し、その形が自然に取れる Turso にします</li>
-      <li>無料で使える範囲がありますが、内容は変わることがあります。2026年10月2日に、Turso は Supabase に加わると発表しました（サービスは続くと案内されています。料金・無料プラン・画面がいつ変わるかは、2026年10月3日時点で発表されていません）。画面やプランが変わることがあるので、最新は <a href="https://turso.tech/" target="_blank" rel="noopener">Turso の公式ページ</a>でご確認ください</li>
+      <li>無料で使える範囲がありますが、内容は変わることがあります。2026年10月2日に、Turso は Supabase に加わると発表しました（サービスは続くと案内されています。料金・無料プラン・画面がいつ変わるかは、2026年10月20日時点で発表されていません）。画面やプランが変わることがあるので、最新は <a href="https://turso.tech/" target="_blank" rel="noopener">Turso の公式ページ</a>でご確認ください</li>
     </ul>
     <h4>Turso を用意する手順</h4>
     <ol class="steps">
@@ -937,10 +940,10 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
   <p>ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。画面の文言や料金は変わることがあります。</p>
 </footer>
 
+</main>
+</div>
 <!-- shot-stamp:start -->
 <aside style="max-width:980px;margin:32px auto 0;padding:14px 18px;border:1px solid #e4e4ef;border-radius:12px;background:#fafafd;color:#3f3f52;font-size:13.5px;line-height:1.9;break-inside:avoid;page-break-inside:avoid"><b>この資料の画面について</b><br>載せているスクリーンショットは <b>2026年9月〜2026年10月</b> に撮影したものです。ツールの更新で、ボタンの名前や画面の見た目が変わっていることがあります。手元の画面と違っても、<b>やることは同じ</b>ことがほとんどです。同じ意味のボタンを探しても見つからないときは、手元の画面のスクリーンショットを普段使っている生成AIに見せて聞くか、課題提出フォームの質問欄に書いてください（共通の内容は LIVE 講義で回答します）。各画像にマウスを乗せると、その 1 枚の撮影時期が出ます。</aside>
 <!-- shot-stamp:end -->
-</main>
-</div>
 </body>
 </html>
