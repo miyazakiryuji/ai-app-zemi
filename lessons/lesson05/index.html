@@ -100,6 +100,7 @@
       <div class="ep">第1章</div>
       <h2>API 連携とは</h2>
     </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_pointing.png" alt="">
   </div>
     <p>
       <strong>API</strong> とは、他のプログラムやサービスの機能を、決められた形式の要求を送って使う仕組みです。要求の送り先（URL）、送る内容の形、返ってくる内容の形があらかじめ決まっていて、その決まりに従って送れば、相手のプログラムを自分のアプリから動かせます。<strong>API 連携</strong>は、自分のアプリの中から外部サービスの API を呼び出して、その結果を自分の画面に使うことです。
@@ -136,6 +137,7 @@
       <div class="ep">第2章</div>
       <h2>AI のサービスを選ぶ：Claude／OpenAI／Gemini</h2>
     </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_koko_daiji_board.png" alt="">
   </div>
     <p>
       AI の API を提供しているサービスのうち、このゼミで扱うのは次の3つです。<strong>特定の1社を推奨はしません。</strong>キーを発行して <code>.env</code> に置き、サーバー側から呼ぶ、という流れは3つとも共通です。支払いと上限の設定はサービスごとに違うので、選んだサービスの節を読みます。
@@ -194,6 +196,7 @@
       <div class="ep">第3章</div>
       <h2>API キー：パスワードと同じ扱いをする</h2>
     </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
   </div>
     <p>
       <strong>API キー</strong>は、そのサービスに「自分として」アクセスするための長い文字列です。これを付けて要求を送ると、サービスは「この人からの要求」と判断し、使った分をその人に請求します。
@@ -251,6 +254,7 @@
       <div class="ep">第4章</div>
       <h2>各サービスでキーを発行する</h2>
     </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_teaching.png" alt="">
   </div>
     <p>
       3つとも「ログイン → API キーの画面 → 作成 → 表示されたキーをその場で <code>.env</code> に貼る」の流れです。<strong>キーは作った直後にしか全文が表示されないサービスが多いです。</strong>画面を閉じる前に <code>.env</code> に貼り、貼れたことを確認してから閉じます。選んだサービスの節だけ読めば足ります。
@@ -368,6 +372,7 @@
       <div class="ep">第5章</div>
       <h2>AI 機能を入れる：経路を先に通してから、中身を差し替える</h2>
     </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
   </div>
     <p>
       ここでやるのは「自分のアプリのサーバー側から AI のサービスに文章を送り、返ってきた文章を画面に出す」ことです。<strong>次の順番を崩さないでください。</strong>最初に、いまの画面をサーバーから開けるようにして土台を作り（5-1）、そのうえで経路を通して AI に差し替えます（5-2）。画面の中だけで動く動き（ボタンを押すと一覧や結果の欄が変わる部分）は、もうできている前提で進めます（まだ無い場合は、5-1 の最後で1つ足します）。
@@ -563,6 +568,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       <div class="ep">第6章</div>
       <h2>データの持ち方：4つの置き場と、消える条件</h2>
     </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_magnifying_front.png" alt="">
   </div>
     <p>
       ここまでのアプリは、データを画面の中に持っているだけで、再読み込みすると消えます。動きの一覧 <code>docs/actions.md</code> で「あとで」にした行のうち、データを残す・画面をまたいで渡す行（修正画面に選んだ記録を出す・閉じても残る など）は、置き場を決めたあとに1行ずつ作ります。<br><span class="why">なぜ：</span>残し方は置き場によって変わるため、決める前に作ると作り直しになります。<br>AI 機能が動いたら、次は「<strong>このデータをどこに置いておくか</strong>」をご自身で決めます。置き場によって、<strong>消える条件</strong>と、<strong>どこから見えるか</strong>と、<strong>設定の手間</strong>が違います。
