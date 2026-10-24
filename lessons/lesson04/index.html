@@ -12,15 +12,16 @@
 <div class="page">
 <main class="sheet">
 
-<header class="hero">
-  <div class="hero-text">
+<section class="cover">
+<div class="cover-band">
+  <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第4回</div>
     <h1>画面側を作る ― モックに動きを付ける</h1>
-    <p class="lead">見た目だけの画面（モック）に、画面側の JavaScript で動きを付ける回です。動きの一覧 docs/actions.md を先に作らせ、いちばんよく使う動きから1つずつ、画面の中だけで動くように足して、自分の手で確かめます。データを残す処理・サーバー・本物の AI はまだ作りません。</p>
+    <div class="subtitle">見た目だけの画面（モック）に、画面側の JavaScript で動きを付ける回です。動きの一覧 docs/actions.md を先に作らせ、いちばんよく使う動きから1つずつ、画面の中だけで動くように足して、自分の手で確かめます。データを残す処理・サーバー・本物の AI はまだ作りません。</div>
     <div class="chips"><span class="chip">Claude デスクトップアプリ</span><span class="chip">docs/actions.md</span><span class="chip">1回の指示で動き1つ</span><span class="chip">データを残す処理はまだ</span></div>
   </div>
-  <img class="penguin" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
-</header>
+  <img class="penguin penguin-cover" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
+</div>
 
 <ol class="course-band band-3" aria-label="ゼミの中の位置">
   <li><b>決める</b>第1〜2回　オリエンテーション・要件定義</li>
@@ -78,8 +79,8 @@
   </ol>
 </nav>
 
-<section class="part" id="map">
-  <div class="part-head"><h2>この回の地図</h2></div>
+<div class="cover-map" id="map">
+  <h3>この回の地図</h3>
   <p>この回は、動きの一覧を先に出させてから、「1つ足す → 自分の手で確かめる → 動かなければコンソールを見る」を動きの数だけ繰り返します。</p>
   <figure class="fig">
     <a class="zoom" href="../../assets/figs/l04_map.webp"><img src="../../assets/figs/l04_map.webp" alt="左に「動きの一覧を作らせる」の箱。右に、動きを1つ足す → 自分の手で確かめる → コンソールを見る、の3つが時計回りの輪になっていて、中央に「1つずつ」。輪から右へ抜けた先に「仕様書と揃える」" width="1536" height="691"></a>
@@ -94,10 +95,16 @@
     <li><a href="#loop"><b>指示③</b></a>　残りを1行ずつ</li>
     <li><a href="#review"><b>見直す</b></a>　全部押す・見た目・仕様書</li>
   </ol>
+</div>
 </section>
 
-<section class="ep" id="what">
-  <div class="ep-head"><span class="ep-no">01</span><h2>動きとは</h2></div>
+<section class="chapter ch-1" id="what">
+  <div class="chapter-head c-1">
+    <div class="ch-text">
+      <div class="ep">第1章</div>
+      <h2>動きとは</h2>
+    </div>
+  </div>
     <p>この回でやることは3つです。</p>
     <ol>
       <li>画面に付ける「動き」の一覧を Claude Code に作らせる</li>
@@ -114,7 +121,7 @@
         <dt>サーバー</dt><dd>利用者から見えない場所で動き、画面からの求めに応じてデータを返したり残したりするプログラム。この回では作りません。</dd>
         <dt>モック</dt><dd>見た目だけを作った画面。ボタンを押しても何も起きません。</dd>
       </dl></div>
-<h3>なぜ見た目の次に動きを足すのか</h3>
+<h3>1-1. なぜ見た目の次に動きを足すのか</h3>
     <p>アプリは<strong>「見た目 → 動き → 裏側」の順に、1段ずつ足して作ります</strong>。見た目はモックでできているので、この回はその次の段です。</p>
     <ul>
       <li><strong>押した結果を、できている画面の上で目で確かめられます。</strong>見た目が決まっているので、押したあとに「一覧に1行増えたか」「合計が変わったか」をその場で見て判断できます</li>
@@ -128,7 +135,7 @@
       <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。この回は「② 動き」の段です</figcaption>
     </figure>
 
-    <h3>この回で足すもの・足さないもの</h3>
+    <h3>1-2. この回で足すもの・足さないもの</h3>
     <div class="ba">
       <div class="ba-yes">
         <span class="ba-h">足す（ブラウザの中で動くもの）</span>
@@ -151,7 +158,7 @@
       </div>
     </div>
 
-    <h3>なぜデータを残す処理をまだ作らないのか</h3>
+    <h3>1-3. なぜデータを残す処理をまだ作らないのか</h3>
     <ul>
       <li><strong>残し方は、置き場で変わります。</strong>ブラウザの中・自分の PC のファイル・インターネット上のデータベースなど、置き場によって作り方も、消える条件も違います。置き場を決める前に作ると、決めたあとに作り直すことになります</li>
       <li><strong>ダブルクリックで開いた画面では、ブラウザの中にデータを残す動きがブラウザによって違います。</strong>画面のファイルを直接開いた状態（アドレスが <code>file://</code> で始まる状態）でブラウザの中にデータを残す仕組みは、決まりが定められておらず、2026年10月4日に確かめたときも、Chrome と、Safari と同じ表示の仕組みのブラウザでは画面どうしで同じデータが見え、Firefox では画面ごとに別々になりました。ブラウザの更新で変わることもあります。データを残すのは、アプリをサーバーから開く形にしてからにします</li>
@@ -168,7 +175,7 @@
         <dt>API キー</dt><dd>AI のサービスを呼び出すときに、誰が使っているかを示す秘密の文字列。使った分の料金は、このキーを発行した人に請求されます。</dd>
       </dl></div>
 
-    <h3>自分のアプリの型で、読み替えるところ</h3>
+    <h3>1-4. 自分のアプリの型で、読み替えるところ</h3>
     <p>このページの例は、記録型の「食費メモ」（画面2枚・一覧あり）です。変換型・相談型のアプリは、次のように読み替えてください。</p>
     <div class="table-wrap" tabindex="0" role="region" aria-label="記録型・変換型・相談型 の読み替えの表">
       <table>
@@ -185,13 +192,18 @@
     <div class="box box-note"><strong>LIVE講義では、準備 → 指示① → 読んで直す → 指示② → 確かめる まで（動かなかったら、コンソールの赤い文字を渡して原因を聞くところまで）を講師の画面でお見せします。</strong>手元で一緒に試していただく場面もあります。残りの「まだ」の行（指示③の繰り返し）と最後の見直しは、課題として1行ずつ進めます。LIVE講義の中で指示②まで進まなかった場合も、その続きから課題で進めて構いません。<br><span class="why">なぜ：</span>指示③は行の数だけ同じ型を繰り返すので、人によって行の数も、かかる手間も違います。</div>
   
 </section>
-<section class="ep" id="prepare">
-  <div class="ep-head"><span class="ep-no">02</span><h2>準備：権限モードを「手動」にして、app の控えを取る</h2></div>
+<section class="chapter ch-2" id="prepare">
+  <div class="chapter-head c-2">
+    <div class="ch-text">
+      <div class="ep">第2章</div>
+      <h2>準備：権限モードを「手動」にして、app の控えを取る</h2>
+    </div>
+  </div>
     <p>
       仕様書 <code>docs/spec.md</code> とモック <code>app/</code> が入っているアプリのフォルダ（このページでは <code>my-app</code>。名前はご自身で付けたもの）を、Claude デスクトップアプリで開きます。
     </p>
 
-    <h3>フォルダを開いて、権限モードを「手動」にする</h3>
+    <h3>2-1. フォルダを開いて、権限モードを「手動」にする</h3>
     <ol class="steps">
       <li><p class="step-title">Claude デスクトップアプリで <code>&lt;/&gt;</code>（Claude Code。アプリの版によっては「コード」（Code）タブ）→「＋ 新規」を押す</p><p><span class="why">なぜ：</span>前の会話と混ざりません。モックを作ったときの会話には「JavaScript は使わない」という条件が残っていて、新しい指示とぶつかります。</p></li>
       <li><p class="step-title">画面の下のフォルダ名のボタン →「フォルダを開く…」→ <code>my-app</code> を選んで「開く」</p><p>入力欄の近くに「ローカル」と <code>my-app</code> が出ていることを見ます。<br><span class="why">なぜ：</span>選んだフォルダだけが作業の対象になります。「ローカル」は、この PC の中で動かす設定です。</p></li>
@@ -205,7 +217,7 @@
         <dt>セッション</dt><dd>Claude Code との1つの会話のまとまり。「＋ 新規」で新しく始めます。</dd>
       </dl></div>
 
-    <h3>app の控えを取る</h3>
+    <h3>2-2. app の控えを取る</h3>
     <p>Finder（Windows はエクスプローラー）で <code>my-app</code> の中の <code>app</code> フォルダを複製し、名前を <strong><code>app-mock</code></strong> に変えます。</p>
     <ul>
       <li><strong>Mac：</strong><code>app</code> を右クリック →「複製」→ できた「app のコピー」を右クリック →「名前を変更」→ <code>app-mock</code></li>
@@ -217,8 +229,13 @@
     <div class="box box-note"><strong><code>docs/tasks.md</code>（作る順番）は、この回の指示①〜③では Claude Code に読ませません（最後の見直しで印を付けるときだけ読ませます）。</strong><code>docs/tasks.md</code> には、データを残す処理やサーバーまで含めた順番が書いてあります。読ませると、この回では作らないと決めたものまで作り始めます。この回の作る順番は、次の指示①で作る <code>docs/actions.md</code> にまとめます。</div>
   
 </section>
-<section class="ep" id="list">
-  <div class="ep-head"><span class="ep-no">03</span><h2>指示①：動きの一覧を作らせる</h2></div>
+<section class="chapter ch-3" id="list">
+  <div class="chapter-head c-3">
+    <div class="ch-text">
+      <div class="ep">第3章</div>
+      <h2>指示①：動きの一覧を作らせる</h2>
+    </div>
+  </div>
     <p>
       いきなり動きを作らせず、<strong>どの画面で、何をすると、何が起きるか</strong>の一覧を先に作らせます。次の型をそのまま入力欄に貼って送ります。書き換える箇所はありません。
     </p>
@@ -247,7 +264,7 @@
         <dt>表</dt><dd><code>.md</code> のファイルの中では、<code>|</code> で区切った行が表を表します。テキストエディットやメモ帳で開くと、<code>|</code> で区切った文字のまま見えます。表の形で読みたいときは、Claude Code に「<code>docs/actions.md</code> の表を、そのまま返答に出してください。ファイルは変えないでください」と頼むと、返答の中で列がそろって見えます。</dd>
       </dl></div>
 
-    <h3>条件の1行ずつに理由があります</h3>
+    <h3>3-1. 条件の1行ずつに理由があります</h3>
     <div class="explain">
       <div class="explain-item">
         <div class="explain-term"><strong>まだ動きは作らない</strong></div>
@@ -297,7 +314,7 @@
     <p>送ると、Claude Code は <code>docs/spec.md</code> と <code>app/</code> の HTML を読み、<code>docs/actions.md</code> を作ります。確認画面で、<strong>ファイルの場所が <code>my-app/docs/actions.md</code> であること</strong>を見てから「一度だけ許可」を押します。</p>
     <p><strong>12行に収まらずに止まったときは</strong>、返答の「外せそうなもの」から作らないものを選び、「<code>docs/spec.md</code> の『やること』の（　）を『やらないこと』に移してください。ほかの項目は変えないでください」と頼みます。許可したら、指示①をもう一度そのまま送ります。<br><span class="why">なぜ：</span>指示①は、仕様書の「やること」から一覧を作り、「やらないこと」は書きません。仕様書のほうを直してから送り直せば、外したものは一覧に入らず、仕様書と一覧も食い違いません。</p>
 
-    <h3>例：食費メモでできた一覧（抜き出し）</h3>
+    <h3>3-2. 例：食費メモでできた一覧（抜き出し）</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="食費メモでできた動きの一覧（抜き出し）の表">
       <table>
         <thead><tr><th class="nowrap">番号</th><th>画面</th><th>何をすると</th><th>何が起きるか</th><th>確かめ方</th><th style="width:5em">状態</th></tr></thead>
@@ -312,7 +329,7 @@
       </table>
     </div>
 
-    <h3>読んで直す</h3>
+    <h3>3-3. 読んで直す</h3>
     <p>一覧ができたら、<code>docs/spec.md</code> を横に開いて、次の5つを見ます。</p>
     <ol class="steps">
       <li><p class="step-title">仕様書の「やること」が、どれかの行に入っているか</p><p>抜けていたら、あとで作り忘れます。</p></li>
@@ -325,8 +342,13 @@
     <p><span class="why">なぜ人が読んで直すのか：</span>この一覧が、このあとの指示の順番と、動いたかどうかの判断の基準になります。AI が作ったまま進めると、仕様書に無い動きを作らせたり、作るべき動きを飛ばしたりしても気づけません。</p>
   
 </section>
-<section class="ep" id="first">
-  <div class="ep-head"><span class="ep-no">04</span><h2>指示②：いちばんよく使う動きを1つ足す</h2></div>
+<section class="chapter ch-4" id="first">
+  <div class="chapter-head c-4">
+    <div class="ch-text">
+      <div class="ep">第4章</div>
+      <h2>指示②：いちばんよく使う動きを1つ足す</h2>
+    </div>
+  </div>
     <p>
       一覧の1行目の動きを作らせます。次の型をそのまま貼って送ります。書き換える箇所はありません（1行目の中身は、一覧から読み取らせます）。
     </p>
@@ -367,7 +389,7 @@
         <dt>ターミナル</dt><dd>文字で命令を打ち込む画面。この回では使いません。</dd>
       </dl></div>
 
-    <h3>条件の1行ずつに理由があります</h3>
+    <h3>4-1. 条件の1行ずつに理由があります</h3>
     <div class="explain">
       <div class="explain-item">
         <div class="explain-term"><strong>動きは <code>app/app.js</code> に書き、<code>&lt;script src&gt;</code> で読み込む</strong></div>
@@ -424,7 +446,7 @@
         <dt>React</dt><dd>画面を部品に分けて組み立てるための JavaScript の道具の1つ。使うには部品の追加や起動の手順が要ります。この回では使いません</dd>
       </dl></div>
 
-    <h3>確認画面で見るところ</h3>
+    <h3>4-2. 確認画面で見るところ</h3>
     <p>送ると、Claude Code はまず変えるファイルの一覧を書き、それからファイルごとに確認画面を出します。</p>
     <ul>
       <li><strong><code>app/app.js</code> を作る確認：</strong>場所が <code>my-app/app/app.js</code> であること。中身の最初のほうに、見本のデータ（モックに書いていた仮のデータと同じ中身）が並んでいること</li>
@@ -434,7 +456,7 @@
       <li>上のファイル以外（<code>style.css</code>・<code>package.json</code>・<code>server.js</code> など）の確認や、頼んでいないコマンド（ブラウザを開くもの、<code>node --check</code> のように <code>node</code> で始まるものなど）の確認が出たら、<strong>「拒否」を押します。</strong><br><span class="why">なぜ：</span>頼んだ範囲の外の作業です。拒否しても、頼んだファイルの変更は残ります</li>
     </ul>
 
-    <h3>例：食費メモでの返答（要点）</h3>
+    <h3>4-3. 例：食費メモでの返答（要点）</h3>
     <p>返答には、変えたファイルと、確かめ方が書かれます。</p>
     <ul>
       <li><code>app/app.js</code>（新規）：見本のデータ3件をまとめ、一覧と合計はそこから描く。「保存」を押すと、一覧の先頭に1行足して合計を変え、入力欄を空に戻す</li>
@@ -444,8 +466,13 @@
     </ul>
   
 </section>
-<section class="ep" id="check">
-  <div class="ep-head"><span class="ep-no">05</span><h2>自分の手で確かめる</h2></div>
+<section class="chapter ch-5" id="check">
+  <div class="chapter-head c-5">
+    <div class="ch-text">
+      <div class="ep">第5章</div>
+      <h2>自分の手で確かめる</h2>
+    </div>
+  </div>
     <p>
       <strong>開き方：</strong>Finder（Windows はエクスプローラー）で <code>my-app</code> → <code>app</code> → <code>index.html</code> をダブルクリックします。すでにブラウザで開いているときは、<strong>再読み込み</strong>（<kbd>⌘R</kbd>／<kbd>F5</kbd>）します。<br><span class="why">なぜ：</span>ブラウザは前に読んだファイルを表示し続けています。読み直させないと、新しく足した動きが入っていない画面のまま試すことになります。
     </p>
@@ -468,7 +495,7 @@
       </figure>
     </div>
 
-    <h3>確かめた結果を一覧に残す</h3>
+    <h3>5-1. 確かめた結果を一覧に残す</h3>
     <p>試したら、結果を Claude Code に伝えて <code>docs/actions.md</code> に書かせます。</p>
 <span class="code-label">確かめた結果を書かせる型 ― 行の番号と結果を書き換えて貼る</span>
 <pre class="prompt">docs/actions.md の「確かめた結果」の欄に、次のとおり書いてください。ほかの欄は変えないでください。
@@ -478,8 +505,13 @@
     <p><span class="why">なぜ結果をファイルに書かせるのか：</span>どこまで確かめたかを、覚えておかなくて済みます。あとで別の動きを足して前の動きが壊れたとき、「前は OK だった」と分かれば、壊したのは最後に足した動きだと絞り込めます。</p>
   
 </section>
-<section class="ep" id="console">
-  <div class="ep-head"><span class="ep-no">06</span><h2>動かないとき：コンソールの赤い文字を渡す</h2></div>
+<section class="chapter ch-6" id="console">
+  <div class="chapter-head c-6">
+    <div class="ch-text">
+      <div class="ep">第6章</div>
+      <h2>動かないとき：コンソールの赤い文字を渡す</h2>
+    </div>
+  </div>
     <p>
       ボタンを押しても何も起きないときは、JavaScript がどこかで止まっていることが多いです。止まった理由は、ブラウザの<strong>コンソール</strong>に赤い文字で出ます。
     </p>
@@ -489,7 +521,7 @@
         <dt>エラー</dt><dd>プログラムが途中で止まった理由を知らせる文。英語で出ることが多いですが、読めなくて構いません。そのまま Claude Code に渡します。</dd>
       </dl></div>
 
-    <h3>コンソールの開き方</h3>
+    <h3>6-1. コンソールの開き方</h3>
     <p>2026年10月4日時点の開き方です。メニューの名前は、更新で変わることがあります。</p>
     <div class="table-wrap" tabindex="0" role="region" aria-label="ブラウザ・開き方 の表">
       <table>
@@ -507,7 +539,7 @@
     </figure>
     <div class="box box-note">開発者ツールの上に「DevTools is now available in Japanese」と出ることがあります。「Switch DevTools to Japanese」を押すと表示が日本語になり、「Console」は「コンソール」になります。どちらのままでも構いません。</div>
 
-    <h3>渡し方</h3>
+    <h3>6-2. 渡し方</h3>
     <p>先に、下の型の「コピー」を押して入力欄に貼り、（　）の中を書き換えます。次に、コンソールを開いたまま再読み込み（<kbd>⌘R</kbd>／<kbd>F5</kbd>）して同じ操作をもう一度し、赤い文字が出たところをスクリーンショットで撮ります（Mac は <kbd>⌃⇧⌘4</kbd>、Windows は <kbd>Windows＋Shift＋S</kbd> を押して範囲を選ぶと、画像がクリップボードに入ります）。入力欄で <kbd>⌘V</kbd>（Windows は <kbd>Ctrl+V</kbd>）を押すと画像が貼れるので、そのまま送ります。</p>
     <p><span class="why">なぜこの順番なのか：</span>クリップボードに入るのは1つだけです。先にスクリーンショットを撮ってから型の「コピー」を押すと、画像は型の文字に置き換わって消えます。再読み込みしてから操作するのは、開いた直後に止まる不具合の赤い文字も出し直すためです。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
@@ -524,7 +556,7 @@
     <p><span class="why">なぜ「したこと・起きたこと・コンソール」の3つを渡すのか：</span>「動きません」だけでは、AI はどの操作のことか分からず、推測で別の場所を直します。何を押して、何が見えたかと、止まった理由の文があれば、原因を1つに絞れます。</p>
     <p><span class="why">なぜ先に原因を説明させるのか：</span>すぐに直させると、AI は原因が分からないまま、それらしい場所をまとめて書き換えることがあります。直ったように見えても、何が悪かったのかが分からず、同じことが起きたときにまた一からになります。説明を読んで、自分のした操作の話になっているかを確かめてから直させます。</p>
 
-    <h3>赤い文字が出ていないとき</h3>
+    <h3>6-3. 赤い文字が出ていないとき</h3>
     <p>JavaScript が止まったのではなく、別の理由で動いていないことが多いです。</p>
     <ul>
       <li>HTML に読み込みの1行（<code>&lt;script src="app.js"&gt;&lt;/script&gt;</code>）が無い、またはファイル名が違う</li>
@@ -535,8 +567,13 @@
     <div class="box box-warn"><strong>スクリーンショットを貼る前に、名前・メールアドレス・業務の実データが写っていないかを見てください。</strong>貼った画像は AI のサービスに送られます。写っていたら、範囲を絞って撮り直します。</div>
   
 </section>
-<section class="ep" id="loop">
-  <div class="ep-head"><span class="ep-no">07</span><h2>指示③：残りの動きを1行ずつ足す</h2></div>
+<section class="chapter ch-7" id="loop">
+  <div class="chapter-head c-7">
+    <div class="ch-text">
+      <div class="ep">第7章</div>
+      <h2>指示③：残りの動きを1行ずつ足す</h2>
+    </div>
+  </div>
     <p>
       1行目が動いたら、残りの「まだ」の行を、<strong>上から1行ずつ</strong>足していきます。毎回、次の型を<strong>そのまま</strong>貼って送ります。書き換える箇所はありません（次にどの行を作るかは、一覧の「状態」から読み取らせます）。
     </p>
@@ -566,7 +603,7 @@
       <figcaption>動きは1行ずつ足します。選ぶ → 頼む → 許可する → 確かめる → 前の動きも押す、を「まだ」の行が無くなるまで繰り返します</figcaption>
     </figure>
 
-    <h3>1行足すたびにすること</h3>
+    <h3>7-1. 1行足すたびにすること</h3>
     <ol class="steps">
       <li><p class="step-title">確認画面で、変わるファイルと中身を見てから許可する</p><p>HTML に要素を足すときは、どの画面のどこに足すかが返答に書かれているので、それと確認画面の中身が合っているかを見ます。</p></li>
       <li><p class="step-title">ブラウザで再読み込みして、その行の「確かめ方」を試す</p></li>
@@ -576,7 +613,7 @@
     <p><span class="why">なぜ1回の指示で1行なのか：</span>まとめて頼むと、確認画面の中身が長くなって読み切れず、動かないときに、どの行の作業が原因か分かりません。1行ずつなら、うまくいかなかったときに「さっきの1行を作る前に戻して」と頼むだけで済みます。</p>
     <p><span class="why">なぜ毎回同じ型を貼るのか：</span>型の中に、変えてよい範囲と、この回で作らないものが全部入っています。2回目以降に条件を省くと、AI はその回の指示だけを見て、データを残す処理や見た目の変更を始めることがあります。</p>
 
-    <h3>行の種類ごとの決まりの理由</h3>
+    <h3>7-2. 行の種類ごとの決まりの理由</h3>
     <div class="explain">
       <div class="explain-item">
         <div class="explain-term"><strong>入力のチェック：だめなときは保存しない・欄の近くに理由・入力は消さない</strong></div>
@@ -604,7 +641,7 @@
       </div>
     </div>
 
-    <h3>自分のアプリの型での見え方</h3>
+    <h3>7-3. 自分のアプリの型での見え方</h3>
     <p><strong>記録型：</strong>入力のチェックでは、理由が金額欄の下に赤い文字で出て、一覧は増えません。全部削除すると、一覧の場所に「まだ記録がありません」の案内が出ます。</p>
     <figure class="shot narrow">
       <a class="zoom" href="../../assets/images/lesson04-front/r4f_kiroku_validation.png"><img src="../../assets/images/lesson04-front/r4f_kiroku_validation.png" alt="入力のチェック。金額にマイナスを入れて保存を押すと、金額の欄の近くに理由が出て、一覧は増えない（例：食費メモ）" loading="lazy" data-taken="2026-10-04" title="撮影 2026年10月"></a>
@@ -633,8 +670,13 @@
     <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_koko_daiji_board.png" alt=""><div class="box-body"><strong>「あとで」の行は、この回では作りません。</strong>「まだ」の行が無くなったら、この回の指示③は終わりです。「あとで」の行（修正画面に選んだ記録を出す・閉じても残る・本物の AI など）は、データの置き場とサーバーを決めてから作ります。「あとで」の行を作らせようとして、データを残す処理を頼まないでください。</div></div>
   
 </section>
-<section class="ep" id="review">
-  <div class="ep-head"><span class="ep-no">08</span><h2>見直す：全部押す・見た目を見比べる・仕様書と揃える</h2></div>
+<section class="chapter ch-8" id="review">
+  <div class="chapter-head c-8">
+    <div class="ch-text">
+      <div class="ep">第8章</div>
+      <h2>見直す：全部押す・見た目を見比べる・仕様書と揃える</h2>
+    </div>
+  </div>
     <p>「まだ」の行が無くなったら、次の4つを見ます。</p>
     <ol class="steps">
       <li><p class="step-title">一覧の「作った」の行を、上から全部もう一度押す</p><p>最後に足した動きのせいで、最初のほうの動きが壊れていないかを見ます。結果を「確かめた結果」に書かせます。</p></li>
@@ -647,8 +689,14 @@
     <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_pointing.png" alt=""><div class="box-body"><strong>ここで作った画面側の流れ（押す → 待つ → 出る／失敗）は、裏側をつないだあともそのまま使います。</strong>裏側をつなぐときに変えるのは、「データをどこから持ってきて、どこに残すか」と「仮の文章を返す1か所を、本物の AI を呼ぶ形に変える」ことだけになります。画面側で受け渡すデータの項目と、差し替える場所が、すでに決まっているためです。</div></div>
   
 </section>
-<section class="part" id="deliverables">
-  <div class="part-head"><h2>この回で作るもの</h2><img class="penguin" src="../../assets/penguins/penguin_checkmark_ok.png" alt=""></div>
+<section class="chapter ch-wrap" id="deliverables">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で作るもの</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
+  </div>
     <p>終わったとき、手元に次の4つ（AI を使うアプリは5つ）がある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
@@ -671,8 +719,14 @@
     <p><span class="why">なぜこの4つなのか：</span>動いている様子は、スクリーンショット1枚だけでは伝わりません。一覧と確かめた結果があれば、どこまで作って、どこまで自分の手で確かめたかが分かります。つまずきの記録は、動かなかったときの渡し方を自分で回せたかを見るためのものです。</p>
   
 </section>
-<section class="part" id="pitfalls">
-  <div class="part-head"><h2>よくあるつまずきと対処</h2><img class="penguin" src="../../assets/penguins/penguin_warning_sign.png" alt=""></div>
+<section class="chapter ch-wrap" id="pitfalls">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>よくあるつまずきと対処</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_warning_sign.png" alt="">
+  </div>
     <p>詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄）で進めてください。</p>
     <div class="troubles">
       <div class="box box-trouble"><span class="box-title">🧯 ボタンを押しても何も起きない（赤い文字が出る）</span>
@@ -742,8 +796,14 @@
       </dl></div>
   
 </section>
-<section class="part" id="glossary">
-  <div class="part-head"><h2>この回で出てきた用語</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="glossary">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で出てきた用語</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
     <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
       <table>
         <thead><tr><th>用語</th><th>意味</th></tr></thead>
@@ -789,8 +849,14 @@
   
 </section>
 
-<section class="part" id="guides">
-  <div class="part-head"><h2>この回で使うガイドと演習</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="guides">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で使うガイドと演習</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
   <div class="cards">
     <a class="card" href="../../#stuck"><span class="card-title">分からないことが出てきたらこの順番で（Home）</span><span class="card-desc">スクショを撮って生成AIに聞く → ゼミ掲示板 → 課題提出フォームの質問欄</span></a>
     <a class="card" href="../../#rules"><span class="card-title">ゼミのルール・修了要件（Home）</span><span class="card-desc">事前課題の提出先と締切の数え方、修了証の条件</span></a>

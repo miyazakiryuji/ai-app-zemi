@@ -12,15 +12,16 @@
 <div class="page">
 <main class="sheet">
 
-<header class="hero">
-  <div class="hero-text">
+<section class="cover">
+<div class="cover-band">
+  <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第3回</div>
     <h1>モックを作る ― 裏側を作らずに、画面を先に作って整える</h1>
-    <p class="lead">裏側の処理を作らずに、見た目だけの画面（モック）を先に作る回です。仕様書 docs/spec.md の画面一覧から Claude Code に HTML と style.css を作らせ、ブラウザで開いて、崩れ → テイスト → 細部の順に1回の指示で1つずつ直します。保存や計算の処理はまだ作りません。</p>
+    <div class="subtitle">裏側の処理を作らずに、見た目だけの画面（モック）を先に作る回です。仕様書 docs/spec.md の画面一覧から Claude Code に HTML と style.css を作らせ、ブラウザで開いて、崩れ → テイスト → 細部の順に1回の指示で1つずつ直します。保存や計算の処理はまだ作りません。</div>
     <div class="chips"><span class="chip">Claude デスクトップアプリ</span><span class="chip">権限モードは「手動」</span><span class="chip">app/ の HTML と style.css</span><span class="chip">保存・計算はまだ作らない</span></div>
   </div>
-  <img class="penguin" src="../../assets/penguins/penguin_cheering_both_wings.png" alt="">
-</header>
+  <img class="penguin penguin-cover" src="../../assets/penguins/penguin_cheering_both_wings.png" alt="">
+</div>
 
 <ol class="course-band band-3" aria-label="ゼミの中の位置">
   <li><b>決める</b>第1〜2回　オリエンテーション・要件定義</li>
@@ -76,8 +77,8 @@
   </ol>
 </nav>
 
-<section class="part" id="map">
-  <div class="part-head"><h2>この回の地図</h2></div>
+<div class="cover-map" id="map">
+  <h3>この回の地図</h3>
   <p>この回は、モックを作らせてブラウザで開き、そのあとは1回の指示で1つずつ直します。直す順番は「崩れ → テイスト → 細部」です。</p>
   <figure class="fig">
     <a class="zoom" href="../../assets/figs/l03_map.webp"><img src="../../assets/figs/l03_map.webp" alt="左から右へ6つの箱。モックを作らせる → ブラウザで開く → 崩れを見る → テイストを決める → 細部を直す → 仕様書と揃える。真ん中の3つの上に「1回の指示で1つずつ」の帯" width="1536" height="488"></a>
@@ -91,10 +92,16 @@
     <li><a href="#detail"><b>指示③</b></a>　細部を1つずつ</li>
     <li><a href="#review"><b>見直す</b></a>　仕様書と揃える</li>
   </ol>
+</div>
 </section>
 
-<section class="ep" id="what">
-  <div class="ep-head"><span class="ep-no">01</span><h2>モックとは</h2></div>
+<section class="chapter ch-1" id="what">
+  <div class="chapter-head c-1">
+    <div class="ch-text">
+      <div class="ep">第1章</div>
+      <h2>モックとは</h2>
+    </div>
+  </div>
     <p>
       <strong>モック</strong>＝見た目だけを作った画面です。ボタンを押しても何も起きず、保存も計算もしません。画面に何をどこに置くかを、実物の画面で確かめるために作ります。
       この回で作るのは、ブラウザで開ける HTML と CSS のファイルだけです。<strong>画面が先に固まっていれば、あとの作業はすべてその画面の上で確かめられます。</strong>
@@ -109,7 +116,7 @@
         <dt>崩れ</dt><dd>文字のはみ出し・重なり・ずれ、幅を変えたときの折れなど、意図と違う見た目になっていること。</dd>
         <dt>テイスト</dt><dd>見た目の方向性。色・文字・余白・角の丸みなど、画面全体に共通する印象のこと。</dd>
       </dl></div>
-<h3>なぜ裏側より先に画面を作るのか</h3>
+<h3>1-1. なぜ裏側より先に画面を作るのか</h3>
     <p>このゼミでは、アプリを <strong>「見た目 → 動き → 裏側」の順に、1段ずつ足して作ります</strong>。最初に作るのが、見た目だけのモックです。</p>
     <p><strong>一言でいうと</strong>：画面は目で見て直せますが、裏側の処理は動かすまで合っているか分かりません。目で見て直せるほうを先に終わらせ、そのあとの処理は、できあがった画面の上で1つずつ確かめながら足していきます。</p>
     <ul>
@@ -131,7 +138,7 @@
       <figcaption>モックと完成したアプリの違い。モックは画面だけで、完成したアプリはその画面に動きと保存が足されたものです。モックで作った画面はそのまま使います</figcaption>
     </figure>
 
-    <h3>自分のアプリの型で、読み替えるところ</h3>
+    <h3>1-2. 自分のアプリの型で、読み替えるところ</h3>
     <p>このページの例は、記録型の「食費メモ」（画面2枚・一覧あり）です。変換型・相談型のアプリは、次のように読み替えてください。</p>
     <div class="table-wrap" tabindex="0" role="region" aria-label="記録型・変換型・相談型 の読み替えの表">
       <table>
@@ -147,8 +154,13 @@
     <p><span class="why">なぜ短い文章と長い文章の両方を置くのか：</span>本物の AI の返事は長さが毎回違い、1行のときと数百字のときでは、欄の高さも折り返し方も変わります。片方だけだと、もう片方の見た目を確かめられません。</p>
   
 </section>
-<section class="ep" id="open">
-  <div class="ep-head"><span class="ep-no">02</span><h2>アプリのフォルダを開いて、権限モードを「手動」にする</h2></div>
+<section class="chapter ch-2" id="open">
+  <div class="chapter-head c-2">
+    <div class="ch-text">
+      <div class="ep">第2章</div>
+      <h2>アプリのフォルダを開いて、権限モードを「手動」にする</h2>
+    </div>
+  </div>
     <p>
       仕様書 <code>docs/spec.md</code> が入っているアプリのフォルダ（このページでは <code>my-app</code>。名前はご自身で付けたもの）を、Claude デスクトップアプリで開きます。
       作る順番 <code>docs/tasks.md</code> は、この回では Claude Code に読ませません。<br><span class="why">なぜ：</span><code>docs/tasks.md</code> は、保存や計算まで含めて何をどの順で作るかを並べたものです。読ませると、この回では作らないと決めた処理まで作り始めます。
@@ -163,7 +175,7 @@
         <dt>docs／spec.md／tasks.md</dt><dd>docs は documents（文書）の略で、文書を入れるフォルダの名前。<code>spec.md</code> は作るものを決めた仕様書、<code>tasks.md</code> は作る順番の一覧です。<code>docs/spec.md</code> は「docs フォルダの中の spec.md」の意味です。</dd>
       </dl></div>
 
-    <h3>アプリのフォルダを開く</h3>
+    <h3>2-1. アプリのフォルダを開く</h3>
     <ol class="steps">
       <li><p class="step-title">Claude デスクトップアプリを起動し、画面左上の <code>&lt;/&gt;</code>（Claude Code）を押す（アプリの版によっては「コード」（Code）タブ）</p><p><span class="why">なぜ：</span><code>&lt;/&gt;</code> を押すと、ファイルを作れる Claude Code の画面に切り替わります。チャットの画面のままだと、フォルダを開けません。</p></li>
       <li><p class="step-title">左の一覧の上にある「＋ 新規」を押す</p><p><span class="why">なぜ：</span>新しいセッションで始めると、前の会話と混ざりません。仕様書を作ったときの会話は、もう読ませなくて大丈夫です。仕様書はファイルとして残っているので、Claude Code はそれを読めます。</p></li>
@@ -176,7 +188,7 @@
       <figcaption>「このワークスペースを信頼しますか？」の確認。フォルダの場所が自分の my-app であることを見てから「ワークスペースを信頼」</figcaption>
     </figure>
 
-    <h3>権限モードを「手動」にする</h3>
+    <h3>2-2. 権限モードを「手動」にする</h3>
     <p>入力欄の下に、いまの権限モードの名前が出ています。ここを押すとモードの一覧が出るので、<strong>「手動」</strong> を選びます（Mac では <kbd>⇧⌘M</kbd>（Shift と Command と M を一緒に押す）でも一覧を開けます）。2026年10月3日時点では、新しいセッションは「オート」で始まることが多くなっています。一度「手動」を選ぶと、そのフォルダでは次からも「手動」で始まります。それでも、セッションを開いたら毎回ここを見てください。<br><span class="why">なぜ：</span>アプリの更新で、始まるときのモードが変わることがあるためです。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>権限モード</dt><dd>Claude Code がファイルの書き換えやコマンドの実行をする前に、確認を求めるかどうかの設定。「手動」は、まだ許可していない操作の前に確認画面が出る設定です（前に「常に許可」を選んだ操作は、確認なしで進むことがあります）。「オート」は、多くの操作を人への確認なしで進める設定です。ファイルの書き換えなどはそのまま進み、それ以外の操作には安全性の確認が入ります。危険と判断された操作は止められますが、そのたびに確認画面が出るとは限らず、安全性の確認もすべてを見分けられるわけではありません。「編集を受け入れる」は、ファイルの書き換えやフォルダの中のファイル操作の一部を確認なしで進める設定です。</dd>
@@ -192,8 +204,13 @@
     <div class="box box-note">モードの名前や並びは、アプリの更新や契約の種類で変わることがあります。<strong>ファイルを書き換える前に毎回たずねてくる設定</strong>を選んでください。説明文に「常に確認」「毎回確認」と書かれているものが該当します。</div>
   
 </section>
-<section class="ep" id="mock">
-  <div class="ep-head"><span class="ep-no">03</span><h2>指示①：仕様書の画面一覧から、モックを作らせる</h2></div>
+<section class="chapter ch-3" id="mock">
+  <div class="chapter-head c-3">
+    <div class="ch-text">
+      <div class="ep">第3章</div>
+      <h2>指示①：仕様書の画面一覧から、モックを作らせる</h2>
+    </div>
+  </div>
     <p>
       Claude Code に <code>docs/spec.md</code> を読ませ、その「画面一覧と遷移」のとおりに画面を作らせます。次の型をそのまま入力欄に貼って送ります。画面の数や名前は仕様書から読み取らせるので、書き換える箇所はありません。
     </p>
@@ -224,7 +241,7 @@
         <dt>サーバー</dt><dd>画面からの求めに応じてデータを返したり保存したりするプログラム。この回のモックは HTML と CSS だけなので、サーバーは要りません。</dd>
       </dl></div>
 
-    <h3>条件の1行ずつに理由があります</h3>
+    <h3>3-1. 条件の1行ずつに理由があります</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="条件・なぜ の表">
       <table>
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
@@ -259,8 +276,13 @@
     <div class="box box-note"><strong>アプリの中のブラウザ欄だけで判断しないでください。</strong>Claude デスクトップアプリには画面を表示する欄がありますが、直後は前の状態のままだったり、この例のように <code>style.css</code> が読み込まれていなかったりします。最終の確認は必ずご自身のブラウザで開いて行います（次の節）。</div>
   
 </section>
-<section class="ep" id="check">
-  <div class="ep-head"><span class="ep-no">04</span><h2>ブラウザで開いて、崩れていないかを見る</h2></div>
+<section class="chapter ch-4" id="check">
+  <div class="chapter-head c-4">
+    <div class="ch-text">
+      <div class="ep">第4章</div>
+      <h2>ブラウザで開いて、崩れていないかを見る</h2>
+    </div>
+  </div>
     <p>
       <strong>開き方：</strong>Finder（Windows はエクスプローラー）で <code>my-app</code> → <code>app</code> → <code>index.html</code> をダブルクリックします。ブラウザが立ち上がり、モックが表示されます。
     </p>
@@ -294,7 +316,7 @@
       </figure>
     </div>
 
-    <h3>崩れを見る5つの点</h3>
+    <h3>4-1. 崩れを見る5つの点</h3>
     <p>1つずつ、画面を見ながら確かめます。</p>
     <div class="explain">
       <div class="explain-item">
@@ -329,7 +351,7 @@
       <figcaption>窓を狭くしたときの例。一覧のメモ欄の文字（「スーパー」「コンビニ」）が途中で折り返されています。これが「崩れ」です（この例はテイストを当てたあとの画面）</figcaption>
     </figure>
 
-    <h3>崩れがあったら、その場で直させる</h3>
+    <h3>4-2. 崩れがあったら、その場で直させる</h3>
     <p>直したい箇所を1つ決め、次の型で送ります。<strong>スクリーンショットを撮って、入力欄に貼ります。</strong>Mac は <kbd>⌃⇧⌘4</kbd>（コントロールも一緒に押す）で範囲を選んで撮ると画像がクリップボードに入るので、入力欄で <kbd>⌘V</kbd> を押すと貼れます。<kbd>⇧⌘4</kbd> で撮った場合はデスクトップに画像ファイルができるので、そのファイルを入力欄にドラッグします。Windows は <kbd>Windows＋Shift＋S</kbd> で撮って <kbd>Ctrl+V</kbd> で貼ります。貼る前に、名前・メールアドレス・業務の実データなど、外に出せないものが写っていないかを見ます。写っていたら、範囲を絞って撮り直します。<br><span class="why">なぜ：</span>貼った画像は AI のサービスに送られます。</p>
 <span class="code-label">崩れを直す指示の型 ― 崩れている箇所を1つ書いて、スクショを添えて貼る</span>
 <pre class="prompt">画面1の一覧で、メモ欄が狭すぎて文字が1〜2文字ずつ折り返されています（スクショを添付）。
@@ -345,8 +367,13 @@
     </figure>
   
 </section>
-<section class="ep" id="taste">
-  <div class="ep-head"><span class="ep-no">05</span><h2>指示②：テイストを決める</h2></div>
+<section class="chapter ch-5" id="taste">
+  <div class="chapter-head c-5">
+    <div class="ch-text">
+      <div class="ep">第5章</div>
+      <h2>指示②：テイストを決める</h2>
+    </div>
+  </div>
     <p>
       <strong>テイスト</strong>＝見た目の方向性です。色・文字の大きさ・余白・角の丸みをまとめて指します。配置が崩れていない状態になったら、テイストを言葉で伝えて、<code>style.css</code> だけを書き換えさせます。
     </p>
@@ -357,7 +384,7 @@
         <dt>余白</dt><dd>要素と要素のあいだ、画面の端と内容のあいだの空き。狭いと詰まって読みにくくなります。</dd>
       </dl></div>
 
-    <h3>方向性を決める6つ</h3>
+    <h3>5-1. 方向性を決める6つ</h3>
     <p>ご自身のアプリに合わせて言葉にします。決められないときは、下の例（落ち着いた色・白地・緑1色）をそのまま使って構いません。</p>
     <div class="explain">
       <div class="explain-item">
@@ -395,7 +422,7 @@
       「<strong>色の組み合わせと余白の取り方だけ、この画面の雰囲気に寄せてください。文字の内容・要素の並び・ロゴは真似しないでください。</strong>」
       <br><span class="why">なぜ「色と余白だけ」と書くのか：</span>そう書かないと、見出しの文言やボタンの並びまで似せてきます。仕様書で決めた画面とずれるうえ、人の作ったものをそのまま写すことにもなります。<br>貼る前に、名前やデータが写っていないかを見てください。</div>
 
-    <h3>テイストを当てる指示の型</h3>
+    <h3>5-2. テイストを当てる指示の型</h3>
     <p>指示①と同じセッションで、続けて送ります。指示①と違い、<strong>この型はご自身のアプリに合わせて書き換えます</strong>。（　）の中が書き換える箇所です。「並ぶところ」は、上の表からご自身のアプリに当てはまるものを1つ選んで書きます（例：読書の記録なら「1行ごとに薄い区切り線。読み終えた日は右揃え」）。</p>
 <span class="code-label">指示②（テイスト）― （ ）の中を自分の方向性に差し替えて貼る</span>
 <pre class="prompt">app の見た目の方向性（テイスト）を整えてください。裏側の処理は引き続き作らないでください。
@@ -444,7 +471,7 @@
       </figure>
     </div>
 
-    <h3>ブラウザで開き直して見る</h3>
+    <h3>5-3. ブラウザで開き直して見る</h3>
     <p>開いたままのブラウザは、再読み込みすると新しい見た目になります（Mac は <kbd>⌘R</kbd>、Windows は <kbd>F5</kbd>）。<br><span class="why">なぜ：</span>ブラウザは前に読んだファイルを表示し続けています。読み直させないと、直したはずなのに変わらないように見えます。</p>
     <div class="figs-2">
       <figure class="shot">
@@ -459,8 +486,13 @@
     <p>テイストを当てたら、<a href="#check">「崩れを見る5つの点」</a>をもう一度通します。余白や文字が大きくなると、列どうしの幅の取り合いが変わります。<strong>テイストの前は読めていた一覧が、当てたあとで1〜2文字ずつ折り返されたり、右端のボタンが画面の外に出たりすることがあります。</strong>あわせて、画面から少し離れて、入力欄の枠が見えるか、ボタンの文字が地の色に溶けていないかも見ます。見つけたら、<a href="#check">崩れを直す指示の型</a>で <code>app/style.css</code> だけを直させます。</p>
   
 </section>
-<section class="ep" id="detail">
-  <div class="ep-head"><span class="ep-no">06</span><h2>指示③：細部を1つずつ直す</h2></div>
+<section class="chapter ch-6" id="detail">
+  <div class="chapter-head c-6">
+    <div class="ch-text">
+      <div class="ep">第6章</div>
+      <h2>指示③：細部を1つずつ直す</h2>
+    </div>
+  </div>
     <p>
       テイストが決まったら、気になるところを <strong>1回の指示で1点だけ</strong> 直していきます。
     </p>
@@ -473,7 +505,7 @@
 - （「保存」ボタンを入力欄の右下に寄せて、ほかのボタンより目立つ色にする（画面1・画面2の両方））</pre>
     <p><span class="why">「ほかは触らないでください」を毎回入れる理由：</span>この一言が無いと、AI は頼んだ1点のついでに周りも整え始めます。整えた結果が良くても、何が変わったか把握できなくなります。上の例は位置と色の2つを書いていますが、どちらも「保存を目立たせる」という1つの目的なのでまとめています。目的が別のものは、別の指示に分けます。</p>
 
-    <h3>HTML を変えないとできないと言われたら</h3>
+    <h3>6-1. HTML を変えないとできないと言われたら</h3>
     <p>合計を枠で囲んで目立たせる、複数の要素を1つの箱にまとめる、といった変更は、囲むための入れ物が HTML に無いとできません。そのときだけ、範囲を絞って HTML を触らせます。</p>
 <span class="code-label">HTML を変えないとできないと言われたときの型 ― （ ）の中に直したい箇所を書いて貼る</span>
 <pre class="prompt">さきほど「HTML を変えないとできない」と言われた（　　　）を直してください。
@@ -510,7 +542,7 @@
     </div>
     <p>直したら、ブラウザを再読み込みして見ます。気になる点が残っていれば、また1点だけ頼みます。<strong>言葉にしにくい細部は、スクショに印を付けて貼ります</strong>（Mac の「プレビュー」、Windows の「Snipping Tool」（以前の「切り取り＆スケッチ」）で丸や矢印を描けます。アプリの名前は更新で変わることがあります）。</p>
     <p>直した1点と、その理由は、そのつどメモに書き残します。この回の提出物になります。</p>
-    <h3>メモの書き方（例）</h3>
+    <h3>6-2. メモの書き方（例）</h3>
     <p>1点につき「何を」と「なぜ」が書いてあれば十分です。1行で構いません。</p>
     <ul>
       <li>一覧のメモ欄が1〜2文字ずつ折り返されていたので、メモ欄の幅を広げた。窓を狭くしても読めるようにしたかったから</li>
@@ -519,8 +551,13 @@
     </ul>
   
 </section>
-<section class="ep" id="review">
-  <div class="ep-head"><span class="ep-no">07</span><h2>見直して、仕様書と揃える</h2></div>
+<section class="chapter ch-7" id="review">
+  <div class="chapter-head c-7">
+    <div class="ch-text">
+      <div class="ep">第7章</div>
+      <h2>見直して、仕様書と揃える</h2>
+    </div>
+  </div>
     <p>ブラッシュアップを終えたら、次の4つを見ます。</p>
     <ol class="steps">
       <li><p class="step-title"><a href="#check">「崩れを見る5つの点」</a>をもう一度通す</p><p>細部を直したあとで幅を変えたら折れる、はよく起きます。</p></li>
@@ -540,8 +577,14 @@
       だから、この回の時点で「自分が毎回使いたい画面」になっているかを見ておいてください。</div></div>
   
 </section>
-<section class="part" id="deliverables">
-  <div class="part-head"><h2>この回で作るもの</h2><img class="penguin" src="../../assets/penguins/penguin_checkmark_ok.png" alt=""></div>
+<section class="chapter ch-wrap" id="deliverables">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で作るもの</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
+  </div>
     <p>終わったとき、手元に次の4つがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
@@ -562,8 +605,14 @@
     </div>
   
 </section>
-<section class="part" id="pitfalls">
-  <div class="part-head"><h2>よくあるつまずきと対処</h2><img class="penguin" src="../../assets/penguins/penguin_warning_sign.png" alt=""></div>
+<section class="chapter ch-wrap" id="pitfalls">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>よくあるつまずきと対処</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_warning_sign.png" alt="">
+  </div>
     <p>詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄）で進めてください。</p>
     <div class="troubles">
       <div class="box box-trouble"><span class="box-title">🧯 ブラウザで開いても色が付かない・素の状態で出る</span>
@@ -635,8 +684,14 @@
     </div>
   
 </section>
-<section class="part" id="glossary">
-  <div class="part-head"><h2>この回で出てきた用語</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="glossary">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で出てきた用語</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
     <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
       <table>
         <thead><tr><th>用語</th><th>意味</th></tr></thead>
@@ -674,8 +729,14 @@
   
 </section>
 
-<section class="part" id="guides">
-  <div class="part-head"><h2>この回で使うガイドと演習</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="guides">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で使うガイドと演習</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
   <div class="cards">
     <a class="card" href="../../#stuck"><span class="card-title">分からないことが出てきたらこの順番で（Home）</span><span class="card-desc">スクショを撮って生成AIに聞く → ゼミ掲示板 → 課題提出フォームの質問欄</span></a>
     <a class="card" href="../../#rules"><span class="card-title">ゼミのルール・修了要件（Home）</span><span class="card-desc">事前課題の提出先と締切の数え方、修了証の条件</span></a>

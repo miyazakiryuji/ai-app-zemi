@@ -12,15 +12,16 @@
 <div class="page">
 <main class="sheet">
 
-<header class="hero">
-  <div class="hero-text">
+<section class="cover">
+<div class="cover-band">
+  <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第7回</div>
     <h1>デバッグと卒業制作 ― 落ちないアプリに仕上げる</h1>
-    <p class="lead">この回でやることは2つです。不具合を AI に直させるやり方（渡す3点・切り分け・Claude Code に再現させて表示まで読ませる）を身につけること、そして卒業制作で扱う範囲と完成条件を決めることです。LIVE はここまでにして、仕上げの作業（不具合を直す・3つの状態を見直す・テストを流して確かめる・結果を書く）は、LIVE のあとの期間にこのページを見ながら進めます。卒業制作は、このゼミで作ってきた自分専用ツールそのものです。作り直すものでも、機能を足すものでもありません。</p>
+    <div class="subtitle">この回でやることは2つです。不具合を AI に直させるやり方（渡す3点・切り分け・Claude Code に再現させて表示まで読ませる）を身につけること、そして卒業制作で扱う範囲と完成条件を決めることです。LIVE はここまでにして、仕上げの作業（不具合を直す・3つの状態を見直す・テストを流して確かめる・結果を書く）は、LIVE のあとの期間にこのページを見ながら進めます。卒業制作は、このゼミで作ってきた自分専用ツールそのものです。作り直すものでも、機能を足すものでもありません。</div>
     <div class="chips"><span class="chip">渡す3点</span><span class="chip">切り分けの4段階</span><span class="chip">Claude Code に再現させる</span><span class="chip">docs/graduation.md</span></div>
   </div>
-  <img class="penguin" src="../../assets/penguins/penguin_magnifying_front.png" alt="">
-</header>
+  <img class="penguin penguin-cover" src="../../assets/penguins/penguin_magnifying_front.png" alt="">
+</div>
 
 <ol class="course-band band-3" aria-label="ゼミの中の位置">
   <li><b>決める</b>第1〜2回　オリエンテーション・要件定義</li>
@@ -79,8 +80,8 @@
 </nav>
 
 <!-- ============================================================ 地図 -->
-<section class="part" id="map">
-  <div class="part-head"><h2>この回の地図</h2></div>
+<div class="cover-map" id="map">
+  <h3>この回の地図</h3>
   <p>この回は7つの手順に分かれます。LIVE で進めるのは 1〜3 と、6 のうち「出すものを知り、範囲と完成条件を決める」までです。LIVE のあとは 6 の手順に沿って進め、4・5 はその中で開きます。7 は、卒業制作を出す前後に読んでおきます。</p>
   <figure class="fig">
     <a class="zoom" href="../../assets/figs/l07_map.webp"><img src="../../assets/figs/l07_map.webp" alt="上段に4つの箱（渡す3点 → 切り分ける → 再現させる → 卒業制作の範囲を決める）が「LIVEで」の帯に入り、下段に3つの箱（3つの状態を見直す → テストを流して確かめる → 卒業後の続け方）が「LIVEのあと」の帯に入っている" width="1536" height="850"></a>
@@ -103,11 +104,17 @@
       <dt>卒業制作</dt><dd>このゼミで作ってきた自分専用ツールを、自分で決めた範囲まで仕上げて出すもの。修了の条件の1つです。</dd>
     </dl>
   </div>
+</div>
 </section>
 
 <!-- ============================================================ 01 渡す3点 -->
-<section class="ep" id="three">
-  <div class="ep-head"><span class="ep-no">01</span><h2>AI に渡す3点</h2></div>
+<section class="chapter ch-1" id="three">
+  <div class="chapter-head c-1">
+    <div class="ch-text">
+      <div class="ep">第1章</div>
+      <h2>AI に渡す3点</h2>
+    </div>
+  </div>
   <p>不具合を AI に直させるときは、次の3点を渡します。</p>
   <div class="table-wrap"><table>
     <thead><tr><th></th><th>渡すもの</th><th>書き方</th></tr></thead>
@@ -131,8 +138,13 @@
 </section>
 
 <!-- ============================================================ 02 切り分け -->
-<section class="ep" id="layers">
-  <div class="ep-head"><span class="ep-no">02</span><h2>切り分けの4段階：画面側・通信・サーバー側・保存</h2></div>
+<section class="chapter ch-2" id="layers">
+  <div class="chapter-head c-2">
+    <div class="ch-text">
+      <div class="ep">第2章</div>
+      <h2>切り分けの4段階：画面側・通信・サーバー側・保存</h2>
+    </div>
+  </div>
   <p>アプリの操作は、<strong>画面側 → 通信 → サーバー側 → 保存</strong>の順に進みます。たとえば記録型で「保存」を押すと、ブラウザの中の JavaScript が入力を集め（画面側）、自分のサーバーへ要求を送り（通信）、サーバーのプログラムが受け取って保存先に書き込みます（サーバー側・保存）。AI の機能なら、サーバー側が AI のサービスの API を呼び、返ってきた文章を画面へ返します。<strong>不具合は、この順番のどこかで止まっています。上から順に見て、どこまで正常かを確かめます。</strong></p>
   <figure class="fig">
     <a class="zoom" href="../../assets/figs/l07_layers.webp"><img src="../../assets/figs/l07_layers.webp" alt="上から下へ4つの箱。画面側（見る場所：コンソール）→ 通信（ネットワークの欄）→ サーバー側（ターミナル）→ 保存（置き場の中身）。左に「上から順に見る」の縦の矢印" width="1536" height="995"></a>
@@ -160,7 +172,7 @@
     </dl>
   </div>
 
-  <h3>使う道具は2つ：開発者ツールと、サーバーのターミナル</h3>
+  <h3>2-1. 使う道具は2つ：開発者ツールと、サーバーのターミナル</h3>
   <p>ブラウザの開発者ツールと、サーバーを起動しているターミナルを使います。
   <br><span class="why">なぜ：</span>画面の中で起きたエラーと、送った要求の中身は、画面そのものには出ません。開発者ツールを開いて初めて見えます。サーバー側で起きたことは、ターミナルにだけ出ます。</p>
   <ul>
@@ -189,7 +201,7 @@
     </dl>
   </div>
 
-  <h3>4 の保存先は、中身を実際に見る</h3>
+  <h3>2-2. 4 の保存先は、中身を実際に見る</h3>
   <p>保存先は、中身を実際に見ます。
   <br><span class="why">なぜ：</span>画面に出ていなくても保存されていることがあり、画面に出ていても保存されていないことがあります。中身を見ないと、保存で止まっているかは決められません。見る場所は置き場によって違います。画面の文言は変わることがあります。</p>
   <div class="table-wrap"><table>
@@ -216,15 +228,20 @@
 </section>
 
 <!-- ============================================================ 03 再現させる -->
-<section class="ep" id="reproduce">
-  <div class="ep-head"><span class="ep-no">03</span><h2>Claude Code に再現させて、そのときの表示まで読ませる</h2></div>
+<section class="chapter ch-3" id="reproduce">
+  <div class="chapter-head c-3">
+    <div class="ch-text">
+      <div class="ep">第3章</div>
+      <h2>Claude Code に再現させて、そのときの表示まで読ませる</h2>
+    </div>
+  </div>
   <p>不具合が出たとき、人が症状を言葉にして渡す代わりに、<strong>Claude Code にブラウザで同じ操作をさせ、そのときのコンソール・ネットワークの欄・ターミナル・保存先を読ませて報告させます</strong>。ブラウザは、Claude デスクトップアプリに内蔵されているものを Claude Code が操作します（追加で入れるものはありません）。</p>
   <ul>
     <li><span class="why">なぜ人が言葉にするより良いのか：</span>症状を言葉に置き換えた時点で、こちらの認識と AI の認識がずれます。「保存されない」と伝えても、実際には要求が送られていない場合と、送られているがサーバー側で失敗している場合とで、原因も直し方も違います。<strong>再現させれば、実際の出力がそのまま材料になります</strong></li>
     <li><span class="why">なぜ「読ませる」まで含めるのか：</span>操作させるだけでは「エラーが出ました」で止まります。どの欄に何が出ていたかまで報告させると、4段階のどこで止まっているかが、報告を読んだ時点で分かります</li>
   </ul>
 
-  <h3>送る前に、権限モードを「手動」にする</h3>
+  <h3>3-1. 送る前に、権限モードを「手動」にする</h3>
   <p>入力欄の下の<strong>権限モード</strong>を「手動」にしておきます。
   <br><span class="why">なぜ：</span>「修正はしないでください」と書いても、書き換えを始めることがあります。手動なら、書き換えの確認画面で「拒否」を押して止められます。前に「常に許可」を選んだ操作は、手動でも確認なしで進みます。
   <br>モードの名前や並びは、アプリの更新や契約の種類で変わることがあるので、ファイルを書き換える前に毎回たずねてくる設定を選びます。</p>
@@ -244,7 +261,7 @@
     </ol>
     <p><span class="why">なぜこの3つを先に確認するのか：</span>画面の操作は、確かめるつもりでも<strong>実際にデータを消す操作</strong>になります。人が押すときは手が止まりますが、任せた場合は止まりません。<strong>不具合が出ている状態のアプリを触らせるので、データが壊れる可能性は平時より高くなります。</strong></p>
   </div>
-  <h3>再現させる指示の型</h3>
+  <h3>3-2. 再現させる指示の型</h3>
   <p>①〜③は「AI に渡す3点」で書いたものをそのまま入れます。<code>3000</code> は、自分のアプリのアドレスの番号に合わせます。</p>
 <span class="code-label">指示①（再現）― （ ）の中を自分の不具合に差し替えて貼る</span>
 <pre class="prompt">次の不具合を、ブラウザで http://localhost:3000 を開いて再現してください。
@@ -267,11 +284,11 @@
   <div class="box box-trouble"><span class="box-title">🧯 ターミナルが「読めない」と返ってきたとき</span>Claude Code が読めるのは、同じ会話の中で Claude Code が起動したサーバーの出力だけです。自分のターミナルで起動したサーバーなら、最後の数行をコピーして続けて渡します（API キーが写っていないかを見てから）。または、自分のサーバーをいったん止めて、Claude Code に起動してもらってから再現させます。</div>
   <div class="box box-warn"><span class="box-title">⚠️ 保存先がブラウザの中（localStorage）のアプリでは、Claude Code が操作するブラウザに自分の記録は入っていない</span>自分が使っているブラウザとは、データが別になっています。再現手順は「記録を3件入れる」のように、データを用意するところから書きます。</div>
 
-  <h3>初めのうちは、自分で切り分けた結果と並べる</h3>
+  <h3>3-3. 初めのうちは、自分で切り分けた結果と並べる</h3>
   <p>「切り分けの4段階」を自分でも見て、Claude Code の報告と同じ段階を指しているかを確かめます。
   <br><span class="why">なぜ：</span>報告が正しいかどうかを判断できるのは、同じ場所を自分でも見たことがある人だけです。何度か一致を見てから、報告を読むだけに切り替えます。</p>
 
-  <h3>手元に不具合が無いときは、わざと1つ起こして練習する</h3>
+  <h3>3-4. 手元に不具合が無いときは、わざと1つ起こして練習する</h3>
   <p><code>.env</code> のキーの最後に <code>x</code> を1文字足して保存し、サーバーを起動し直してから AI の機能を押します。「うまくいきませんでした」と出たら、それを症状にして上の型で再現させます。終わったら、足した <code>x</code> を消して保存し、サーバーを起動し直します。</p>
   <ul>
     <li><span class="why">なぜわざと起こすのか：</span>自分のアプリで一度、報告の読み方を通しておくと、本物の不具合が出たときに同じ手順で進められます。この1件も不具合ログに入れて構いません</li>
@@ -281,7 +298,7 @@
 
   <div class="box box-trouble"><span class="box-title">🧯 削除の不具合を再現させたら、確認の小窓のところで止まった</span>Claude Code が操作するブラウザは、確認の小窓（「削除しますか？」と出て、OK かキャンセルを選ぶもの）を出せず、自動で「いいえ」を返します。これはアプリの不具合ではありません。「確認を一時的に『はい』にして続けてください。アプリのファイルは触らないでください」と頼みます。</div>
 
-  <h3>報告を読んだら、原因と直す場所を先に説明させる</h3>
+  <h3>3-5. 報告を読んだら、原因と直す場所を先に説明させる</h3>
 <span class="code-label">指示②（直す前の説明）― （ ）の中を自分の読みに差し替えて貼る</span>
 <pre class="prompt">報告を読みました。止まっているのは（画面側／通信／サーバー側／保存）だと考えています。
 原因と、どのファイルのどこを直すかを、先に教えてください。
@@ -290,7 +307,7 @@
   <p><span class="why">なぜ自分の読みを書くのか：</span>報告を読まずに「直して」と送ると、報告を出させた意味がなくなります。自分の読みと Claude Code の説明が食い違えば、そこで止まって確かめられます。</p>
   <p><span class="why">なぜ「関係する場所だけ」と書くのか：</span>AI は、直すついでに別の場所も書き換えることがあります。関係ない場所が変わると、直したあとに別の操作が壊れても、どの変更のせいか追えません。</p>
 
-  <h3>直ったら、不具合ログに1行書く</h3>
+  <h3>3-6. 直ったら、不具合ログに1行書く</h3>
   <p>直ったら「直したら、テストを流して確かめる」のやり方で確かめ、<strong>不具合ログ</strong>に1行書きます。直せなかったものも書きます。不具合ログは、卒業制作のファイル <code>docs/graduation.md</code>（「卒業制作の条件」の節で作ります）の中に置きます。まだ無いときは、メモに書いておいてあとで移します。</p>
   <div class="table-wrap"><table>
     <thead><tr><th>症状</th><th>再現手順</th><th>止まっていた段階</th><th>原因</th><th>対処</th></tr></thead>
@@ -316,8 +333,14 @@
 </section>
 
 <!-- ============================================================ 04 3つの状態 -->
-<section class="ep" id="states">
-  <div class="ep-head"><span class="ep-no">04</span><h2>3つの状態を見直す：1件も無いとき・処理中・失敗したとき</h2><div class="ep-meta">LIVE のあとの期間に、「卒業制作の条件」の手順の中で行います</div></div>
+<section class="chapter ch-4" id="states">
+  <div class="chapter-head c-4">
+    <div class="ch-text">
+      <div class="ep">第4章</div>
+      <h2>3つの状態を見直す：1件も無いとき・処理中・失敗したとき</h2>
+      <div class="lead">LIVE のあとの期間に、「卒業制作の条件」の手順の中で行います</div>
+    </div>
+  </div>
   <p><strong>3つの状態</strong>の表示は、画面の中だけで動かしていたときに作ったものだと、本物の AI のサービスや保存先につないだあとでは、出なかったり、まちがった場面で出たりします。保存先から読み込むのに時間がかかるようになり、失敗の起き方も増えるためです。<strong>仕上げの前に、つないだ状態で見直します。</strong></p>
   <div class="table-wrap"><table>
     <thead><tr><th>状態</th><th>用意するもの</th><th>省くと何が起きるか</th><th>つないだあとに見直すところ</th></tr></thead>
@@ -331,7 +354,7 @@
   <p><span class="why">なぜエラーの詳しい内容を画面に出さないのか：</span>エラーの文には、サーバーの中のファイルの場所や、場合によってはキーの一部が入っています。画面に出すのは利用者向けの短い文だけにし、原因を調べるための内容はターミナルに出します。</p>
   <div class="box box-term"><span class="box-title">📗 用語：3つの状態</span>「1件も無いとき」「処理中」「失敗したとき」の表示。正しく使ったときの画面とは別に用意しておきます。</div>
 
-  <h3>見直しの進め方：一覧にさせる → 自分の手で試す → 1つずつ直させる</h3>
+  <h3>4-1. 見直しの進め方：一覧にさせる → 自分の手で試す → 1つずつ直させる</h3>
 <span class="code-label">指示④（3つの状態の一覧）― そのまま貼る</span>
 <pre class="prompt">このアプリの「1件も無いとき」「処理中」「失敗したとき」の表示を見直します。まだ何も直さないでください。
 
@@ -375,8 +398,14 @@
 </section>
 
 <!-- ============================================================ 05 テストを流して確かめる -->
-<section class="ep" id="verify">
-  <div class="ep-head"><span class="ep-no">05</span><h2>直したら、テストを流して確かめる</h2><div class="ep-meta">LIVE のあとの期間に、「卒業制作の条件」の手順の中で行います</div></div>
+<section class="chapter ch-5" id="verify">
+  <div class="chapter-head c-5">
+    <div class="ch-text">
+      <div class="ep">第5章</div>
+      <h2>直したら、テストを流して確かめる</h2>
+      <div class="lead">LIVE のあとの期間に、「卒業制作の条件」の手順の中で行います</div>
+    </div>
+  </div>
   <p>直したら、次の2つをします。<strong>テストを全部流す</strong>ことと、<strong>変えた操作と、それで影響を受けそうな前からの操作を、自分の手で押して確かめる</strong>ことです。見た目（文言・色・余白）だけを直したときは、テストは流さず、その画面を押して見るだけで構いません。
   <br><span class="why">なぜ：</span>データの処理は変わっていないので、壊れるとすれば見た目だけです。</p>
   <p><span class="why">なぜ2つともやるのか：</span>直した1か所のせいで、直していない別の場所が壊れることがあります。これを<strong>デグレ</strong>と呼びます。テストは、データの処理が決めたとおりかを、何度でも同じ手順で確かめられます。ただし、ボタンが押せるか、表示が崩れていないか、AI の返事が使える中身かは、画面で見ないと分かりません。</p>
@@ -427,8 +456,13 @@
 </section>
 
 <!-- ============================================================ 06 卒業制作 -->
-<section class="ep" id="graduation">
-  <div class="ep-head"><span class="ep-no">06</span><h2>卒業制作の条件</h2></div>
+<section class="chapter ch-6" id="graduation">
+  <div class="chapter-head c-6">
+    <div class="ch-text">
+      <div class="ep">第6章</div>
+      <h2>卒業制作の条件</h2>
+    </div>
+  </div>
   <p><strong>このゼミで作ってきた自分専用ツールが、そのまま卒業制作になります。</strong>新しいアプリを作り直しません。新しい機能を足すことも求めません。いまのアプリを自分で決めた範囲まで仕上げ、<strong>どこまでできて、どこがまだかを、自分で確かめて書きます</strong>。</p>
   <p><span class="why">なぜ作り直さないのか：</span>作り直すと、ここまで確かめてきたことが全部やり直しになります。このゼミで身につけたいのは「作れた」ではなく、「AI を使って、自分で決めて、作って、確かめて、直せる」状態です。それは、いまのアプリを仕上げる過程に出ます。</p>
 
@@ -548,11 +582,16 @@
 </section>
 
 <!-- ============================================================ 07 卒業後 -->
-<section class="ep" id="after">
-  <div class="ep-head"><span class="ep-no">07</span><h2>卒業後の続け方</h2></div>
+<section class="chapter ch-7" id="after">
+  <div class="chapter-head c-7">
+    <div class="ch-text">
+      <div class="ep">第7章</div>
+      <h2>卒業後の続け方</h2>
+    </div>
+  </div>
   <p>卒業後は、困ったときに聞ける講師がいません。下の手順を、ひとりで回すときの型として持ち帰ります。<strong>最初にやることは、<code>docs/graduation.md</code> の「まだ直っていない点」と「卒業後に回すもの」に書いてあります。</strong></p>
 
-  <h3>機能を足すときの4手順</h3>
+  <h3>7-1. 機能を足すときの4手順</h3>
   <ol class="steps">
     <li><p class="step-title"><code>docs/spec.md</code> に足す。何を作るか・何を作らないかを先に書く</p><p><span class="why">なぜ：</span>口頭の指示だけで足していくと、仕様書と実物がずれます。ずれたまま「docs/spec.md に従って直して」と頼むと、動いていた機能が消えます。</p></li>
     <li><p class="step-title">1回の指示で1つずつ、完成条件を付けて作らせる</p><p><span class="why">なぜ：</span>まとめて頼むと、動かないときにどこが原因か分かりません。完成条件が無いと、できたかどうかを判断できません。</p></li>
@@ -564,7 +603,7 @@
   <p><strong>動かなくなったとき</strong>は、このページの「渡す3点」→「切り分け」→「再現させる」→「テストを流して確かめる」の順に戻ります。
   <br><span class="why">なぜ：</span>詰まったときほど、思いついた場所から直したくなります。順番が決まっていれば、毎回同じところから見られます。</p>
 
-  <h3>ふだんやっておくこと</h3>
+  <h3>7-2. ふだんやっておくこと</h3>
   <ul>
     <li><strong>データの写し（バックアップ）を、決めた間隔で取る</strong>
       <br><span class="why">なぜ：</span>保存先が壊れたり、まちがえて消したりしたとき、写しが無いと戻せません。写しの取り方は置き場で違うので、Claude Code に「いまのデータの写しを取る方法を教えてください」と聞きます</li>
@@ -576,7 +615,7 @@
       <br><span class="why">なぜ：</span>作り終えてから一から考え始めると、手が止まったまま時間が空きます。戻る場所が決まっていないと、詰まるたびに調べ方から探すことになります</li>
   </ul>
 
-  <h3>やりたいこと → 次に学ぶこと</h3>
+  <h3>7-3. やりたいこと → 次に学ぶこと</h3>
   <div class="table-wrap"><table>
     <thead><tr><th>やりたいこと</th><th>次に学ぶこと</th></tr></thead>
     <tbody>
@@ -600,8 +639,14 @@
 </section>
 
 <!-- ============================================================ 出すもの -->
-<section class="part" id="deliverables">
-  <div class="part-head"><h2>この回で出すもの</h2><img class="penguin" src="../../assets/penguins/penguin_holding_diploma.png" alt=""></div>
+<section class="chapter ch-wrap" id="deliverables">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で出すもの</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_diploma.png" alt="">
+  </div>
   <p>卒業制作（このゼミで作ってきた自分専用ツール）と、次の2つです。締切と提出の形は、commmune のゼミスレッドの講師の投稿が正です。評価は作った量ではなく、①〜④ がそろっていて、互いに合っているかで見ます（6-1）。</p>
   <div class="cards">
     <div class="card"><span class="card-title">docs/graduation.md</span><span class="card-desc">① 決めた機能 ② 完成条件 ③ 試した結果（テストを流した結果を含む）④ まだ直っていない点、それに不具合ログ（3件以上）と卒業後に回すもの。</span></div>
@@ -610,8 +655,14 @@
 </section>
 
 <!-- ============================================================ つまずき -->
-<section class="part" id="pitfalls">
-  <div class="part-head"><h2>よくあるつまずきと対処</h2><img class="penguin" src="../../assets/penguins/penguin_warning_sign.png" alt=""></div>
+<section class="chapter ch-wrap" id="pitfalls">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>よくあるつまずきと対処</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_warning_sign.png" alt="">
+  </div>
   <p>詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄）で進めてください。</p>
   <div class="troubles">
     <div class="box box-trouble"><span class="box-title">🧯 「動きません」とだけ渡した</span><p>AI が推測で何か所も書き換え、動いていた機能が壊れます。</p><p><strong>対処：</strong>渡す3点と4段階。切り分けた結果をそのまま指示にします。</p></div>
@@ -632,8 +683,14 @@
 </section>
 
 <!-- ============================================================ 用語 -->
-<section class="part" id="glossary">
-  <div class="part-head"><h2>この回で出てきた用語</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="glossary">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で出てきた用語</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
   <div class="table-wrap"><table>
     <thead><tr><th>用語</th><th>意味</th></tr></thead>
     <tbody>
@@ -688,8 +745,14 @@
   </table></div>
 </section>
 
-<section class="part" id="guides">
-  <div class="part-head"><h2>この回で使うガイドと演習</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="guides">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で使うガイドと演習</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
   <div class="cards">
     <a class="card" href="../../#stuck"><span class="card-title">分からないことが出てきたらこの順番で（Home）</span><span class="card-desc">スクショを撮って生成AIに聞く → ゼミ掲示板 → 課題提出フォームの質問欄</span></a>
     <a class="card" href="../../#rules"><span class="card-title">ゼミのルール・修了要件（Home）</span><span class="card-desc">事前課題の提出先と締切の数え方、修了証の条件</span></a>

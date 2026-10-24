@@ -1,43 +1,56 @@
 /* ==========================================================
    Claude Code マスターゼミ 各回の資料（第1回〜第13回）共通スタイル
+   見た目は ClaudeCode入門ゼミの講義資料（講義資料/EPxx-yy_….html）と同じ型：
+   表紙の帯（cover-band）→ 章ごとの色帯（chapter-head）→ 章番号つきの小見出し（h3「1-1.」）→ まとめ（c-wrap）。
    画面で読む前提（PC・スマホ）。印刷はしない（Boarding Pass は印刷を止めている）
-   部品の使い方は ../template.html を見本にする
+   部品の使い方は ../template.html を見本にする（2026-10-25 に入門ゼミの型へ載せ替え）
    ========================================================== */
 :root {
   --ink: #1f2430;
   --ink-soft: #4b5361;
   --muted: #6b7280;
   --line: #d8dde6;
-  --bg: #eef2f6;
+  --bg: #e9edf3;
   --paper: #ffffff;
   --primary: #0f766e;
   --primary-soft: #e6f4f2;
   --accent: #4338ca;
   --link: #1d4ed8;
-  --why: #7c3aed;
+  --why: #6d28d9;
   --why-bg: #f5f3ff;
+  --why-line: #ddd6fe;
   --point: #0f766e;
   --point-bg: #f0fdfa;
+  --point-line: #99f6e4;
   --warn: #dc2626;
   --warn-bg: #fef2f2;
-  --term: #2563eb;
-  --term-bg: #eff6ff;
+  --warn-line: #fca5a5;
+  --term: #0e7490;
+  --term-bg: #ecfeff;
+  --term-line: #a5f3fc;
   --diff: #c2410c;
   --diff-bg: #fff7ed;
+  --diff-line: #fdba74;
   --os: #475569;
   --os-bg: #f8fafc;
+  --os-line: #cbd5e1;
   --trouble: #b45309;
   --trouble-bg: #fffbeb;
+  --trouble-line: #fcd34d;
   --code-bg: #eef1f6;
-  --cmd-bg: #1e2430;
+  --wrap: #059669;
   --radius: 10px;
+  /* 章の色（この章の帯・小見出し・表の見出し・手順の番号に使う）。章の class（ch-1 …）で切り替える */
+  --ch: var(--primary);
+  --ch-soft: #eafaf7;
+  --ch-th: #d6f3ee;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
-  font-size: 16px;
-  line-height: 1.85;
+  font-size: 15.5px;
+  line-height: 1.8;
   color: var(--ink);
   background: var(--bg);
   font-feature-settings: "palt";
@@ -46,19 +59,18 @@ body {
 img { max-width: 100%; height: auto; display: block; }
 a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
 strong { font-weight: 700; }
-p { margin: 0.6em 0; }
-ul, ol { padding-left: 1.5em; margin: 0.5em 0; }
-li { margin: 0.25em 0; }
+p { margin: 0.55em 0; }
+ul, ol { padding-left: 1.5em; margin: 0.45em 0; }
+li { margin: 0.2em 0; }
 h2, h3, h4 { line-height: 1.45; scroll-margin-top: 16px; }
-h3 { font-size: 1.18rem; margin: 1.8em 0 0.5em; padding-left: 0.6em; border-left: 5px solid var(--primary); }
-h4 { font-size: 1.04rem; margin: 1.4em 0 0.4em; }
+h4 { font-size: 1.02rem; margin: 1.3em 0 0.35em; }
 code {
   font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
   font-size: 0.9em;
   background: var(--code-bg);
   border: 1px solid #dde3ec;
   border-radius: 4px;
-  padding: 0.05em 0.35em;
+  padding: 0.05em 0.4em;
   overflow-wrap: anywhere;
 }
 kbd {
@@ -71,88 +83,168 @@ kbd {
   background: #fff;
   white-space: nowrap;
 }
+.penguin { flex: none; object-fit: contain; }
 
-/* ---------- ページの枠 ---------- */
-.page { max-width: 880px; margin: 0 auto; padding: 24px 16px 64px; }
-.sheet { background: var(--paper); border-radius: 14px; box-shadow: 0 2px 18px rgba(30, 40, 70, 0.10); padding: 32px 36px 40px; }
+/* ---------- ページの枠（紙のように見せる） ---------- */
+.page { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+.sheet { background: var(--paper); border-radius: 8px; box-shadow: 0 3px 24px rgba(30, 40, 70, 0.16); padding: 34px 40px 44px; }
 @media (max-width: 640px) {
   body { font-size: 15px; }
   .page { padding: 12px 8px 48px; }
-  .sheet { padding: 20px 16px 28px; border-radius: 10px; }
+  .sheet { padding: 20px 16px 28px; border-radius: 6px; }
 }
 
-/* ---------- 先頭（ヒーロー） ---------- */
-.hero {
-  background: linear-gradient(120deg, #0f766e 0%, #3730a3 70%);
+/* ---------- 表紙（cover）：帯・ゴール・この回の地図 ---------- */
+.cover-band {
+  background: linear-gradient(120deg, #0f766e 0%, #db2777 52%, #1d4ed8 100%);
   color: #fff;
-  border-radius: 12px;
-  padding: 24px 26px;
+  border-radius: 10px;
+  padding: 22px 26px 20px 28px;
   display: flex;
-  gap: 18px;
   align-items: center;
+  gap: 18px;
 }
-.hero .hero-text { flex: 1; min-width: 0; }
-.hero .kicker { font-size: 0.82rem; letter-spacing: 0.08em; opacity: 0.92; }
-.hero h1 { font-size: 1.7rem; line-height: 1.4; margin: 6px 0 8px; }
-.hero .lead { font-size: 0.98rem; opacity: 0.97; margin: 0; }
-.hero img.penguin { width: 120px; flex: none; }
+.cover-band .cover-text { flex: 1; min-width: 0; }
+.cover-band .kicker { font-size: 0.8rem; letter-spacing: 0.08em; opacity: 0.92; margin-bottom: 6px; }
+.cover-band h1 { font-size: 1.7rem; line-height: 1.35; letter-spacing: 0.01em; }
+.cover-band .subtitle { margin-top: 8px; font-size: 0.98rem; line-height: 1.75; opacity: 0.97; }
+.cover-band code, .chapter-head code { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+.cover-band a, .chapter-head a { color: #fff; }
+.penguin-cover { width: 124px; height: 124px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .chip { display: inline-block; font-size: 0.8rem; line-height: 1.5; padding: 2px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.4); color: #fff; white-space: nowrap; }
 @media (max-width: 640px) {
-  .hero { padding: 18px 16px; flex-direction: column-reverse; align-items: flex-start; }
-  .hero h1 { font-size: 1.32rem; }
-  .hero img.penguin { width: 84px; }
+  .cover-band { padding: 18px 16px; flex-direction: column-reverse; align-items: flex-start; }
+  .cover-band h1 { font-size: 1.32rem; }
+  .penguin-cover { width: 84px; height: 84px; }
 }
 
-/* ---------- ゴール・目次 ---------- */
-.goal { margin: 22px 0 0; border: 2px solid var(--primary); border-radius: var(--radius); padding: 14px 18px; background: var(--point-bg); }
-.goal-title { font-weight: 700; color: var(--primary); }
-.toc { margin: 18px 0 0; border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 18px; background: #fafbfc; }
+/* コースの中の位置（表紙の下の帯）。<ol class="course-band"> の li に is-here を付けた段が、この回の位置 */
+.course-band { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; counter-reset: none; }
+.course-band li { margin: 0; font-size: 0.78rem; line-height: 1.4; text-align: center; padding: 6px 4px; border-radius: 6px; background: #eef2f6; color: var(--muted); border: 1px solid transparent; }
+.course-band li b { display: block; font-size: 0.86rem; color: var(--ink-soft); }
+.course-band li.is-here { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); font-weight: 700; }
+.course-band li.is-here b { color: var(--primary); }
+@media (max-width: 640px) {
+  .course-band { grid-template-columns: 1fr 1fr; }
+  .course-band li:last-child { grid-column: 1 / -1; }
+}
+
+/* このページの使い方：この回でやること／できたかの確認 */
+.howto { margin: 16px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.howto > div { border: 1.5px solid var(--line); border-radius: var(--radius); padding: 12px 16px; background: #fff; min-width: 0; }
+.howto .howto-title { display: block; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+@media (max-width: 640px) { .howto { grid-template-columns: 1fr; } }
+
+/* 🎯 この回のゴール（入門ゼミの goalbox と同じ見た目） */
+.goal, .goalbox { margin: 16px 0 0; border: 1.5px solid var(--primary); border-radius: 10px; padding: 12px 18px 13px; background: var(--point-bg); }
+.goal-title, .goalbox-title { display: block; font-weight: 700; color: var(--primary); font-size: 1.04rem; margin-bottom: 4px; }
+.goal ol, .goalbox ol { margin: 0; padding-left: 1.6em; }
+.goal li, .goalbox li { margin: 0.3em 0; }
+
+/* 目次 */
+.toc { margin: 16px 0 0; border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 18px; background: #fafbfc; }
 .toc-title { font-weight: 700; font-size: 0.95rem; color: var(--ink-soft); }
 .toc ol { margin: 4px 0 0; }
 .toc a { text-decoration: none; }
 .toc a:hover { text-decoration: underline; }
 
-/* ---------- 大きな節 ---------- */
-section.part { margin-top: 44px; }
-.part-head { display: flex; align-items: center; gap: 12px; padding-bottom: 8px; border-bottom: 3px solid var(--primary); margin-bottom: 14px; }
-.part-head h2 { font-size: 1.42rem; flex: 1; min-width: 0; }
-.part-head img.penguin { width: 56px; flex: none; }
-.part-head .tag { font-size: 0.8rem; font-weight: 700; color: #fff; background: var(--primary); border-radius: 6px; padding: 2px 8px; white-space: nowrap; }
+/* この回の地図（表紙の最後。入門ゼミの「全体地図」の位置） */
+.cover-map { margin-top: 18px; }
+.cover-map > h3 { margin-top: 0; }
 
-/* EP の節：頭に EP 番号と動画へのリンク */
-section.ep { margin-top: 48px; scroll-margin-top: 16px; }
-.ep-head { border-radius: var(--radius); background: var(--primary-soft); border-left: 6px solid var(--primary); padding: 12px 16px; }
-.ep-head .ep-no { display: inline-block; font-weight: 700; font-size: 0.82rem; color: #fff; background: var(--primary); border-radius: 6px; padding: 1px 8px; margin-right: 6px; }
-.ep-head h2 { font-size: 1.32rem; margin-top: 4px; }
-.ep-head .ep-meta { font-size: 0.86rem; color: var(--ink-soft); margin-top: 4px; }
+/* ---------- 章（chapter）：色帯の見出し ---------- */
+section.chapter { margin-top: 44px; scroll-margin-top: 16px; }
+.chapter-head {
+  border-radius: 10px;
+  color: #fff;
+  padding: 12px 18px 12px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(110deg, var(--ch), var(--ch));
+}
+.chapter-head .ch-text { flex: 1; min-width: 0; }
+.chapter-head .ep { font-size: 0.8rem; letter-spacing: 0.08em; opacity: 0.92; }
+.chapter-head h2 { font-size: 1.42rem; line-height: 1.4; margin-top: 2px; }
+.chapter-head .lead { font-size: 0.9rem; margin-top: 4px; opacity: 0.95; }
+.chapter-head .lead a { text-decoration-color: rgba(255, 255, 255, 0.7); }
+.penguin-ch { width: 64px; height: 64px; }
+@media (max-width: 640px) {
+  .chapter-head { padding: 12px 14px; gap: 10px; }
+  .chapter-head h2 { font-size: 1.22rem; }
+  .penguin-ch { width: 48px; height: 48px; }
+}
+
+/* 章の色。章の class（ch-1 … ch-8・ch-intro・ch-divider・ch-wrap）で、帯・小見出し・表の見出し・番号の色がそろう */
+.ch-intro   { --ch: #475569; --ch-soft: #f1f5f9; --ch-th: #e2e8f0; }
+.ch-divider { --ch: #334155; --ch-soft: #f1f5f9; --ch-th: #e2e8f0; }
+.ch-wrap    { --ch: #059669; --ch-soft: #ecfdf5; --ch-th: #e7fbf1; }
+.ch-1 { --ch: #0d9488; --ch-soft: #eafaf7; --ch-th: #d6f3ee; }
+.ch-2 { --ch: #db2777; --ch-soft: #fdf2f8; --ch-th: #fbdcec; }
+.ch-3 { --ch: #ea580c; --ch-soft: #fff5eb; --ch-th: #ffe6d0; }
+.ch-4 { --ch: #1d4ed8; --ch-soft: #eff4fe; --ch-th: #dde8fd; }
+.ch-5 { --ch: #6d28d9; --ch-soft: #f5f0ff; --ch-th: #e9ddfd; }
+.ch-6 { --ch: #b45309; --ch-soft: #fff8e6; --ch-th: #fdebc8; }
+.ch-7 { --ch: #0369a1; --ch-soft: #eaf6fd; --ch-th: #d2ecfb; }
+.ch-8 { --ch: #be123c; --ch-soft: #fff1f3; --ch-th: #fdd8df; }
+.c-intro   { background: linear-gradient(110deg, #334155, #475569); }
+.c-divider { background: linear-gradient(110deg, #1f2937, #4b5563); }
+.c-wrap    { background: linear-gradient(110deg, #065f46, #059669); }
+.c-1 { background: linear-gradient(110deg, #0f766e, #14b8a6); }
+.c-2 { background: linear-gradient(110deg, #be185d, #ec4899); }
+.c-3 { background: linear-gradient(110deg, #c2410c, #f97316); }
+.c-4 { background: linear-gradient(110deg, #1e3a8a, #3b82f6); }
+.c-5 { background: linear-gradient(110deg, #5b21b6, #8b5cf6); }
+.c-6 { background: linear-gradient(110deg, #92400e, #d97706); }
+.c-7 { background: linear-gradient(110deg, #075985, #0ea5e9); }
+.c-8 { background: linear-gradient(110deg, #9f1239, #f43f5e); }
+
+/* 小見出し（章番号つき「1-1.」）。章の色の縦線と薄い帯 */
+h3 {
+  font-size: 1.16rem;
+  margin: 1.6em 0 0.5em;
+  padding: 4px 12px 4px 14px;
+  border-left: 5px solid var(--ch);
+  background: var(--ch-soft);
+  border-radius: 0 6px 6px 0;
+  line-height: 1.5;
+}
+.chapter-head + h3, .chapter-head + * > h3:first-child { margin-top: 0.4em; }
+
+/* EP の番号札・差分の大きさの札（帯の中と予習の表で使う） */
+.ep-no { display: inline-block; font-weight: 700; font-size: 0.78rem; color: #fff; background: var(--ch); border-radius: 6px; padding: 0 8px; margin-right: 6px; vertical-align: 1px; }
+.chapter-head .ep-no { background: rgba(255, 255, 255, 0.22); border: 1px solid rgba(255, 255, 255, 0.5); }
 .level { display: inline-block; font-size: 0.76rem; font-weight: 700; border-radius: 999px; padding: 0 9px; margin-left: 4px; vertical-align: 2px; white-space: nowrap; }
 .level-large { background: #fee2e2; color: #991b1b; }
 .level-medium { background: #ffedd5; color: #9a3412; }
 .level-small { background: #fef9c3; color: #854d0e; }
 .level-none { background: #dcfce7; color: #166534; }
 
-/* ---------- 囲み（なぜ・ポイント・注意・用語・動画との違い・OS の違い・つまずき） ---------- */
-.box { margin: 16px 0; border-radius: var(--radius); padding: 12px 16px; border: 1px solid var(--line); border-left-width: 6px; }
-.box > .box-title, .box .box-body > .box-title { display: block; font-weight: 700; margin-bottom: 4px; }
+/* ---------- 囲み（なぜ・ここ大事・注意・用語・動画との違い・OS の違い・つまずき）
+   入門ゼミの callout と同じ見た目：薄い塗り＋1px の枠。種類で色だけ変える ---------- */
+.box { margin: 14px 0; border-radius: 8px; padding: 10px 14px 11px; border: 1px solid var(--line); background: #f8fafc; }
+.box > .box-title, .box .box-body > .box-title { display: block; font-weight: 700; margin-bottom: 2px; }
 .box > :last-child { margin-bottom: 0; }
-.box-why { border-color: var(--why); background: var(--why-bg); }
+.box-why { border-color: var(--why-line); background: var(--why-bg); }
 .box-why > .box-title, .box-why .box-body > .box-title { color: var(--why); }
-.box-point { border-color: var(--point); background: var(--point-bg); }
+.box-point { border-color: var(--point-line); background: var(--point-bg); }
 .box-point > .box-title, .box-point .box-body > .box-title { color: var(--point); }
-.box-warn { border-color: var(--warn); background: var(--warn-bg); }
+.box-warn { border-color: var(--warn-line); background: var(--warn-bg); }
 .box-warn > .box-title, .box-warn .box-body > .box-title { color: var(--warn); }
-.box-term { border-color: var(--term); background: var(--term-bg); }
+.box-term { border-color: var(--term-line); background: var(--term-bg); }
 .box-term > .box-title, .box-term .box-body > .box-title { color: var(--term); }
-.box-trouble { border-color: var(--trouble); background: var(--trouble-bg); }
+.box-trouble { border-color: var(--trouble-line); background: var(--trouble-bg); }
 .box-trouble > .box-title, .box-trouble .box-body > .box-title { color: var(--trouble); }
-.box-diff { border-color: var(--diff); background: var(--diff-bg); }
+.box-diff { border-color: var(--diff-line); background: var(--diff-bg); }
 .box-diff > .box-title, .box-diff .box-body > .box-title { color: var(--diff); }
-.box-os { border-color: var(--os); background: var(--os-bg); }
+.box-os { border-color: var(--os-line); background: var(--os-bg); }
 .box-os > .box-title, .box-os .box-body > .box-title { color: var(--os); }
+/* ペンギン先生つきの囲み（入門ゼミの whyrow・keyrow と同じく、文の右にペンギン） */
 .box-with-penguin { display: flex; gap: 12px; align-items: flex-start; }
-.box-with-penguin > img.penguin { width: 52px; flex: none; }
-.box-with-penguin > .box-body { flex: 1; min-width: 0; }
+.box-with-penguin > img.penguin { width: 60px; height: 60px; flex: none; order: 2; }
+.box-with-penguin > .box-body { flex: 1; min-width: 0; order: 1; }
 
 /* 「なぜ：」は行の頭から（直前に <br> を入れる） */
 .why { font-weight: 700; color: var(--why); }
@@ -163,7 +255,7 @@ section.ep { margin-top: 48px; scroll-margin-top: 16px; }
 .diff-grid .was::before { content: "動画では"; display: block; font-size: 0.78rem; font-weight: 700; color: var(--muted); }
 .diff-grid .now::before { content: "今は"; display: block; font-size: 0.78rem; font-weight: 700; color: var(--diff); }
 .diff-grid .now { border-color: var(--diff); }
-.diff-date { font-size: 0.8rem; color: var(--muted); }
+.diff-date { font-size: 0.8rem; color: var(--muted); font-weight: 400; }
 
 /* Mac／Windows の2列 */
 .os-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 8px 0; }
@@ -173,17 +265,23 @@ section.ep { margin-top: 48px; scroll-margin-top: 16px; }
   .diff-grid, .os-grid { grid-template-columns: 1fr; }
 }
 
-/* ---------- 手順 ---------- */
-ol.steps { list-style: none; padding-left: 0; counter-reset: step; margin: 12px 0; }
-ol.steps > li { counter-increment: step; position: relative; padding: 10px 12px 10px 48px; margin: 8px 0; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
-ol.steps > li::before { content: counter(step); position: absolute; left: 12px; top: 10px; width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: #fff; font-weight: 700; font-size: 0.86rem; display: flex; align-items: center; justify-content: center; line-height: 1; }
+/* 差分の4段（動画では → 今は → 自分の操作 → できたサイン）の最後の2段 */
+.diff-do, .diff-ok { margin: 6px 0 0; font-size: 0.95rem; }
+.diff-do::before { content: "自分の操作"; display: inline-block; font-size: 0.74rem; font-weight: 700; color: #fff; background: var(--diff); border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px; }
+.diff-ok::before { content: "できたサイン"; display: inline-block; font-size: 0.74rem; font-weight: 700; color: #fff; background: #15803d; border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px; }
+
+/* ---------- 手順（入門ゼミの stack と同じ見た目：1つの枠に行を積み、角の四角い番号） ---------- */
+ol.steps { list-style: none; padding-left: 0; counter-reset: step; margin: 12px 0; border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+ol.steps > li { counter-increment: step; position: relative; padding: 9px 14px 10px 46px; margin: 0; }
+ol.steps > li + li { border-top: 1px solid var(--line); }
+ol.steps > li::before { content: counter(step); position: absolute; left: 13px; top: 11px; width: 22px; height: 22px; border-radius: 6px; background: var(--ch); color: #fff; font-weight: 700; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; line-height: 1; }
 ol.steps > li > .box, ol.steps > li > figure { margin-left: 0; }
+ol.steps > li > p:last-child { margin-bottom: 0; }
 
 /* ---------- 予習の進め方（EP ごとのチェック表） ---------- */
 .prep { display: grid; gap: 10px; margin: 12px 0; }
 .prep-item { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; background: #fff; }
 .prep-item .prep-ep { font-weight: 700; }
-.prep-item .prep-ep .ep-no { display: inline-block; font-size: 0.78rem; color: #fff; background: var(--primary); border-radius: 6px; padding: 0 7px; margin-right: 6px; vertical-align: 1px; }
 .prep-item dl { display: grid; grid-template-columns: 7.5em 1fr; gap: 2px 10px; margin-top: 6px; font-size: 0.95rem; }
 .prep-item dt { color: var(--ink-soft); font-weight: 700; }
 .prep-item dd { margin: 0; min-width: 0; }
@@ -192,20 +290,30 @@ ol.steps > li > .box, ol.steps > li > figure { margin-left: 0; }
   .prep-item dt { margin-top: 4px; }
 }
 
-/* ---------- コマンド・プロンプト ---------- */
-.code-label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--ink-soft); margin: 12px 0 2px; }
+/* 必須・任意・参考 */
+.need { display: inline-block; font-size: 0.74rem; font-weight: 700; border-radius: 4px; padding: 0 6px; margin-left: 4px; vertical-align: 2px; white-space: nowrap; }
+.need-must { background: var(--primary); color: #fff; }
+.need-opt { background: #e0e7ff; color: #3730a3; }
+.need-ref { background: #f1f5f9; color: var(--ink-soft); border: 1px solid var(--line); }
+
+/* ---------- コマンド・プロンプト（入門ゼミの prompt と同じ：ラベルの帯つきの暗い箱） ---------- */
+.code-label { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; margin: 12px 0 0; padding: 4px 12px; border-radius: 8px 8px 0 0; background: #2a3247; color: #aeb9d4; }
+.code-label + pre.cmd, .code-label + pre.prompt { margin-top: 0; border-radius: 0 0 8px 8px; }
 pre.cmd, pre.prompt {
   font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
   font-size: 0.88rem;
   line-height: 1.6;
   border-radius: 8px;
   padding: 10px 14px;
-  margin: 4px 0 12px;
+  margin: 10px 0 12px;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  color: #e8ecf5;
+  background: #1b2130;
 }
-pre.cmd { background: var(--cmd-bg); color: #e5e7eb; }
-pre.prompt { background: #f7f7fb; border: 1px dashed #a5b4fc; color: var(--ink); font-family: inherit; font-size: 0.95rem; }
+pre.cmd { background: #241d14; color: #f5e9d8; }
+.code-label.cmd-label, .code-label:has(+ pre.cmd) { background: #3a2a1a; color: #f3c98b; }
+pre.prompt { font-family: inherit; font-size: 0.95rem; }
 
 /* ---------- 図・スクショ ---------- */
 figure { margin: 16px 0; }
@@ -221,18 +329,22 @@ figure.narrow img { max-width: min(520px, 100%); }
   .figs-2 { grid-template-columns: 1fr; }
 }
 
-/* ---------- 表 ---------- */
+/* ---------- 表（見出しの色は章の色） ---------- */
 .table-wrap { overflow-x: auto; margin: 12px 0; }
-table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
-th, td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; }
-th { background: #f1f5f9; }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; line-height: 1.6; margin: 8px 0 10px; }
+.table-wrap > table { margin: 0; }
+th, td { border: 1px solid var(--line); padding: 5px 9px; text-align: left; vertical-align: top; }
+th { background: var(--ch-th); font-size: 0.9rem; }
+td.now { background: #ecfdf3; }
 
-/* ---------- 比べる（よい例・わるい例） ---------- */
+/* ---------- 比べる（伝わりにくい・伝わる） ---------- */
 .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
-.ba > div { border-radius: 8px; padding: 10px 14px; border: 1px solid var(--line); min-width: 0; }
-.ba .ba-no { background: #fef2f2; border-color: #fecaca; }
-.ba .ba-yes { background: #f0fdf4; border-color: #bbf7d0; }
-.ba .ba-h { display: block; font-weight: 700; font-size: 0.86rem; margin-bottom: 4px; }
+.ba > div { border-radius: 9px; padding: 9px 13px 10px; border: 1px solid var(--line); min-width: 0; font-size: 0.95rem; }
+.ba .ba-no { background: #fff5f5; border-color: #fca5a5; }
+.ba .ba-yes { background: #ecfdf5; border-color: #86efac; }
+.ba .ba-h { display: block; font-weight: 700; font-size: 0.92rem; margin-bottom: 3px; }
+.ba .ba-no .ba-h { color: #b91c1c; }
+.ba .ba-yes .ba-h { color: #047857; }
 @media (max-width: 640px) { .ba { grid-template-columns: 1fr; } }
 
 /* ---------- 過去の LIVE で出た質問 ---------- */
@@ -255,37 +367,8 @@ a.card .card-desc { display: block; font-size: 0.86rem; color: var(--ink-soft); 
 
 /* ---------- 小さな文字・末尾 ---------- */
 .smallnote { font-size: 0.86rem; color: var(--ink-soft); }
-.footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.86rem; color: var(--ink-soft); }
+.footer { margin-top: 40px; padding-top: 10px; border-top: 1.5px solid var(--line); font-size: 0.86rem; color: var(--ink-soft); line-height: 1.7; }
 .nowrap { white-space: nowrap; }
-
-/* ---------- コースの中の位置（ページ上部の帯） ----------
-   <ol class="course-band"> の li に is-here を付けた段が、この回の位置 */
-.course-band { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; counter-reset: none; }
-.course-band li { margin: 0; font-size: 0.78rem; line-height: 1.4; text-align: center; padding: 6px 4px; border-radius: 6px; background: #eef2f6; color: var(--muted); border: 1px solid transparent; }
-.course-band li b { display: block; font-size: 0.86rem; color: var(--ink-soft); }
-.course-band li.is-here { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); font-weight: 700; }
-.course-band li.is-here b { color: var(--primary); }
-@media (max-width: 640px) {
-  .course-band { grid-template-columns: 1fr 1fr; }
-  .course-band li:last-child { grid-column: 1 / -1; }
-}
-
-/* ---------- このページの使い方（冒頭） ---------- */
-.howto { margin: 18px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.howto > div { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; background: #fff; min-width: 0; }
-.howto .howto-title { display: block; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
-@media (max-width: 640px) { .howto { grid-template-columns: 1fr; } }
-
-/* 必須・任意・参考 */
-.need { display: inline-block; font-size: 0.74rem; font-weight: 700; border-radius: 4px; padding: 0 6px; margin-left: 4px; vertical-align: 2px; white-space: nowrap; }
-.need-must { background: var(--primary); color: #fff; }
-.need-opt { background: #e0e7ff; color: #3730a3; }
-.need-ref { background: #f1f5f9; color: var(--ink-soft); border: 1px solid var(--line); }
-
-/* 差分の4段（動画では → 今は → 自分の操作 → できたサイン）の最後の2段 */
-.diff-do, .diff-ok { margin: 6px 0 0; font-size: 0.95rem; }
-.diff-do::before { content: "自分の操作"; display: inline-block; font-size: 0.74rem; font-weight: 700; color: #fff; background: var(--diff); border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px; }
-.diff-ok::before { content: "できたサイン"; display: inline-block; font-size: 0.74rem; font-weight: 700; color: #fff; background: #15803d; border-radius: 4px; padding: 0 6px; margin-right: 6px; vertical-align: 1px; }
 
 /* 古い URL の案内ページ（legacy/） */
 .legacy-h { font-size: 1.3rem; margin-bottom: 8px; }
@@ -301,6 +384,12 @@ a.card .card-desc { display: block; font-size: 0.86rem; color: var(--ink-soft); 
   .course-band.band-3 { grid-template-columns: 1fr 1fr; }
   .course-band.band-3 li:last-child { grid-column: 1 / -1; }
 }
+
+/* 章の色の続き（Home は第10章まであるので2色足す。マスターゼミの ch-1〜ch-8 と同じ使い方） */
+.ch-9  { --ch: #4d7c0f; --ch-soft: #f3f9e8; --ch-th: #e3f1cf; }
+.ch-10 { --ch: #4338ca; --ch-soft: #eef2ff; --ch-th: #dfe4fb; }
+.c-9  { background: linear-gradient(110deg, #3f6212, #65a30d); }
+.c-10 { background: linear-gradient(110deg, #3730a3, #6366f1); }
 
 /* 補足（色の付かない囲み。注意でも大事でもない添え書き） */
 .box-note { border-color: #94a3b8; background: #f8fafc; }

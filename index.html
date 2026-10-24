@@ -12,15 +12,16 @@
 <div class="page">
 <main class="sheet">
 
-<header class="hero">
-  <div class="hero-text">
+<section class="cover">
+<div class="cover-band">
+  <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第1回</div>
     <h1>オリエンテーション ― このゼミで何をして、どう参加し、何を出せば修了か</h1>
-    <p class="lead">AIを相棒に、自分専用ツールを作るゼミです。このページが第1回そのものです。ゼミの目的と進め方、全7回の流れ、修了要件、ご自身の期の開催日と入室先、困ったときの順番、第2回までに用意するものをまとめてあります。何を作るかを決めるのは第2回からです。</p>
+    <div class="subtitle">AIを相棒に、自分専用ツールを作るゼミです。このページが第1回そのものです。ゼミの目的と進め方、全7回の流れ、修了要件、ご自身の期の開催日と入室先、困ったときの順番、第2回までに用意するものをまとめてあります。何を作るかを決めるのは第2回からです。</div>
     <div class="chips"><span class="chip">全7回</span><span class="chip">オンライン（Google Meet）</span><span class="chip">自習＋LIVE講義</span><span class="chip">期ごとに開講</span></div>
   </div>
-  <img class="penguin" src="assets/penguins/penguin_teaching.png" alt="">
-</header>
+  <img class="penguin penguin-cover" src="assets/penguins/penguin_teaching.png" alt="">
+</div>
 
 <ol class="course-band band-3" aria-label="ゼミの中の位置">
   <li class="is-here"><b>決める</b>第1〜2回　オリエンテーション・要件定義</li>
@@ -75,8 +76,8 @@
 </nav>
 
 <!-- ============================================================ 全7回の流れ -->
-<section class="part" id="lessons">
-  <div class="part-head"><h2>全7回の流れ</h2></div>
+<div class="cover-map" id="lessons">
+  <h3>全7回の流れ</h3>
   <p>全7回は「決める → 作る → 仕上げる」の3つの段に分かれます。第1〜2回で何を作るかを決め、第3〜6回で見た目 → 動き → 裏側 → テストの順に1段ずつ作り、第7回で落ちないアプリに仕上げます。各回のページは、その回の LIVE講義に合わせて順次公開します。</p>
   <figure class="fig">
     <a class="zoom" href="assets/figs/l01_course.webp"><img src="assets/figs/l01_course.webp" alt="左から右へ3つの帯。決める（オリエンテーション → 要件定義）、作る（モックを作る → 画面側を作る → API連携 → テスト）、仕上げる（デバッグと卒業制作）。7つの回が矢印で順につながっている" width="1536" height="464"></a>
@@ -91,14 +92,20 @@
     <a class="card" href="lessons/lesson06/"><span class="card-no">第6回 ｜ 作る</span><span class="card-title">テスト ― 壊れていないことを確かめる</span><span class="card-desc">仕様書をもとにテストコードを Claude Code に書かせて流し、落ちたら実装側を直します。UI テストと敵対的テストも任せ、テストを流す節目を自分で決めます。作るもの：テストコード一式と結果＋UI・敵対的テストの記録＋README と CLAUDE.md</span></a>
     <a class="card" href="lessons/lesson07/"><span class="card-no">第7回 ｜ 仕上げる</span><span class="card-title">デバッグと卒業制作 ― 落ちないアプリに仕上げる</span><span class="card-desc">不具合の伝え方・原因の切り分け方を身につけ、Claude Code に再現させて直します。卒業制作で扱う範囲と完成条件を決め、卒業後に自分で続ける手順も持ち帰ります。出すもの：卒業制作（自分専用ツール＋docs/graduation.md）</span></a>
   </div>
+</div>
 </section>
 
 <!-- ============================================================ この回について -->
-<section class="part" id="about">
-  <div class="part-head"><h2>この回は技術を教える回ではありません</h2></div>
+<section class="chapter ch-1" id="about">
+  <div class="chapter-head c-1">
+    <div class="ch-text">
+      <div class="ep">第1章</div>
+      <h2>この回は技術を教える回ではありません</h2>
+    </div>
+  </div>
   <p>このページが第1回そのものです。このゼミが何で、全7回で各回に何をやり、どう参加し、何を出せば修了かを通してご説明する回です。何を作るかを決めるのは第2回からですので、この回は<strong>開催日程とゼミの大枠</strong>をそろえるところまでにします。</p>
 
-  <h3>第2回までに用意するものと、費用が出る時期</h3>
+  <h3>1-1. 第2回までに用意するものと、費用が出る時期</h3>
   <div class="box box-warn"><span class="box-title">⚠️ 費用が発生する時期と、各回までに用意しておくもの</span>
     <ul>
       <li><strong>第2回まで：Claude デスクトップアプリ ＋ Claude の有料プラン。</strong>第2回は Claude デスクトップアプリでアプリのフォルダを開くところから始めます。Claude Code は無料プランでは使えないため、ここで費用が発生します。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください</li>
@@ -117,8 +124,14 @@
 </section>
 
 <!-- ============================================================ 押さえたいこと -->
-<section class="part" id="contents">
-  <div class="part-head"><h2>この回で押さえたいこと</h2><img class="penguin" src="assets/penguins/penguin_koko_daiji_board.png" alt=""></div>
+<section class="chapter ch-2" id="contents">
+  <div class="chapter-head c-2">
+    <div class="ch-text">
+      <div class="ep">第2章</div>
+      <h2>この回で押さえたいこと</h2>
+    </div>
+    <img class="penguin penguin-ch" src="assets/penguins/penguin_koko_daiji_board.png" alt="">
+  </div>
   <p>アーカイブを見返す際の指針にどうぞ。</p>
   <ol class="steps">
     <li><p class="step-title">人が決めること と AI が担うこと は分かれている</p>
@@ -132,8 +145,13 @@
 </section>
 
 <!-- ============================================================ 講師紹介 -->
-<section class="part" id="instructor">
-  <div class="part-head"><h2>講師紹介</h2></div>
+<section class="chapter ch-3" id="instructor">
+  <div class="chapter-head c-3">
+    <div class="ch-text">
+      <div class="ep">第3章</div>
+      <h2>講師紹介</h2>
+    </div>
+  </div>
   <p>AIアプリ開発入門ゼミの講師を担当します、宮﨑です。</p>
   <div class="instructor">
     <img class="face" src="assets/images/face_icon.png" alt="講師 宮﨑 竜治" width="193" height="193">
@@ -180,8 +198,13 @@
 </section>
 
 <!-- ============================================================ 目的 -->
-<section class="part" id="purpose">
-  <div class="part-head"><h2>このゼミの目的</h2></div>
+<section class="chapter ch-4" id="purpose">
+  <div class="chapter-head c-4">
+    <div class="ch-text">
+      <div class="ep">第4章</div>
+      <h2>このゼミの目的</h2>
+    </div>
+  </div>
   <p>みなさんご自身が「作りたい」と思っているツールやシステムを、自分の手で形にすること。それがこのゼミの目的です。</p>
   <div class="cards">
     <div class="card"><span class="card-title">作るものは、ご自身で決めます</span><span class="card-desc">教材のサンプルを完成させる場ではありません。ご自身の困りごとを題材にしていただきます（第2回で1つに決めます）。</span></div>
@@ -192,8 +215,13 @@
 </section>
 
 <!-- ============================================================ 学習の場 -->
-<section class="part" id="character">
-  <div class="part-head"><h2>このゼミは「学習の場」です</h2></div>
+<section class="chapter ch-5" id="character">
+  <div class="chapter-head c-5">
+    <div class="ch-text">
+      <div class="ep">第5章</div>
+      <h2>このゼミは「学習の場」です</h2>
+    </div>
+  </div>
   <p>ワークショップ感覚で参加される方が多いので、最初に位置づけをお伝えしておきます。本ゼミはハンズオン形式のワークショップではなく、自習を前提とした学習の場です。</p>
   <div class="ba">
     <div class="ba-no"><span class="ba-h">✗ こうではありません（ハンズオン形式のワークショップ）</span>
@@ -213,8 +241,13 @@
 </section>
 
 <!-- ============================================================ 学習サイクル -->
-<section class="part" id="cycle">
-  <div class="part-head"><h2>ゼミの学習サイクル</h2></div>
+<section class="chapter ch-6" id="cycle">
+  <div class="chapter-head c-6">
+    <div class="ch-text">
+      <div class="ep">第6章</div>
+      <h2>ゼミの学習サイクル</h2>
+    </div>
+  </div>
   <p>LIVE講義のたびに「事前準備（各自で）」と「LIVE講義」の流れをくり返します。</p>
   <ol class="steps">
     <li><p class="step-title">事前準備：Lesson の自習</p><p>講師が指定する DMM 生成AI CAMP の Lesson を、LIVE講義の前までに視聴・実践してきていただきます。</p></li>
@@ -225,8 +258,14 @@
 </section>
 
 <!-- ============================================================ 修了要件 -->
-<section class="part" id="rules">
-  <div class="part-head"><h2>ゼミのルール・修了要件</h2><img class="penguin" src="assets/penguins/penguin_holding_diploma.png" alt=""></div>
+<section class="chapter ch-7" id="rules">
+  <div class="chapter-head c-7">
+    <div class="ch-text">
+      <div class="ep">第7章</div>
+      <h2>ゼミのルール・修了要件</h2>
+    </div>
+    <img class="penguin penguin-ch" src="assets/penguins/penguin_holding_diploma.png" alt="">
+  </div>
   <p>以下を満たさない場合は、修了証の発行ができません。</p>
   <div class="table-wrap"><table>
     <thead><tr><th></th><th>要件</th><th>補足</th></tr></thead>
@@ -242,8 +281,13 @@
 </section>
 
 <!-- ============================================================ Boarding Pass -->
-<section class="part" id="boardingpass">
-  <div class="part-head"><h2>演習サイト Boarding Pass</h2></div>
+<section class="chapter ch-8" id="boardingpass">
+  <div class="chapter-head c-8">
+    <div class="ch-text">
+      <div class="ep">第8章</div>
+      <h2>演習サイト Boarding Pass</h2>
+    </div>
+  </div>
   <p>第2回から、その回で扱った内容の理解度チェックを Boarding Pass で行います。選択式の問題を解くと、その場で採点され、正解と解説が出ます。</p>
   <div class="cards">
     <div class="card"><span class="card-title">入口</span><span class="card-desc"><a href="https://quiz-gpassport.vercel.app/" target="_blank" rel="noopener">Boarding Pass を開く</a>（https://quiz-gpassport.vercel.app/）。ログインしたら、メニューの「演習」→ ゼミ一覧から <strong>生成AIアプリ開発ゼミ</strong> を選んでください（画面の文言は変わることがあります）。</span></div>
@@ -254,8 +298,13 @@
 </section>
 
 <!-- ============================================================ 開催スケジュール -->
-<section class="part" id="schedule">
-  <div class="part-head"><h2>開催スケジュールと参加方法</h2></div>
+<section class="chapter ch-9" id="schedule">
+  <div class="chapter-head c-9">
+    <div class="ch-text">
+      <div class="ep">第9章</div>
+      <h2>開催スケジュールと参加方法</h2>
+    </div>
+  </div>
   <p>全7回。開催日・時間・入室先は期ごとに違います。ご自身の期を開いてご確認ください。LIVE講義は Google Meet で行います。</p>
 
   <!-- 期ごとの枠。期が増えたら、5期の <details> をコピーして下に足す（手順は README）。最初に開いておく期にだけ open を付ける -->
@@ -299,8 +348,14 @@
 </section>
 
 <!-- ============================================================ 困ったとき -->
-<section class="part" id="stuck">
-  <div class="part-head"><h2>分からないことが出てきたらこの順番で</h2><img class="penguin" src="assets/penguins/penguin_warning_sign.png" alt=""></div>
+<section class="chapter ch-10" id="stuck">
+  <div class="chapter-head c-10">
+    <div class="ch-text">
+      <div class="ep">第10章</div>
+      <h2>分からないことが出てきたらこの順番で</h2>
+    </div>
+    <img class="penguin penguin-ch" src="assets/penguins/penguin_warning_sign.png" alt="">
+  </div>
   <p>学習中・課題実施中に詰まったら、以下の順で進めてください。1人で抱え込まないことが一番大事です。作り始めるとエラーが必ず出ますが、エラーは失敗ではなく作業の一部です。</p>
   <ol class="steps">
     <li><p class="step-title">まずはスクショして AI に聞く</p>
@@ -316,8 +371,14 @@
 </section>
 
 <!-- ============================================================ ガイドと演習 -->
-<section class="part" id="guides">
-  <div class="part-head"><h2>この回で使うガイドと演習</h2><img class="penguin" src="assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="guides">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で使うガイドと演習</h2>
+    </div>
+    <img class="penguin penguin-ch" src="assets/penguins/penguin_holding_book.png" alt="">
+  </div>
   <div class="cards">
     <a class="card" href="lessons/lesson02/"><span class="card-title">第2回 要件定義のページ</span><span class="card-desc">第2回までに用意するものがそろったら、先に目を通しておくと LIVE講義で迷いません</span></a>
     <a class="card" href="https://quiz-gpassport.vercel.app/" target="_blank" rel="noopener"><span class="card-title">Boarding Pass（演習サイト）</span><span class="card-desc">第2回から理解度チェックを解きます。入り方は上の「演習サイト Boarding Pass」</span></a>

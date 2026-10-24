@@ -12,15 +12,16 @@
 <div class="page">
 <main class="sheet">
 
-<header class="hero">
-  <div class="hero-text">
+<section class="cover">
+<div class="cover-band">
+  <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第5回</div>
     <h1>API 連携で AI 機能を入れ、データの持ち方を決める</h1>
-    <p class="lead">自分のアプリから AI のサービスを API で呼び出して、AI 機能を1つ入れる回です。Claude・OpenAI・Gemini から1つ選んでキーを発行し、.env に置き、決まった文章を返すだけの経路を先に通してから AI に差し替えます。あわせて、データをどこに置くか（ブラウザ・PC のファイル・Turso・スプレッドシート）を、消える条件から自分で選びます。この回で初めて、データが自分の PC の外に出ます。</p>
+    <div class="subtitle">自分のアプリから AI のサービスを API で呼び出して、AI 機能を1つ入れる回です。Claude・OpenAI・Gemini から1つ選んでキーを発行し、.env に置き、決まった文章を返すだけの経路を先に通してから AI に差し替えます。あわせて、データをどこに置くか（ブラウザ・PC のファイル・Turso・スプレッドシート）を、消える条件から自分で選びます。この回で初めて、データが自分の PC の外に出ます。</div>
     <div class="chips"><span class="chip">Claude／OpenAI／Gemini から1つ</span><span class="chip">API キーと .env</span><span class="chip">経路を先に通す</span><span class="chip">データの置き場を選ぶ</span></div>
   </div>
-  <img class="penguin" src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
-</header>
+  <img class="penguin penguin-cover" src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
+</div>
 
 <ol class="course-band band-3" aria-label="ゼミの中の位置">
   <li><b>決める</b>第1〜2回　オリエンテーション・要件定義</li>
@@ -75,8 +76,8 @@
   </ol>
 </nav>
 
-<section class="part" id="map">
-  <div class="part-head"><h2>この回の地図</h2></div>
+<div class="cover-map" id="map">
+  <h3>この回の地図</h3>
   <p>この回は、サービスを選んでキーを発行し、経路を先に通してから AI に差し替えます。最後にデータの置き場を決めます。順番を守ると、キーの流出と課金の暴走を防げます。</p>
   <figure class="fig">
     <a class="zoom" href="../../assets/figs/l05_map.webp"><img src="../../assets/figs/l05_map.webp" alt="左から右へ6つの箱。サービスを選ぶ → キーの扱いを知る → キーを発行して.envに置く → 経路を先に通す → AIに差し替える → データの置き場を決める。4つ目と5つ目の上に「順番を守る」の札" width="1536" height="516"></a>
@@ -90,10 +91,16 @@
     <li><a href="#ai"><b>AI 機能を入れる</b></a>　サーバーから開く → 経路を先に通す → AI に差し替え → 上限を設定</li>
     <li><a href="#storage"><b>データの持ち方</b></a>　4つの置き場から選ぶ</li>
   </ol>
+</div>
 </section>
 
-<section class="ep" id="what">
-  <div class="ep-head"><span class="ep-no">01</span><h2>API 連携とは</h2></div>
+<section class="chapter ch-1" id="what">
+  <div class="chapter-head c-1">
+    <div class="ch-text">
+      <div class="ep">第1章</div>
+      <h2>API 連携とは</h2>
+    </div>
+  </div>
     <p>
       <strong>API</strong> とは、他のプログラムやサービスの機能を、決められた形式の要求を送って使う仕組みです。要求の送り先（URL）、送る内容の形、返ってくる内容の形があらかじめ決まっていて、その決まりに従って送れば、相手のプログラムを自分のアプリから動かせます。<strong>API 連携</strong>は、自分のアプリの中から外部サービスの API を呼び出して、その結果を自分の画面に使うことです。
     </p>
@@ -105,7 +112,7 @@
       </dl></div>
     <p>ふだん使っているアプリも、裏では API を呼んでいます。たとえば、天気アプリは気象情報のサービスの API から今日の予報を受け取って表示し、地図アプリは経路検索の API に出発地と目的地を送って経路を受け取っています。<strong>AI 機能も同じ形</strong>で、自分のアプリから AI のサービスの API に文章を送り、生成された文章を受け取って画面に出します。</p>
 
-    <h3>API 連携をするときの形（この回でいちばん大事なこと）</h3>
+    <h3>1-1. API 連携をするときの形（この回でいちばん大事なこと）</h3>
     <p>自分のアプリから AI のサービスを呼ぶときは、<strong>画面（ブラウザ）から直接呼ばず、自分のサーバーを経由します。</strong></p>
     <figure class="fig">
       <a class="zoom" href="../../assets/images/lesson04/diagram_api_route.svg"><picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04/diagram_api_route_sp.svg"><img src="../../assets/images/lesson04/diagram_api_route.svg" alt="API 連携の形。画面はまず自分のサーバーに要求を送り、サーバーが API キーを付けて AI のサービスを呼ぶ。生成された文章はサーバーを通って画面に表示される。画面から AI のサービスを直接呼ぶ形は取らない" loading="lazy"></picture></a>
@@ -116,15 +123,20 @@
         <dt>サーバー側（バックエンド）</dt><dd>利用者から見えない場所で動く部分。自分の PC で <code>node server.js</code> のように起動しているプログラムがこれに当たります。秘密の文字列を使う処理や、ファイルの読み書きはここで行います。</dd>
         <dt>開発者ツール</dt><dd>ブラウザに標準で付いている、画面の中身や通信の内容やエラーを調べる機能。Chrome では <kbd>F12</kbd>（Mac は <kbd>⌥⌘I</kbd>）で開きます。</dd>
       </dl></div>
-    <h3>なぜサーバーを経由するのか</h3>
+    <h3>1-2. なぜサーバーを経由するのか</h3>
     <ul>
       <li>AI のサービスを呼ぶには、03 で扱う <strong>API キー</strong>が要ります。画面側のコードに書くと、開発者ツールで誰でもそのキーを読めます（読まれると何が起きるかは 03 で説明します）</li>
       <li>サーバー側に置いたキーは、画面に返す内容やエラー表示に含めなければ、ブラウザからは見えません。<strong>キーを使う処理は、必ず見えない場所に置きます</strong></li>
       <li>自分のサーバーを間にはさんでおくと、あとで AI のサービスを別のものに変えるときも、画面側は一切直さずに済みます</li>
     </ul>
 </section>
-<section class="ep" id="choose">
-  <div class="ep-head"><span class="ep-no">02</span><h2>AI のサービスを選ぶ：Claude／OpenAI／Gemini</h2></div>
+<section class="chapter ch-2" id="choose">
+  <div class="chapter-head c-2">
+    <div class="ch-text">
+      <div class="ep">第2章</div>
+      <h2>AI のサービスを選ぶ：Claude／OpenAI／Gemini</h2>
+    </div>
+  </div>
     <p>
       AI の API を提供しているサービスのうち、このゼミで扱うのは次の3つです。<strong>特定の1社を推奨はしません。</strong>キーを発行して <code>.env</code> に置き、サーバー側から呼ぶ、という流れは3つとも共通です。支払いと上限の設定はサービスごとに違うので、選んだサービスの節を読みます。
     </p>
@@ -141,7 +153,7 @@
     <div class="box box-note">管理画面の名前・URL・ボタンの文言は変わることがあります。このページの画面と違うときは、「API キー」「Billing（請求）」「Limits（上限）」に相当するものを探してください。<br>
       <strong>料金と無料で使える範囲は短い期間で変わるので、契約の前に、必ず各サービスの公式ページでご確認ください。</strong>このページに載せる無料枠の数値は、記載した日に講師のプロジェクトで確かめた例です。自分に当てはまる回数は、Gemini なら AI Studio の「レート制限」で確かめます。</div>
 
-    <h3>選ぶときに見る4つの観点</h3>
+    <h3>2-1. 選ぶときに見る4つの観点</h3>
     <div class="explain">
       <div class="explain-item">
         <div class="explain-term"><strong>費用</strong></div>
@@ -176,8 +188,13 @@
     <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_pointing.png" alt=""><div class="box-body"><strong>選んだサービスは、この回の課題を出すときに一緒に書いてください。</strong>同じサービスの環境で見ないと、詰まったときに再現できず、講評ができません。迷ったら、ゼミで使っている Claude と同じ提供元の Claude API にすると、ログインするアカウントを1つにできます（ただし Claude の月額プランと API の支払いは別です）。</div></div>
   
 </section>
-<section class="ep" id="key">
-  <div class="ep-head"><span class="ep-no">03</span><h2>API キー：パスワードと同じ扱いをする</h2></div>
+<section class="chapter ch-3" id="key">
+  <div class="chapter-head c-3">
+    <div class="ch-text">
+      <div class="ep">第3章</div>
+      <h2>API キー：パスワードと同じ扱いをする</h2>
+    </div>
+  </div>
     <p>
       <strong>API キー</strong>は、そのサービスに「自分として」アクセスするための長い文字列です。これを付けて要求を送ると、サービスは「この人からの要求」と判断し、使った分をその人に請求します。
     </p>
@@ -196,7 +213,7 @@
     <p><span class="why">なぜスクリーンショットまで気にするのか：</span>管理画面でキーを作った直後の画面や、<code>.env</code> を開いた画面をそのまま撮ると、キーの全文が写ります。掲示板や提出物に貼った時点で、見た人全員がそのキーを使えます。</p>
     <p><strong>キーが写ってしまったときの対処：</strong>まだどこにも貼っていなければ、キーが写らない範囲で撮り直します。一度でも掲示板・提出フォーム・共有の場所に出したら、貼り直すのではなく、管理画面でそのキーを無効化して作り直します。<br><span class="why">なぜ出したら作り直すのか：</span>貼った画像を消しても、消すまでの間に見た人や、画像を保存した人の手元にはキーが残ります。無効化すれば、そのキーで送られた要求はすべて断られます。</p>
 
-    <h3>キーの置き方（この順で）</h3>
+    <h3>3-1. キーの置き方（この順で）</h3>
     <ol class="steps">
       <li><p class="step-title">下の指示の型を Claude Code に送り、<code>.gitignore</code> を先に用意してから、値が空の <code>.env</code> を作らせる</p><p><span class="why">なぜ先に .gitignore か：</span><code>.env</code> を先に作ると、<code>.gitignore</code> を確かめる前に共有の場所へ上がる事故が起きます。上げない設定を先に済ませてから、キーの置き場を作ります。</p></li>
       <li><p class="step-title">04 でキーを発行したら、<code>.env</code> の <code>=</code> の後ろに自分で貼る</p><p><code>ANTHROPIC_API_KEY=sk-ant-…</code> のように、<code>=</code> の前がプログラムから呼ぶときの名前、後ろが発行したキーです。<strong>引用符も空白も付けません。</strong>開き方は、この節の最後に書きます。</p></li>
@@ -228,8 +245,13 @@
     </ul>
   
 </section>
-<section class="ep" id="issue">
-  <div class="ep-head"><span class="ep-no">04</span><h2>各サービスでキーを発行する</h2></div>
+<section class="chapter ch-4" id="issue">
+  <div class="chapter-head c-4">
+    <div class="ch-text">
+      <div class="ep">第4章</div>
+      <h2>各サービスでキーを発行する</h2>
+    </div>
+  </div>
     <p>
       3つとも「ログイン → API キーの画面 → 作成 → 表示されたキーをその場で <code>.env</code> に貼る」の流れです。<strong>キーは作った直後にしか全文が表示されないサービスが多いです。</strong>画面を閉じる前に <code>.env</code> に貼り、貼れたことを確認してから閉じます。選んだサービスの節だけ読めば足ります。
     </p>
@@ -340,8 +362,13 @@
       </dl></div>
   
 </section>
-<section class="ep" id="ai">
-  <div class="ep-head"><span class="ep-no">05</span><h2>AI 機能を入れる：経路を先に通してから、中身を差し替える</h2></div>
+<section class="chapter ch-5" id="ai">
+  <div class="chapter-head c-5">
+    <div class="ch-text">
+      <div class="ep">第5章</div>
+      <h2>AI 機能を入れる：経路を先に通してから、中身を差し替える</h2>
+    </div>
+  </div>
     <p>
       ここでやるのは「自分のアプリのサーバー側から AI のサービスに文章を送り、返ってきた文章を画面に出す」ことです。<strong>次の順番を崩さないでください。</strong>最初に、いまの画面をサーバーから開けるようにして土台を作り（5-1）、そのうえで経路を通して AI に差し替えます（5-2）。画面の中だけで動く動き（ボタンを押すと一覧や結果の欄が変わる部分）は、もうできている前提で進めます（まだ無い場合は、5-1 の最後で1つ足します）。
     </p>
@@ -493,7 +520,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
         <dt>ステータスコード（再掲）</dt><dd>API が答えと一緒に返す3桁の番号。<code>401</code>＝キーが違う・読めていない、<code>404</code>＝見つからない、<code>429</code>＝回数や残高の上限、です。下のエラーの表の「症状」に出てきます。</dd>
       </dl></div>
 
-    <h3 id="ai-errors">接続でよく出るエラーと対処</h3>
+    <h3 id="ai-errors">5-3. 接続でよく出るエラーと対処</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="エラーの症状・原因・対処の表">
       <table>
         <thead><tr><th>症状</th><th>原因</th><th>対処</th></tr></thead>
@@ -513,25 +540,30 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       </table>
     </div>
 
-    <h3>入れる AI 機能は1つだけ</h3>
+    <h3>5-4. 入れる AI 機能は1つだけ</h3>
     <p>型ごとの例：要約（変換型）／記録の振り返り・傾向の指摘（記録型）／やり取りの続きを返す（相談型）。</p>
     <p><span class="why">なぜ1つだけなのか：</span>AI 機能は「動くかどうか」より「出力が期待どおりか」の調整に時間がかかります。2つ以上入れると、どちらも中途半端なまま残ります。1つが期待どおりに動いてから、次を足します。</p>
 
-    <h3>出力が毎回変わることへの対処</h3>
+    <h3>5-5. 出力が毎回変わることへの対処</h3>
     <ol>
       <li><strong>出力の形式を指定します。</strong>「3行以内」「見出しを付けない」「箇条書き3つ」のように、指示文に形を書きます。形式が毎回違うと、画面の決まった場所に入れられず表示が崩れます</li>
       <li><strong>形式が守られなかったときの表示を用意します。</strong>長すぎたら途中で切る、空なら「結果を作れませんでした」と出す、のように決めておきます</li>
       <li><strong>同じ入力でも毎回少し違う文章が返る</strong>ことを前提にします。「正解と一字一句同じか」で確認するのではなく、「形式が守られているか」「内容が入力に基づいているか」で確認します</li>
     </ol>
 
-    <h3>AI に送ってよい情報の実物確認</h3>
+    <h3>5-6. AI に送ってよい情報の実物確認</h3>
     <p>アプリを作る前に決めた「社外に出せない情報」を、実際に送る直前にもう一度確かめます。<br><span class="why">なぜ：</span>AI の API を呼ぶ処理を入れると、アプリが扱うデータが初めて PC の外へ出ます。作っているうちに、保存する項目が最初の想定より増えていることも多いためです。</p>
     <p>送る内容を Claude Code に一覧させて（「AI に送っている項目を全部挙げてください」）、目で確認します。</p>
     <div class="box box-warn"><strong>Gemini を無料枠で使う場合：</strong>送った内容は Google の製品の改善に使われ、人が読むこともあります（有料枠では改善に使われません）。条件は <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API の利用規約</a>の無料のサービス（Unpaid Services）の項で確かめます。<strong>仕事の実データや、人に見られて困る内容は、無料枠では送りません。</strong>開発中は架空のデータで試します。</div>
   
 </section>
-<section class="ep" id="storage">
-  <div class="ep-head"><span class="ep-no">06</span><h2>データの持ち方：4つの置き場と、消える条件</h2></div>
+<section class="chapter ch-6" id="storage">
+  <div class="chapter-head c-6">
+    <div class="ch-text">
+      <div class="ep">第6章</div>
+      <h2>データの持ち方：4つの置き場と、消える条件</h2>
+    </div>
+  </div>
     <p>
       ここまでのアプリは、データを画面の中に持っているだけで、再読み込みすると消えます。動きの一覧 <code>docs/actions.md</code> で「あとで」にした行のうち、データを残す・画面をまたいで渡す行（修正画面に選んだ記録を出す・閉じても残る など）は、置き場を決めたあとに1行ずつ作ります。<br><span class="why">なぜ：</span>残し方は置き場によって変わるため、決める前に作ると作り直しになります。<br>AI 機能が動いたら、次は「<strong>このデータをどこに置いておくか</strong>」をご自身で決めます。置き場によって、<strong>消える条件</strong>と、<strong>どこから見えるか</strong>と、<strong>設定の手間</strong>が違います。
     </p>
@@ -766,8 +798,14 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     <p><strong>決めたら <code>docs/spec.md</code> の「使う技術」の「保存の仕組み」の行を書き換えます</strong>（Claude Code に「<code>docs/spec.md</code> の保存の仕組みを Turso に書き換えてください」と指示すれば済みます）。<br><span class="why">なぜ：</span>仕様書と実物がずれたままだと、次に Claude Code に指示したとき、古い保存先の前提でコードが作られます。</p>
   
 </section>
-<section class="part" id="deliverables">
-  <div class="part-head"><h2>この回で作るもの</h2><img class="penguin" src="../../assets/penguins/penguin_checkmark_ok.png" alt=""></div>
+<section class="chapter ch-wrap" id="deliverables">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で作るもの</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
+  </div>
     <p>この回の到達点は次の4つです。提出のしかたは commmune のゼミスレッドで案内します（提出の期限は <a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
@@ -794,8 +832,14 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     <div class="box box-warn"><strong>提出前に必ず確認：</strong>スクリーンショットとソースに <strong>API キーやトークンが写っていないか</strong>。まだどこにも貼っていなければ、キーが写らない範囲で撮り直します。一度でも掲示板・提出フォーム・共有の場所に出したら、貼り直すのではなく、管理画面でそのキーを無効化して作り直してください。</div>
   
 </section>
-<section class="part" id="pitfalls">
-  <div class="part-head"><h2>よくあるつまずきと対処</h2><img class="penguin" src="../../assets/penguins/penguin_warning_sign.png" alt=""></div>
+<section class="chapter ch-wrap" id="pitfalls">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>よくあるつまずきと対処</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_warning_sign.png" alt="">
+  </div>
     <p>詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄）で進めてください。<strong>スクショを撮るときは、キーが写っていないかを先に見ます。</strong></p>
     <div class="troubles">
       <div class="box box-trouble"><span class="box-title">🧯 キーが漏れた（画面側に書いた・スクショに写した）</span>
@@ -855,8 +899,14 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     </div>
   
 </section>
-<section class="part" id="glossary">
-  <div class="part-head"><h2>この回で出てきた用語</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="glossary">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で出てきた用語</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
     <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
       <table>
         <thead><tr><th>用語</th><th>意味</th></tr></thead>
@@ -917,8 +967,14 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
   
 </section>
 
-<section class="part" id="guides">
-  <div class="part-head"><h2>この回で使うガイドと演習</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="guides">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で使うガイドと演習</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
   <div class="cards">
     <a class="card" href="../../#stuck"><span class="card-title">分からないことが出てきたらこの順番で（Home）</span><span class="card-desc">スクショを撮って生成AIに聞く → ゼミ掲示板 → 課題提出フォームの質問欄</span></a>
     <a class="card" href="../../#rules"><span class="card-title">ゼミのルール・修了要件（Home）</span><span class="card-desc">事前課題の提出先と締切の数え方、修了証の条件</span></a>

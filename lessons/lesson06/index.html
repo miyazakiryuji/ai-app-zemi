@@ -12,15 +12,16 @@
 <div class="page">
 <main class="sheet">
 
-<header class="hero">
-  <div class="hero-text">
+<section class="cover">
+<div class="cover-band">
+  <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第6回</div>
     <h1>テスト ― 壊れていないことを確かめる</h1>
-    <p class="lead">作ったアプリが「動いている」と「壊れていない」は別のことです。この回では、仕様書をもとにテストコードを Claude Code に書かせ、流し、落ちたら実装側を直す流れを自分のアプリで1周回します。UI テストと敵対的テストも Claude Code に実施させ、テストを流す節目は自分で決めます。</p>
+    <div class="subtitle">作ったアプリが「動いている」と「壊れていない」は別のことです。この回では、仕様書をもとにテストコードを Claude Code に書かせ、流し、落ちたら実装側を直す流れを自分のアプリで1周回します。UI テストと敵対的テストも Claude Code に実施させ、テストを流す節目は自分で決めます。</div>
     <div class="chips"><span class="chip">テストコードは Claude Code が書く</span><span class="chip">直すのはアプリ本体</span><span class="chip">UI テスト・敵対的テスト</span><span class="chip">README と CLAUDE.md</span></div>
   </div>
-  <img class="penguin" src="../../assets/penguins/penguin_cheering_both_wings.png" alt="">
-</header>
+  <img class="penguin penguin-cover" src="../../assets/penguins/penguin_cheering_both_wings.png" alt="">
+</div>
 
 <ol class="course-band band-3" aria-label="ゼミの中の位置">
   <li><b>決める</b>第1〜2回　オリエンテーション・要件定義</li>
@@ -77,8 +78,8 @@
   </ol>
 </nav>
 
-<section class="part" id="map">
-  <div class="part-head"><h2>この回の地図</h2></div>
+<div class="cover-map" id="map">
+  <h3>この回の地図</h3>
   <p>この回は、仕様書からテストを書かせて流し、落ちたら実装側を直す輪を1周回します。そのあと UI テストと敵対的テストを足し、流す節目を決めて残します。</p>
   <figure class="fig">
     <a class="zoom" href="../../assets/figs/l06_map.webp"><img src="../../assets/figs/l06_map.webp" alt="左に「仕様書」の箱。右へ矢印で、テストを書かせる → 流す → 実装側を直す、の3つが時計回りの輪。輪の右に UIテスト・敵対的テストの2つの箱が縦に並び、いちばん右に「節目を決めて残す」" width="1536" height="665"></a>
@@ -93,10 +94,16 @@
     <li><a href="#when"><b>いつ流すか</b></a>　節目を自分で決める</li>
     <li><a href="#keep"><b>残す</b></a>　README・データ分離</li>
   </ol>
+</div>
 </section>
 
-<section class="ep" id="what">
-  <div class="ep-head"><span class="ep-no">01</span><h2>テストとは</h2></div>
+<section class="chapter ch-1" id="what">
+  <div class="chapter-head c-1">
+    <div class="ch-text">
+      <div class="ep">第1章</div>
+      <h2>テストとは</h2>
+    </div>
+  </div>
     <p>
       <strong>テスト</strong>＝アプリが決めたとおりに動くかを、<strong>決めた手順で確かめること</strong>です。ここまでやってきた「ボタンを押して画面を見る」も確かめる行為ですが、この回で扱うテストは次の2点が違います。
     </p>
@@ -110,7 +117,7 @@
       </table>
     </div>
 
-    <h3>なぜ動作確認だけでは足りないのか</h3>
+    <h3>1-1. なぜ動作確認だけでは足りないのか</h3>
     <ul>
       <li>Claude Code は「修正しました」と言いますが、それは<strong>コードを書き換えた</strong>という意味で、<strong>動いている</strong>という意味ではありません。動かして確かめるまで、直ったかどうかは分かりません</li>
       <li>1か所直すと、<strong>直していない別の場所が壊れる</strong>ことがあります。同じファイルの別の処理、同じデータを使う別の画面が影響を受けます。手で確かめるのは「いま直したところ」だけなので、壊れた別の場所には気づけません</li>
@@ -122,8 +129,13 @@
         <dt>テストが通る／落ちる</dt><dd>テストで確かめた結果が、決めたとおりだった（通る）／違っていた（落ちる）。落ちたテストには「何を確かめて、何が返ってきたか」が出ます。</dd>
       </dl></div>
 </section>
-<section class="ep" id="kinds">
-  <div class="ep-head"><span class="ep-no">02</span><h2>この回で扱う3つのテスト</h2></div>
+<section class="chapter ch-2" id="kinds">
+  <div class="chapter-head c-2">
+    <div class="ch-text">
+      <div class="ep">第2章</div>
+      <h2>この回で扱う3つのテスト</h2>
+    </div>
+  </div>
     <p>
       3つとも、<strong>実施するのは Claude Code</strong> です。ご自身が手で試したり、自分でテストのプログラムを書いたりはしません。
     </p>
@@ -145,7 +157,7 @@
         <dt>敵対的テスト</dt><dd>正しい使い方を確かめるのではなく、壊すことを目的に、想定外の入力・操作をわざと試すこと。</dd>
       </dl></div>
 
-    <h3>テストコードの中身は、こういう一覧です</h3>
+    <h3>2-1. テストコードの中身は、こういう一覧です</h3>
     <p>たとえば食費メモなら、テストコードには次のような確認が並びます。1行が1つのテストです。</p>
     <ul>
       <li>金額・日付・メモを入れて保存すると、一覧に1件増える</li>
@@ -166,12 +178,17 @@
       </dl></div>
   
 </section>
-<section class="ep" id="write">
-  <div class="ep-head"><span class="ep-no">03</span><h2>仕様書をもとに、テストコードを作らせる</h2></div>
+<section class="chapter ch-3" id="write">
+  <div class="chapter-head c-3">
+    <div class="ch-text">
+      <div class="ep">第3章</div>
+      <h2>仕様書をもとに、テストコードを作らせる</h2>
+    </div>
+  </div>
     <p>
       テストコードは<strong>コードを見て</strong>作らせるのではなく、<strong>仕様書（<code>docs/spec.md</code>）を見て</strong>作らせます。
     </p>
-    <h3>なぜ仕様書からなのか</h3>
+    <h3>3-1. なぜ仕様書からなのか</h3>
     <ul>
       <li>いまのコードを元にテストを作ると、<strong>いまのコードの動きがそのまま「正解」になります</strong>。コードに間違いがあれば、その間違いを「正しい」として固定してしまいます。テストは全部通るのに、アプリは間違ったまま、という状態になります</li>
       <li>仕様書には「こうあるべき」が書いてあります。仕様書からテストを作れば、コードが仕様どおりかを<strong>コードとは別の物差し</strong>で確かめられます</li>
@@ -182,7 +199,7 @@
       <figcaption>テストのまわし方。仕様書 → テストコード → 流す → 落ちたら実装側を直して、また全部流す。テストのほうを書き換えて通す、はしません</figcaption>
     </figure>
 
-    <h3>テストコードを書かせる指示の型</h3>
+    <h3>3-2. テストコードを書かせる指示の型</h3>
     <p>自分のアプリのフォルダを開いた Claude Code に、そのまま貼って送ります。</p>
 <span class="code-label">指示①（テストコード）― そのまま貼る</span>
 <pre class="prompt">docs/spec.md を読んで、このアプリのテストコードを書いてください。
@@ -215,7 +232,7 @@
       <a class="zoom" href="../../assets/images/lesson05/r5_app_test_question.png"><img src="../../assets/images/lesson05/r5_app_test_question.png" alt="一覧の最後で、画面の確認をどこまでテストにするかを AI が質問している" loading="lazy" data-taken="2026-09-08" title="撮影 2026年9月"></a>
       <figcaption>一覧の最後で、AI が判断を聞いてきた例。「画面の確認は、部品を足さずに文字を調べるだけにするか（案A）、ブラウザを動かす部品を足すか（案B）」という質問でした。使う技術を増やさない案Aを選んでいます。決めるのは自分です</figcaption>
     </figure>
-    <h3>返ってきた一覧の見方</h3>
+    <h3>3-3. 返ってきた一覧の見方</h3>
     <ol class="steps">
       <li><p class="step-title">仕様書の「やること（MVP）」の各行に、対応するテストがあるか</p><p>無い行があれば「〜のテストも足してください」と頼みます。</p></li>
       <li><p class="step-title">「やらないこと」の機能が混ざっていないか</p><p>混ざっていれば「〜はやらないことなので、そのテストは消してください」と頼みます。</p></li>
@@ -228,8 +245,13 @@
     </figure>
   
 </section>
-<section class="ep" id="run">
-  <div class="ep-head"><span class="ep-no">04</span><h2>テストを流して、落ちたら実装側を直させる</h2></div>
+<section class="chapter ch-4" id="run">
+  <div class="chapter-head c-4">
+    <div class="ch-text">
+      <div class="ep">第4章</div>
+      <h2>テストを流して、落ちたら実装側を直させる</h2>
+    </div>
+  </div>
     <p>
       テストのファイルができたら、流します。<strong>初めて流したときに、いくつか落ちるのがふつうです。</strong>落ちたテストが、いまのコードと仕様書のずれを示しています。
     </p>
@@ -238,7 +260,7 @@
       <figcaption>初めて流した結果（例：食費メモ）。26件中7件が落ち、原因は「一覧の並びが逆」「金額が空でも保存される」の2つでした。テストの元が仕様書なので、いまのコードとのずれがそのまま出てきます。この撮影では途中から権限モードが「編集を受け入れる」（入力欄の左下）になっていて、テストのファイルは確認なしで書かれました。ご自身では「手動」のまま進めてください</figcaption>
     </figure>
     <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_pointing.png" alt=""><div class="box-body"><strong>落ちたときの原則：直すのは実装側（アプリ本体）で、テストではありません。</strong></div></div>
-    <h3>なぜ実装側を直すのか</h3>
+    <h3>4-1. なぜ実装側を直すのか</h3>
     <ul>
       <li>テストは仕様書の写しです。テストが落ちたのは「アプリが仕様どおりに動いていない」という意味です。ここでテストのほうを書き換えて通すと、<strong>仕様に合っていない動きを「正しい」と宣言した</strong>ことになり、仕様書とアプリのずれが隠れます</li>
       <li>Claude Code は「テストを通す」ことを目標にすると、<strong>テストの条件をゆるめる・落ちるテストを飛ばす（skip）</strong>という近道を選ぶことがあります。テストは全部通るのに、アプリは直っていません。<strong>指示で先に禁じておきます</strong></li>
@@ -248,7 +270,7 @@
         <dt>skip（テストを飛ばす）</dt><dd>落ちるテストを実行しない印を付けて、結果に出ないようにすること。通ったのと同じに見えるので、結果に skip の文字があったら疑います。</dd>
       </dl></div>
 
-    <h3>落ちたテストを渡して、実装側を直させる指示の型</h3>
+    <h3>4-2. 落ちたテストを渡して、実装側を直させる指示の型</h3>
 <span class="code-label">指示②（実装側を直す）― （ ）に落ちたテストを貼る</span>
 <pre class="prompt">テストを流したら、次のテストが落ちました。
 （落ちたテストの名前と、期待／結果の部分をそのまま貼る）
@@ -274,7 +296,7 @@
     </figure>
     <div class="box box-point"><strong>テストの結果を読むときに見るのは3つだけです。</strong>① 通った数と落ちた数 ② 落ちたテストの<strong>名前</strong>（何を確かめていたか）③ <strong>期待と結果</strong>。この3つが読めれば、上の指示の型がそのまま書けます。英語のメッセージが長くても、要るのはこの3つだけです。</div>
 
-    <h3>仕様書のほうが間違っていたとき</h3>
+    <h3>4-3. 仕様書のほうが間違っていたとき</h3>
 <span class="code-label">指示③（仕様書を先に直す）― （ ）を差し替えて貼る</span>
 <pre class="prompt">落ちたテスト「（名前）」は、仕様書のほうが古いです。
 正しくは「（新しい仕様）」です。
@@ -282,8 +304,13 @@
 アプリ本体はそのあとで、必要なら直してください。</pre>
   
 </section>
-<section class="ep" id="ui">
-  <div class="ep-head"><span class="ep-no">05</span><h2>UI テストを Claude Code に実施させる</h2></div>
+<section class="chapter ch-5" id="ui">
+  <div class="chapter-head c-5">
+    <div class="ch-text">
+      <div class="ep">第5章</div>
+      <h2>UI テストを Claude Code に実施させる</h2>
+    </div>
+  </div>
     <p>
       テストコードが通ったら、<strong>画面を実際に操作して</strong>確かめます。Claude Code にブラウザを操作させます（Claude デスクトップアプリに内蔵されているブラウザを使うので、追加で入れるものはありません）。Claude Code はブラウザを開き、入力欄に文字を打ち、ボタンを押し、画面に何が出たかを読んで報告します。
     </p>
@@ -331,20 +358,25 @@
       </dl></div>
   
 </section>
-<section class="ep" id="adversarial">
-  <div class="ep-head"><span class="ep-no">06</span><h2>敵対的テストを Claude Code に実施させる</h2></div>
+<section class="chapter ch-6" id="adversarial">
+  <div class="chapter-head c-6">
+    <div class="ch-text">
+      <div class="ep">第6章</div>
+      <h2>敵対的テストを Claude Code に実施させる</h2>
+    </div>
+  </div>
     <p>
       仕様どおりの操作が通ったら、次は<strong>壊しにいきます</strong>。
     </p>
     <p><span class="why">なぜ要るのか：</span>自分で作ったアプリは、自分が想定した使い方でしか触りません。想定どおりに操作している限り不具合は出ないので、<strong>直すべき箇所が見つからないまま「完成」になります</strong>。人に渡した最初の数分で落ちるのは、たいていここで試していない操作です。</p>
-    <h3>なぜ自分の手ではなく Claude Code にやらせるのか</h3>
+    <h3>6-1. なぜ自分の手ではなく Claude Code にやらせるのか</h3>
     <ul>
       <li>作った本人は「こう使うはず」から抜けられません。<strong>壊す観点を先に列挙させると、自分では思いつかない入力が出てきます</strong></li>
       <li>連打・極端に長い入力・大量のデータは、手で試すには数が多すぎて続きません</li>
       <li>ここまでの「テストを流す」「ブラウザを操作させる」の延長なので、任せる相手も道具も増えません</li>
     </ul>
 
-    <h3>壊しにいく観点（8つ）</h3>
+    <h3>6-2. 壊しにいく観点（8つ）</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="壊しにいく観点 の表">
       <table>
         <thead><tr><th>観点</th><th>試すこと</th><th>起きがちなこと</th></tr></thead>
@@ -412,14 +444,19 @@
     <div class="box box-warn">上の握り3つ（開発中のアプリだけ／テスト用のデータ／削除は消えても困らない状態で）は、敵対的テストでいちばん効きます。大量のデータを入れ、消します。実際に使っているデータの上ではやらないでください。</div>
   
 </section>
-<section class="ep" id="when">
-  <div class="ep-head"><span class="ep-no">07</span><h2>テストを流す頻度は、自分で決める</h2></div>
+<section class="chapter ch-7" id="when">
+  <div class="chapter-head c-7">
+    <div class="ch-text">
+      <div class="ep">第7章</div>
+      <h2>テストを流す頻度は、自分で決める</h2>
+    </div>
+  </div>
     <p>
       テストは要ります。しかし、<strong>機能を1つ足すたび・1行直すたびに全部のテストを流していたら、きりがありません</strong>。テストが増えるほど1回に時間がかかり、結果を読む手間も増えます。毎回全部流す決まりにすると、そのうち流さなくなります。<strong>流さないより、決めた節目で必ず流すほうが続きます。</strong>
     </p>
     <p><span class="why">なぜ「自分で決める」なのか：</span>流す節目は、アプリの作りと、その日の作業内容で変わります。保存の仕組みを触った日と、ボタンの色を変えた日では、壊れる可能性がまるで違います。決まりを一律に配るより、<strong>「いま流すべきか」をご自身で判断できる</strong>ほうが、あとで1人になったときに使えます。</p>
 
-    <h3>判断の目安</h3>
+    <h3>7-1. 判断の目安</h3>
     <div class="explain">
       <div class="explain-item">
         <div class="explain-term"><strong>機能を1つ足し終えた（<code>docs/tasks.md</code> のタスクが1つ終わった）</strong></div>
@@ -454,7 +491,7 @@
     </div>
     <p><strong>全部か、一部か：</strong>全部流すのに時間がかかるようになったら、「今回の変更に関係するテストだけ流して」と Claude Code に頼めます。<strong>ただし、節目（タスクの完了・人に見せる前）では全部流します。</strong>関係ないと思っていた場所が壊れているのを見つけるのが、全部流す目的だからです。</p>
 
-    <h3>決めた節目を CLAUDE.md に書いておく</h3>
+    <h3>7-2. 決めた節目を CLAUDE.md に書いておく</h3>
     <p><code>CLAUDE.md</code> は Claude Code が毎回読むファイルです。そこに書いておけば、Claude Code のほうから節目でテストを流すようになります。</p>
 <span class="code-label">CLAUDE.md に足す内容 ― （ ）を自分の構成に合わせて</span>
 <pre class="prompt">## テスト
@@ -473,8 +510,13 @@
       </dl></div>
   
 </section>
-<section class="ep" id="keep">
-  <div class="ep-head"><span class="ep-no">08</span><h2>あとから何度でも流せる形で残す</h2></div>
+<section class="chapter ch-8" id="keep">
+  <div class="chapter-head c-8">
+    <div class="ch-text">
+      <div class="ep">第8章</div>
+      <h2>あとから何度でも流せる形で残す</h2>
+    </div>
+  </div>
     <p>
       その場で流せても、数週間後に流し方が分からなければ使われません。次の3つを Claude Code にさせておきます。
     </p>
@@ -503,8 +545,14 @@
       </dl></div>
   
 </section>
-<section class="part" id="deliverables">
-  <div class="part-head"><h2>この回で作るもの</h2><img class="penguin" src="../../assets/penguins/penguin_checkmark_ok.png" alt=""></div>
+<section class="chapter ch-wrap" id="deliverables">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で作るもの</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
+  </div>
     <p>終わったとき、手元に次のものがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
@@ -523,8 +571,14 @@
     <div class="box box-warn">提出の前に、スクリーンショットとファイルに、名前・メールアドレス・業務の実データ・外部サービスの鍵（APIキー・データベースのトークン）が写っていないかを見てください。写っていたら、まだどこにも貼っていなければ、範囲を絞って撮り直すか、その部分を塗りつぶします。一度でも掲示板・提出フォーム・共有の場所に出したキーは、貼り直すのではなく、管理画面でそのキーを無効化して作り直します。<br><span class="why">なぜ：</span>画像を消しても、それまでに見た人の手元にはキーが残るためです。</div>
   
 </section>
-<section class="part" id="pitfalls">
-  <div class="part-head"><h2>よくあるつまずきと対処</h2><img class="penguin" src="../../assets/penguins/penguin_warning_sign.png" alt=""></div>
+<section class="chapter ch-wrap" id="pitfalls">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>よくあるつまずきと対処</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_warning_sign.png" alt="">
+  </div>
     <p>詰まったら、Home の「<a href="../../#stuck">分からないことが出てきたらこの順番で</a>」の順（スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄）で進めてください。</p>
     <div class="troubles">
       <div class="box box-trouble"><span class="box-title">🧯 いまのコードを元にテストを作られた</span>
@@ -569,8 +623,14 @@
     </div>
   
 </section>
-<section class="part" id="glossary">
-  <div class="part-head"><h2>この回で出てきた用語</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="glossary">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で出てきた用語</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
     <div class="table-wrap" tabindex="0" role="region" aria-label="用語・意味 の表">
       <table>
         <thead><tr><th>用語</th><th>意味</th></tr></thead>
@@ -602,8 +662,14 @@
   
 </section>
 
-<section class="part" id="guides">
-  <div class="part-head"><h2>この回で使うガイドと演習</h2><img class="penguin" src="../../assets/penguins/penguin_holding_book.png" alt=""></div>
+<section class="chapter ch-wrap" id="guides">
+  <div class="chapter-head c-wrap">
+    <div class="ch-text">
+      <div class="ep">まとめ</div>
+      <h2>この回で使うガイドと演習</h2>
+    </div>
+    <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
+  </div>
   <div class="cards">
     <a class="card" href="../../#stuck"><span class="card-title">分からないことが出てきたらこの順番で（Home）</span><span class="card-desc">スクショを撮って生成AIに聞く → ゼミ掲示板 → 課題提出フォームの質問欄</span></a>
     <a class="card" href="../../#rules"><span class="card-title">ゼミのルール・修了要件（Home）</span><span class="card-desc">事前課題の提出先と締切の数え方、修了証の条件</span></a>

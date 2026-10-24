@@ -17,9 +17,9 @@ GitHub Pages で公開している、受講生向けの案内ページです。
 
 編集元は教材リポジトリ側の `AIアプリ開発入門ゼミ/site/`（このフォルダが公開リポジトリの git チェックアウト）。Boarding Pass も同じ HTML を取り込んでいる（`boarding-pass/tools/build-curriculum.mjs` の `ai-app-lessons`）ので、**フォルダ構成・ファイル名・画像のパスと名前は変えない**。
 
-## 見た目の型（2026-10 に載せ替え）
+## 見た目の型（2026-10 に載せ替え。2026-10-25 に入門ゼミ型へ）
 
-ClaudeCode マスターゼミ「各回の資料」（`../../ClaudeCodeゼミ/各回の資料/template.html`）と同じ型。CSS は `assets/lesson.css` の1本だけ。
+ClaudeCode マスターゼミ「各回の資料」（`../../ClaudeCodeゼミ/各回の資料/template.html`）と同じ型。見た目は ClaudeCode入門ゼミの講義資料（`../../ClaudeCode入門ゼミ/講義資料/EPxx-yy_….html`）に合わせてある：表紙の帯（`cover-band`）→ 章ごとの色帯（`chapter-head`）→ 章番号つきの小見出し（`h3` の「1-1.」）→ まとめの章（緑の帯）。CSS は `assets/lesson.css` の1本だけ。
 
 - `assets/lesson.css`：マスターゼミの `各回の資料/assets/lesson.css` の写し＋末尾の「入門ゼミ追加」の節（入門ゼミにしか無い部品）。**上の部品の見た目は変えない。** マスターゼミ側の CSS が変わったら、「入門ゼミ追加」の節より上を写し直す
 - `assets/site.js`：指示の型（`pre.prompt`）にコピーボタンを付けるだけ。JS が動かなくても中身は全部読める。図版の拡大は `a.zoom`（画像そのものを開くリンク）で JS を使わない
@@ -30,7 +30,11 @@ ClaudeCode マスターゼミ「各回の資料」（`../../ClaudeCodeゼミ/各
 
 ### ページの並び（どの回も同じ）
 
-`header.hero`（kicker「AIアプリ開発入門ゼミ ｜ 第N回」・題・lead・chips・ペンギン）→ `ol.course-band.band-3`（決める／作る／仕上げる。この回の段に `is-here`）→ `.howto`（この回でやること／できたかの確認）→ `.goal` → `.box.box-point`（この回の前に用意しておくもの）→ `nav.toc` → `#map`（この回の地図の図と道順）→ 本文（`section.ep` を `.ep-head` の帯で区切る。節の番号は `.ep-no`）→ `#deliverables` → `#pitfalls`（`.box.box-trouble`）→ `#glossary` → `#guides`（Boarding Pass の演習ボタン `https://quiz-gpassport.vercel.app/s/AIA0N`）→ `footer.footer`（前後の回へのリンク）
+`section.cover`（表紙）＝ `.cover-band`（kicker「AIアプリ開発入門ゼミ ｜ 第N回」・`h1`・`.subtitle`・`.chips`・`img.penguin.penguin-cover`）→ `ol.course-band.band-3`（決める／作る／仕上げる。この回の段に `is-here`）→ `.howto`（この回でやること／できたかの確認）→ `.goal` → `.box.box-point`（この回の前に用意しておくもの）→ `nav.toc` → `.cover-map#map`（この回の地図の図と道順。見出しは `h3`）。ここまでが表紙で `</section>` で閉じる
+→ 本文：`section.chapter.ch-N`（N は1から。`id` は節の名前のまま）を `.chapter-head.c-N` の色帯で区切る。帯の中は `.ch-text` に `.ep`（「第N章」）と `h2`、添え書きがあれば `.lead`。章の中の `h3` は「N-k. 」で始める（番号は手で書く。`id` を持つ `h3` はそのまま）
+→ まとめ：`#deliverables` → `#pitfalls`（`.box.box-trouble`）→ `#glossary` → `#guides`（Boarding Pass の演習ボタン `https://quiz-gpassport.vercel.app/s/AIA0N`）は `section.chapter.ch-wrap` ＋ `.chapter-head.c-wrap`（`.ep` は「まとめ」。ペンギンは `img.penguin.penguin-ch` で帯の右）→ `footer.footer`（前後の回へのリンク）
+
+Home（`index.html`）も同じ並び。「全7回の流れ」（`#lessons`）が表紙の `.cover-map`、以降の節は第1章〜第10章（色は `ch-9`・`ch-10` を「入門ゼミ追加」に足してある）、「この回で使うガイドと演習」がまとめ
 
 ### 入門ゼミ追加の部品（lesson.css 末尾）
 
