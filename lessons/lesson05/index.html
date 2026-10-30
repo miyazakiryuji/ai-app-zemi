@@ -268,7 +268,7 @@
 
     <h3 id="key-claude">4-1. Claude API（Anthropic）</h3>
     <ol class="steps">
-      <li><p class="step-title"><a href="https://platform.claude.com/" target="_blank" rel="noopener">platform.claude.com</a>（Claude Platform。旧 Claude Console）を開き、Google アカウントかメールアドレスでログインする</p><p><span class="why">なぜ：</span>API キーはアカウントに紐づきます。ゼミで使っている Claude と同じアカウントでログインできます。ただし Claude の有料プラン（Pro など）に API の利用は含まれず、API は Claude Platform の「請求」で別にクレジットを買います。</p></li>
+      <li><p class="step-title"><a href="https://platform.claude.com/" target="_blank" rel="noopener">platform.claude.com</a>（Claude Platform。旧 Claude Console）を開き、Google アカウントかメールアドレスでログインする</p><p><span class="why">なぜ：</span>API キーはアカウントに紐づきます。ゼミで使っている Claude と同じアカウントでログインできます。ただし Claude の有料プランと API の支払いは別で、API は Claude Platform の「請求」でクレジットを買います。Max・Ultra・Team のプランには毎月の API クレジットが付きますが、受け取るには Claude Platform の組織をプランにつなぐ手続きが要ります（Pro には付きません。<a href="https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-and-team-plans" target="_blank" rel="noopener">Claude の公式ヘルプ</a>）。</p></li>
       <li><p class="step-title">「使用クレジットを購入して開始する」が出たら、ここでは買わず「今はスキップ」</p><p><span class="why">なぜ：</span>AI を呼ぶまでは費用はかからないため、買うのは経路が通ってからにします。<br>左のメニュー「組織の設定」→「API キー」を開きます。</p></li>
       <li><p class="step-title">「キーを作成」を押し、名前と有効期限を決めて「キーを作成」</p><p>途中で「ID 連携を使用すれば、API キーは不要です」という案内が出たら「API キーで続ける」を選びます（ID 連携はクラウド上で動かす場合の仕組みで、ご自身の PC で動かすアプリには使いません）。キーの全文が1回だけ表示されるので、<strong>その場で <code>.env</code> に貼ります。</strong></p></li>
       <li id="claude-credit"><p class="step-title">（5-2 の手順3 で「テスト応答です」が出たら）「請求」の画面でクレジットを購入し、自動リロードはオフのまま、「Spend limits」で月の上限を置く</p><p>Claude API は<strong>前払い</strong>で、買ったクレジットの範囲で使います。最初は少額で十分です。購入のときに「自動リロード（Auto-reload）」を入れる欄があれば、<strong>オフのまま</strong>にします。<br><span class="why">なぜ：</span>自動リロードを入れると、残高が減るたびに自動で買い足され、残高が上限の役目をしなくなります。<br>
@@ -330,7 +330,8 @@
       <li><p class="step-title"><a href="https://aistudio.google.com/" target="_blank" rel="noopener">aistudio.google.com</a> を開き、Google アカウントでログインする</p><p>左のメニューに「API キー」があります。</p></li>
       <li><p class="step-title">右上の「API キーを作成」を押し、名前とプロジェクトを決めて「キーを作成」</p><p>初めてなら用意されている「Default Gemini Project」のままで構いません。<br><span class="why">なぜプロジェクトを聞かれるのか：</span>Google はキーや使用量を「プロジェクト」という単位で管理します。アプリ1つに1プロジェクトが基本ですが、まずは既定のもので進めて差し支えありません。<br>表示されたキー（新しいキーは <code>AQ.</code> で始まります）は<strong>その場で <code>.env</code> に貼ります。</strong>一覧に戻ると、作ったキーは末尾の数文字だけが表示されます。</p></li>
       <li><p class="step-title">左のメニュー「課金」で支払い方法の設定を確かめ、設定したら「利用額」で月の上限を置く</p><p>Gemini API は支払い方法を設定しなくても無料枠の範囲で使い始められます（範囲は変わることがあります。「レート制限」の画面で確認できます）。無料枠のまま使う場合は、支払い方法が無いので上限を置く対象がありません。無料枠の回数を超えた呼び出しは、請求されずにエラーで止まります。<br>
-        支払いを設定したら、左のメニュー「利用額」の「月の使用上限（Monthly spend cap）」→「Edit spend cap」で上限を置きます。自動で買い足す設定（自動リロード）を使うなら、「課金」で自動リロードの月の上限（Monthly auto-charge limit）も決めます。<br><span class="why">なぜ：</span>前払いの残高とは別に月の上限を置いておけば、作りを間違えて何度も呼ばれても、その金額で止まります。この上限は Google が試験中の機能として出しているもので、反映に10分ほど遅れるあいだは上限を超えることがあります。</p></li>
+        支払いを設定したら、左のメニュー「利用額」の「月の使用上限（Monthly spend cap）」→「Edit spend cap」で上限を置きます。自動で買い足す設定（自動リロード）を使うなら、「課金」で自動リロードの月の上限（Monthly auto-charge limit）も決めます。<br><span class="why">なぜ：</span>前払いの残高とは別に月の上限を置いておけば、作りを間違えて何度も呼ばれても、その金額で止まります。この上限は Google が試験中の機能として出しているもので、反映に10分ほど遅れるあいだは上限を超えることがあります。<br>
+      支払いを設定すると、送った内容の保存の扱いも変わることがあります（5-6 の「Gemini を有料枠で使う場合」）。</p></li>
       <li><p class="step-title">「使用量」の画面で、要求の回数とエラーの回数を見る</p><p>AI 機能を入れたあと、<strong>この画面を1日1回は見る習慣を付けてください。</strong><br><span class="why">なぜ：</span>作りを間違えて何度も呼ばれている場合、ここの回数が想定と桁違いになります。請求が来てから気づくのでは遅いためです。</p></li>
     </ol>
     <figure class="shot">
@@ -355,9 +356,11 @@
       <a class="zoom" href="../../assets/images/lesson04/r4_gemini_spend_free.png"><img src="../../assets/images/lesson04/r4_gemini_spend_free.png" alt="Google AI Studio の「Gemini API の利用額」画面。無料枠の印があり、「このプロジェクトには現在、請求先が設定されていません」と「お支払い情報を設定」ボタンが出ている。左のメニューの「利用額」が囲まれている" loading="lazy" data-taken="2026-10-03" title="撮影 2026年10月"></a>
       <figcaption>無料枠のまま使う場合の「利用額」の画面。「このプロジェクトには現在、請求先が設定されていません」と出ていれば、支払い方法が未設定（無料枠）です。無料枠のまま使う方は、この画面を上限設定の代わりの提出物として撮ります</figcaption>
     </figure>
-    <div class="box box-note"><strong>Gemini のモデル名とライブラリ（2026年10月20日時点）：</strong>新しく始める人に Google が勧めているモデルは <code>gemini-3.5-flash-lite</code> と <code>gemini-3.8-flash</code> の2つで、どちらも無料枠があります（<code>gemini-3.8-flash</code> は、無料枠で1日に呼べる回数が少なめです）。このページでは、軽くて回数の多い <code>gemini-3.5-flash-lite</code> を使います（2026年9月24日に講師のプロジェクトで確かめたとき、無料枠は1日500回でした）。<br>
+    <div class="box box-note"><strong>Gemini のモデル名とライブラリ（2026年10月30日時点）：</strong>新しく始める人に Google が勧めているモデルは <code>gemini-3.5-flash-lite</code> と <code>gemini-3.8-flash</code> の2つで、どちらも無料枠があります（<code>gemini-3.8-flash</code> は、無料枠で1日に呼べる回数が少なめです）。このページでは、軽くて回数の多い <code>gemini-3.5-flash-lite</code> を使います（2026年9月24日に講師のプロジェクトで確かめたとき、無料枠は1日500回でした）。<br>
       2026年10月13日に一般提供が始まった <code>gemini-4-argon</code>（Gemini 4 Argon）は、公式ドキュメントで新しいモデルとして案内されていますが、無料枠では使えません（支払い方法を設定した有料の利用だけです）。無料枠のまま使う方は選びません。<br>
       <span class="why">なぜ：</span>支払い方法を設定していないプロジェクトからは、このモデルを呼び出せません。この回の指示ではモデル名を <code>gemini-3.5-flash-lite</code> と指定しているので、指示のまま使えば当たりません。<br>
+      有料枠で使う方へ：<a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener">公式の料金ページ</a>では、<code>gemini-3.8-flash</code> と <code>gemini-3.6-flash</code> の有料枠の料金は2027年1月1日から、<code>gemini-4-argon</code> の料金は2026年12月1日から、いまの2倍になると案内されています。<code>gemini-3.5-flash-lite</code> の欄と無料枠の欄には、この変更の案内はありません。<br>
+      <span class="why">なぜ：</span>呼ぶ回数が同じでも請求額が変わるので、月の上限の金額を決めるときに見込んでおきます。<br>
       <code>gemini-2.5-flash</code> などの 2.5 系は、廃止ではありませんが、2026年9月18日の Gemini API の変更履歴で、以前から使っていた人だけが使えるものになりました。新しく始める人が呼ぶと <code>404</code>（<code>no longer available to new users</code>）で止まります。Claude Code が 2.5 系の名前を書くことがあるので、指示の中でモデル名を渡します。<br>
       ライブラリは Google の新しいもの（JavaScript は <code>@google/genai</code>、Python は <code>google-genai</code>）を使います。古いライブラリは 2025年11月30日に非推奨になりました。名前は変わることがあるので、最新は <a href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noopener">Gemini API の公式のモデル一覧</a>で確かめます。</div>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
@@ -404,6 +407,7 @@
         <dt>仮の文章</dt><dd>本物の AI の代わりに返す、決まった文章。AI のサービスにつなぐ前に、「押す → 待つ → 出る」の流れを画面で確かめるために使います。</dd>
         <dt>モック</dt><dd>見た目だけを作った画面。動きや保存の仕組みは入っていません。</dd>
         <dt>Node.js</dt><dd>JavaScript をブラウザの外（PC の上）で動かすための土台のソフト。サーバー側のプログラムを動かすのに使います。</dd>
+        <dt>LTS</dt><dd>Long Term Support の略。長い期間、修正が配られる版のこと。Node.js では、新しく入れるならこの印が付いた版を選びます。</dd>
         <dt>localhost</dt><dd>自分の PC 自身を指す名前。<code>http://localhost:3000</code> は「自分の PC の中で動いているサーバーの 3000 番の入口」の意味です。インターネットには公開されていません。</dd>
         <dt>ターミナル</dt><dd>文字で命令（コマンド）を打ち込み、結果を文字で受け取る画面。</dd>
         <dt>コンソール</dt><dd>開発者ツールの中の、JavaScript のエラーや記録が文字で出る欄。動きが止まった理由は、ここに赤い文字で出ます。開発者ツールの上の「コンソール」（英語の表示では「Console」）を押すと開きます。</dd>
@@ -411,7 +415,7 @@
 
     <h4>サーバーを立てて、いまの画面をそのまま出す（指示①）</h4>
     <ol class="steps">
-      <li><p class="step-title">Node.js が入っているかを Claude Code に聞く</p><p>「この PC に Node.js が入っているか確かめてください。入っていなければ、入れ方を教えてください」と送ります。入っていなければ、公式サイト（<a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a>）の案内に従って入れます。画面の文言は変わることがあります。<br><span class="why">なぜ：</span>サーバー側のプログラムは Node.js の上で動きます。入っていないと、次の指示で作ったサーバーを起動できません。</p></li>
+      <li><p class="step-title">Node.js が入っているかを Claude Code に聞く</p><p>「この PC に Node.js が入っているか確かめてください。入っていなければ、入れ方を教えてください」と送ります。入っていなければ、公式サイト（<a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a>）の案内に従って入れます。2026年10月30日時点では、公式サイトの既定は v26 の LTS で、v24 の LTS もバージョンの選択欄で選べます。v24 を選ぶなら、その中の最新の LTS（v24.22.1 以降）にします。どちらも LTS なので、どちらが入っていてもそのまま進めて構いません。入ったあとに <code>node -v</code> と打つと、<code>v26.13.0</code> や <code>v24.22.2</code> のように版が出ます（数字は更新で変わります）。画面の文言は変わることがあります。<br><span class="why">なぜ：</span>サーバー側のプログラムは Node.js の上で動きます。入っていないと、次の指示で作ったサーバーを起動できません。</p></li>
       <li><p class="step-title">下の指示①を送る</p><p>そのまま貼って送ります。返事に出てくる「起動のしかた・止めかた・開くアドレス」は、このあと何度も使うので控えておきます。<br><span class="why">なぜ：</span><code>.env</code> を直したときなど、サーバーを止めて起動し直す場面がこの先に何度もあるためです。</p></li>
     </ol>
 <span class="code-label">指示①（サーバーを立てる）― そのまま貼る</span>
@@ -536,6 +540,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
           <tr><td>サーバーのターミナルで、キーが <code>undefined</code>（値が無い）と出る</td><td><code>.env</code> が読まれていない。名前が <code>.env.txt</code> になっている／<code>app/</code> の中など別の場所に置いた／起動時に <code>.env</code> を読み込む設定が無い</td><td>アプリのフォルダ直下に、<code>.env</code> の名前で置きます（03 の開き方）。読み込みの設定は、Claude Code に「サーバーの起動時に .env を読み込む設定になっているか確かめてください。.env の中身は読まないでください」と頼みます</td></tr>
           <tr><td>残高が無い・支払い方法が無いと言われる（<code>insufficient_quota</code>、<code>credit balance</code>、<code>429</code> や <code>402</code> など）</td><td>支払い方法が未登録／クレジットが 0</td><td>管理画面で支払い方法を登録してクレジットを買い、<strong>同時に上限も設定します</strong>（04 の選んだサービスの節）</td></tr>
           <tr><td>Claude で <code>400</code>（<code>specified API usage limits</code>）と言われる</td><td>自分で置いた月の上限（Spend limits）に達した</td><td>上限額を上げるか、翌月まで待ちます。上げる前に、なぜ使いすぎたのか（ボタンの連打・二重の送信など）を確かめます</td></tr>
+          <tr><td>Claude で <code>400</code> が返る、または Python で <code>unexpected keyword argument 'temperature'</code> と出る。コードに <code>temperature</code>・<code>top_p</code>・<code>top_k</code> がある</td><td>新しい公式のライブラリと API の版（2026-10-21）では、この3つは使えません（<a href="https://platform.claude.com/docs/en/api/migration-2026-10-21" target="_blank" rel="noopener">公式の移行ガイド</a>）</td><td>Claude Code に「<code>temperature</code>・<code>top_p</code>・<code>top_k</code> を送らないように直してください」と頼みます</td></tr>
           <tr><td>短時間に何度も呼んで制限がかかる（<code>429</code> や <code>rate limit</code>）</td><td>画面の再描画のたびに呼び出している／連打</td><td>「ボタンを押したときだけ呼ぶように」と指示します。<strong>課金にも直結するので必ず直します</strong></td></tr>
           <tr><td>Gemini の無料枠で、ふつうに使っているのに <code>429</code>（<code>RESOURCE_EXHAUSTED</code>）が返る</td><td>無料枠の1分あたり・1日あたりの回数の上限に当たった</td><td>1分あたりの上限なら、少し待ってから押し直します。1日の上限なら、回数が戻るまで待ちます（戻る時刻は公式の<a href="https://ai.google.dev/gemini-api/docs/rate-limits" target="_blank" rel="noopener">レート制限のページ</a>で確認）。自分の上限は AI Studio の「レート制限」で見られます</td></tr>
           <tr><td>応答が返る前に止まる</td><td>待ち時間の上限に達している</td><td>送る文章を短くします。長い入力を分けて渡します</td></tr>
@@ -560,6 +565,9 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     <p>アプリを作る前に決めた「社外に出せない情報」を、実際に送る直前にもう一度確かめます。<br><span class="why">なぜ：</span>AI の API を呼ぶ処理を入れると、アプリが扱うデータが初めて PC の外へ出ます。作っているうちに、保存する項目が最初の想定より増えていることも多いためです。</p>
     <p>送る内容を Claude Code に一覧させて（「AI に送っている項目を全部挙げてください」）、目で確認します。</p>
     <div class="box box-warn"><strong>Gemini を無料枠で使う場合：</strong>送った内容は Google の製品の改善に使われ、人が読むこともあります（有料枠では改善に使われません）。条件は <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Gemini API の利用規約</a>の無料のサービス（Unpaid Services）の項で確かめます。<strong>仕事の実データや、人に見られて困る内容は、無料枠では送りません。</strong>開発中は架空のデータで試します。</div>
+    <div class="box box-warn"><strong>Gemini を有料枠で使う場合：</strong>送った内容と返ってきた内容が、ログとしてプロジェクトに保存されることがあります。文章を作るふつうの呼び出し（Generate Content API）では、2026年10月26日以降に作ったプロジェクトは保存される設定で始まり、それより前に作ったプロジェクトは、自分でオンにしていなければ既定では保存されません。Interactions API という別の呼び出し方は、プロジェクトを作った日に関係なく、既定で保存されます。ログの保存期間は標準で最大55日です。ログは自分のプロジェクトの中のもので、自分で Google に共有しない限り、製品の改善には使われません（<a href="https://ai.google.dev/gemini-api/docs/logs-policy" target="_blank" rel="noopener">公式の説明</a>）。<br>
+      仕事の実データを送るなら、AI Studio の Logs and Datasets の画面の設定で保存を切るか（Generate Content API と Interactions API は別々に切り替えます）、Claude Code に「Gemini の呼び出しに store: false を付けてください」と頼みます。Generate Content API で store を指定するには、ライブラリが <code>@google/genai</code> 2.31.0 以上（Python は <code>google-genai</code> 2.33.0 以上）である必要があります（<a href="https://ai.google.dev/gemini-api/docs/logs-datasets" target="_blank" rel="noopener">公式の手順</a>。画面の文言は変わることがあります）。<br>
+      <span class="why">なぜ：</span>製品の改善に使われなくても、送った実データが AI Studio の画面であとから読める形で残るためです。</div>
   
 </section>
 <section class="chapter ch-6" id="storage">
@@ -688,7 +696,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     <ul>
       <li><strong>手元の SQLite と同じ SQL が使えます。</strong>6-2 で SQLite にしておけば、変える場所は主に接続の部分です（使う部品の違いで、少し直しが入ることがあります）。保存・読み出しの処理を一から書き直さずに済みます</li>
       <li>Supabase や Firebase には、画面側から直接データベースにつなぐ使い方が多くあります。この作りは便利ですが、<strong>アクセス制限の設定を1つ誤ると、データが誰からでも読める状態になります。</strong>このゼミでは「データベースにつなぐのはサーバー側だけ」という作りに統一し、その形が自然に取れる Turso にします</li>
-      <li>無料で使える範囲がありますが、内容は変わることがあります。2026年10月2日に、Turso は Supabase に加わると発表しました（サービスは続くと案内されています。料金・無料プラン・画面がいつ変わるかは、2026年10月20日時点で発表されていません）。画面やプランが変わることがあるので、最新は <a href="https://turso.tech/" target="_blank" rel="noopener">Turso の公式ページ</a>でご確認ください</li>
+      <li>無料で使える範囲がありますが、内容は変わることがあります。2026年10月2日に、Turso は Supabase に加わると発表しました（サービスは続くと案内されています。料金・無料プラン・画面がいつ変わるかは、2026年10月30日時点で発表されていません）。画面やプランが変わることがあるので、最新は <a href="https://turso.tech/" target="_blank" rel="noopener">Turso の公式ページ</a>でご確認ください</li>
     </ul>
     <h4>Turso を用意する手順</h4>
     <ol class="steps">
@@ -874,7 +882,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
         <p><strong>対処：</strong>契約〜キーの発行は LIVE講義の前に済ませておきます。詰まったらスクショ（キーは伏せる）を撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄の順で。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 ChatGPT や Claude の有料プランで、API も使えると思っていた</span>
         <p>残高が無い（<code>insufficient_quota</code>、<code>429</code> など）と返って止まります。</p>
-        <p><strong>対処：</strong>月額プランと API は別の製品で、支払いも別です。OpenAI は OpenAI Platform の「Billing」で、Claude は Claude Platform の「請求」で、API 用のクレジットを買います（4-1・4-2）。</p></div>
+        <p><strong>対処：</strong>月額プランと API は別の製品で、支払いも別です。OpenAI は OpenAI Platform の「Billing」で、Claude は Claude Platform の「請求」で、API 用のクレジットを買います（4-1・4-2）。Claude の Max・Ultra・Team に付く毎月の API クレジットも、受け取る手続きをするまでは使えません（4-1）。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 .env を直したのに反映されない</span>
         <p>認証エラーが続きます。</p>
         <p><strong>対処：</strong>5-1 で起動したサーバーを、5-1 で教えてもらった止め方（多くはターミナルで <kbd>Ctrl</kbd>＋<kbd>C</kbd>）で止めて起動し直します（<code>.env</code> は起動時にしか読まれません）。それでも直らなければ、05 のエラーの表の「キーが <code>undefined</code>」の行を見ます。</p></div>
@@ -945,6 +953,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
           <tr><td><strong>仮の文章</strong></td><td>本物の AI の代わりに返す、決まった文章。AI につなぐ前に、押す → 待つ → 出るの流れを確かめるのに使う</td></tr>
           <tr><td><strong>モック</strong></td><td>見た目だけを作った画面。動きや保存の仕組みは入っていない</td></tr>
           <tr><td><strong>Node.js</strong></td><td>JavaScript をブラウザの外（PC の上）で動かすための土台のソフト。サーバー側のプログラムを動かすのに使う</td></tr>
+          <tr><td><strong>LTS</strong></td><td>Long Term Support の略。長い期間、修正が配られる版のこと</td></tr>
           <tr><td><strong>localhost</strong></td><td>自分の PC 自身を指す名前。<code>http://localhost:3000</code> は自分の PC の中で動いているサーバーの 3000 番の入口を表す</td></tr>
           <tr><td><strong>コンソール</strong></td><td>開発者ツールの中の、JavaScript のエラーや記録が文字で出る欄。止まった理由が赤い文字で出る</td></tr>
           <tr><td><strong>関数</strong></td><td>ひとまとまりの処理に名前を付けたもの。名前と、受け取るもの・返すものの形が同じなら、中身を差し替えても呼ぶ側は直さずに済む</td></tr>
