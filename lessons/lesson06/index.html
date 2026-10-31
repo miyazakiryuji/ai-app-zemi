@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第6回 テスト ｜ AIアプリ開発入門ゼミ</title>
-<meta name="description" content="AIアプリ開発入門ゼミ 第6回 テスト。テストとは何かを押さえ、仕様書をもとにテストコードを Claude Code に書かせ、流し、落ちたら実装側を直させる。UIテストと敵対的テストも Claude Code に実施させ、テストを流す節目を自分で決めるまでの手順。">
-<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
+<meta name="description" content="第6回。仕様書に書いた動きができているか、決めた入力と期待する結果で確かめます。自動テストと実際の操作を組み合わせ、不具合や未確認の点を記録します。本番の記録と分けた練習用データを使います。">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-projects">
 <script src="../../assets/site.js" defer></script>
 </head>
 <body class="lesson06-reading">
@@ -16,8 +16,8 @@
 <div class="cover-band">
   <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第6回</div>
-    <h1>テスト ― 壊れていないことを確かめる</h1>
-    <div class="subtitle">作ったアプリが「動いている」と「壊れていない」は別のことです。この回では、仕様書をもとにテストコードを Claude Code に書かせ、流し、落ちたら実装側を直す流れを自分のアプリで1周回します。UI テストと敵対的テストも Claude Code に実施させ、テストを流す節目は自分で決めます。</div>
+    <h1>テスト ― 期待する動きと結果を確かめる</h1>
+    <div class="subtitle">仕様書に書いた動きができているか、決めた入力と期待する結果で確かめます。自動テストと実際の操作を組み合わせ、不具合や未確認の点を記録します。本番の記録と分けた練習用データを使います。</div>
     <div class="chips"><span class="chip">テストコードは Claude Code が書く</span><span class="chip">原因を確かめて直す</span><span class="chip">UI テスト・敵対的テスト</span><span class="chip">README と CLAUDE.md</span></div>
   </div>
   <img class="penguin penguin-cover" src="../../assets/penguins/penguin_cheering_both_wings.png" alt="">
@@ -30,38 +30,18 @@
 </ol>
 
 <div class="howto">
-  <div><span class="howto-title">この回でやること</span><ol>
-    <li>テストとは何か、この回で扱うテストの違いを押さえる</li>
-    <li>仕様書 docs/spec.md をもとに、テストコードを Claude Code に書かせる</li>
-    <li>テストを流し、落ちたら実装側を直させて、全部通るまで回す</li>
-    <li>UI テストと敵対的テストを Claude Code に実施させ、記録を残す</li>
-    <li>テストを流す節目を決めて CLAUDE.md に書き、実行コマンドを README に残す</li>
-  </ol></div>
-  <div><span class="howto-title">できたかの確認</span><ul>
-    <li>テストコード一式があり、命令1つで全部流せる</li>
-    <li>全部通った結果の画面がある（落ちたテストを、実装側を直して通した）</li>
-    <li>UI テストと敵対的テストの記録（見つかったことと直したこと）がある</li>
-    <li>README にテストの実行コマンドが、CLAUDE.md に「テストを流す節目」が書いてある</li>
-    <li>自分の記録がテストで消えないことを確かめてから流した</li>
-  </ul></div>
+  <div><span class="howto-title">この回でやること</span><ol><li>よく使う操作・入力の間違い・失敗時の確かめ方を決める</li><li>練習用データを分け、テストを作って実行する</li><li>実際の操作も試し、結果と再実行の手順を残す</li></ol></div>
+  <div><span class="howto-title">できたかの確認</span><ul><li>期待する結果と実際の結果を比べられる</li><li>通った・落ちた・未確認を区別して記録した</li><li>README を読んで同じテストをもう一度実行できる</li></ul></div>
 </div>
 
-<div class="goal">
-  <span class="goal-title">🎯 この回のゴール</span>
-  <ol>
-    <li>「動いている」と「壊れていない」の違いと、テストが何を確かめるものかを説明できる</li>
-    <li>テストコード・UI テスト・敵対的テストの関係を説明できる</li>
-    <li>仕様書からテストコードを Claude Code に書かせ、流して、落ちたら実装側を直させられる</li>
-    <li>テストが落ちたときに、テストの条件をゆるめてはいけない理由を説明できる</li>
-    <li>テストを流す節目を自分で決め、あとから何度でも流せる形で残せる</li>
-  </ol>
-</div>
+<div class="goal"><span class="goal-title">🎯 読み進め方</span><p>まず「<a href="#your-project">自分の制作物で進める</a>」を読み、上の3項目で完成を確かめます。Webの操作例は、同じ構成で作るときに参照してください。画面やファイルの名前は、仕様書で決めたものを使います。</p></div>
 
 <div class="box box-point"><span class="box-title">✅ この回の前に用意しておくもの：動く状態の自分のアプリ ＋ 仕様書 docs/spec.md ＋ Claude デスクトップアプリ</span>アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、仕様書 <code>docs/spec.md</code> と、登録・一覧などが動くアプリがある状態から始めます。 Claude デスクトップアプリでそのフォルダを開き、Claude Code に指示を出します。Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。 間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</div>
 
 <nav class="toc" aria-label="目次">
   <span class="toc-title">目次</span>
   <ol>
+    <li><a href="#your-project">自分の制作物で進める</a></li>
     <li><a href="#map">この回の地図</a></li>
     <li><a href="#what">テストとは</a></li>
     <li><a href="#kinds">この回で扱うテスト</a></li>
@@ -93,6 +73,29 @@
   </ol>
 </div>
 </section>
+
+<!-- BEGIN OWN PROJECT PATH -->
+<section class="chapter ch-1 project-path" id="your-project">
+<div class="chapter-head c-1"><div class="ch-text"><div class="ep">共通の進め方</div><h2>自分の制作物で進める</h2></div><img class="penguin penguin-ch" src="../../assets/penguins/penguin_cheering_both_wings.png" alt=""></div>
+<h3>決めた動きを繰り返し確かめる</h3>
+<p>テストは、仕様で決めたことを入力・操作・結果で確かめる作業です。<strong>ブラウザを使うかどうかではなく、何ができれば正しいか</strong>を先に決めます。</p>
+<div class="flowmap"><div class="flow-step"><div class="f-ep">1</div><div class="f-name">期待を決める</div><div class="f-meta">仕様書から確認項目へ</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">2</div><div class="f-name">方法を選ぶ</div><div class="f-meta">自動のテスト・自分の操作</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">3</div><div class="f-name">試して比べる</div><div class="f-meta">期待した結果と実際の結果</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">4</div><div class="f-name">直して再確認</div><div class="f-meta">前の機能も動くか</div></div></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="自分の制作物の進め方の表"><table><thead><tr><th>制作物の例</th><th>自分で試す操作</th><th>見る結果</th></tr></thead><tbody><tr><td>記録するアプリ</td><td>見本を登録し、起動し直す</td><td>保存する仕様なら、同じ記録を読める</td></tr><tr><td>要約するツール</td><td>短いメモと長いメモをそれぞれ渡す</td><td>仕様どおりの形で結果が出る。内容が入力に基づく</td></tr><tr><td>相談するアプリ</td><td>質問を送り、続けて質問する</td><td>返事が表示され、必要な会話の前提が引き継がれる</td></tr><tr><td>ファイルを処理するツール</td><td>見本1件、空の入力、同じ名前の出力先を試す</td><td>結果が正しい。元のファイルを勝手に上書きしない</td></tr></tbody></table></div>
+<p>自動のテストコードをAIに書かせる手順と、結果の読み方は、この下の本文で学びます。使用する命令や保存先は自分の構成に合わせます。テスト用データは実際の記録と分け、本物のAIへの呼び出しは仮の応答に替えます。</p>
+<h3>画面やファイルの確認手順を、自分の仕様から作る</h3>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">docs/spec.md と docs/actions.md（あれば）を読み、私が実際に操作する確認表を作ってください。
+列：入力／操作手順／期待する結果／確かめる場所／結果。
+いちばんよく使う操作、空の入力、処理中、失敗、保存する仕様なら起動し直した後も含めてください。
+Webならブラウザ、デスクトップならアプリの画面、ファイル処理なら入力と出力を確認します。
+編集・削除・履歴が仕様になければ、確認のために機能を追加しないでください。
+実際の記録や元ファイルは使わず、別のテスト用データを用意してください。
+まず一覧とデータの置き場所を示し、私の確認を待ってください。
+操作ツールで確認できないものは「自分で試す」と明記し、手順を示してください。
+まだ修正はしないでください。</pre>
+<p>確認表に沿って操作し、OK／NG／未確認を記録します。AIが画面を操作できない場合は自分で試し、スクリーンショットや出力の見本を渡します。未確認を成功に数えません。</p>
+<p><strong>完成の確認</strong>：確認項目と実行結果がある／不具合を直したら同じ操作と前からの操作を試している／再実行する方法をREADMEに残している。READMEは、アプリの使い方を書く説明ファイルです。下の食費メモのUIテストは、Webでの操作例として参照してください。</p><p><a href="#deliverables">この回で残すものを確認する →</a></p>
+</section>
+<!-- END OWN PROJECT PATH -->
 
 <section class="chapter ch-1" id="what">
   <div class="chapter-head c-1">
@@ -335,32 +338,14 @@
       <figcaption>整えたあとの報告（例：食費メモ）。ふだんの記録とテスト用データの保存先が別になっている表と、実際に流して自分の記録が1文字も変わっていないことの確認、実行結果（35件すべて成功）が返ってきました</figcaption>
     </figure></div></details>
 </section>
-<section class="chapter ch-wrap" id="deliverables">
-  <div class="chapter-head c-wrap">
+<section class="chapter ch-wrap" id="deliverables"><div class="chapter-head c-wrap">
     <div class="ch-text">
       <div class="ep">まとめ</div>
       <h2>この回で作るもの</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
   </div>
-    <p>終わったとき、手元に次のものがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
-    <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
-      </dl></div>
-    <div class="cards">
-      <div class="card"><span class="card-title">テストコード一式と、全部通った結果</span>
-        <span class="card-desc">仕様書の各行に対応したテストのファイルと、流して全部通った状態のスクリーンショット。敵対的テストで見つかった不具合のテストも足した状態で。</span>
-      </div>
-      <div class="card"><span class="card-title">UI テストと敵対的テストの記録</span>
-        <span class="card-desc">Claude Code に撮らせた UI テストのスクリーンショット。敵対的テストの観点の一覧と、実行したもの・見つかったもの・直したもの。</span>
-      </div>
-      <div class="card"><span class="card-title">README と CLAUDE.md</span>
-        <span class="card-desc"><code>README</code> に書いたテストの実行コマンド（1行）と、<code>CLAUDE.md</code> に書いた「テストを流す節目」。</span>
-      </div>
-    </div>
-    <div class="box box-warn">提出の前に、スクリーンショットとファイルに、名前・メールアドレス・業務の実データ・外部サービスの鍵（APIキー・データベースのトークン）が写っていないかを見てください。写っていたら、まだどこにも貼っていなければ、範囲を絞って撮り直すか、その部分を塗りつぶします。一度でも掲示板・提出フォーム・共有の場所に出したキーは、貼り直すのではなく、管理画面でそのキーを無効化して作り直します。<br><span class="why">なぜ：</span>画像を消しても、それまでに見た人の手元にはキーが残るためです。</div>
-  
-</section>
+<p>自分の制作物について、次を残します。</p><ul><li>テストのファイルと、通った数・落ちた数・未確認の記録</li><li>実際の操作を試した結果。画面がないものは入力と出力の記録</li><li>README のテスト手順と、CLAUDE.md のテストする節目</li></ul><p>提出の内容・締切・フォームは、commmune の自分の期のゼミスレッドにある講師の案内を確認してください。<a href="../../#rules">参加・修了のルール</a>も確認します。</p><p>共有するファイル・画像・出力に、APIキー、実名・メールアドレス、業務の実データを含めないでください。キーを共有してしまった場合は、サービスの管理画面で無効化して作り直します。</p></section>
 <section class="chapter ch-wrap" id="pitfalls">
   <div class="chapter-head c-wrap">
     <div class="ch-text">
@@ -391,7 +376,7 @@
         <p><strong>対処：</strong>指示に「この時点では実行しないでください」「私が選んだものだけ」を入れます。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 テストを流したら自分の記録が消えた</span>
         <p>以後テストを流さなくなります。</p>
-        <p><strong>対処：</strong>テスト用のデータを別の場所に置かせ、「私の記録が消えないことを確かめて」まで指示します。握り3つも守ります。</p></div>
+        <p><strong>対処：</strong>テスト用のデータを別の場所に置かせ、「私の記録が消えないことを確かめて」まで指示します。操作する範囲・データの保護・確認の止めどころも守ります。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 テストコードだけで確認を終えた</span>
         <p>押せないボタン・崩れた表示が残ります。</p>
         <p><strong>対処：</strong>UI テスト（ブラウザ操作）も必ず実施させます。片方では見つからない不具合があります。</p></div>

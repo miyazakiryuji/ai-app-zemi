@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第2回 要件定義 ｜ AIアプリ開発入門ゼミ</title>
-<meta name="description" content="AIアプリ開発入門ゼミ 第2回 要件定義。アプリのフォルダを作って Claude デスクトップアプリで開き、AI と壁打ちして要件を噛み砕き、使う技術の提案をもらい、仕様書（docs/spec.md）と作業の順番（docs/tasks.md）をフォルダに残すまでの手順。">
-<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
+<meta name="description" content="第2回。誰の何を助けるものか、どこで動かすか、何を入力して何を受け取るかを決めます。AIと相談し、最初に作る小さな範囲を仕様書と作業の順番に残します。まだコードは書きません。">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-projects">
 <script src="../../assets/site.js" defer></script>
 </head>
 <body class="lesson-visual-reading">
@@ -16,8 +16,8 @@
 <div class="cover-band">
   <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第2回</div>
-    <h1>要件定義 ― 作るものを決めて、仕様書と作業の順番にする</h1>
-    <div class="subtitle">作る前に「誰が・何を・何を作らないか」を文章で決める回です。アプリのフォルダを作って Claude デスクトップアプリで開き、AI と壁打ちして削り込み、使う技術の提案をもらってから、仕様書（docs/spec.md）と作る順番（docs/tasks.md）をフォルダに残します。まだコードは書きません。</div>
+    <h1>要件定義 ― 作るものと動かす場所を決める</h1>
+    <div class="subtitle">誰の何を助けるものか、どこで動かすか、何を入力して何を受け取るかを決めます。AIと相談し、最初に作る小さな範囲を仕様書と作業の順番に残します。まだコードは書きません。</div>
     <div class="chips"><span class="chip">Claude デスクトップアプリ</span><span class="chip">docs/spec.md</span><span class="chip">docs/tasks.md</span><span class="chip">まだコードは書かない</span></div>
   </div>
   <img class="penguin penguin-cover" src="../../assets/penguins/penguin_puzzle.png" alt="">
@@ -30,38 +30,18 @@
 </ol>
 
 <div class="howto">
-  <div><span class="howto-title">この回でやること</span><ol>
-    <li>アプリのフォルダを1つ作り、Claude デスクトップアプリで開く</li>
-    <li>「誰が・何を・欲しい機能・やらないこと」を自分で書いて、AI と壁打ちする</li>
-    <li>テーマの3条件・MVP・3類型・画面の4条件に当てて削る</li>
-    <li>技術スタックの提案をもらう</li>
-    <li>仕様書 docs/spec.md と作る順番 docs/tasks.md を書かせて、自分で1箇所直す</li>
-  </ol></div>
-  <div><span class="howto-title">できたかの確認</span><ul>
-    <li>画面の下のボタンが自分のアプリのフォルダ名になっている</li>
-    <li>権限モードが「手動」になっている</li>
-    <li>my-app/docs に spec.md と tasks.md の2ファイルがある</li>
-    <li>spec.md に6項目（目的／やること／やらないこと／扱うデータ／画面一覧と遷移／使う技術）がそろっている</li>
-    <li>spec.md と tasks.md のそれぞれで、自分の判断で直した箇所を言える</li>
-  </ul></div>
+  <div><span class="howto-title">この回でやること</span><ol><li>目的・使う人・動かす場所を言葉にする</li><li>最初に1回使える範囲と、今回は作らないことを決める</li><li>仕様書と作る順番を読み、自分で直す</li></ol></div>
+  <div><span class="howto-title">できたかの確認</span><ul><li>docs/spec.md に目的・入力と結果・動かす場所・構成がある</li><li>docs/tasks.md に作る順番と完成の確かめ方がある</li><li>選んだ範囲と、あとに回したことの理由を言える</li></ul></div>
 </div>
 
-<div class="goal">
-  <span class="goal-title">🎯 この回のゴール</span>
-  <ol>
-    <li>要件定義で決める4つ（誰が使うか・何を作るか・何を作らないか・どんなデータと画面を持つか）と、作る前に決める理由を説明できる</li>
-    <li>Claude デスクトップアプリで自分のアプリのフォルダを開き、権限モードを「手動」にできる</li>
-    <li>壁打ちで返ってきた質問に答え、提案を「必須」と「あとまわし」に自分で仕分けられる</li>
-    <li>良いテーマの3条件・MVP の残し方・3類型・画面の4条件で、自分のアプリを削れる</li>
-    <li>docs/spec.md と docs/tasks.md を Claude Code に書かせ、確認画面で場所と中身を見てから許可できる</li>
-  </ol>
-</div>
+<div class="goal"><span class="goal-title">🎯 読み進め方</span><p>まず「<a href="#your-project">自分の制作物で進める</a>」を読み、上の3項目で完成を確かめます。Webの操作例は、同じ構成で作るときに参照してください。画面やファイルの名前は、仕様書で決めたものを使います。</p></div>
 
 <div class="box box-point"><span class="box-title">✅ この回の前に用意しておくもの：Claude デスクトップアプリ ＋ Claude の有料プラン</span>Claude デスクトップアプリで、アプリのフォルダを開くところから始めます。デスクトップアプリと Claude Code が何かは、すぐ下の「要件定義とは」の用語欄にまとめてあります。 Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。 間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</div>
 
 <nav class="toc" aria-label="目次">
   <span class="toc-title">目次</span>
   <ol>
+    <li><a href="#your-project">自分の制作物で進める</a></li>
     <li><a href="#map">この回の地図</a></li>
     <li><a href="#what">要件定義とは</a></li>
     <li><a href="#folder">最初に、アプリのフォルダを作る</a></li>
@@ -96,6 +76,31 @@
   </ol>
 </div>
 </section>
+
+<!-- BEGIN OWN PROJECT PATH -->
+<section class="chapter ch-1 project-path" id="your-project">
+<div class="chapter-head c-1"><div class="ch-text"><div class="ep">共通の進め方</div><h2>自分の制作物で進める</h2></div><img class="penguin penguin-ch" src="../../assets/penguins/penguin_cheering_both_wings.png" alt=""></div>
+<h3>先に「何をするものか」と「どこで使うか」を決める</h3>
+<p>この回では、作りたいものを小さく絞り、仕様書と作業の順番を残します。<strong>Webアプリに限定しません。</strong> 「記録型・変換型・相談型」は用途を考えるための例で、この3つに当てはめる必要もありません。</p>
+<div class="flowmap"><div class="flow-step"><div class="f-ep">1</div><div class="f-name">困りごと</div><div class="f-meta">誰が、何を繰り返している？</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">2</div><div class="f-name">使う場所</div><div class="f-meta">ブラウザ？ PCで起動？</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">3</div><div class="f-name">最初の1回</div><div class="f-meta">何を入れると、何が得られる？</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">4</div><div class="f-name">仕様に残す</div><div class="f-meta">構成・手順・完成条件</div></div></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="自分の制作物の進め方の表"><table><thead><tr><th>決めること</th><th>Webアプリの例</th><th>デスクトップツールの例</th></tr></thead><tbody><tr><td>困りごと</td><td>日々の支出を見返したい</td><td>複数のメモファイルから要点を抜き出したい</td></tr><tr><td>起動・操作</td><td>ブラウザで開き、金額を入力する</td><td>PCで起動し、処理するファイルを選ぶ</td></tr><tr><td>最初の完成条件</td><td>1件登録すると一覧に出る</td><td>見本のメモ1件から要点が表示される</td></tr><tr><td>あとで検討すること</td><td>家族との共有</td><td>多数のファイルの一括処理、他人への配布</td></tr></tbody></table></div>
+<p>「自分のPCだけ」「ほかの端末でも使う」「他人にも渡す」は分けて考えます。保存する場所や、秘密の設定をどう扱うかが変わるためです。決まらなければ、まず自分だけで1回使う範囲を候補にし、必要な条件をAIと確認します。</p>
+<h3>自分の題材を整理する指示</h3>
+<p>次の指示の（ ）を自分の言葉にして送ります。まだ決められない項目は「未定」と書いて構いません。</p>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">自分が使うアプリ・ツールを作りたいです。まだコードは書かないでください。
+困っている作業：（例：毎日のメモから要点を拾うのに手間がかかる）
+使う人：（自分だけ／ほかの人にも使ってもらう予定）
+動かしたい場所：（ブラウザ／PCで起動するツール／未定）
+使うPC：（Mac／Windowsなど、自分の環境）
+入力するものと、得たい結果：（例：メモファイルを1つ選び、要点3つを得る）
+扱ってよいデータ：（例：練習用に作った架空のメモ）
+
+不明な点を3つまで質問してください。答えを受け取ってから、
+最初に作る1つの流れと、今回は作らないことを提案してください。
+技術はまだ決めず、画面の有無・起動方法・保存が必要かも一緒に整理してください。</pre>
+<p><strong>確認</strong>：入力→操作→結果を1つ説明できれば、本文のフォルダ作成・仕様書作成へ進みます。仕様書の「目的」に動かす場所と使う人、「使う技術」に起動方法も残してください。AIの提案を読んで分からない点は、「自分の操作で何が変わるか」で説明してもらいます。</p><p><a href="#deliverables">この回で残すものを確認する →</a></p>
+</section>
+<!-- END OWN PROJECT PATH -->
 
 <section class="chapter ch-1" id="what">
   <div class="chapter-head c-1">
@@ -318,7 +323,7 @@
     <h3>4-3. 壁打ちの指示の型</h3>
     <p>（ ）の中を自分のアプリに差し替えて、さっき開いた <code>my-app</code> の入力欄に貼って送ります。</p>
 <span class="code-label">指示①（壁打ち）― （ ）の中を自分のアプリに差し替えて貼る</span>
-<pre class="prompt">これから、自分専用の小さなWebアプリを作ります。まだコードは書かないでください。
+<pre class="prompt">これから、自分の目的に合う小さなアプリまたはツールを作ります。まだコードは書かないでください。
 先に、要件を一緒に整理してください。
 
 ■ 誰が使うか
@@ -411,9 +416,8 @@
 
     <h3>5-3. MVP の考え方と削り方</h3>
 <figure class="fig lv-diagram" data-diagram="l02_mvp"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l02_mvp.webp"><img src="../../assets/figs/lessons01-05/l02_mvp.webp" alt="MVPは「1回使える最小の範囲」。残す① 目的に必要：食費を入力 → 一覧を見る → 合計を確認。残す② 間違い・消失・危険を防ぐ：入力のチェック、必要な修正・削除など。今回は作らない：無くても1回使える機能。例：CSV出力。①にも②にも当てはまらない機能は、あとまわし。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">MVPは「1回使える最小の範囲」</p><div class="lv-stack"><div class="lv-card"><strong>残す① 目的に必要</strong><p>食費を入力 → 一覧を見る → 合計を確認</p></div><div class="lv-card"><strong>残す② 間違い・消失・危険を防ぐ</strong><p>入力のチェック、必要な修正・削除など</p></div><div class="lv-card"><strong>今回は作らない</strong><p>無くても1回使える機能。例：CSV出力</p></div></div><p class="lv-note">①にも②にも当てはまらない機能は、あとまわし。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l02_mvp.webp">図解を画像で開く ↗</a></div><figcaption>MVPは「1回使える最小の範囲」（仕組みを示す模式図）</figcaption></figure><p><span class="why">なぜ削るのか：</span>機能を増やしすぎると、どれも途中で終わります。この回のLIVEで範囲を決め、「今回は作らない」ものも仕様書に残します。AIの仕分けは参考にし、採用は自分で決めます。</p>
-<h3>5-4. 3類型への当てはめ</h3>
-<figure class="fig lv-diagram" data-diagram="l02_types"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l02_types.webp"><img src="../../assets/figs/lessons01-05/l02_types.webp" alt="主な使い方で、型を1つ選ぶ。記録型：入力 → ためる → 見返す。例：食費メモ・読書記録。変換型：入力 → 別の形に変える → 結果。例：要約・文章の言い換え。相談型：質問 → 回答 → やり取りを残す。例：自分の資料に基づく相談。複数の特徴があっても、主な型を1つ決める。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">主な使い方で、型を1つ選ぶ</p><div class="lv-stack"><div class="lv-card"><strong>記録型</strong><p>入力 → ためる → 見返す<br>例：食費メモ・読書記録</p></div><div class="lv-card"><strong>変換型</strong><p>入力 → 別の形に変える → 結果<br>例：要約・文章の言い換え</p></div><div class="lv-card"><strong>相談型</strong><p>質問 → 回答 → やり取りを残す<br>例：自分の資料に基づく相談</p></div></div><p class="lv-note">複数の特徴があっても、主な型を1つ決める。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l02_types.webp">図解を画像で開く ↗</a></div><figcaption>主な使い方で、型を1つ選ぶ（仕組みを示す模式図）</figcaption></figure><p><span class="why">なぜ主な型を決めるのか：</span>この先の解説で、自分がどの例を見ればよいか分かるようにするためです。</p>
-<h3>5-5. 使いやすい画面の4条件</h3>
+<h3>5-4. 使い方を考えるための例</h3><p>記録する・変換する・相談する、は目的を整理するための例です。どれかに分類する必要はありません。ファイル整理や作業の自動化なども、入力と結果が決まれば題材にできます。</p><div class="project-examples"><div><strong>記録する</strong><p>入力 → 保存 → 見返す</p></div><div><strong>変換する</strong><p>文章・ファイル → 処理 → 結果</p></div><div><strong>相談する</strong><p>質問 → AIの返事 → 次の操作</p></div></div>
+<h3>5-5. 画面を作る場合：使いやすさの4条件</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="使いやすい画面の4条件の表">
       <table>
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
@@ -432,8 +436,8 @@
     <ul>
       <li><strong>ワイヤーフレーム</strong>を作ります。紙に手描き／Claude に箇条書きで出させる／Claude に画面遷移の図を出させる、のいずれかで構いません</li>
       <li>Figma などの専用ツールは使いません。<br><span class="why">なぜ：</span>操作を覚えるだけで、次の LIVE講義までの時間が終わってしまいます。必要なのは見た目の完成度ではなく、画面の数と役割が決まっていることです</li>
-      <li>3類型それぞれの画面構成の例：記録型＝一覧＋入力／変換型＝入力＋結果／相談型＝やり取り＋履歴</li>
-      <li>画面数の目安：MVP なら2〜4枚。5枚以上になった場合は MVP が大きすぎるので、戻って削ります</li>
+      <li>使い方ごとの画面構成の例：記録型＝一覧＋入力／変換型＝入力＋結果／相談型＝やり取り＋履歴</li>
+      <li>画面は目的に必要な数だけにします。1画面でも構いません。画面を持たないツールでは、入力ファイル・出力ファイルと実行手順を決めます</li>
     </ul>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>ワイヤーフレーム</dt><dd>色や装飾を付けずに、どこに何を置くかだけを描いた画面の骨組みの図。</dd>
@@ -483,12 +487,14 @@
     <h3>6-2. 技術スタックを提案させる指示の型</h3>
     <p>壁打ちと同じセッションで、そのまま貼って送ります。</p>
 <span class="code-label">指示③（技術スタック）― そのまま貼る</span>
-<pre class="prompt">ここまでで決めた内容（誰が使うか・やること・やらないこと・画面）をもとに、このアプリを作るのに使う技術スタック（＝プログラミング言語や部品の組み合わせ）を提案してください。
+<pre class="prompt">ここまでで決めた内容（誰が使うか・動かす場所・やること・やらないこと・入力と結果）をもとに、このアプリを作るのに使う技術スタック（＝プログラミング言語や部品の組み合わせ）を提案してください。
 まだコードは書かないでください。
 
 ■ 前提
 - 作る人はプログラミング未経験で、Claude Code に指示して作ります
-- 自分のPCのブラウザで動かす、自分専用のWebアプリです（ログインは作りません）
+- 動かす場所：（ブラウザ／デスクトップ／ファイルを処理するツール／まだ相談したい）
+- 使う人とOS：（自分だけか、他の人も使うか。Windows／Macなど）
+- 先に決めた入力と結果に合う構成にしてください。未決定の点は質問し、Webを前提にしないでください
 - Node.js はまだ入れていません
 - あとで AI の機能を1つ足す予定です
 - 部品はできるだけ少なく、エラーが出たときに原因を追いやすい構成にしたいです
@@ -498,7 +504,7 @@
 2. ほかの候補を2つまで挙げ、おすすめと比べて何が違うか（難しさ・できること）を1行ずつ書いてください
 3. 初めて聞く人向けに、出てきた用語には一言の説明を付けてください
 4. ファイルは作らず、コマンドも実行しないでください。仕様書への書き込みは、あとで別に指示します</pre>
-    <p><span class="why">なぜ「前提」を書くのか：</span>前提が無いと、AI は世の中で多い構成（React などの大きな部品の組み合わせ）を返してきます。未経験者が自分の PC で動かす、あとで AI 機能を足す、と書いておくと、それに合った小さい構成になります。</p>
+    <p><span class="why">なぜ前提を書くのか：</span>同じ目的でも、ブラウザで使うかPC内のファイルを扱うかで、必要な言語や部品が違います。動かす場所と入力・結果を伝え、提案の理由を確認して選びます。</p>
 
     <div class="figs-2">
       <figure class="shot">
@@ -530,7 +536,7 @@
         <dt>localhost</dt><dd>自分の PC 自身を指す呼び名。<code>http://localhost:3000</code> は「自分の PC の中で動いているアプリを開く」という意味です。</dd>
         <dt>React</dt><dd>画面を作るための大がかりな部品集。世の中でよく使われますが、このゼミの規模では大きすぎます。</dd>
       </dl></div>
-    <div class="box box-note">ゼミとして全員共通の構成をご案内する場合は、別途お伝えします。提案と違っていたら、そのときに <code>docs/spec.md</code> の「使う技術」の欄だけを書き換えます（作り直しではありません）。</div>
+    <div class="box box-note">自分の目的と動かす場所に合う構成を選び、理由と起動方法を仕様書に残します。</div>
 
 </section>
 <section class="chapter ch-7" id="spec">
@@ -591,7 +597,7 @@
 
 ■ お願い
 この内容で、仕様書を docs/spec.md に Markdown で書いてください。
-見出しは「目的／やること（MVP）／やらないこと／扱うデータ／画面一覧と遷移／使う技術」の6つ。
+見出しは「目的／やること（MVP）／やらないこと／扱うデータ／画面または入出力の一覧／使う技術と動かし方」の6つ。
 「目的」には、誰がどこで使うかと、ユーザーストーリー（「〜のとき、〜したい。なぜなら〜だから。」）を3〜5本入れてください。
 扱うデータは「項目名・種類（文字・数値・日付など）・必須かどうか」の表にしてください。
 画面は上で決めたとおりにし、見た目や装飾の話は書かないでください。
@@ -717,35 +723,14 @@
     <div class="box box-point"><strong>確認のしかた：</strong>仕様書と同じく、<strong>1箇所は自分で直してください</strong>。順番に納得できないところを入れ替える、大きすぎるタスク（1回の指示で作れそうにないもの）を分ける、などです。直した箇所は提出時に書きます。</div>
 
 </section>
-<section class="chapter ch-wrap" id="deliverables">
-  <div class="chapter-head c-wrap">
+<section class="chapter ch-wrap" id="deliverables"><div class="chapter-head c-wrap">
     <div class="ch-text">
       <div class="ep">まとめ</div>
       <h2>この回で作るもの</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
   </div>
-    <p>終わったとき、手元に次の3つがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。この回から <a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
-    <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
-      </dl></div>
-    <div class="cards">
-      <div class="card"><span class="card-title">アプリのフォルダ</span>
-        <span class="card-desc">好きな場所（同期されていなければデスクトップ、同期されていればホームフォルダ直下の <code>apps</code> がおすすめ）に、半角英数字の名前で（例：<code>my-app</code>）。Claude デスクトップアプリで開けている状態。</span>
-      </div>
-      <div class="card"><span class="card-title">docs/<wbr>spec.md（仕様書）</span>
-        <span class="card-desc">6項目（目的／やること／やらないこと／扱うデータ／画面一覧と遷移／使う技術）。自分で1箇所以上直したもの。</span>
-      </div>
-      <div class="card"><span class="card-title">docs/<wbr>tasks.md（作る順番）</span>
-        <span class="card-desc">10個以内のタスク。それぞれに「終わったと言える条件」と順番の理由。自分で1箇所直したもの。</span>
-      </div>
-    </div>
-    <figure class="shot">
-      <a class="zoom" href="../../assets/images/lesson02/r2_finder_docs.png"><img src="../../assets/images/lesson02/r2_finder_docs.png" alt="my-app/docs に spec.md と tasks.md ができた状態" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月"></a>
-      <figcaption>my-app/docs に spec.md と tasks.md ができた状態。作り始めるときは、ここから始めます</figcaption>
-    </figure>
-
-</section>
+<p>自分の制作物について、次を残します。</p><ul><li>アプリのフォルダ：自分の作業場所として開ける状態</li><li>docs/spec.md：目的、使う人、動かす場所、やること・やらないこと、入力と結果、構成</li><li>docs/tasks.md：作る順番と、それぞれの完成の確かめ方</li></ul><p>提出の内容・締切・フォームは、commmune の自分の期のゼミスレッドにある講師の案内を確認してください。<a href="../../#rules">参加・修了のルール</a>も確認します。</p><p>共有するファイル・画像・出力に、APIキー、実名・メールアドレス、業務の実データを含めないでください。キーを共有してしまった場合は、サービスの管理画面で無効化して作り直します。</p></section>
 <section class="chapter ch-wrap" id="pitfalls">
   <div class="chapter-head c-wrap">
     <div class="ch-text">

@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第3回 モックを作る ｜ AIアプリ開発入門ゼミ</title>
-<meta name="description" content="AIアプリ開発入門ゼミ 第3回 モックを作る。仕様書の画面一覧から、裏側の処理を作らずに見た目だけの画面（モック）を Claude Code に作らせ、ブラウザで開いて崩れを確かめ、テイスト → 細部の順にブラッシュアップするまでの手順。">
-<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
+<meta name="description" content="第3回。本格的な処理を作る前に、使う流れを確認します。画面のあるアプリは入力欄と仮の結果、画面のないツールは見本の入力と出力を用意します。自分で開き、分かりにくい点を1つずつ直します。">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-projects">
 <script src="../../assets/site.js" defer></script>
 </head>
 <body class="lesson-visual-reading">
@@ -16,9 +16,9 @@
 <div class="cover-band">
   <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第3回</div>
-    <h1>モックを作る ― 裏側を作らずに、画面を先に作って整える</h1>
-    <div class="subtitle">裏側の処理を作らずに、見た目だけの画面（モック）を先に作る回です。仕様書 docs/spec.md の画面一覧から Claude Code に HTML と style.css を作らせ、ブラウザで開いて、崩れ → テイスト → 細部の順に1回の指示で1つずつ直します。保存や計算の処理はまだ作りません。</div>
-    <div class="chips"><span class="chip">Claude デスクトップアプリ</span><span class="chip">権限モードは「手動」</span><span class="chip">app/ の HTML と style.css</span><span class="chip">保存・計算はまだ作らない</span></div>
+    <h1>モックを作る ― 入力と結果の見え方を確かめる</h1>
+    <div class="subtitle">本格的な処理を作る前に、使う流れを確認します。画面のあるアプリは入力欄と仮の結果、画面のないツールは見本の入力と出力を用意します。自分で開き、分かりにくい点を1つずつ直します。</div>
+    <div class="chips"><span class="chip">自分の仕様書から進める</span><span class="chip">1回の指示で1つずつ</span><span class="chip">完成を自分で確かめる</span></div>
   </div>
   <img class="penguin penguin-cover" src="../../assets/penguins/penguin_cheering_both_wings.png" alt="">
 </div>
@@ -30,39 +30,19 @@
 </ol>
 
 <div class="howto">
-  <div><span class="howto-title">この回でやること</span><ol>
-    <li>アプリのフォルダを開き、権限モードを「手動」にする</li>
-    <li>指示①で、仕様書の画面一覧からモックを作らせる</li>
-    <li>できた HTML をブラウザで開き、幅を変えて崩れていないかを見る</li>
-    <li>指示②でテイストを決め、指示③で細部を1つずつ直す</li>
-    <li>前と後のスクリーンショットを撮り、直した点をメモして、仕様書と揃える</li>
-  </ol></div>
-  <div><span class="howto-title">できたかの確認</span><ul>
-    <li>app/ の中に画面の数だけ HTML と、style.css が1つある</li>
-    <li>HTML をダブルクリックするとブラウザで画面が開き、幅を狭めても崩れない</li>
-    <li>頼んでいない作業（保存の処理など）が始まったとき、確認画面で「拒否」を押せた</li>
-    <li>前と後のスクリーンショットと、自分の判断で直した点のメモが手元にある</li>
-    <li>仕様書の画面一覧と、できた画面の数・名前が合っている</li>
-  </ul></div>
+  <div><span class="howto-title">この回でやること</span><ol><li>仕様書を読み、試作品で見たい範囲を決める</li><li>選んだ構成で、入力と仮の結果を用意する</li><li>自分で開き、分かりにくい点を1つずつ直す</li></ol></div>
+  <div><span class="howto-title">できたかの確認</span><ul><li>自分の環境で試作品または見本のファイルを開ける</li><li>入力するものと、受け取る結果を指し示せる</li><li>直した点と理由、前後の様子を残してある</li></ul></div>
 </div>
 
-<div class="goal">
-  <span class="goal-title">🎯 この回のゴール</span>
-  <ol>
-    <li>モックとは何か、なぜ裏側より先に画面を作るのかを説明できる</li>
-    <li>仕様書の画面一覧から、Claude Code に見た目だけの画面を作らせられる</li>
-    <li>できた画面をブラウザで開き、崩れていないかを自分の目で確かめられる</li>
-    <li>ブラッシュアップを「崩れ → テイスト → 細部」の順に、1回の指示で1つずつ進められる</li>
-    <li>Claude Code が頼んでいない作業を始めたとき、確認画面で断れる</li>
-  </ol>
-</div>
+<div class="goal"><span class="goal-title">🎯 読み進め方</span><p>まず「<a href="#your-project">自分の制作物で進める</a>」を読み、上の3項目で完成を確かめます。Webの操作例は、同じ構成で作るときに参照してください。画面やファイルの名前は、仕様書で決めたものを使います。</p></div>
 
 <div class="box box-point"><span class="box-title">✅ この回の前に用意しておくもの：仕様書 docs/spec.md が入ったアプリのフォルダ ＋ Claude デスクトップアプリ</span>アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、仕様書 <code>docs/spec.md</code> がある状態から始めます（作る順番 <code>docs/tasks.md</code> は、この回では Claude Code に読ませません）。 Claude デスクトップアプリでそのフォルダを開き、Claude Code に指示を出します（デスクトップアプリと Claude Code が何かは、「フォルダを開く」の節の用語欄にまとめてあります）。Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。 間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</div>
 
 <nav class="toc" aria-label="目次">
   <span class="toc-title">目次</span>
   <ol>
-    <li><a href="#map">この回の地図</a></li>
+    <li><a href="#your-project">自分の制作物で進める</a></li>
+    <li><a href="#map">Webの例の地図</a></li>
     <li><a href="#what">モックとは</a></li>
     <li><a href="#open">アプリのフォルダを開いて、権限モードを「手動」にする</a></li>
     <li><a href="#mock">指示①：仕様書の画面一覧から、モックを作らせる</a></li>
@@ -77,8 +57,41 @@
   </ol>
 </nav>
 
+
+</section>
+
+<!-- BEGIN OWN PROJECT PATH -->
+<section class="chapter ch-1 project-path" id="your-project">
+<div class="chapter-head c-1"><div class="ch-text"><div class="ep">共通の進め方</div><h2>自分の制作物で進める</h2></div><img class="penguin penguin-ch" src="../../assets/penguins/penguin_cheering_both_wings.png" alt=""></div>
+<h3>使う流れを先に見える形にする</h3>
+<p>この回の目的は、<strong>本格的な処理を作る前に、入力と結果の見え方を確かめること</strong>です。画面のあるアプリは見た目だけの試作品（モック）を作ります。画面のないツールは、見本の入力ファイルと、期待する出力ファイルを用意します。</p>
+<div class="flowmap"><div class="flow-step"><div class="f-ep">1</div><div class="f-name">仕様を読む</div><div class="f-meta">何を入力し、何を受け取る？</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">2</div><div class="f-name">見本を作る</div><div class="f-meta">処理はせず、仮の結果を置く</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">3</div><div class="f-name">自分で開く</div><div class="f-meta">読める？ 操作が分かる？</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">4</div><div class="f-name">1点ずつ直す</div><div class="f-meta">仕様と試作品を揃える</div></div></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="自分の制作物の進め方の表"><table><thead><tr><th>自分の制作物</th><th>この回で作るもの</th><th>確かめる場所</th></tr></thead><tbody><tr><td>Webアプリ</td><td>入力欄・ボタン・仮の結果がある画面</td><td>ブラウザ</td></tr><tr><td>デスクトップアプリ</td><td>選んだ構成で開ける画面。処理結果は仮の内容</td><td>起動したアプリのウィンドウ</td></tr><tr><td>ファイルを処理するツール</td><td>見本の入力と出力、使う手順の短い説明</td><td>ファイルを開いた内容、表示される案内</td></tr></tbody></table></div>
+<h3>1. 作る範囲を確認してから、試作品を作る</h3>
+<p>Claude Codeで自分のアプリのフォルダを開き、権限モードを「手動」にします。仕様書に選んだ構成がある場合は、それを使います。まだ決まっていなければ第2回で決めてから進みます。</p>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">docs/spec.md を読んで、使う流れを確かめる試作品を作りたいです。
+仕様書の動かす場所・使う技術を尊重し、別の構成に変更しないでください。
+画面があるものは、入力・操作・仮の結果を見られるモックにします。
+画面がないものは、見本の入力ファイルと期待する出力ファイルを作ります。
+まだ本物のAIの呼び出しや、実際のデータの保存・上書きはしません。
+必要な準備、作るファイル、開き方、この回では作らない処理を先に説明してください。
+新しい道具を入れる必要があれば、理由を説明して確認を待ってください。
+私が確認してから作り、できたら自分で開いて見る手順を教えてください。
+既存ファイルを上書きする前に、戻せる控えを用意してください。</pre>
+<p><strong>なぜ先に範囲を確認するか</strong>：画面の確認だけをしたい段階で、保存や外部サービスの設定まで増えると、どこまでできればよいか分からなくなるためです。起動に必要な最小限の準備は、自分の構成に合わせて行います。</p>
+<h3>2. 自分で開き、1点ずつ整える</h3>
+<p>入力する場所、実行する操作、結果を読む場所が分かるかを見ます。長い文字でも内容が欠けないか、必要な操作が隠れないかも確かめます。画面のないツールでは、入力・出力のファイル名と内容が区別できるかを見ます。</p>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">試作品を開いて、（分かりにくかった場所）を見つけました。
+（こう見えると使いやすい）に直してください。
+直す前に変更するファイルと内容を短く説明してください。
+今回頼んだ1点だけを変え、実際の処理はまだ足さないでください。</pre>
+<p><strong>完成の確認</strong>：自分で試作品を開ける／入力と仮の結果を指し示せる／直した点と理由を言える。この3つができたら、前後の画面またはファイルと、直した理由を残します。</p>
+<p>HTML/CSSのWeb例を使う方は、下の操作例へ進みます。別の構成の方は、上の手順で試作品を確認できたら「この回で作るもの」へ進めます。</p><p><a href="#deliverables">この回で残すものを確認する →</a></p>
+</section>
+<!-- END OWN PROJECT PATH -->
+
 <div class="cover-map" id="map">
-  <h3>この回の地図</h3>
+  <h3>Webの例：このあとの操作の地図</h3>
   <p>この回は、モックを作らせてブラウザで開き、そのあとは1回の指示で1つずつ直します。直す順番は「崩れ → テイスト → 細部」です。</p>
   <figure class="fig reading-map">
     <a class="zoom" href="../../assets/figs/l03_map.webp"><img src="../../assets/figs/l03_map.webp" alt="左から右へ6つの箱。モックを作らせる → ブラウザで開く → 崩れを見る → テイストを決める → 細部を直す → 仕様書と揃える。真ん中の3つの上に「1回の指示で1つずつ」の帯" width="1536" height="488"><span class="map-link">全体図を画像で開く ↗</span></a>
@@ -93,13 +106,11 @@
     <li><a href="#review"><b>見直す</b></a>　仕様書と揃える</li>
   </ol>
 </div>
-</section>
-
 <section class="chapter ch-1" id="what">
   <div class="chapter-head c-1">
     <div class="ch-text">
       <div class="ep">第1章</div>
-      <h2>モックとは</h2>
+      <h2>Webの例｜モックとは</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_pointing.png" alt="">
   </div>
@@ -141,7 +152,7 @@
   <div class="chapter-head c-2">
     <div class="ch-text">
       <div class="ep">第2章</div>
-      <h2>アプリのフォルダを開いて、権限モードを「手動」にする</h2>
+      <h2>Webの例｜アプリのフォルダを開いて、権限モードを「手動」にする</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_koko_daiji_board.png" alt="">
   </div>
@@ -149,8 +160,7 @@
       仕様書 <code>docs/spec.md</code> が入っているアプリのフォルダ（このページでは <code>my-app</code>。名前はご自身で付けたもの）を、Claude デスクトップアプリで開きます。
       作る順番 <code>docs/tasks.md</code> は、この回では Claude Code に読ませません。<br><span class="why">なぜ：</span><code>docs/tasks.md</code> は、保存や計算まで含めて何をどの順で作るかを並べたものです。読ませると、この回では作らないと決めた処理まで作り始めます。
     </p>
-    <p><strong>仕様書の「使う技術」も、この回では使いません。</strong><code>docs/spec.md</code> のうち、この回で見るのは「画面一覧と遷移」だけです。「使う技術」に Node.js や React などを書いてあっても、この回のモックは HTML と CSS だけで作ります。<br><span class="why">なぜ：</span>この回で確かめたいのは画面の配置と見た目だけです。起動用のファイルや設定ファイルまで作らせると、ファイルが増えて、どれを開いて確かめればよいか分からなくなります。</p>
-    <p>返答の最後に「仕様書には React と書いてありますが、指示どおり HTML と CSS だけで作りました」のように断られることがありますが、それで正しい状態です。<strong>仕様書は直しません。</strong>仕様書に書いた技術は、あとで動きや裏側の処理を足すときに使います。HTML と CSS をそのまま使える構成ならファイルごと使い、別の構成を選んだ場合は、ここで決めた配置・文言・色・余白を、その構成の書き方に移して使います。</p>
+    <p>ここからは、HTML/CSSを選んだWebアプリの操作例です。<strong>仕様書で選んだ技術は維持します。</strong>別の構成を選んだ方は、先ほどの「自分の制作物で進める」の手順を使ってください。起動に必要な準備だけを行い、実際の保存やAIへの接続は後の回へ分けます。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>Claude デスクトップアプリ</dt><dd>PC にインストールして使う Claude の公式アプリ。この中から Claude Code を呼び出します。</dd>
         <dt>Claude Code</dt><dd>指示を出すと、PC のファイルを実際に作ったり書き換えたりしてくれるツール。画面に答えを表示するだけのチャットとは別のものです。</dd>
@@ -192,7 +202,7 @@
   <div class="chapter-head c-3">
     <div class="ch-text">
       <div class="ep">第3章</div>
-      <h2>指示①：仕様書の画面一覧から、モックを作らせる</h2>
+      <h2>Webの例｜指示①：仕様書の画面一覧から、モックを作らせる</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
   </div>
@@ -253,7 +263,7 @@
       <a class="zoom" href="../../assets/images/lesson03/r3_app_prompt1_typed.png"><img src="../../assets/images/lesson03/r3_app_prompt1_typed.png" alt="指示①を入力欄に貼った状態" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月"></a>
       <figcaption>指示①を入力欄に貼ったところ（例：食費メモ。この例では画面のファイル名を指示の中に書いていますが、上の型では仕様書から読み取らせます）</figcaption>
     </figure>
-    <p>送ると、Claude Code は <code>docs/spec.md</code> を読み、ファイルを1つずつ作ります。「手動」なので、ファイルごとに「書き込みを許可しますか？」の確認画面が出ます。<strong>ファイルの場所が <code>my-app/app/</code> の中であること</strong>と、<strong>中身に、自分が仕様書で決めた見出しや入力欄の名前（「今月の合計」「金額」など）が日本語で出てくること</strong>を見てから「一度だけ許可」を押します（確認画面の実物は <a href="#taste">指示②</a>・<a href="#detail">指示③</a> の節にあります）。作ったファイルを Claude Code が自分で点検するために、ファイルの一覧を出すコマンド（<code>ls</code> で始まるもの）や、ファイルの中身を探すコマンド（<code>grep</code> や <code>find</code> で始まるもの）の許可を求めてくることがあります。どれもファイルを読むだけで書き換えないので、許可して構いません。<code>app</code> フォルダを作るコマンド（<code>mkdir app</code>）が出ることもあります。これも頼んだ作業の一部なので許可します。</p>
+    <p>送ると、Claude Code は <code>docs/spec.md</code> を読み、ファイルを1つずつ作ります。「手動」なので、ファイルごとに「書き込みを許可しますか？」の確認画面が出ます。<strong>ファイルの場所が <code>my-app/app/</code> の中であること</strong>と、<strong>中身に、自分が仕様書で決めた見出しや入力欄の名前（「今月の合計」「金額」など）が日本語で出てくること</strong>を見てから「一度だけ許可」を押します（確認画面の実物は <a href="#taste">指示②</a>・<a href="#detail">指示③</a> の節にあります）。作ったファイルを Claude Code が自分で点検するために、ファイルの一覧を出すコマンド（<code>ls</code> で始まるもの）や、ファイルの中身を探すコマンド（<code>grep</code> や <code>find</code> で始まるもの）の許可を求めてくることがあります。コマンド名だけでは安全か判断できません。対象のフォルダと、削除・書き込み・別の命令の実行を含まないことを確認します。分からなければ「この命令は何を読み、何を変更しますか。まだ実行しないで説明してください」と聞きます。<code>app</code> フォルダを作るコマンド（<code>mkdir app</code>）が出ることもあります。これも頼んだ作業の一部なので許可します。</p>
     <figure class="shot">
       <a class="zoom" href="../../assets/images/lesson03/r3_app_prompt1_done.png"><img src="../../assets/images/lesson03/r3_app_prompt1_done.png" alt="3ファイルができたあとの画面。左に返答、右にアプリの中のプレビュー欄" loading="lazy" data-taken="2026-09-07" title="撮影 2026年9月"></a>
       <figcaption>3ファイルができました。返答に「ブラウザでの開き方」も書いてあります。右はアプリの中のブラウザ欄で、この例では CSS が読み込まれず素の状態で出ています</figcaption>
@@ -265,7 +275,7 @@
   <div class="chapter-head c-4">
     <div class="ch-text">
       <div class="ep">第4章</div>
-      <h2>ブラウザで開いて、崩れていないかを見る</h2>
+      <h2>Webの例｜ブラウザで開いて、崩れていないかを見る</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_teaching.png" alt="">
   </div>
@@ -353,7 +363,7 @@
   <div class="chapter-head c-5">
     <div class="ch-text">
       <div class="ep">第5章</div>
-      <h2>指示②：テイストを決める</h2>
+      <h2>Webの例｜指示②：テイストを決める</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
   </div>
@@ -473,7 +483,7 @@
   <div class="chapter-head c-6">
     <div class="ch-text">
       <div class="ep">第6章</div>
-      <h2>指示③：細部を1つずつ直す</h2>
+      <h2>Webの例｜指示③：細部を1つずつ直す</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_magnifying_front.png" alt="">
   </div>
@@ -539,7 +549,7 @@
   <div class="chapter-head c-7">
     <div class="ch-text">
       <div class="ep">第7章</div>
-      <h2>見直して、仕様書と揃える</h2>
+      <h2>Webの例｜見直して、仕様書と揃える</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_thinking_finger.png" alt="">
   </div>
@@ -562,34 +572,14 @@
       だから、この回の時点で「自分が毎回使いたい画面」になっているかを見ておいてください。</div></div>
 
 </section>
-<section class="chapter ch-wrap" id="deliverables">
-  <div class="chapter-head c-wrap">
+<section class="chapter ch-wrap" id="deliverables"><div class="chapter-head c-wrap">
     <div class="ch-text">
       <div class="ep">まとめ</div>
       <h2>この回で作るもの</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
   </div>
-    <p>終わったとき、手元に次の4つがある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
-    <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
-      </dl></div>
-    <div class="cards">
-      <div class="card"><span class="card-title">app/ の中の HTML と style.css</span>
-        <span class="card-desc">画面の数だけ HTML（例：<code>index.html</code>・<code>edit.html</code>）と、見た目をまとめた <code>style.css</code>。ブラウザでダブルクリックして開ける状態。</span>
-      </div>
-      <div class="card"><span class="card-title">前と後のスクリーンショット</span>
-        <span class="card-desc">ブラッシュアップ前（色を付ける前）と後の画面を、画面ごとに1枚ずつ。アプリのフォルダの中に <code>shots</code> フォルダを作って入れておくと迷いません（例：<code>shots/before-index.png</code>）。何がどう変わったかを見せるためのものです。</span>
-      </div>
-      <div class="card"><span class="card-title">自分の判断で直した点のメモ</span>
-        <span class="card-desc">何を、なぜ直したか。指示③で1点ずつ頼んだ内容と、その理由を書き残します（書き方の例は<a href="#detail">「指示③：細部を1つずつ直す」</a>の節にあります）。</span>
-      </div>
-      <div class="card"><span class="card-title">断った場面のスクリーンショット（あれば）</span>
-        <span class="card-desc">頼んでいない作業の確認画面が出て断った場面があれば、そのスクリーンショット。出なかった場合は不要です。</span>
-      </div>
-    </div>
-
-</section>
+<p>自分の制作物について、次を残します。</p><ul><li>選んだ構成で開ける試作品、または見本の入力・出力ファイル</li><li>前後の様子：画面の画像、または見本のファイルの内容</li><li>直した点と理由。仕様書と違う部分を残す場合は、その理由</li></ul><p>提出の内容・締切・フォームは、commmune の自分の期のゼミスレッドにある講師の案内を確認してください。<a href="../../#rules">参加・修了のルール</a>も確認します。</p><p>共有するファイル・画像・出力に、APIキー、実名・メールアドレス、業務の実データを含めないでください。キーを共有してしまった場合は、サービスの管理画面で無効化して作り直します。</p></section>
 <section class="chapter ch-wrap" id="pitfalls">
   <div class="chapter-head c-wrap">
     <div class="ch-text">
@@ -641,7 +631,7 @@
         <p><strong>対処：</strong>先に「目的／やること／やらないこと／画面ごとの名前と置く要素」を箇条書きで書き出し、Claude Code に「これを docs/spec.md にまとめてください」と頼んでから、指示①へ進みます。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 仕様書の「使う技術」に書いた部品の一式を作り始めた</span>
         <p>HTML と CSS 以外のファイル（設定ファイルや起動用のファイル）が増えます。</p>
-        <p><strong>対処：</strong>確認画面で「拒否」。「この回で作るのは app/ の中の HTML と CSS だけです。ほかのファイルは作らないでください」と送り直します。</p></div>
+        <p><strong>対処：</strong>確認画面で「拒否」。「試作品の表示に必要な準備か、本格的な処理の実装かを分けて説明してください」と聞きます。選んだ構成の起動に必要なものは確認して用意し、保存やAPIの実装は後に回します。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 確認画面が何度も出て、「常に許可」を押した</span>
         <p>以後、確認なしでファイルが書き換わり、頼んでいない変更に気づけなくなります。</p>
         <p><strong>対処：</strong>入力欄の下のモード名を押して「手動」になっているかを見ます。そのうえで「これまでに作った・書き換えたファイルの一覧を教えてください」と頼み、<code>app/</code> の外にファイルが増えていないかを見ます。</p></div>
@@ -706,7 +696,7 @@
           <tr><td><strong>余白</strong></td><td>要素と要素のあいだ、画面の端と内容のあいだの空き</td></tr>
           <tr><td><strong>再読み込み</strong></td><td>ブラウザにファイルを読み直させること。<kbd>⌘R</kbd>／<kbd>F5</kbd></td></tr>
           <tr><td><strong>ターミナル</strong></td><td>文字で命令（コマンド）を打ち込み、結果を文字で受け取る画面。この回では使わない</td></tr>
-          <tr><td><strong>記録型／変換型／相談型</strong></td><td>アプリの3つの型。記録型は入れて・ためて・見返す。変換型は入れたものを別の形にして返す。相談型は質問して答えをもらう</td></tr>
+          <tr><td><strong>記録型／変換型／相談型</strong></td><td>使い方を考えるための3つの例。記録型は入れて・ためて・見返す。変換型は入れたものを別の形にして返す。相談型は質問して答えをもらう</td></tr>
         </tbody>
       </table>
     </div>
@@ -737,7 +727,7 @@
 <footer class="footer">
   <nav class="pager" aria-label="前後の回">
     <a class="pager-prev" href="../lesson02/"><small>← 前の回</small>第2回 要件定義</a>
-    <a class="pager-next" href="../lesson04/"><small>次の回 →</small>第4回 画面側を作る</a>
+    <a class="pager-next" href="../lesson04/"><small>次の回 →</small>第4回 動きを作る</a>
   </nav>
   <p><a href="../../">Home（ゼミ全体の案内）</a>／<a href="../../#schedule">日程・入室</a>／<a href="../../#stuck">困ったとき</a>／<a href="../../#boardingpass">Boarding Pass</a>／<a href="../lesson02/">第2回</a>・<a href="../lesson03/">第3回</a>・<a href="../lesson04/">第4回</a>・<a href="../lesson05/">第5回</a>・<a href="../lesson06/">第6回</a>・<a href="../lesson07/">第7回</a></p>
   <p>ゼミに関するご質問は「ゼミ参加者向け 事前課題提出受付フォーム」からお送りください。画面の文言や料金は変わることがあります。</p>

@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第7回 デバッグと卒業制作 ｜ AIアプリ開発入門ゼミ</title>
-<meta name="description" content="AIアプリ開発入門ゼミ 第7回 デバッグと卒業制作。不具合を AI に渡す3点、画面側・通信・サーバー側・保存の4段階の切り分け、Claude Code に再現させて表示まで読ませる手順、3つの状態の見直し、テストを流して確かめる手順、卒業制作の条件（docs/graduation.md）と卒業後の続け方。">
-<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
+<meta name="description" content="第7回。症状・再現手順・期待する結果をもとに、どこで止まったかを調べます。卒業制作は、ここまで作った自分のアプリやツールです。扱う範囲と完成条件を決め、修正後に確かめた結果と、残っている点をまとめます。">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-projects">
 <script src="../../assets/site.js" defer></script>
 </head>
 <body class="lesson-visual-reading">
@@ -16,8 +16,8 @@
 <div class="cover-band">
   <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第7回</div>
-    <h1>デバッグと卒業制作 ― 落ちないアプリに仕上げる</h1>
-    <div class="subtitle">この回でやることは2つです。不具合を AI に直させるやり方（渡す3点・切り分け・Claude Code に再現させて表示まで読ませる）を身につけること、そして卒業制作で扱う範囲と完成条件を決めることです。LIVE はここまでにして、仕上げの作業（不具合を直す・3つの状態を見直す・テストを流して確かめる・結果を書く）は、LIVE のあとの期間にこのページを見ながら進めます。卒業制作は、このゼミで作ってきた自分専用ツールそのものです。作り直すものでも、機能を足すものでもありません。</div>
+    <h1>デバッグと卒業制作 ― 自分の制作物を仕上げる</h1>
+    <div class="subtitle">症状・再現手順・期待する結果をもとに、どこで止まったかを調べます。卒業制作は、ここまで作った自分のアプリやツールです。扱う範囲と完成条件を決め、修正後に確かめた結果と、残っている点をまとめます。</div>
     <div class="chips"><span class="chip">渡す3点</span><span class="chip">切り分けの4段階</span><span class="chip">Claude Code に再現させる</span><span class="chip">docs/graduation.md</span></div>
   </div>
   <img class="penguin penguin-cover" src="../../assets/penguins/penguin_magnifying_front.png" alt="">
@@ -30,40 +30,18 @@
 </ol>
 
 <div class="howto">
-  <div><span class="howto-title">この回でやること</span><ol>
-    <li>不具合を AI に渡す3点（症状・再現手順・期待する結果）を書けるようにする</li>
-    <li>画面側 → 通信 → サーバー側 → 保存 の順に、どこで止まっているかを切り分ける</li>
-    <li>Claude Code に不具合を再現させ、直す前に4か所の表示を報告させる</li>
-    <li>卒業制作で扱う機能と完成条件を決め、docs/graduation.md を作る（ここまでが LIVE）</li>
-    <li>LIVE のあと：NG を直し、3つの状態を見直し、テストを流して、試した結果と直っていない点を書く</li>
-  </ol></div>
-  <div><span class="howto-title">できたかの確認</span><ul>
-    <li>不具合を1つ、症状・再現手順・期待する結果の3点で書ける</li>
-    <li>開発者ツールのコンソールとネットワークの欄、サーバーのターミナルを開いて、どの段階で止まっているかを言える</li>
-    <li>Claude Code に再現させた報告の画面を、スクリーンショットで1件分取ってある</li>
-    <li>docs/graduation.md に、決めた機能と完成条件が入っている</li>
-    <li>不具合ログに3件以上、直せなかったものも含めて書いてある（3件に満たないときは、見つかった分と、どこまで試したかを書いてある）</li>
-  </ul></div>
+  <div><span class="howto-title">この回でやること</span><ol><li>症状・再現手順・期待する結果を整理する</li><li>自分の構成に沿って原因を調べ、1つずつ直す</li><li>完成条件で試し、結果と起動手順を残す</li></ol></div>
+  <div><span class="howto-title">できたかの確認</span><ul><li>どこまで動き、どこから止まるかを説明できる</li><li>docs/graduation.md に機能・完成条件・結果・未解決の点がある</li><li>README を使って起動し、よく使う操作を自分で確認できる</li></ul></div>
 </div>
 
-<div class="goal">
-  <span class="goal-title">🎯 この回のゴール</span>
-  <ol>
-    <li>不具合を AI に渡すとき、何を渡せばよいかを3点で言える</li>
-    <li>不具合が画面側・通信・サーバー側・保存のどこで起きているかを、上から順に見て切り分けられる</li>
-    <li>Claude Code に症状を再現させ、直す前に4か所の表示を報告させられる</li>
-    <li>「1件も無いとき」「処理中」「失敗したとき」の表示を、本物の AI のサービスや保存先につないだ状態で見直せる</li>
-    <li>直したあとにテストを流し、変えた操作と、それで影響を受けそうな前からの操作を、自分の手で押して確かめられる</li>
-    <li>卒業制作で扱う機能と完成条件を決め、試した結果と、まだ直っていない点を書ける</li>
-    <li>卒業後に、機能を足すとき・動かなくなったときの手順を言える</li>
-  </ol>
-</div>
+<div class="goal"><span class="goal-title">🎯 読み進め方</span><p>まず「<a href="#your-project">自分の制作物で進める</a>」を読み、上の3項目で完成を確かめます。Webの操作例は、同じ構成で作るときに参照してください。画面やファイルの名前は、仕様書で決めたものを使います。</p></div>
 
 <div class="box box-point"><span class="box-title">✅ この回の前に用意しておくもの：このゼミで作ってきた自分のアプリ ＋ 仕様書 docs/spec.md ＋ Claude デスクトップアプリ</span>AI の機能と保存先をつないだ自分のアプリから始めます。不具合が残っていて構いません。残っている不具合が、この回で切り分ける材料になります。テストコードがあるアプリでは、テストを流す命令が README に書いてあることを確かめておきます（テストがまだ無いアプリでも進められます。進め方は「直したら、テストを流して確かめる」の節にあります）。Claude デスクトップアプリでアプリのフォルダを開き、入力欄の下の権限モード（Claude Code が書き換えの前にたずねてくるかどうかの設定）を「手動」にしてから始めます（詳しくは「再現させる」の節）。</div>
 
 <nav class="toc" aria-label="目次">
   <span class="toc-title">目次</span>
   <ol>
+    <li><a href="#your-project">自分の制作物で進める</a></li>
     <li><a href="#map">この回の地図</a></li>
     <li><a href="#three">AI に渡す3点</a></li>
     <li><a href="#layers">切り分けの4段階：画面側・通信・サーバー側・保存</a></li>
@@ -108,6 +86,33 @@
 </section>
 
 <!-- ============================================================ 01 渡す3点 -->
+<!-- BEGIN OWN PROJECT PATH -->
+<section class="chapter ch-1 project-path" id="your-project">
+<div class="chapter-head c-1"><div class="ch-text"><div class="ep">共通の進め方</div><h2>自分の制作物で進める</h2></div><img class="penguin penguin-ch" src="../../assets/penguins/penguin_cheering_both_wings.png" alt=""></div>
+<h3>止まった場所を調べ、仕上げる</h3>
+<p>卒業制作は、ここまで作ってきた自分のアプリ・ツールです。<strong>Web公開や、サンプルと同じファイル構成は完成の必須条件ではありません。</strong> 決めた使い方で動かし、確かめた結果と、まだ直っていない点を説明できる状態にします。</p>
+<div class="flowmap"><div class="flow-step"><div class="f-ep">1</div><div class="f-name">症状を残す</div><div class="f-meta">したこと・起きたこと・期待</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">2</div><div class="f-name">止まった場所</div><div class="f-meta">入力→処理→外部接続・保存→結果</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">3</div><div class="f-name">1つ直す</div><div class="f-meta">原因と変更箇所を先に確認</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">4</div><div class="f-name">仕上げる</div><div class="f-meta">再確認・結果・残った課題</div></div></div>
+<h3>自分の構成で、どこを調べるか</h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="自分の制作物の進め方の表"><table><thead><tr><th>確かめたいこと</th><th>Webの例</th><th>デスクトップ・ファイル処理の例</th></tr></thead><tbody><tr><td>入力を受け取ったか</td><td>入力欄、ボタン、コンソール</td><td>選んだファイル、操作画面、実行ログ</td></tr><tr><td>処理は進んだか</td><td>サーバーの出力</td><td>アプリや処理プログラムの出力</td></tr><tr><td>外部サービスが返したか</td><td>サーバーが受け取ったAPIの返答</td><td>ツールのAPI呼び出し結果</td></tr><tr><td>保存・出力されたか</td><td>保存先のデータと画面</td><td>出力ファイルの場所と中身</td></tr></tbody></table></div>
+<p><strong>実行ログ</strong>は、処理中に起きたことを文字で残した記録です。外部に通信しない操作には通信の確認は不要です。保存しない仕様なら保存の確認も不要です。実際に通る場所を調べます。</p>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">次の不具合を調べます。まだ何も直さないでください。
+症状：（起きたこと）
+再現手順：（見本の入力と、操作した順番）
+期待する結果：（本来どうなるはずか）
+docs/spec.md と構成を確認し、入力・処理・外部接続・保存・結果のうち、
+この操作が通る場所と、どこまで確認できたかを報告してください。
+再現には実データではなく、見本のコピーを使ってください。
+操作できない画面や読めないログは「未確認」と書き、私が調べる手順を教えてください。
+キー・.envの内容は表示しないでください。
+原因の候補と、根拠と、直すファイルを示し、私の確認を待ってください。</pre>
+<p><strong>なぜ未確認を残すか</strong>：見ていないところを正常と決めると、関係のない場所を直してしまうためです。修正後は同じ入力と操作で確かめ、前から動く機能も試します。自動テストは実データから分けた保存先で実行します。</p>
+<h3>卒業制作を仕上げる順番</h3>
+<ol><li><strong>範囲を決める</strong>：仕様書と今の制作物から、今回仕上げる機能を選び、docs/graduation.md に完成条件を書きます。手順は下の「卒業制作の条件」にあります。</li><li><strong>試す・直す</strong>：条件どおりに操作し、NGを1つずつ調べます。空・処理中・失敗の表示は、当てはまるものを確認します。</li><li><strong>結果を残す</strong>：OK／NG／未確認、実行したテスト、見本の出力やスクリーンショット、残った課題を書きます。</li></ol>
+<p><strong>完成条件の例</strong>：「架空のメモを1つ選んで実行すると、要点3つが表示される。空のファイルなら案内が出る。元のファイルは変わらない」。どの技術でも、自分で確かめられる条件を使います。</p>
+<p>自分の構成・起動方法も提出物に書きます。不具合ログが3件未満なら、見つかった分と、どこまで試したかを残します。提出先・締切・提出形式はcommmuneの案内を確認してください。</p><p><a href="#deliverables">この回で残すものを確認する →</a></p>
+</section>
+<!-- END OWN PROJECT PATH -->
+
 <section class="chapter ch-1" id="three">
   <div class="chapter-head c-1">
     <div class="ch-text">
@@ -135,7 +140,7 @@
   <div class="chapter-head c-2">
     <div class="ch-text">
       <div class="ep">第2章</div>
-      <h2>切り分けの4段階：画面側・通信・サーバー側・保存</h2>
+      <h2>Webの例｜切り分けの4段階：画面側・通信・サーバー側・保存</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_koko_daiji_board.png" alt="">
   </div>
@@ -167,7 +172,7 @@
     <tbody>
       <tr><td>行が増えない</td><td>要求が送られていない</td><td>1 の画面側（押したことを受け取れていない）</td></tr>
       <tr><td>200 番台</td><td>サーバーは成功と答えている</td><td>4 の保存。保存されているのに画面に出ないなら、1 の画面側（答えを画面に出す処理）</td></tr>
-      <tr><td>300 番台</td><td>不具合ではない（再読み込みで、前に受け取ったものを使っている など）</td><td>ほかの行を見る</td></tr>
+      <tr><td>300 番台</td><td>転送やキャッシュ利用を表す。意図した動作かを確認する</td><td>304ならキャッシュの利用、転送が続く場合は行き先を確認する</td></tr>
       <tr><td>400 番台</td><td>送った要求に問題がある（<code>404</code> は送り先が無い）</td><td>1 の画面側（送り先のアドレス・送る中身）と、3 のサーバー側。<code>401</code>・<code>429</code> は、AI のサービスに断られた答えをサーバーがそのまま返していることが多いので、3 のターミナルを見る</td></tr>
       <tr><td>500 番台</td><td>サーバー側で失敗した</td><td>3 のサーバー側のターミナル</td></tr>
       <tr><td>番号が無く、代わりに失敗の表示が出る</td><td>サーバーまで届いていない</td><td>サーバーが止まっていないか、アドレスが合っているか</td></tr>
@@ -272,7 +277,7 @@
   <br><span class="why">なぜ：</span>報告が正しいかどうかを判断できるのは、同じ場所を自分でも見たことがある人だけです。何度か一致を見てから、報告を読むだけに切り替えます。</p>
 
   <h3>3-4. 手元に不具合が無いときは、わざと1つ起こして練習する</h3>
-  <p><code>.env</code> のキーの最後に <code>x</code> を1文字足して保存し、サーバーを起動し直してから AI の機能を押します。「うまくいきませんでした」と出たら、それを症状にして上の型で再現させます。終わったら、足した <code>x</code> を消して保存し、サーバーを起動し直します。</p>
+  <p>本物のキーは変えず、練習用の処理で偽の失敗応答を返す方法をClaude Codeに提案させます。変更箇所と戻し方を確認してから試し、症状・手順・期待する結果を記録します。終わったら仕掛けを外し、通常の動きを確認します。</p>
   <ul>
     <li><span class="why">なぜわざと起こすのか：</span>自分のアプリで一度、報告の読み方を通しておくと、本物の不具合が出たときに同じ手順で進められます。この1件も不具合ログに入れて構いません</li>
     <li><span class="why">なぜキーを消すのではなく x を足すのか：</span>足した1文字を消せば元に戻ります。消した文字を覚えておく必要が無く、キーを別の場所に書き写さずに済みます（書き写した場所から漏れます）</li>
@@ -350,7 +355,7 @@
       <tr><td>1件も無いとき</td><td>保存先がブラウザの中なら、シークレットウィンドウ（Edge は InPrivate ウィンドウ、Safari はプライベートウインドウ）で開く。実際の記録を消さずに、空の状態を見られる。ほかの置き場なら、下の型で Claude Code に開き方を聞く</td><td>窓を全部閉じる／聞いた方法で元に戻す</td></tr>
       <tr><td>処理中</td><td>AI の機能のボタンを押し、返事が出るまでを見る。続けて2〜3回押し、ネットワークの欄の要求が1回だけかを見る（AI の機能は押した回数だけ料金がかかることがあるので、回数は少なく）</td><td>戻すものは無い</td></tr>
       <tr><td>失敗したとき（サーバーまで届かない）</td><td>画面を開いたまま、サーバーを止めてから、保存や AI の機能を押す。止め方は、自分のターミナルなら多くは <kbd>Ctrl+C</kbd>。Claude Code が起動したサーバーなら「（アドレス）で動いているサーバーを止めてください」と頼む。止めたまま再読み込みすると、画面そのものが開けなくなる</td><td>サーバーを起動し直して、画面を再読み込みする</td></tr>
-      <tr><td>失敗したとき（AI のサービスが断る）</td><td>「再現させる」の節の「手元に不具合が無いとき」と同じく、<code>.env</code> のキーの最後に <code>x</code> を足して保存し、サーバーを起動し直してから AI の機能を押す</td><td>足した <code>x</code> を消して保存し、サーバーを起動し直す</td></tr>
+      <tr><td>失敗したとき（AI のサービスが断る）</td><td>本物のキーを変えず、練習用の処理で偽の失敗応答を返して試す</td><td>テスト用の仕掛けを外し、通常の操作を確認する</td></tr>
       <tr><td>読み込みに失敗したとき</td><td>下の型で、Claude Code に試し方を聞く</td><td>聞いた方法で元に戻す</td></tr>
     </tbody>
   </table></div>
@@ -397,8 +402,8 @@
     </dl>
   </div>
 
-  <h3>5-1. テストを全部流す</h3>
-  <div class="box box-warn"><span class="box-title">⚠️ 初めて流す前に、自分の記録が変わらないかを Claude Code に聞く</span>「テストを流すと、私の実際の記録が変わりますか。理由も教えてください。まだ何も変えないでください」と聞きます。変わるなら、保存先の写しを取ってから流します。
+  <h3>5-1. テストを全部流す</h3><p>落ちたら、仕様書・テストの期待値・実際の動きを比べます。実装が違えば実装を直し、テスト自体が誤っていれば理由を示してテストを直します。仕様を変える場合は先に仕様書を更新します。通すためだけに条件をゆるめたり、テストを削ったりしません。</p>
+  <div class="box box-warn"><span class="box-title">⚠️ 初めて流す前に、自分の記録が変わらないかを Claude Code に聞く</span>「テストを流すと、私の実際の記録が変わりますか。理由も教えてください。まだ何も変えないでください」と聞きます。実際の記録に触れるなら、まずテスト用の保存先と架空のデータに分けます。分離できたことを確かめてから実行します。
     <br><span class="why">なぜ：</span>テスト用のデータが実際の記録と分かれていないと、流すたびに自分の記録が消えたり、テストのデータが混ざったりします。</div>
   <p>アプリのフォルダを開いた Claude Code に、次のように頼みます（README に書いた命令を、ターミナルで自分で打っても構いません）。</p>
 <span class="code-label">指示⑦（テストを流す）― そのまま貼る</span>
@@ -450,18 +455,18 @@
   <figure class="fig lv-diagram" data-diagram="l07_graduation"><a class="zoom lv-image" href="../../assets/figs/lesson07/l07_graduation.webp"><img src="../../assets/figs/lesson07/l07_graduation.webp" alt="卒業制作は、4項目を対応させる。決めた機能：仕様書と今のアプリから、今回仕上げる範囲を選ぶ。。完成条件：機能ごとに「何を入れ、何を押し、何が見えるか」を書く。。試した結果：完成条件ごとにOK／NG、テストの結果、画面の証拠を残す。。まだ直っていない点：NGと分かっている不具合を全部書く。症状・切り分けた範囲・次の作業を残す。。docs/graduation.md に記録する。機能数より、条件・結果・残った課題の対応を見る。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">卒業制作は、4項目を対応させる</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>決めた機能</strong><p>仕様書と今のアプリから、今回仕上げる範囲を選ぶ。</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>完成条件</strong><p>機能ごとに「何を入れ、何を押し、何が見えるか」を書く。</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>試した結果</strong><p>完成条件ごとにOK／NG、テストの結果、画面の証拠を残す。</p></div></li></ol><div class="lv-arrow">↓ 結果に応じて分ける</div><div class="lv-branches"><div class="lv-card lv-teal"><strong>OK：その条件の確認は完了</strong><p>確認した結果と証拠を残します。</p></div><div class="lv-card"><p class="lv-error">NG・分かっている不具合はすべて記録</p><strong>まだ直っていない点</strong><p>NGと分かっている不具合を全部書く。症状・切り分けた範囲・次の作業を残す。</p></div></div><p class="lv-note">docs/graduation.md に記録する。機能数より、条件・結果・残った課題の対応を見る。</p><a class="lv-original" href="../../assets/figs/lesson07/l07_graduation.webp">図解を画像で開く ↗</a></div><figcaption>決めた機能から結果までをつなぎ、NGは残った課題として記録する（仕組みを示す模式図）</figcaption></figure>
   <p>範囲は <code>docs/spec.md</code> の「やること」と今のアプリから選びます。完成条件は「何を入れ、何を押し、何が見えるか」を1〜2文で書き、自分の手で OK／NG を判定します。</p>
   <p>試した結果には、<strong>各条件の OK／NG、NG の症状、テストの通過数・失敗数、スクリーンショット</strong>を残します（6-3 の 6）。残った NG と分かっている不具合はすべて「まだ直っていない点」に書き、切り分けた範囲と次の作業を添えます。</p>
-  <p><strong>同じファイルに、あわせて書くもの</strong>：不具合ログ（3件以上。ゼミの間に直した不具合も入れて構いません。3件に満たないときは、見つかった分と、どこまで試したかを書きます）と、卒業後に回すもの。不具合ログのうち1件には、Claude Code に再現させたときの報告のスクリーンショットを添えます。</p>
+  <p><strong>同じファイルに、あわせて書くもの</strong>：不具合ログ（見つかった分。過去に直したものも含め、どこまで試したかを書きます）と、卒業後に回すもの。不具合ログのうち1件には、Claude Code に再現させたときの報告のスクリーンショットを添えます。</p>
   <p><span class="why">なぜ量ではなく、この4つで見るのか：</span>機能の数は、元の困りごとの大きさで決まり、人によって違います。数を比べても、自分で作れるようになったかは分かりません。卒業制作で見たいのは完成ではなく、決めた範囲を決めた条件で確かめ、直せなかったものもどこまで切り分けたかを書けることです。それができれば、ゼミが終わってもひとりで同じことを続けられます。直っていない点を書かずに隠すと、使い始めてから同じ不具合で止まります。</p>
-  <p><span class="why">なぜ不具合ログは3件以上なのか：</span>1件だと「たまたま直った」で終わります。3件書くと、自分が毎回同じ順で見ていることに気づきます。その順番が、ひとりで直すときの手順になります。</p>
+  <p><span class="why">なぜ記録するのか：</span>症状・調べた場所・対処・結果を残すと、同じ問題が起きたときに確認を再開できます。不具合の件数を増やす必要はありません。</p>
 
   <h3>6-2. LIVE で決める：範囲と完成条件</h3>
   <p>LIVE では、① 決めた機能と ② 完成条件までを決めます。アプリのフォルダを開いた Claude Code（権限モードは「手動」）に、次の型を貼って送ります。</p>
 <span class="code-label">指示⑧（範囲と完成条件）― そのまま貼る</span>
 <pre class="prompt">卒業制作の範囲と完成条件を決めます。まだ何も作らず、アプリのファイルも書き換えないでください。
 
-1. docs/spec.md の「やること」と、いまのアプリ（画面の app/ と、サーバー側のファイル）を見比べて、次の表の下書きを出してください。
+1. docs/spec.md の「やること」と、いまのアプリやツールのファイル一式を見比べて、次の表の下書きを出してください。
    列：機能｜いまの状態（動く／一部動く／動かない／まだ作っていない）｜完成条件の案
-   - 完成条件の案は、「何を入れて、何を押すと、何が見えれば完成か」を、画面の操作だけで確かめられる1〜2文で書く。docs/actions.md があれば、その「確かめ方」を使う
+   - 完成条件の案は、「何を入れて、何を押すと、何が見えれば完成か」を、実際の操作または入力と出力で確かめられる1〜2文で書く。docs/actions.md があれば、その「確かめ方」を使う
    - いちばんよく使う操作の行には、「1件も無いとき」「処理中」「失敗したとき」の表示のうち、当てはまるものも完成条件に入れる。当てはまらないものは「なし（理由）」と書く
 2. 下書きを出したら、私の返事を待ってください。
 3. 私が範囲を決めたら、docs/graduation.md を作り、次の6つの見出しで書いてください。
@@ -474,7 +479,7 @@
     <dl>
       <dt>仕様書（docs/spec.md）</dt><dd>アプリの「やること・やらないこと・扱うデータ・画面」を書いたファイル。</dd>
       <dt>docs/actions.md</dt><dd>画面の動きの一覧。動きごとに「確かめ方」と「確かめた結果」が書いてあります（作ってある人だけ）。</dd>
-      <dt>完成条件</dt><dd>何を入れて、何を押すと、何が見えれば完成かを、画面の操作だけで確かめられる形で書いた文。</dd>
+      <dt>完成条件</dt><dd>何を入れて、何を押すと、何が見えれば完成かを、実際の操作または入力と出力で確かめられる形で書いた文。</dd>
       <dt>docs/graduation.md</dt><dd>卒業制作に出すもの（決めた機能・完成条件・試した結果・まだ直っていない点・不具合ログ・卒業後に回すもの）をまとめて書いておくファイル。graduation は「卒業」の意味です。仕様書と同じ docs フォルダに置きます。</dd>
     </dl>
   </div>
@@ -608,20 +613,14 @@
 </section>
 
 <!-- ============================================================ 出すもの -->
-<section class="chapter ch-wrap" id="deliverables">
-  <div class="chapter-head c-wrap">
+<section class="chapter ch-wrap" id="deliverables"><div class="chapter-head c-wrap">
     <div class="ch-text">
       <div class="ep">まとめ</div>
       <h2>この回で出すもの</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_diploma.png" alt="">
   </div>
-  <p>卒業制作（このゼミで作ってきた自分専用ツール）と、次の2つです。締切と提出の形は、commmune のゼミスレッドの講師の投稿が正です。評価は作った量ではなく、①〜④ がそろっていて、互いに合っているかで見ます（6-1）。</p>
-  <div class="cards">
-    <div class="card"><span class="card-title">docs/graduation.md</span><span class="card-desc">① 決めた機能 ② 完成条件 ③ 試した結果（テストを流した結果を含む）④ まだ直っていない点、それに不具合ログ（3件以上）と卒業後に回すもの。</span></div>
-    <div class="card"><span class="card-title">スクリーンショット</span><span class="card-desc">いちばんよく使う操作の押す前と押したあと、3つの状態のうち当てはまるもの（各1枚）、Claude Code に再現させたときの報告（1件分）。名前・メールアドレス・業務の実データ・API キーが写っていないもの。</span></div>
-  </div>
-</section>
+<p>自分の制作物について、次を残します。</p><ul><li>制作物と、README に書いた起動・停止・よく使う操作の手順</li><li>docs/graduation.md：決めた機能、完成条件、試した結果、未解決の点、卒業後に回すこと</li><li>不具合ログは見つかった分を記録。少ない場合も、どこまで試したかを書く</li><li>よく使う操作の前後の画面、または入力と結果の見本。再現を試した記録も添える</li></ul><p>提出の内容・締切・フォームは、commmune の自分の期のゼミスレッドにある講師の案内を確認してください。<a href="../../#rules">参加・修了のルール</a>も確認します。</p><p>共有するファイル・画像・出力に、APIキー、実名・メールアドレス、業務の実データを含めないでください。キーを共有してしまった場合は、サービスの管理画面で無効化して作り直します。</p></section>
 
 <!-- ============================================================ つまずき -->
 <section class="chapter ch-wrap" id="pitfalls">
@@ -642,7 +641,7 @@
     <div class="box box-trouble"><span class="box-title">🧯 ネットワークの欄に何も出ない</span><p>要求が送られていないのか、欄を開くのが遅かったのか分かりません。</p><p><strong>対処：</strong>欄を開いたまま、もう一度同じ操作をします。それでも出なければ、1 の画面側を見ます。</p></div>
     <div class="box box-trouble"><span class="box-title">🧯 記録が全部消えたように見える（保存先がブラウザの中）</span><p>開いているアドレスの番号が、前と違います。ブラウザの中の保存は、アドレスごとに分かれています。</p><p><strong>対処：</strong>前と同じアドレス（番号まで同じ）で開きます。</p></div>
     <div class="box box-trouble"><span class="box-title">🧯 わざと失敗させたあと、元に戻し忘れた</span><p>本当に動かないまま仕上げ、そのまま出すことになります。</p><p><strong>対処：</strong>戻すまでを1組でやります。戻したら、いちばんよく使う操作を1回押します。</p></div>
-    <div class="box box-trouble"><span class="box-title">🧯 テストを流したら、自分の記録が消えた</span><p>以後テストを流さなくなります。</p><p><strong>対処：</strong>初めて流す前に「実際の記録が変わるか」を Claude Code に聞きます。変わるなら写しを取ってから流します。</p></div>
+    <div class="box box-trouble"><span class="box-title">🧯 テストを流したら、自分の記録が消えた</span><p>以後テストを流さなくなります。</p><p><strong>対処：</strong>初めて流す前に「実際の記録が変わるか」を Claude Code に聞きます。実際の記録とは別の保存先・架空のデータに切り替え、分離を確かめてから実行します。</p></div>
     <div class="box box-trouble"><span class="box-title">🧯 テストが通ったので、画面を押さずに終えた</span><p>押せないボタン・崩れた表示が残ります。</p><p><strong>対処：</strong>変えた操作と、影響を受けそうな前からの操作を、自分の手で押します（5-2 の表）。</p></div>
     <div class="box box-trouble"><span class="box-title">🧯 卒業制作のために新しい機能を足し始めた</span><p>仕上げも機能も終わりません。</p><p><strong>対処：</strong>決めた機能の外は足しません。docs/graduation.md の「卒業後に回すもの」に書き留めます。</p></div>
     <div class="box box-trouble"><span class="box-title">🧯 完成条件が「ちゃんと動く」になっている</span><p>試した結果に OK も NG も付けられません。</p><p><strong>対処：</strong>「何を入れて、何を押すと、何が見えれば完成か」で書き直します（6-2 の例）。</p></div>
@@ -699,7 +698,7 @@
       <tr><td><strong>README</strong></td><td>アプリのフォルダの直下に置く、使い方の説明ファイル。テストを流す命令を書いておく</td></tr>
       <tr><td><strong>仕様書（docs/spec.md）</strong></td><td>アプリの「やること・やらないこと・扱うデータ・画面」を書いたファイル</td></tr>
       <tr><td><strong>docs/actions.md</strong></td><td>画面の動きの一覧。動きごとに「確かめ方」と「確かめた結果」が書いてある（作ってある人だけ）</td></tr>
-      <tr><td><strong>完成条件</strong></td><td>何を入れて、何を押すと、何が見えれば完成かを、画面の操作だけで確かめられる形で書いた文</td></tr>
+      <tr><td><strong>完成条件</strong></td><td>何を入れて、何を押すと、何が見えれば完成かを、実際の操作または入力と出力で確かめられる形で書いた文</td></tr>
       <tr><td><strong>docs/graduation.md</strong></td><td>卒業制作に出すもの（決めた機能・完成条件・試した結果・まだ直っていない点・不具合ログ・卒業後に回すもの）をまとめて書いておくファイル</td></tr>
       <tr><td><strong>ソース</strong></td><td>人が書いたプログラムのファイル</td></tr>
       <tr><td><strong>node_modules</strong></td><td>アプリが使う部品（取り込んだプログラム）が入るフォルダ。大きいが、npm install で作り直せる</td></tr>

@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>第4回 画面側を作る ｜ AIアプリ開発入門ゼミ</title>
-<meta name="description" content="AIアプリ開発入門ゼミ 第4回 画面側を作る。仕様書とモックから、画面に付ける動きの一覧（docs/actions.md）を Claude Code に作らせ、データを残す処理・サーバー・本物の AI を作らずに、いちばんよく使う動きから1つずつ画面の中だけで動くように足して自分の手で確かめ、動かないときはコンソールの赤い文字を渡して直させるまでの手順。">
-<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
+<title>第4回 動きを作る ｜ AIアプリ開発入門ゼミ</title>
+<meta name="description" content="第4回。第3回で確かめた使う流れに、動きを付けます。動きの一覧を作り、いちばんよく使う操作から1つずつ実装して、自分で結果を確認します。本物のAIへの接続は次の回で行います。">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-projects">
 <script src="../../assets/site.js" defer></script>
 </head>
 <body class="lesson-visual-reading">
@@ -16,9 +16,9 @@
 <div class="cover-band">
   <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第4回</div>
-    <h1>画面側を作る ― モックに動きを付ける</h1>
-    <div class="subtitle">見た目だけの画面（モック）に、画面側の JavaScript で動きを付ける回です。動きの一覧 docs/actions.md を先に作らせ、いちばんよく使う動きから1つずつ、画面の中だけで動くように足して、自分の手で確かめます。データを残す処理・サーバー・本物の AI はまだ作りません。</div>
-    <div class="chips"><span class="chip">Claude デスクトップアプリ</span><span class="chip">docs/actions.md</span><span class="chip">1回の指示で動き1つ</span><span class="chip">データを残す処理はまだ</span></div>
+    <h1>動きを作る ― よく使う操作から1つずつ</h1>
+    <div class="subtitle">第3回で確かめた使う流れに、動きを付けます。動きの一覧を作り、いちばんよく使う操作から1つずつ実装して、自分で結果を確認します。本物のAIへの接続は次の回で行います。</div>
+    <div class="chips"><span class="chip">自分の仕様書から進める</span><span class="chip">1回の指示で1つずつ</span><span class="chip">完成を自分で確かめる</span></div>
   </div>
   <img class="penguin penguin-cover" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
 </div>
@@ -30,40 +30,19 @@
 </ol>
 
 <div class="howto">
-  <div><span class="howto-title">この回でやること</span><ol>
-    <li>権限モードを「手動」にして、app の控えを取る</li>
-    <li>指示①で、仕様書とモックから動きの一覧（docs/actions.md）を作らせて読む</li>
-    <li>指示②で、いちばんよく使う動きを1つ、完成条件つきで足す</li>
-    <li>一覧の「確かめ方」どおりに自分の手で押して、結果を書く</li>
-    <li>動かないときはコンソールの赤い文字を渡す。残りの動きは指示③で1行ずつ足し、最後に全部押して仕様書と揃える</li>
-  </ol></div>
-  <div><span class="howto-title">できたかの確認</span><ul>
-    <li>docs/actions.md に、動きごとの「確かめ方」と「確かめた結果」が入っている</li>
-    <li>いちばんよく使う動きが、HTML をダブルクリックして開いた画面で実際に動く</li>
-    <li>空の入力・数字でない入力をはじき、「1件も無いとき」の案内が出る</li>
-    <li>AI を使うアプリでは、仮の文章が返り、失敗したときの表示も出る</li>
-    <li>変えたファイルの一覧と、前と後のスクリーンショットが手元にある</li>
-  </ul></div>
+  <div><span class="howto-title">この回でやること</span><ol><li>元に戻せる控えを取り、動きの一覧を作る</li><li>今回作る動きを1つ決め、AIに実装を頼む</li><li>入力して結果を確かめ、一覧に記録する</li></ol></div>
+  <div><span class="howto-title">できたかの確認</span><ul><li>docs/actions.md に今回作る動きと、あとに回す動きがある</li><li>よく使う操作が、自分の選んだ環境で1回動く</li><li>成功・入力の間違い・失敗時を試し、OK／NG／未確認を残してある</li></ul></div>
 </div>
 
-<div class="goal">
-  <span class="goal-title">🎯 この回のゴール</span>
-  <ol>
-    <li>「動き」とは何か、なぜ見た目の次・裏側の前に足すのかを説明できる</li>
-    <li>仕様書とモックから、動きの一覧（docs/actions.md）を Claude Code に作らせ、読んで直せる</li>
-    <li>1回の指示で動きを1つ、完成条件つきで足させられる</li>
-    <li>足した動きを、一覧の「確かめ方」どおりに自分の手で確かめ、結果を残せる</li>
-    <li>動かないとき、何をしたか・何が起きたか・コンソールの赤い文字を渡して、原因を先に説明させられる</li>
-    <li>入力のチェックと「1件も無いとき」「処理中」「失敗したとき」の表示を、自分のアプリに合わせて足せる</li>
-  </ol>
-</div>
+<div class="goal"><span class="goal-title">🎯 読み進め方</span><p>まず「<a href="#your-project">自分の制作物で進める</a>」を読み、上の3項目で完成を確かめます。Webの操作例は、同じ構成で作るときに参照してください。画面やファイルの名前は、仕様書で決めたものを使います。</p></div>
 
 <div class="box box-point"><span class="box-title">✅ この回の前に用意しておくもの：仕様書 docs/spec.md と、モック（app/ の HTML と style.css）が入ったアプリのフォルダ ＋ Claude デスクトップアプリ</span>アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、仕様書 <code>docs/spec.md</code> と、モック（見た目だけを作った画面。<code>app/</code> の中の HTML と <code>style.css</code>）がある状態から始めます（作る順番 <code>docs/tasks.md</code> は、この回の指示①〜③では Claude Code に読ませません）。 Claude デスクトップアプリでそのフォルダを開き、Claude Code に指示を出します。Claude Code は無料プランでは使えないため、Claude の有料プランのご契約が必要です。プランの種類と料金は変わることがあるので、最新は <a href="https://claude.com/pricing" target="_blank" rel="noopener">Claude の公式ページ</a>でご確認ください。 間に合わなかった方は、LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。</div>
 
 <nav class="toc" aria-label="目次">
   <span class="toc-title">目次</span>
   <ol>
-    <li><a href="#map">この回の地図</a></li>
+    <li><a href="#your-project">自分の制作物で進める</a></li>
+    <li><a href="#map">Webの例の地図</a></li>
     <li><a href="#what">動きとは</a></li>
     <li><a href="#prepare">準備：権限モードを「手動」にして、app の控えを取る</a></li>
     <li><a href="#list">指示①：動きの一覧を作らせる</a></li>
@@ -79,8 +58,39 @@
   </ol>
 </nav>
 
+
+</section>
+
+<!-- BEGIN OWN PROJECT PATH -->
+<section class="chapter ch-1 project-path" id="your-project">
+<div class="chapter-head c-1"><div class="ch-text"><div class="ep">共通の進め方</div><h2>自分の制作物で進める</h2></div><img class="penguin penguin-ch" src="../../assets/penguins/penguin_cheering_both_wings.png" alt=""></div>
+<h3>入力から結果までを1つ動かす</h3>
+<p>この回は、試作品に<strong>いちばんよく使う動き</strong>を足します。Webでは画面のボタン、デスクトップではファイルを選ぶ操作など、動かす場所に合わせて考えます。画面のないツールなら、見本の入力を処理し、結果を表示するところから始めます。</p>
+<div class="flowmap"><div class="flow-step"><div class="f-ep">1</div><div class="f-name">操作を一覧に</div><div class="f-meta">入力・操作・結果を書く</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">2</div><div class="f-name">1つ作る</div><div class="f-meta">いちばんよく使う流れから</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">3</div><div class="f-name">自分で試す</div><div class="f-meta">見本の入力と結果を比べる</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">4</div><div class="f-name">結果を残す</div><div class="f-meta">OK・NGを記録し、次の1つへ</div></div></div>
+<h3>1. 操作の一覧と、今回作る範囲を決める</h3>
+<p>作業前に、いま動くファイルの控えを取ります。保存先が分からなければ、Claude Codeに「控えを取る対象と戻し方を教えて。まだ変更しないで」と聞き、場所を確認します。</p>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">docs/spec.md と今の試作品を読み、docs/actions.md に操作の一覧を作ってください。
+列：番号／入力・操作／期待する結果／自分で試す手順／状態／確認した結果。
+状態は「今回作る」「あとで」に分け、最初は1つだけを作る予定にしてください。
+選んだ技術と動かす場所は変えません。本物のAIはまだ呼ばず、仮の返事を使います。
+元のファイルや実データは上書きしません。ファイル出力が必要なら、見本用の別フォルダだけにします。
+今回の範囲と、あとでにする理由を先に示し、確認を待ってください。</pre>
+<p><strong>なぜ一覧にするか</strong>：作ったことと、自分で動かして確かめたことを分けて残せるためです。「あとで」には、本物のAIへの接続や、本番の保存先への接続などを置きます。</p>
+<h3>2. 1つ作り、同じ入力で確かめる</h3>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">docs/actions.md の（番号）の操作を作ってください。
+変えるファイルと内容を日本語で短く示し、私が確認してから作ってください。
+仕様書で選んだ構成を使い、見た目や関係ない操作は変えないでください。
+実データと本物のAIは使いません。終わったら、私が試す手順を教えてください。
+完成条件は、その行の「期待する結果」と一致することです。</pre>
+<div class="table-wrap" tabindex="0" role="region" aria-label="自分の制作物の進め方の表"><table><thead><tr><th>例</th><th>入力と操作</th><th>確かめる結果</th></tr></thead><tbody><tr><td>支出を記録するWebアプリ</td><td>500円を入力して登録</td><td>一覧に1行増える</td></tr><tr><td>メモを要約するデスクトップツール</td><td>架空のメモを選んで実行</td><td>仮の要点が出る。元のメモは変わらない</td></tr><tr><td>ファイルを変換するツール</td><td>見本ファイルを1つ渡す</td><td>別の出力先に見本どおりの内容ができる</td></tr></tbody></table></div>
+<p>空の入力や未選択でも試します。分からない表示のまま止まらず、次にすることが案内されればよい状態です。動かなければ、したこと・起きたこと・期待した結果と、エラーの文を渡して、原因を先に説明させます。コードをすべて読んで正しさを判断する必要はありません。</p>
+<p>結果を docs/actions.md にOK／NGで残します。NGを直して同じ操作を試してから、次の1つへ進みます。最後に、前から動いていた操作も試します。</p>
+<p><strong>完成の確認</strong>：中心となる操作が1つ動く／自分で試した結果が残っている／まだ作っていないものが分かる。下のWeb例では再読み込みで記録が消えて正解です。ファイルを出力するツールでは、別の見本用フォルダに結果が残って構いません。</p><p><a href="#deliverables">この回で残すものを確認する →</a></p>
+</section>
+<!-- END OWN PROJECT PATH -->
+
 <div class="cover-map" id="map">
-  <h3>この回の地図</h3>
+  <h3>Webの例：このあとの操作の地図</h3>
   <p>この回は、動きの一覧を先に出させてから、「1つ足す → 自分の手で確かめる → 動かなければコンソールを見る」を動きの数だけ繰り返します。</p>
   <figure class="fig reading-map">
     <a class="zoom" href="../../assets/figs/l04_map.webp"><img src="../../assets/figs/l04_map.webp" alt="左に「動きの一覧を作らせる」の箱。右に、動きを1つ足す → 自分の手で確かめる → コンソールを見る、の3つが時計回りの輪になっていて、中央に「1つずつ」。輪から右へ抜けた先に「仕様書と揃える」" width="1536" height="691"><span class="map-link">全体図を画像で開く ↗</span></a>
@@ -96,13 +106,11 @@
     <li><a href="#review"><b>見直す</b></a>　全部押す・見た目・仕様書</li>
   </ol>
 </div>
-</section>
-
 <section class="chapter ch-1" id="what">
   <div class="chapter-head c-1">
     <div class="ch-text">
       <div class="ep">第1章</div>
-      <h2>動きとは</h2>
+      <h2>Webの例｜動きとは</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_pointing.png" alt="">
   </div>
@@ -182,7 +190,7 @@
   <div class="chapter-head c-2">
     <div class="ch-text">
       <div class="ep">第2章</div>
-      <h2>準備：権限モードを「手動」にして、app の控えを取る</h2>
+      <h2>Webの例｜準備：権限モードを「手動」にして、app の控えを取る</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_koko_daiji_board.png" alt="">
   </div>
@@ -220,7 +228,7 @@
   <div class="chapter-head c-3">
     <div class="ch-text">
       <div class="ep">第3章</div>
-      <h2>指示①：動きの一覧を作らせる</h2>
+      <h2>Webの例｜指示①：動きの一覧を作らせる</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
   </div>
@@ -334,7 +342,7 @@
   <div class="chapter-head c-4">
     <div class="ch-text">
       <div class="ep">第4章</div>
-      <h2>指示②：いちばんよく使う動きを1つ足す</h2>
+      <h2>Webの例｜指示②：いちばんよく使う動きを1つ足す</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_teaching.png" alt="">
   </div>
@@ -459,10 +467,10 @@
   <div class="chapter-head c-5">
     <div class="ch-text">
       <div class="ep">第5章</div>
-      <h2>自分の手で確かめる</h2>
+      <h2>Webの例｜自分の手で確かめる</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
-  </div>
+  </div><p>コードの名前を全部読み解く必要はありません。Claude Codeに「どのファイルで何を変えたか、頼んだ範囲の外を変えていないかを日本語で報告して」と頼みます。そのうえで、下の確かめ方を自分で実行し、期待した結果と比べてください。</p>
     <p>
       <strong>開き方：</strong>Finder（Windows はエクスプローラー）で <code>my-app</code> → <code>app</code> → <code>index.html</code> をダブルクリックします。すでにブラウザで開いているときは、<strong>再読み込み</strong>（<kbd>⌘R</kbd>／<kbd>F5</kbd>）します。<br><span class="why">なぜ：</span>ブラウザは前に読んだファイルを表示し続けています。読み直させないと、新しく足した動きが入っていない画面のまま試すことになります。
     </p>
@@ -499,7 +507,7 @@
   <div class="chapter-head c-6">
     <div class="ch-text">
       <div class="ep">第6章</div>
-      <h2>動かないとき：コンソールの赤い文字を渡す</h2>
+      <h2>Webの例｜動かないとき：コンソールの赤い文字を渡す</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_magnifying_front.png" alt="">
   </div>
@@ -562,7 +570,7 @@
   <div class="chapter-head c-7">
     <div class="ch-text">
       <div class="ep">第7章</div>
-      <h2>指示③：残りの動きを1行ずつ足す</h2>
+      <h2>Webの例｜指示③：残りの動きを1行ずつ足す</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_thinking_finger.png" alt="">
   </div>
@@ -630,7 +638,7 @@
   <div class="chapter-head c-8">
     <div class="ch-text">
       <div class="ep">第8章</div>
-      <h2>見直す：全部押す・見た目を見比べる・仕様書と揃える</h2>
+      <h2>Webの例｜見直す：全部押す・見た目を見比べる・仕様書と揃える</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_puzzle.png" alt="">
   </div>
@@ -646,36 +654,14 @@
     <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_pointing.png" alt=""><div class="box-body"><strong>ここで作った画面側の流れ（押す → 待つ → 出る／失敗）は、裏側をつないだあともそのまま使います。</strong>裏側をつなぐときに変えるのは、「データをどこから持ってきて、どこに残すか」と「仮の文章を返す1か所を、本物の AI を呼ぶ形に変える」ことだけになります。画面側で受け渡すデータの項目と、差し替える場所が、すでに決まっているためです。</div></div>
 
 </section>
-<section class="chapter ch-wrap" id="deliverables">
-  <div class="chapter-head c-wrap">
+<section class="chapter ch-wrap" id="deliverables"><div class="chapter-head c-wrap">
     <div class="ch-text">
       <div class="ep">まとめ</div>
       <h2>この回で作るもの</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
   </div>
-    <p>終わったとき、手元に次の4つ（AI を使うアプリは5つ）がある状態にします。この回の課題の内容は commmune のゼミスレッドでご案内し、提出は「ゼミ参加者向け 事前課題提出受付フォーム」から開催3日前までにお願いします（<a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
-    <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
-      </dl></div>
-    <div class="cards">
-      <div class="card"><span class="card-title">変えたファイルの一覧</span>
-        <span class="card-desc">Claude Code に「<code>app-mock</code> と見比べて、この回で作った・変えたファイルの一覧（<code>app/</code> と <code>docs/</code> の中）を出してください。ファイルは変えないでください」と頼んだ返答。スクリーンショットか、文字をそのまま貼ります。<br><span class="why">なぜ：</span>会話が LIVE講義と課題で分かれても、一覧から漏れません。</span>
-      </div>
-      <div class="card"><span class="card-title"><code>docs/actions.md</code>（動きの一覧）</span>
-        <span class="card-desc">「状態」と「確かめた結果」（OK／NG／まだ確かめていない）が入ったもの。NG が残っていても構いません。そのときは、何が起きたかを書いておきます。</span>
-      </div>
-      <div class="card"><span class="card-title">いちばんよく使う動きの、前と後のスクリーンショット</span>
-        <span class="card-desc">押す前の画面と、押したあとの画面を各1枚。名前やメールアドレス、業務の実データが写っていないものにします。</span>
-      </div>
-      <div class="card"><span class="card-title">つまずきの記録</span>
-        <span class="card-desc">動かなかったときに、何をして、何を渡して、どう直ったか（または、まだ直っていないか）を1件以上。無ければ「なし」と書きます。</span>
-      </div>
-    </div>
-    <div class="box box-note"><strong>AI を使うアプリは、もう1つ：</strong>仮の文章が出たときと、「失敗テスト」で失敗の文が出たときのスクリーンショット（各1枚）。</div>
-    <p><span class="why">なぜこの4つなのか：</span>動いている様子は、スクリーンショット1枚だけでは伝わりません。一覧と確かめた結果があれば、どこまで作って、どこまで自分の手で確かめたかが分かります。つまずきの記録は、動かなかったときの渡し方を自分で回せたかを見るためのものです。</p>
-
-</section>
+<p>自分の制作物について、次を残します。</p><ul><li>作った・変えたファイルの一覧。控えと比べて確認する</li><li>docs/actions.md：動き、確かめ方、OK／NG／未確認の結果</li><li>よく使う操作の前後の画面、または入力と出力の見本</li><li>つまずきと対処の記録。なければ「なし」</li></ul><p>提出の内容・締切・フォームは、commmune の自分の期のゼミスレッドにある講師の案内を確認してください。<a href="../../#rules">参加・修了のルール</a>も確認します。</p><p>共有するファイル・画像・出力に、APIキー、実名・メールアドレス、業務の実データを含めないでください。キーを共有してしまった場合は、サービスの管理画面で無効化して作り直します。</p></section>
 <section class="chapter ch-wrap" id="pitfalls">
   <div class="chapter-head c-wrap">
     <div class="ch-text">

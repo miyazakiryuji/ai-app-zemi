@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第5回 API 連携とデータの持ち方 ｜ AIアプリ開発入門ゼミ</title>
-<meta name="description" content="AIアプリ開発入門ゼミ 第5回。API 連携の仕組み、Claude・OpenAI・Gemini の API キーの発行と安全な置き方、経路を先に通してから AI に差し替える手順、上限設定、そしてデータの4つの置き場（ブラウザ・PC のファイル・Turso・スプレッドシート）の選び方。">
-<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
+<meta name="description" content="第5回。APIを「受付窓口」として理解し、自分の制作物からAIへの往復を1回成功させます。仮の応答で流れを確認し、秘密の設定を用意してから本物のAIへ替えます。保存するデータと、保存しないデータも決めます。">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-projects">
 <link rel="stylesheet" href="../../assets/lesson05-api-examples-print.css">
 <script src="../../assets/site.js" defer></script>
 </head>
@@ -17,8 +17,8 @@
 <div class="cover-band">
   <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第5回</div>
-    <h1>API 連携で AI 機能を入れ、データの持ち方を決める</h1>
-    <div class="subtitle">自分のアプリからAIにお願いして、返ってきた答えを画面に出せるようにします。まずはAPIを「受付窓口」として理解し、Claude・OpenAI・Geminiから1つ選びます。秘密の利用証であるAPIキーを安全に置き、AIとの往復を1回成功させます。あわせて、アプリのデータをどこに保存するかを決めます。</div>
+    <h1>API連携 ― AIにつなぎ、残すデータを決める</h1>
+    <div class="subtitle">APIを「受付窓口」として理解し、自分の制作物からAIへの往復を1回成功させます。仮の応答で流れを確認し、秘密の設定を用意してから本物のAIへ替えます。保存するデータと、保存しないデータも決めます。</div>
     <div class="chips"><span class="chip">Claude／OpenAI／Gemini から1つ</span><span class="chip">API キーと .env</span><span class="chip">経路を先に通す</span><span class="chip">データの置き場を選ぶ</span></div>
   </div>
   <img class="penguin penguin-cover" src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
@@ -31,38 +31,18 @@
 </ol>
 
 <div class="howto">
-  <div><span class="howto-title">この回でやること</span><ol>
-    <li>API 連携の仕組みを押さえ、AI のサービスを1つ選ぶ</li>
-    <li>API キーをパスワードと同じ扱いにする決まり（.env・.gitignore・上限）を読む</li>
-    <li>選んだサービスでキーを発行し、その場で .env に貼って、上限を設定する</li>
-    <li>決まった文章を返すだけの経路を先に通し、動いたら AI に差し替える</li>
-    <li>データの置き場を4つの中から選び、仕様書の「使う技術」を書き換える</li>
-  </ol></div>
-  <div><span class="howto-title">できたかの確認</span><ul>
-    <li>キーが .env の中にだけあり、.gitignore に .env が入っている</li>
-    <li>管理画面で使える量の上限を設定したスクリーンショットがある</li>
-    <li>「テスト応答です」のような決まった文章が画面に出てから、AI の返事に差し替わった</li>
-    <li>AI 機能が1つ動き、続けて押しても要求が1回しか送られない</li>
-    <li>選んだ置き場に保存が残る画面と、書き換えた docs/spec.md がある</li>
-  </ul></div>
+  <div><span class="howto-title">この回でやること</span><ol><li>APIの役割と、キーを扱う場所を確認する</li><li>仮の応答を確認してから、本物のAIへ替える</li><li>残すデータと保存方法を選び、自分で試す</li></ol></div>
+  <div><span class="howto-title">できたかの確認</span><ul><li>1回の操作でAIの返事を受け取れる</li><li>キーがコード・画面・出力・共有するファイルに出ていない</li><li>保存後に開き直して確かめた、または保存しない理由を言える</li></ul></div>
 </div>
 
-<div class="goal">
-  <span class="goal-title">🎯 この回のゴール</span>
-  <ol>
-    <li>API 連携とは何か、アプリ・自分のサーバー・AI のサービスの間で何が送られるかを説明できる</li>
-    <li>API キーをパスワードと同じ扱いにする理由と、.env・.gitignore・上限設定の役割を説明できる</li>
-    <li>選んだサービスでキーを発行し、画面を閉じる前に .env に置ける</li>
-    <li>決まった文章を返す経路を先に通してから AI に差し替える順番と、その理由を説明できる</li>
-    <li>データの置き場4つの仕組みと消える条件を比べ、自分のアプリに合うものを選べる</li>
-  </ol>
-</div>
+<div class="goal"><span class="goal-title">🎯 読み進め方</span><p>まず「<a href="#your-project">自分の制作物で進める</a>」を読み、上の3項目で完成を確かめます。Webの操作例は、同じ構成で作るときに参照してください。画面やファイルの名前は、仕様書で決めたものを使います。</p></div>
 
 <div class="box box-point"><span class="box-title">✅ この回の前に用意しておくもの：画面（見た目）と、画面の中だけで動く動きが付いた自分のアプリ ＋ Claude デスクトップアプリ ＋ AI のサービスのアカウント</span>アプリのフォルダ（このページでは例として <code>my-app</code>）の中に、画面と動きのファイル（<code>app/</code>。例：<code>app/app.js</code>）と仕様書（<code>docs/spec.md</code>）がある状態から始めます。動きの一覧（<code>docs/actions.md</code>）があれば、それも使います。動きがまだ無い場合の進め方は <a href="#ai-nomotion">5-1</a> にあります。 AI のサービスは、このページの「サービスを選ぶ」を読んで1つ決め、アカウントを作っておいてください（キーの発行はこのページの手順で行います）。 支払い方法の登録を求められることがあります。料金と無料で使える範囲は変わることがあるので、契約の前に各サービスの公式ページでご確認ください。</div>
 
 <nav class="toc" aria-label="目次">
   <span class="toc-title">目次</span>
   <ol>
+    <li><a href="#your-project">自分の制作物で進める</a></li>
     <li><a href="#map">この回の地図</a></li>
     <li><a href="#what">API 連携とは</a></li>
     <li><a href="#api-examples">こんなツールもAPIを提供しています！</a></li>
@@ -97,6 +77,59 @@
   </ol>
 </div>
 </section>
+
+<!-- BEGIN OWN PROJECT PATH -->
+<section class="chapter ch-1 project-path" id="your-project">
+<div class="chapter-head c-1"><div class="ch-text"><div class="ep">共通の進め方</div><h2>自分の制作物で進める</h2></div><img class="penguin penguin-ch" src="../../assets/penguins/penguin_cheering_both_wings.png" alt=""></div>
+<h3>AIへの往復と、残すデータを決める</h3>
+<p>APIはアプリからサービスへお願いする受付窓口です。Webでもデスクトップでも、<strong>決まった文章で流れを確かめてから、本物のAIに替える</strong>順序は同じです。ブラウザやNode.jsをすべての制作物で使う必要はありません。</p>
+<div class="flowmap"><div class="flow-step"><div class="f-ep">1</div><div class="f-name">入口と結果</div><div class="f-meta">何を送り、どこに答えを出す？</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">2</div><div class="f-name">仮の応答</div><div class="f-meta">本物のAIを呼ばずに1往復</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">3</div><div class="f-name">AIにつなぐ</div><div class="f-meta">秘密の設定と料金を確認</div></div><div class="flow-arrow">→</div><div class="flow-step"><div class="f-ep">4</div><div class="f-name">残すデータ</div><div class="f-meta">保存するものと場所を決める</div></div></div>
+<h3>1. 自分の構成で、キーを扱う場所を確認する</h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="自分の制作物の進め方の表"><table><thead><tr><th>使い方</th><th>キーを扱う考え方</th><th>この回の確認</th></tr></thead><tbody><tr><td>Webアプリ</td><td>ブラウザにキーを渡さず、サーバー側で使う</td><td>画面側のコードや返答にキーがない</td></tr><tr><td>自分のPCだけで使うツール</td><td>PCの処理から、自分で用意した設定を読んで使う</td><td>コードや結果ファイルにキーを直接書かない</td></tr><tr><td>他人に配布するアプリ</td><td>作成者のキーをアプリに入れて配らない</td><td>利用者が自分のキーを設定するか、認証付きサーバーで管理するかを先に決める</td></tr></tbody></table></div>
+<p><strong>.env（ドットエンブ）</strong>は、APIキーなどの設定をコードとは別に書くテキストファイルです。暗号化する仕組みではありません。ここでは自分のPCでの練習用に使います。意味・開き方・貼り付け・保存は、第3章の図解と実画面を確認します。読み込み処理は選んだ言語・構成に合わせます。</p>
+<p>配布するときは、.envを配布物から外すだけでなく、プログラムや設定ファイルにキーが埋め込まれていないことも確認します。配布用の認証・利用制限が未準備なら、この回は自分のPCと架空の入力で接続を試すところまでにします。</p>
+<h3>2. 共通の指示で、自分の構成に合う接続を準備する</h3>
+<p>第1〜4章でAPI・キーの扱いを読み、選んだサービスのキーと料金の設定を済ませます。次の指示の（ ）を埋めて送ります。キーの値は貼りません。</p>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">docs/spec.md と今のアプリを読んでください。選んだ技術と動かす場所は変えません。
+AIに任せること：（例：選んだメモを3つの要点にまとめる）
+使うAPIサービス：（Claude API／OpenAI API／Gemini APIから選んだ1つ）
+送るデータ：（例：練習用のメモの本文）
+答えを出す場所：（例：アプリの結果欄）
+使う範囲：（自分のPCだけ／他人にも使ってもらう予定）
+
+まだ本物のAPIは呼ばないでください。
+1. 入力→処理→結果の経路と、秘密の設定を読む場所を説明してください。
+2. 仮の返事を返す処理があれば再利用し、なければ作る範囲を示してください。
+3. 本物のAIの代わりに「テスト応答です」を返す計画を示してください。
+4. 必要な準備・変更するファイル・起動と停止の方法を示し、確認を待ってください。
+.envの内容・キーの値は読み出して表示しないでください。
+確認後に実装し、私が1回操作して答えを確認する手順を教えてください。</pre>
+<p><strong>確認</strong>：「テスト応答です」が、自分の決めた場所に出ること。処理の途中で止まった場合は、その段階とエラーをAIへ渡し、先に原因を聞きます。</p>
+<h3>3. 本物のAIに替えて、成功と失敗を確かめる</h3>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">固定の返事が出ることを自分で確認しました。
+その処理を、先ほど選んだサービスの本物のAPI呼び出しに替えてください。
+現在の公式説明を確認し、選んだ言語で使えるライブラリとモデルを示してください。
+キーは私が用意した.envから読み込みます。必要な設定名だけを教えてください。
+キーの値をコード・ログ・画面・出力ファイルに出さないでください。
+今の入力方法と結果の表示は維持します。仮の待ち時間や失敗用の仕掛けは外してください。
+処理中は重ねて実行できず、失敗したら理由の短い案内を出し、入力は残る形にしてください。
+変更計画を示して確認を待ち、実装後は次の試し方を教えてください。
+- 架空の入力で1回だけ実行して返事を見る
+- 1回の操作でAPIを何回呼ぶか、キーを表示せずに確認する
+- 本物のキーを書き換えず、テスト用の偽の応答で失敗表示を確認する
+テスト用の仕掛けを戻したあと、ふだんの起動方法も確認してください。</pre>
+<p><strong>なぜ段階を分けるか</strong>：仮の返事も出ないなら、先にアプリ内の処理を調べられます。仮の返事は出て本物だけ失敗するなら、接続・設定・サービス側の返答を調べます。</p>
+<h3>4. 何を残すかを決め、保存を1つ試す</h3>
+<p>履歴や設定を残す必要があるかを、仕様書で確かめます。PC内で使うファイル、ブラウザ内の保存、複数の端末で共有する保存先など、使い方で選びます。結果ファイル自体を成果とするツールなら、履歴を追加する必要はありません。</p>
+<span class="code-label">指示の型・テンプレート</span><pre class="prompt">docs/spec.md をもとに、残す必要があるデータと、その理由を一覧にしてください。
+自分の使い方に合う保存先を提案し、消える条件・確認方法・控えの取り方を説明してください。
+私が選ぶまで保存処理は作らないでください。
+選んだら、実データとは別の見本1件で保存と読み出しを作って試します。
+起動し直しても読めること、元のファイルを上書きしていないことを確認してください。
+保存が不要なら、その理由を仕様書に残してください。</pre>
+<p><strong>完成の確認</strong>：自分の入力からAIの結果を1回得られる／秘密の値を共有物に含めない／必要なデータが残る、または残さない理由を説明できる。Webの詳しい接続例は第5章、保存先の比較は第6章を参照します。</p><p><a href="#deliverables">この回で残すものを確認する →</a></p>
+</section>
+<!-- END OWN PROJECT PATH -->
 
 <section class="chapter ch-1" id="what">
   <div class="chapter-head c-1">
@@ -406,7 +439,7 @@
   <div class="chapter-head c-5">
     <div class="ch-text">
       <div class="ep">第5章</div>
-      <h2>AI 機能を入れる：経路を先に通してから、中身を差し替える</h2>
+      <h2>Webの例｜AI 機能を入れる：経路を先に通してから、中身を差し替える</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
   </div>
@@ -445,7 +478,7 @@
 
     <h4>サーバーを立てて、いまの画面をそのまま出す（指示①）</h4>
     <ol class="steps">
-      <li><p class="step-title">Node.js が入っているかを Claude Code に聞く</p><p>「この PC に Node.js が入っているか確かめてください。入っていなければ、入れ方を教えてください」と送ります。入っていなければ、公式サイト（<a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a>）の案内に従って入れます。2026年10月30日時点では、公式サイトの既定は v26 の LTS で、v24 の LTS もバージョンの選択欄で選べます。v24 を選ぶなら、その中の最新の LTS（v24.22.1 以降）にします。どちらも LTS なので、どちらが入っていてもそのまま進めて構いません。入ったあとに <code>node -v</code> と打つと、<code>v26.13.0</code> や <code>v24.22.2</code> のように版が出ます（数字は更新で変わります）。画面の文言は変わることがあります。<br><span class="why">なぜ：</span>サーバー側のプログラムは Node.js の上で動きます。入っていないと、次の指示で作ったサーバーを起動できません。</p></li>
+      <li><p class="step-title">Node.js が入っているかを Claude Code に聞く</p><p>「この PC に Node.js が入っているか確かめてください。入っていなければ、入れ方を教えてください」と送ります。入っていなければ、公式サイト（<a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a>）の案内に従って入れます。公式サイトで現在のLTS（長く保守される版）を選び、インストール後に <code>node -v</code> で版が表示されることを確認します。画面の文言は変わることがあります。<br><span class="why">なぜ：</span>サーバー側のプログラムは Node.js の上で動きます。入っていないと、次の指示で作ったサーバーを起動できません。</p></li>
       <li><p class="step-title">下の指示①を送る</p><p>そのまま貼って送ります。返事に出てくる「起動のしかた・止めかた・開くアドレス」は、このあと何度も使うので控えておきます。<br><span class="why">なぜ：</span><code>.env</code> を直したときなど、サーバーを止めて起動し直す場面がこの先に何度もあるためです。</p></li>
     </ol>
 <span class="code-label">指示①（サーバーを立てる）― そのまま貼る</span>
@@ -499,6 +532,7 @@
 
     <h4>例：食費メモ（記録型）に「今月の食費をひとことで振り返る」ボタンを足す</h4>
     <p>手順3で送る指示です。AI はまだ呼びません。（ ）の中はご自身のアプリの機能に合わせて書き換えます。</p>
+<div class="box box-note"><span class="box-title">Webの例：起動と通信の確認</span><ol><li>Claude Codeに「この構成の起動場所・命令・開くアドレス・停止方法をREADMEに書いて」と頼みます。Node.jsなどの追加が必要なら理由を確認して準備します。</li><li>READMEの命令で起動し、表示されたアドレスをブラウザで開きます。HTMLのダブルクリックではサーバーを使う処理は動きません。</li><li>Chromeのメニュー → その他のツール → デベロッパーツールで「Network」を開きます。記録中に一覧を消してから、AIの操作を1回します。</li><li>「Fetch/XHR」で絞り、Claude Codeに教わった自分のAPIのパスで対象を見つけます。画像などを含む全行を数えません。1回の操作で対象の送信が1回か確認します。サーバーからAIへの呼び出し回数は、キーや本文を含めないログで確認させます。</li><li>設定を変えたら、READMEの手順で停止・再起動します。起動中のターミナルで動かす構成では、通常はControl+Cで停止します。</li></ol></div>
 <span class="code-label">指示③（経路を先に通す・AI はまだ呼ばない）― （ ）を自分のアプリに合わせて貼る</span>
 <pre class="prompt">サーバー側に「AIに聞く」処理の入口だけを作ってください。
 中身はまだAIを呼ばず、「テスト応答です」という決まった文章を返すだけにします。
@@ -519,19 +553,21 @@
     <p><strong>確認：</strong>ボタンを押すと、「処理中」の表示（「考え中…」など）が出たあとに「テスト応答です」が出れば、経路が通っています。入力に「失敗テスト」を入れて押し、失敗したときの表示が出て、入力が消えずに残ることも見ます。ネットワークの欄で、自分のサーバーへの要求が1回だけ送られていることは、指示③と同じく見ておきます。<br><span class="why">なぜ「1秒待つ」と「失敗テスト」も入口に移すのか：</span>入口がすぐに答えを返すと、「処理中」の表示は一瞬で消えて、目で確かめられません。「失敗テスト」を入口で失敗させると、入口がエラーを返したときに失敗したときの表示が出るかを、本物の AI を呼ぶ前に確かめられます。本物の AI の呼び出しが失敗したときも、画面に届くのは同じ「入口からのエラー」です。</p>
     <p>この場合、このあとの手順4・5は次のように変わります。</p>
     <ul>
-      <li><strong>手順4（指示④）：</strong>指示④の最後に「サーバー側の入口に移した『1秒待つ』と『失敗テスト』の仮の仕組みは外してください」の1行を足して送ります。<br><span class="why">なぜ外すのか：</span>残しておくと、本物の AI の答えが毎回1秒遅れ、入力にたまたま「失敗テスト」の文字が入ったときは、AI を呼ばずに失敗の表示が出ます。</li>
-      <li><strong>手順5（指示⑤）：</strong>「処理中」「失敗したとき」の表示はもうあるので、指示⑤は送りません。ボタンを素早く続けて押してもネットワークの欄の要求が1回だけであることと、指示⑤の下の「確認」（<code>.env</code> のキーの最後にわざと <code>x</code> を1文字足して、失敗したときの表示が出るか）だけを行います。</li>
+      <li><strong>手順4（指示④）：</strong>指示④には、仮の仕組みを外す指示も含めています。追記は不要です。<br><span class="why">なぜ外すのか：</span>残しておくと、本物の AI の答えが毎回1秒遅れ、入力にたまたま「失敗テスト」の文字が入ったときは、AI を呼ばずに失敗の表示が出ます。</li>
+      <li><strong>手順5（指示⑤）：</strong>「処理中」「失敗したとき」の表示はもうあるので、指示⑤は送りません。ボタンを素早く続けて押してもネットワークの欄の要求が1回だけであることと、指示⑤の下の「確認」（本物のキーを変えず、テスト用の偽の失敗応答で表示を確かめる）だけを行います。</li>
     </ul>
     <p>手順4で送る指示です。（ ）の中を、ご自身が選んだサービスとアプリに合わせて書き換えます。</p>
 <span class="code-label">指示④（AI に差し替える）― （ ）を自分のアプリに合わせて貼る</span>
-<pre class="prompt">さきほど作った入口の中身を、AIの呼び出しに差し替えてください。
-使うサービスは（Claude API）です。公式のライブラリを使ってください。
-起動時に .env を読み込む設定を用意してください。APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側からだけ使ってください。画面側には出さないでください。.env の中身は開いて読まないでください。
-送る内容は、（いま画面の一覧に出ている記録の日付・金額・メモ）と、「（これを3行以内で振り返ってください）」という指示文です。
-モデル名は、公式ドキュメントに載っている現在の標準的なものを使い、コードの中の1箇所にまとめてください。
-（Gemini を選んだ場合だけ、この行を残す）モデルは gemini-3.5-flash-lite、ライブラリは @google/genai（Python なら google-genai）を使ってください。
-完成条件：ボタンを押すと、AIが生成した（振り返りの文章）が結果の欄に表示されること。</pre>
-    <p>OpenAI なら「使うサービスは OpenAI API、キーは <code>OPENAI_API_KEY</code>」、Gemini なら「Gemini API、キーは <code>GEMINI_API_KEY</code>」に書き換えます。最後から2行目の「Gemini を選んだ場合だけ」の行は、Gemini 以外の方は消します。Gemini の方は、行の先頭の「（Gemini を選んだ場合だけ、この行を残す）」の部分と、その上の「モデル名は、公式ドキュメントに…」の行を消します。モデル名が変わっていたら <a href="#key-gemini">4-3</a> の注記のモデル名に直します。手順3で画面側の関数の中身を差し替えた方は、最後に、仮の仕組みを外す1行を足します（指示③の下の注記）。</p>
+<pre class="prompt">さきほど確認した入口を、本物のAIの呼び出しに替えてください。
+使うサービス：（Claude API／OpenAI API／Gemini APIから選んだ1つ）
+AIに送るもの：（架空の練習データの内容）
+AIに頼むこと：（例：3行で要約する）
+公式説明で現在のライブラリとモデルを確認し、使うものと理由を先に示してください。
+APIキーは.envから読み込み、必要な設定名だけを教えてください。値を読み出して表示しないでください。
+キーはサーバー側だけで使い、画面・コード・ログに直接書かないでください。
+今ある入力・ボタン・結果欄を使い、仮の待ち時間と「失敗テスト」の仕掛けは外してください。
+処理中の重複実行を防ぎ、失敗時は短い案内を出して入力を残してください。
+変更計画を示して確認を待ち、実装後に起動・停止と、1回の操作で返事を見る手順を教えてください。</pre><p>（ ）を3か所埋めて送ります。利用するサービスによる設定名の違いは、第3〜4章で確認します。</p>
     <p><span class="why">なぜ「モデル名を1箇所にまとめて」と書くのか：</span>モデル名は変わります。変わったときに直す場所が1つなら、ご自身で直せます。あちこちに書かれていると、直し漏れで一部の機能だけ動かなくなります。</p>
     <p>手順5で送る指示です。待機中の表示と、失敗したときの表示を足します。</p>
 <span class="code-label">指示⑤（待機中と失敗時の表示）― （ ）を自分のアプリに合わせて貼る</span>
@@ -539,7 +575,7 @@
 1. 押してから結果が返るまでの間、ボタンを押せなくして「考え中…」と表示する
 2. サーバー側でエラーが起きたら、結果の欄に「うまくいきませんでした。もう一度お試しください」と表示する。エラーの詳しい内容はサーバー側のターミナルにだけ出す
 完成条件：ボタンを連打しても要求が1回しか送られないこと。サーバー側でエラーが起きたとき、画面に上の文章が出ること。</pre>
-    <p><strong>確認：</strong><code>.env</code> のキーの最後にわざと <code>x</code> を1文字足して保存し、5-1 で起動したサーバーを止めて起動し直してから、ボタンを押します。画面に「うまくいきませんでした。もう一度お試しください」が出れば合格です。<strong>確かめたら足した <code>x</code> を消して保存し、もう一度起動し直して、ボタンで AI の文章が出ることも見ます。</strong><br><span class="why">なぜ自分で試すのか：</span><code>.env</code> の中身は Claude Code に読ませない約束なので、キーを壊す確認はご自身で行います。キーを消すのではなく <code>x</code> を足すのは、足した1文字を消せば元に戻るからです。消した文字を覚えておく必要が無く、キーを別の場所に書き写さずに済みます（書き写した場所から漏れます）。<br>元に戻したあとの確認を省くと、キーに <code>x</code> が付いたまま次の作業に進んでしまいます。</p>
+    <p><strong>確認：</strong>本物のキーを変更せず、AIに「テスト時だけ失敗を返す仕掛けと、元に戻す手順を先に説明して」と頼みます。練習用データで失敗を起こし、短い案内が出て入力が残るかを確認します。確認後は仕掛けを外し、通常の操作を1回確かめます。</p>
     <p><span class="why">なぜ「ボタンを押せなくする」のか：</span>応答が返るまでの数秒間、何も起きないと利用者はもう一度押します。押した回数だけ AI が呼ばれ、そのたびに課金されます。押せなくしておけば、この事故は起きません。</p>
     <p><span class="why">なぜエラーの詳しい内容を画面に出さないのか：</span>エラーの文章には、サーバーの内部の情報（ファイルの場所や、場合によってはキーの一部）が含まれることがあります。画面に出すのは利用者向けの短い文章だけにし、原因を調べるための情報はターミナルに出します。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
@@ -765,7 +801,7 @@
       <figcaption>「Edit Data」の画面。左に表の一覧、右にその表の行が出ます。アプリで登録した記録がここに1行ずつ並びます。画面の例は別のアプリ（ToDo）のデータです（見る場所は同じです）</figcaption>
     </figure>
 
-    <h3 id="store-sheet">6-4. スプレッドシートに持つ（Google スプレッドシート）</h3>
+    <h3 id="store-sheet">6-4. スプレッドシートに持つ（Google スプレッドシート）</h3><p><strong>外部サービスの認証設定が必要な応用例です。</strong>表で見たり集計したりするだけなら、まずCSV書き出しを検討します。API連携を選ぶ場合は、練習用シートを作り、Google Cloudのプロジェクト、Sheets APIの有効化、認証方式、シートへの権限を順に確認してから進めます。</p>
     <p>データを Google スプレッドシートの表に持ち、サーバー側から Google の API を通して読み書きします。<strong>1行が1件、1行目が項目名</strong>という形にします。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>Google スプレッドシート</dt><dd>Google が提供している、ブラウザで使う表計算のサービス。Excel と同じような表を、インターネット上に持ちます。</dd>
@@ -806,45 +842,19 @@
 完成条件：アプリで1件登録すると、シートに1行増えること。シートで直した内容がアプリの一覧に反映されること。</pre>
     <p><span class="why">なぜ認証用の JSON ファイルを .gitignore に入れるのか：</span>このファイルを持っていれば、誰でもそのサービスアカウントとして、共有したシートを読み書きできるためです。提出する zip にも入れません。</p>
 
-    <h3 id="store-choose">6-5. 4つの比較と、選び方</h3><figure class="fig lv-diagram" data-diagram="l05_storage"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l05_storage.webp"><img src="../../assets/figs/lessons01-05/l05_storage.webp" alt="保存先は「どこで使うか」で選ぶ。試作・表示設定：localStorage：ブラウザ内。サイトデータ削除で消える。別ブラウザでは別のデータ。自分のPCだけ：JSON／SQLite：PCのファイル。削除・PC故障に備えてバックアップ。複数の端末から：Turso：インターネット上のDB。削除・契約停止などに注意。表を人が見て直す：Google スプレッドシート。共有権限・列の変更に注意。選んだ保存先を docs/spec.md に記録する。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">保存先は「どこで使うか」で選ぶ</p><div class="lv-stack"><div class="lv-card"><strong>試作・表示設定</strong><p>localStorage：ブラウザ内<br>サイトデータ削除で消える。別ブラウザでは別のデータ</p></div><div class="lv-card"><strong>自分のPCだけ</strong><p>JSON／SQLite：PCのファイル<br>削除・PC故障に備えてバックアップ</p></div><div class="lv-card"><strong>複数の端末から</strong><p>Turso：インターネット上のDB<br>削除・契約停止などに注意</p></div><div class="lv-card"><strong>表を人が見て直す</strong><p>Google スプレッドシート<br>共有権限・列の変更に注意</p></div></div><p class="lv-note">選んだ保存先を docs/spec.md に記録する。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l05_storage.webp">図解を画像で開く ↗</a></div><figcaption>保存先は「どこで使うか」で選ぶ（仕組みを示す模式図）</figcaption></figure><p>PCだけで使うならJSON／SQLite、複数端末から使うならTursoを検討します。人が表を編集するならスプレッドシート、試作や表示設定ならlocalStorage。表の受け渡しだけなら、まずCSV書き出しで足りるか確認してください。</p><p>保存先ごとの設定や消える条件は、上の各節にあります。<strong>別ブラウザ・別PC・別アドレスで見えないことと、削除されたことは別です。</strong>共有権限や契約の状態によっては、データが残っていても使えない場合があります。</p><div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_koko_daiji_board.png" alt=""><div class="box-body"><strong>保存の処理は、1つのファイルにまとめておきます。</strong>PC のファイル・Turso・スプレッドシートなら、サーバー側の1つのファイルにまとめ、画面側は「自分のサーバーに頼む」だけにします。localStorage なら、画面側の1つのファイル（例：<code>app/storage.js</code>）にまとめます。置き場の違いは、そのファイルの中だけに閉じ込めます。
+    <h3 id="store-choose">6-5. 4つの比較と、選び方</h3><figure class="fig lv-diagram" data-diagram="l05_storage"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l05_storage.webp"><img src="../../assets/figs/lessons01-05/l05_storage.webp" alt="保存先は「どこで使うか」で選ぶ。試作・表示設定：localStorage：ブラウザ内。サイトデータ削除で消える。別ブラウザでは別のデータ。自分のPCだけ：JSON／SQLite：PCのファイル。削除・PC故障に備えてバックアップ。複数の端末から：Turso：インターネット上のDB。削除・契約停止などに注意。表を人が見て直す：Google スプレッドシート。共有権限・列の変更に注意。選んだ保存先を docs/spec.md に記録する。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">保存先は「どこで使うか」で選ぶ</p><div class="lv-stack"><div class="lv-card"><strong>試作・表示設定</strong><p>localStorage：ブラウザ内<br>サイトデータ削除で消える。別ブラウザでは別のデータ</p></div><div class="lv-card"><strong>自分のPCだけ</strong><p>JSON／SQLite：PCのファイル<br>削除・PC故障に備えてバックアップ</p></div><div class="lv-card"><strong>複数の端末から</strong><p>Turso：インターネット上のDB<br>削除・契約停止などに注意</p></div><div class="lv-card"><strong>表を人が見て直す</strong><p>Google スプレッドシート<br>共有権限・列の変更に注意</p></div></div><p class="lv-note">選んだ保存先を docs/spec.md に記録する。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l05_storage.webp">図解を画像で開く ↗</a></div><figcaption>保存先は「どこで使うか」で選ぶ（仕組みを示す模式図）</figcaption></figure><p>PCだけで使うならJSON／SQLite、複数端末から使うならTursoを検討します。人が表を編集するならスプレッドシート、試作や表示設定ならlocalStorage。表の受け渡しだけなら、まずCSV書き出しで足りるか確認してください。</p><p>保存先ごとの設定や消える条件は、上の各節にあります。<strong>別ブラウザ・別PC・別アドレスで見えないことと、削除されたことは別です。</strong>共有権限や契約の状態によっては、データが残っていても使えない場合があります。</p><div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_koko_daiji_board.png" alt=""><div class="box-body"><strong>Webの例では、保存の処理を1つのファイルにまとめておきます。</strong>PC のファイル・Turso・スプレッドシートなら、サーバー側の1つのファイルにまとめ、画面側は「自分のサーバーに頼む」だけにします。localStorage なら、画面側の1つのファイル（例：<code>app/storage.js</code>）にまとめます。置き場の違いは、そのファイルの中だけに閉じ込めます。
       <br><span class="why">なぜ：</span>置き場を変えるとき、直す場所が1つで済みます。画面側にまで保存の処理が散らばっていると、置き場を変えるたびにアプリ全体を作り直すことになります。</div></div>
     <p><strong>決めたら <code>docs/spec.md</code> の「使う技術」の「保存の仕組み」の行を書き換えます</strong>（Claude Code に「<code>docs/spec.md</code> の保存の仕組みを Turso に書き換えてください」と指示すれば済みます）。<br><span class="why">なぜ：</span>仕様書と実物がずれたままだと、次に Claude Code に指示したとき、古い保存先の前提でコードが作られます。</p>
 
 </section>
-<section class="chapter ch-wrap" id="deliverables">
-  <div class="chapter-head c-wrap">
+<section class="chapter ch-wrap" id="deliverables"><div class="chapter-head c-wrap">
     <div class="ch-text">
       <div class="ep">まとめ</div>
       <h2>この回で作るもの</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_checkmark_ok.png" alt="">
   </div>
-    <p>この回の到達点は次の4つです。提出のしかたは commmune のゼミスレッドで案内します（提出の期限は <a href="../../#rules">Home の「ゼミのルール・修了要件」</a>）。<a href="../../#boardingpass">演習サイト Boarding Pass</a> の理解度チェックもあります。</p>
-    <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>commmune</dt><dd>DMM 生成AI CAMP の受講生向けコミュニティサイト。ゼミごとのスレッドで課題や連絡を案内します。</dd>
-      </dl></div>
-    <div class="cards">
-      <div class="card"><span class="card-title">AI 機能（1つ）が動いている自分のアプリ</span>
-        <span class="card-desc">入力と出力の両方が見えるスクリーンショットと、ソース一式の zip。使ったサービスの名前も書きます。<br>
-          zip は Claude Code に「.env・node_modules・data/・認証用の JSON ファイルを除いて zip にしてください。できたら zip の中身の一覧を表示してください」と頼んで作り、<strong>一覧に <code>.env</code> が無いことを見てから出します。</strong><br><span class="why">なぜ：</span><code>.env</code> が入ったまま出すと、キーをそのまま渡すことになります。</span>
-      </div>
-      <div class="card"><span class="card-title">管理画面の上限設定のスクリーンショット</span>
-        <span class="card-desc"><strong>Claude：</strong>「請求」の画面で、クレジット残高と、自動リロードがオフであること・「Spend limits」の月の上限が見えるもの。<br>
-          <strong>OpenAI：</strong>「Limits」の「Spend」の欄で、月の上限額と「Enforce a hard limit」がオンになっていることが見えるもの。<br>
-          <strong>Gemini：</strong>支払いを設定した方は、「利用額」の月の使用上限が見えるもの。無料枠のまま使う方は、「利用額」に「請求先が設定されていません」と出ている画面（4-3 の画像の例）。<br>
-          キーの全文が写っていないことを見てから撮ります。</span>
-      </div>
-      <div class="card"><span class="card-title"><code>.gitignore</code> に <code>.env</code> が入っていることが分かるスクリーンショット</span>
-        <span class="card-desc"><code>.gitignore</code> を開いた画面。<code>.env</code> と <code>node_modules</code> の行が見えていれば十分です。</span>
-      </div>
-      <div class="card"><span class="card-title">選んだ置き場に保存が残る画面と、書き換えた <code>docs/spec.md</code></span>
-        <span class="card-desc">選んだ置き場に1件保存し、再読み込み（または、サーバーを止めて起動し直し）しても残っている画面のスクリーンショット。<br>
-          <code>docs/spec.md</code> は、「使う技術」の「保存の仕組み」の行が選んだ置き場になっている状態で、選んだ理由を1行、ご自身の言葉で添えます。</span>
-      </div>
-    </div>
-    <div class="box box-warn"><strong>提出前に必ず確認：</strong>スクリーンショットとソースに <strong>API キーやトークンが写っていないか</strong>。まだどこにも貼っていなければ、キーが写らない範囲で撮り直します。一度でも掲示板・提出フォーム・共有の場所に出したら、貼り直すのではなく、管理画面でそのキーを無効化して作り直してください。</div>
-
-</section>
+<p>自分の制作物について、次を残します。</p><ul><li>AIに1回送って返事を受け取った結果と、起動・停止の手順</li><li>APIを何に使い、どこから呼ぶかを記した仕様書。キーの値は含めない</li><li>保存するデータと保存方法、開き直して確かめた結果。保存しない場合は理由</li></ul><p>提出の内容・締切・フォームは、commmune の自分の期のゼミスレッドにある講師の案内を確認してください。<a href="../../#rules">参加・修了のルール</a>も確認します。</p><p>共有するファイル・画像・出力に、APIキー、実名・メールアドレス、業務の実データを含めないでください。キーを共有してしまった場合は、サービスの管理画面で無効化して作り直します。</p></section>
 <section class="chapter ch-wrap" id="pitfalls">
   <div class="chapter-head c-wrap">
     <div class="ch-text">
@@ -1003,7 +1013,7 @@
 
 <footer class="footer">
   <nav class="pager" aria-label="前後の回">
-    <a class="pager-prev" href="../lesson04/"><small>← 前の回</small>第4回 画面側を作る</a>
+    <a class="pager-prev" href="../lesson04/"><small>← 前の回</small>第4回 動きを作る</a>
     <a class="pager-next" href="../lesson06/"><small>次の回 →</small>第6回 テスト</a>
   </nav>
   <p><a href="../../">Home（ゼミ全体の案内）</a>／<a href="../../#schedule">日程・入室</a>／<a href="../../#stuck">困ったとき</a>／<a href="../../#boardingpass">Boarding Pass</a>／<a href="../lesson02/">第2回</a>・<a href="../lesson03/">第3回</a>・<a href="../lesson04/">第4回</a>・<a href="../lesson05/">第5回</a>・<a href="../lesson06/">第6回</a>・<a href="../lesson07/">第7回</a></p>
