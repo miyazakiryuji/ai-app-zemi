@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第3回 モックを作る ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第3回 モックを作る。仕様書の画面一覧から、裏側の処理を作らずに見た目だけの画面（モック）を Claude Code に作らせ、ブラウザで開いて崩れを確かめ、テイスト → 細部の順にブラッシュアップするまでの手順。">
-<link rel="stylesheet" href="../../assets/lesson.css">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
 <script src="../../assets/site.js" defer></script>
 </head>
-<body>
+<body class="lesson-visual-reading">
 <div class="page">
 <main class="sheet">
 
@@ -80,8 +80,8 @@
 <div class="cover-map" id="map">
   <h3>この回の地図</h3>
   <p>この回は、モックを作らせてブラウザで開き、そのあとは1回の指示で1つずつ直します。直す順番は「崩れ → テイスト → 細部」です。</p>
-  <figure class="fig">
-    <a class="zoom" href="../../assets/figs/l03_map.webp"><img src="../../assets/figs/l03_map.webp" alt="左から右へ6つの箱。モックを作らせる → ブラウザで開く → 崩れを見る → テイストを決める → 細部を直す → 仕様書と揃える。真ん中の3つの上に「1回の指示で1つずつ」の帯" width="1536" height="488"></a>
+  <figure class="fig reading-map">
+    <a class="zoom" href="../../assets/figs/l03_map.webp"><img src="../../assets/figs/l03_map.webp" alt="左から右へ6つの箱。モックを作らせる → ブラウザで開く → 崩れを見る → テイストを決める → 細部を直す → 仕様書と揃える。真ん中の3つの上に「1回の指示で1つずつ」の帯" width="1536" height="488"><span class="map-link">全体図を画像で開く ↗</span></a>
     <figcaption>この回の流れ。真ん中の3つ（崩れ・テイスト・細部）は、まとめて頼まず、1回の指示で1つずつ直します</figcaption>
   </figure>
   <ol class="route">
@@ -117,27 +117,9 @@
         <dt>崩れ</dt><dd>文字のはみ出し・重なり・ずれ、幅を変えたときの折れなど、意図と違う見た目になっていること。</dd>
         <dt>テイスト</dt><dd>見た目の方向性。色・文字・余白・角の丸みなど、画面全体に共通する印象のこと。</dd>
       </dl></div>
-<h3>1-1. なぜ裏側より先に画面を作るのか</h3>
-    <p>このゼミでは、アプリを <strong>「見た目 → 動き → 裏側」の順に、1段ずつ足して作ります</strong>。最初に作るのが、見た目だけのモックです。</p>
-    <p><strong>一言でいうと</strong>：画面は目で見て直せますが、裏側の処理は動かすまで合っているか分かりません。目で見て直せるほうを先に終わらせ、そのあとの処理は、できあがった画面の上で1つずつ確かめながら足していきます。</p>
-    <ul>
-      <li><strong>目で見て確かめられます。</strong>画面は開けばその場で合っているか分かります。保存や計算は、動かしてみるまで合っているか分かりません。先に画面があれば、あとから足す処理を、すべてこの画面の上で「押した結果がどう出るか」として確かめられます</li>
-      <li><strong>うまくいかないとき、原因を探す範囲が狭くなります。</strong>画面と処理を一度に作らせると、思ったとおりに動かないときに、画面の置き方が悪いのか、処理が悪いのかが分かりません。画面だけを先に仕上げておけば、そのあとに起きた不具合は、あとから足した処理を先に調べればよいことになります</li>
-      <li><strong>1回の指示が小さくなり、確認画面を読み切れます。</strong>Claude Code はファイルを書き換える前に、何をどこに書くかを確認画面に出します。画面と処理をまとめて頼むと確認画面の中身が長くなり、読まずに許可することになります。見た目だけなら、出てくるのは HTML と CSS だけなので、自分が決めた見出しや入力欄の名前が入っているかを目で追えます</li>
-      <li><strong>仕様書と実物のずれに、作り込む前に気づけます。</strong>実物の画面に並べてみると、足りない入力欄や、要らなかった項目が見つかります。画面に置く項目が変われば、保存する項目も変わります。処理まで作ったあとで気づくと、画面と処理の両方を直すことになります。画面だけの状態なら、直すのは画面の1か所で終わります</li>
-      <li><strong>見た目が好みかどうかは、使う本人にしか決められません。</strong>自分が毎日開きたくなる画面かどうかを、AI は判断できません。見た目をあとまわしにすると、処理ができあがったあとで画面を変えることになり、直すのをためらって、気に入らないまま使い続けることになります</li>
-      <li><strong>残りの作業が数えられます。</strong>画面が1枚ずつ手元にあると、このあとの作業を「この画面のこのボタンに処理を足す」という形で、1つずつ数えられます</li>
-    </ul>
-    <figure class="fig">
-      <a class="zoom" href="../../assets/images/lesson03/diagram_build_order.svg"><picture><source media="(max-width:720px)" srcset="../../assets/images/lesson03/diagram_build_order_sp.svg"><img src="../../assets/images/lesson03/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy"></picture></a>
-      <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済みます</figcaption>
-    </figure>
-    <div class="box box-point"><strong>ここで作る画面は、あとで動きや裏側の処理を足すときの土台として使います。作り直す前提の下書きではありません。</strong>だから、この回のうちに「自分が毎回使いたい画面」になるまで整えます。
+<h3>1-1. なぜ裏側より先に画面を作るのか</h3><figure class="fig lv-diagram" data-diagram="l03_layers"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l03_layers.webp"><img src="../../assets/figs/lessons01-05/l03_layers.webp" alt="見た目 → 動き → 裏側の順に作る。第3回：見た目：HTML・CSSで、配置と読みやすさを確認。第4回：動き：JavaScriptで、押した結果を確認。第5回：裏側：必要な保存やAIの呼び出しを追加。1段ずつ確かめると、不具合の原因を探す範囲が狭くなる。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">見た目 → 動き → 裏側の順に作る</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>第3回：見た目</strong><p>HTML・CSSで、配置と読みやすさを確認</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>第4回：動き</strong><p>JavaScriptで、押した結果を確認</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>第5回：裏側</strong><p>必要な保存やAIの呼び出しを追加</p></div></li></ol><p class="lv-note">1段ずつ確かめると、不具合の原因を探す範囲が狭くなる。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l03_layers.webp">図解を画像で開く ↗</a></div><figcaption>見た目 → 動き → 裏側の順に作る（仕組みを示す模式図）</figcaption></figure><p><span class="why">なぜこの順か：</span>画面だけなら配置や項目を目で確かめられ、直す範囲もHTML・CSSに絞れます。仕様書と見比べて不足や不要な項目を直し、その後に処理を1つずつ加えます。</p><div class="box box-point"><strong>ここで作る画面は、あとで動きや裏側の処理を足すときの土台として使います。作り直す前提の下書きではありません。</strong>だから、この回のうちに「自分が毎回使いたい画面」になるまで整えます。
       処理を足す段階で、「1件も無いときの案内」や「処理中の表示」のように、いまは出しようのない表示が増えることはあります。増えるのは足りなかった表示で、この回で決めた配置と見た目をやり直すわけではありません。</div>
-    <figure class="fig">
-      <a class="zoom" href="../../assets/images/lesson03/diagram_mock.svg"><picture><source media="(max-width:720px)" srcset="../../assets/images/lesson03/diagram_mock_sp.svg"><img src="../../assets/images/lesson03/diagram_mock.svg" alt="モックと完成したアプリの違い。モックには画面（HTML・CSS）だけがあり、完成したアプリには画面に加えて動き（JavaScript）と保存（サーバー・データ）がある。モックの画面はそのまま使う" loading="lazy"></picture></a>
-      <figcaption>モックと完成したアプリの違い。モックは画面だけで、完成したアプリはその画面に動きと保存が足されたものです。モックで作った画面はそのまま使います</figcaption>
-    </figure>
+
 
     <h3>1-2. 自分のアプリの型で、読み替えるところ</h3>
     <p>このページの例は、記録型の「食費メモ」（画面2枚・一覧あり）です。変換型・相談型のアプリは、次のように読み替えてください。</p>
@@ -153,7 +135,7 @@
       </table>
     </div>
     <p><span class="why">なぜ短い文章と長い文章の両方を置くのか：</span>本物の AI の返事は長さが毎回違い、1行のときと数百字のときでは、欄の高さも折り返し方も変わります。片方だけだと、もう片方の見た目を確かめられません。</p>
-  
+
 </section>
 <section class="chapter ch-2" id="open">
   <div class="chapter-head c-2">
@@ -204,7 +186,7 @@
     <p><span class="why">なぜ「手動」にするのか：</span>この回は、Claude Code が実際にファイルを作る回です。「手動」なら、どのファイルに何を書こうとしているかを確認画面で見てから許可できます。「自動」や「編集を受け入れる」のままだと、頼んでいないファイルまで確認なしで作られたり書き換えられたりしても気づけません。</p>
     <p>確認画面は、作るファイルの数だけ出ます。画面が3枚なら、HTML 3つと <code>style.css</code> で4回以上出ます。<strong>回数が多いのは異常ではありません。</strong>途中で「常に許可」を選ばないでください。<br><span class="why">なぜ：</span>一度選ぶと、以後その種類の操作は確認なしで進みます。このあとに出てくる「頼んでいない作業の確認」も、出ないまま通ってしまいます。</p>
     <div class="box box-note">モードの名前や並びは、アプリの更新や契約の種類で変わることがあります。<strong>ファイルを書き換える前に毎回たずねてくる設定</strong>を選んでください。説明文に「常に確認」「毎回確認」と書かれているものが該当します。</div>
-  
+
 </section>
 <section class="chapter ch-3" id="mock">
   <div class="chapter-head c-3">
@@ -277,7 +259,7 @@
       <figcaption>3ファイルができました。返答に「ブラウザでの開き方」も書いてあります。右はアプリの中のブラウザ欄で、この例では CSS が読み込まれず素の状態で出ています</figcaption>
     </figure>
     <div class="box box-note"><strong>アプリの中のブラウザ欄だけで判断しないでください。</strong>Claude デスクトップアプリには画面を表示する欄がありますが、直後は前の状態のままだったり、この例のように <code>style.css</code> が読み込まれていなかったりします。最終の確認は必ずご自身のブラウザで開いて行います（次の節）。</div>
-  
+
 </section>
 <section class="chapter ch-4" id="check">
   <div class="chapter-head c-4">
@@ -362,14 +344,10 @@
 メモ欄の幅を広げて、2行までに収まるようにしてください。
 変更は app/style.css だけ。HTML と文言は変えないでください。文字を小さくしたり、内容を隠したりして逃げないでください。ほかは触らないでください。</pre>
     <p><span class="why">なぜスクショを貼るのか：</span>崩れを言葉にすると、どこがどう崩れているかが伝わりません。「一覧が変」では AI は別の場所を直します。画面そのものを見せれば、どの要素の話かが一致します。</p>
-    <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_pointing.png" alt=""><div class="box-body"><strong>ブラッシュアップは「崩れ → テイスト → 細部」の順に進めます。</strong>ここではまだ色や飾りは直しません。
-      順番を逆にして先に細部を直すと、テイストを変えたときに全体の余白や色が動き、直した細部がやり直しになります。</div></div>
+    <p><strong>整える順番は「崩れ → テイスト → 細部」。</strong>次の図で順番と理由を確認してください。</p>
     <div class="box box-note"><strong>崩れが無くなったら、ここで画面ごとに1枚ずつスクリーンショットを撮っておいてください。</strong>ブラッシュアップの「前」の画面として、この回の提出物になります。テイストを当てると <code>style.css</code> の中身はほぼ全部が書き換わるので、撮るのはこのタイミングしかありません。</div>
-    <figure class="fig">
-      <a class="zoom" href="../../assets/images/lesson03/diagram_brushup.svg"><picture><source media="(max-width:720px)" srcset="../../assets/images/lesson03/diagram_brushup_sp.svg"><img src="../../assets/images/lesson03/diagram_brushup.svg" alt="ブラッシュアップの順番。①崩れを直す（はみ出し・重なり・ずれ、画面の幅を変えて見る）②テイストを決める（色・文字・余白・角の丸み、方向性を言葉で伝える）③細部を直す（1回の指示で1箇所、スクショを貼って伝える）" loading="lazy"></picture></a>
-      <figcaption>ブラッシュアップの順番。①崩れを直す ②テイストを決める ③細部を直す。逆にすると、細部を直したあとで全体が動いてやり直しになります</figcaption>
-    </figure>
-  
+    <figure class="fig lv-diagram" data-diagram="l03_polish"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l03_polish.webp"><img src="../../assets/figs/lessons01-05/l03_polish.webp" alt="見た目は、この順番で整える。1 崩れを直す：はみ出し・重なり・ボタンの見切れを解消。2 テイストを決める：色・文字・余白・角の丸みを揃える。3 細部を1点ずつ：ボタンの位置、列幅などを調整。先に細部を直すと、全体の変更でやり直しになる。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">見た目は、この順番で整える</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>1 崩れを直す</strong><p>はみ出し・重なり・ボタンの見切れを解消</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>2 テイストを決める</strong><p>色・文字・余白・角の丸みを揃える</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>3 細部を1点ずつ</strong><p>ボタンの位置、列幅などを調整</p></div></li></ol><p class="lv-note">崩れを直したら、テイスト変更前のスクリーンショットを保存。</p><p class="lv-note">先に細部を直すと、全体の変更でやり直しになる。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l03_polish.webp">図解を画像で開く ↗</a></div><figcaption>見た目は、この順番で整える（仕組みを示す模式図）</figcaption></figure>
+
 </section>
 <section class="chapter ch-5" id="taste">
   <div class="chapter-head c-5">
@@ -489,7 +467,7 @@
       </figure>
     </div>
     <p>テイストを当てたら、<a href="#check">「崩れを見る5つの点」</a>をもう一度通します。余白や文字が大きくなると、列どうしの幅の取り合いが変わります。<strong>テイストの前は読めていた一覧が、当てたあとで1〜2文字ずつ折り返されたり、右端のボタンが画面の外に出たりすることがあります。</strong>あわせて、画面から少し離れて、入力欄の枠が見えるか、ボタンの文字が地の色に溶けていないかも見ます。見つけたら、<a href="#check">崩れを直す指示の型</a>で <code>app/style.css</code> だけを直させます。</p>
-  
+
 </section>
 <section class="chapter ch-6" id="detail">
   <div class="chapter-head c-6">
@@ -555,7 +533,7 @@
       <li>テイストの緑が見出しとボタンの両方に付いて、どこを押すのか分かりにくかったので、見出しは黒に戻した。押せる場所だけに色を使いたかったから</li>
       <li>AI が「並べ替え」のボタンを足していたので消した。仕様書の「やらないこと」に入れていたから</li>
     </ul>
-  
+
 </section>
 <section class="chapter ch-7" id="review">
   <div class="chapter-head c-7">
@@ -568,7 +546,7 @@
     <p>ブラッシュアップを終えたら、次の4つを見ます。</p>
     <ol class="steps">
       <li><p class="step-title"><a href="#check">「崩れを見る5つの点」</a>をもう一度通す</p><p>細部を直したあとで幅を変えたら折れる、はよく起きます。</p></li>
-      <li><p class="step-title">仕様書の画面一覧と、実物の画面を見比べる</p><p>ブラッシュアップの途中で、要素の名前や並びが変わっている場合があります。まず Claude Code に「<code>docs/spec.md</code> の画面一覧と遷移と、いまの <code>app/</code> の画面で違うところを一覧にしてください。まだ何も変えないでください」と頼み、出てきた違いを1つずつ、<strong>画面を仕様書に戻す</strong>か、<strong>自分が採用した変更として仕様書を直す</strong>かを決めます。決めていない変更は、画面を仕様書に戻します。採用した変更だけ「<code>docs/spec.md</code> の画面一覧と遷移の〜を、〜に直してください。ほかの項目は変えないでください」と頼みます。<br><span class="why">なぜ：</span>仕様書と画面が食い違ったままだと、あとで裏側の処理を足すとき、AI がどちらを正としてよいか分からなくなります。AI が勝手に変えた画面を仕様にしてしまうと、決めた「やること」「やらないこと」がずれます。</p></li>
+      <li><p class="step-title">仕様書と画面の違いを一覧にし、採用するか決める</p><p>採用しない変更は画面を戻し、採用した変更だけ仕様書へ反映します。<br><span class="why">なぜ：</span>両者が食い違うと、次の処理をどちらに合わせるべきか決まりません。</p><p>比較を頼む指示：「<code>docs/spec.md</code> の画面一覧と遷移と、いまの <code>app/</code> の画面で違うところを一覧にしてください。まだ何も変えないでください」。採用した変更だけ、仕様書の該当箇所を指定して直します。</p></li>
       <li><p class="step-title">裏側の処理は作っていないことを確かめる</p><p>正しい状態は、アプリの型によって違います。</p>
         <div>
           <ul>
@@ -579,10 +557,10 @@
           <p><span class="why">なぜ「何も起きない」が正しいのか：</span>この回で作ったのは画面だけで、保存の処理も、AI を呼ぶ処理も入っていません。<br>押して何かが起きたら、Claude Code が頼んでいない処理を足しています。「JavaScript や保存の処理は入れないでください。入っていたら外して、作ったファイルの一覧を教えてください」と頼みます。</p>
         </div></li>
       <li><p class="step-title"><code>docs/tasks.md</code> に終わった印を付ける</p><p>作る順番 <code>docs/tasks.md</code> を作ってある方は、いまの画面でできたと言えるタスクを <code>- [x]</code>（終わった印）に変えておきます。「画面が1枚出る」のほかに、「修正画面へ移動して戻る」のように、画面の移動だけで確かめられるタスクも終わっています。保存や計算を含むタスクは、まだ終わっていません。<br><span class="why">なぜ：</span>印が実物とずれていると、次に作り始めるときに、できているものをもう一度作らせることになります。</p></li>
-    </ol>
+    </ol><figure class="fig lv-diagram" data-diagram="l03_alignment"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l03_alignment.webp"><img src="../../assets/figs/lessons01-05/l03_alignment.webp" alt="仕様書と画面の違いは、人が判断する。違いを一覧にする：docs/spec.md と画面を比較。まだ変更しない。採用しない変更：画面を、決めた仕様に戻す。採用する変更：人が決めた内容だけ仕様書へ反映。仕様書と画面を揃えてから、次の動きを足す。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">仕様書と画面の違いは、人が判断する</p><div class="lv-card"><strong>違いを一覧にする</strong><p>docs/spec.md と画面を比較。まだ変更しない</p></div><div class="lv-arrow">↓ 人が採用を判断</div><div class="lv-branches"><div class="lv-card"><strong>採用しない変更</strong><p>画面を、決めた仕様に戻す</p></div><div class="lv-card"><strong>採用する変更</strong><p>人が決めた内容だけ仕様書へ反映</p></div></div><p class="lv-note">仕様書と画面を揃えてから、次の動きを足す。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l03_alignment.webp">図解を画像で開く ↗</a></div><figcaption>仕様書と画面の違いは、人が判断する（仕組みを示す模式図）</figcaption></figure>
     <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_pointing.png" alt=""><div class="box-body"><strong>ここで作った画面は、あとで動きや裏側の処理を足すときの土台になります。</strong>モックは捨てるものではありません。
       だから、この回の時点で「自分が毎回使いたい画面」になっているかを見ておいてください。</div></div>
-  
+
 </section>
 <section class="chapter ch-wrap" id="deliverables">
   <div class="chapter-head c-wrap">
@@ -610,7 +588,7 @@
         <span class="card-desc">頼んでいない作業の確認画面が出て断った場面があれば、そのスクリーンショット。出なかった場合は不要です。</span>
       </div>
     </div>
-  
+
 </section>
 <section class="chapter ch-wrap" id="pitfalls">
   <div class="chapter-head c-wrap">
@@ -689,7 +667,7 @@
         <p>フォルダを開くところから先に進めません。</p>
         <p><strong>対処：</strong>LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。導入で詰まったら、スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄の順で。</p></div>
     </div>
-  
+
 </section>
 <section class="chapter ch-wrap" id="glossary">
   <div class="chapter-head c-wrap">
@@ -733,7 +711,7 @@
       </table>
     </div>
     <p><a href="../../">← Home（ゼミ全体の案内）へ戻る</a></p>
-  
+
 </section>
 
 <section class="chapter ch-wrap" id="guides">

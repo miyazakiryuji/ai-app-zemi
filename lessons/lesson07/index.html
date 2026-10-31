@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第7回 デバッグと卒業制作 ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第7回 デバッグと卒業制作。不具合を AI に渡す3点、画面側・通信・サーバー側・保存の4段階の切り分け、Claude Code に再現させて表示まで読ませる手順、3つの状態の見直し、テストを流して確かめる手順、卒業制作の条件（docs/graduation.md）と卒業後の続け方。">
-<link rel="stylesheet" href="../../assets/lesson.css">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
 <script src="../../assets/site.js" defer></script>
 </head>
-<body>
+<body class="lesson-visual-reading">
 <div class="page">
 <main class="sheet">
 
@@ -83,8 +83,8 @@
 <div class="cover-map" id="map">
   <h3>この回の地図</h3>
   <p>この回は7つの手順に分かれます。LIVE で進めるのは 1〜3 と、6 のうち「出すものを知り、範囲と完成条件を決める」までです。LIVE のあとは 6 の手順に沿って進め、4・5 はその中で開きます。7 は、卒業制作を出す前後に読んでおきます。</p>
-  <figure class="fig">
-    <a class="zoom" href="../../assets/figs/l07_map.webp"><img src="../../assets/figs/l07_map.webp" alt="上段に4つの箱（渡す3点 → 切り分ける → 再現させる → 卒業制作の範囲を決める）が「LIVEで」の帯に入り、下段に3つの箱（3つの状態を見直す → テストを流して確かめる → 卒業後の続け方）が「LIVEのあと」の帯に入っている" width="1536" height="850"></a>
+  <figure class="fig reading-map">
+    <a class="zoom" href="../../assets/figs/l07_map.webp"><img src="../../assets/figs/l07_map.webp" alt="上段に4つの箱（渡す3点 → 切り分ける → 再現させる → 卒業制作の範囲を決める）が「LIVEで」の帯に入り、下段に3つの箱（3つの状態を見直す → テストを流して確かめる → 卒業後の続け方）が「LIVEのあと」の帯に入っている" width="1536" height="850"><span class="map-link">全体図を画像で開く ↗</span></a>
     <figcaption>この回の流れ。上の段を LIVE で、下の段を LIVE のあとに自分で進めます</figcaption>
   </figure>
   <ol class="route">
@@ -116,18 +116,10 @@
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_pointing.png" alt="">
   </div>
-  <p>不具合を AI に直させるときは、次の3点を渡します。</p>
-  <div class="table-wrap"><table>
-    <thead><tr><th></th><th>渡すもの</th><th>書き方</th></tr></thead>
-    <tbody>
-      <tr><td>①</td><td><strong>症状</strong></td><td>エラーメッセージを<strong>そのまま</strong>（文字をコピーするか、スクリーンショットを撮る）。エラーが出ないときは、何がどうなったか</td></tr>
-      <tr><td>②</td><td><strong>再現手順</strong></td><td>どの画面で、何を入れて、どの順で何を押したか。そのときデータが何件あったか</td></tr>
-      <tr><td>③</td><td><strong>期待する結果</strong></td><td>本来どうなるはずだったか</td></tr>
-    </tbody>
-  </table></div>
-  <p><span class="why">なぜエラーメッセージをそのまま渡すのか：</span>要約すると、原因を示す部分（ファイルの名前・行の番号・エラーの種類）が落ちます。英語で長くても、読めなくて構いません。読むのは AI です。</p>
-  <p><span class="why">なぜ再現手順を書くのか：</span>同じ症状でも、押した順番や入れた値、そのときのデータの件数で原因が違います。手順が無いと、AI は実際には起きていない場面を想定して直します。</p>
-  <p><span class="why">なぜ「期待する結果」まで書くのか：</span>これがないと、AI は「エラーが出ない状態」を目指して直します。<strong>エラーは消えたが動作は間違ったまま</strong>、ということが起きます。</p>
+  <p>不具合は、症状・再現手順・期待する結果をセットで渡します。</p>
+  <figure class="fig lv-diagram" data-diagram="l07_report"><a class="zoom lv-image" href="../../assets/figs/lesson07/l07_report.webp"><img src="../../assets/figs/lesson07/l07_report.webp" alt="不具合は、3点そろえて渡す。症状：何が起きたか。エラーの文は省略しない。。例：保存を押しても一覧が3件のまま。再現手順：画面・入力値・押す順番・元の件数。。例：3件ある一覧で500円を入力し、保存。期待する結果：本来どうなるはずか。。例：一覧が4件になり、500円の行が増える。渡す前に、APIキー・個人情報・業務の実データを除く。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">不具合は、3点そろえて渡す</p><div class="lv-stack"><div class="lv-card"><strong>症状</strong><p>何が起きたか。エラーの文は省略しない。<br>例：保存を押しても一覧が3件のまま</p></div><div class="lv-card"><strong>再現手順</strong><p>画面・入力値・押す順番・元の件数。<br>例：3件ある一覧で500円を入力し、保存</p></div><div class="lv-card"><strong>期待する結果</strong><p>本来どうなるはずか。<br>例：一覧が4件になり、500円の行が増える</p></div></div><p class="lv-note">渡す前に、APIキー・個人情報・業務の実データを除く。</p><a class="lv-original" href="../../assets/figs/lesson07/l07_report.webp">図解を画像で開く ↗</a></div><figcaption>症状・再現手順・期待する結果を、同じ例でそろえる（仕組みを示す模式図）</figcaption></figure>
+  <p><span class="why">なぜ3点が必要なのか：</span>エラーの文をそのまま渡すと、原因を示すファイル名・行番号・エラーの種類が残ります。画面・入力値・操作順・元の件数を添えると、AI が別の場面を想定するのを防げます。期待する結果まで示せば、エラーが消えただけで修正を終えずに済みます。</p>
+  <p>エラーは文字をコピーするか、スクリーンショットで渡します。英語を自分で訳す必要はありません。エラーが出ないときは、何が起きたかを書きます。</p>
   <div class="box box-warn"><span class="box-title">⚠️ 渡す前に、API キー・名前・メールアドレス・業務の実データが写っていないかを見る</span>渡したスクリーンショットや文は、AI のサービスに送られます。写っていたら、その部分を塗りつぶすか、範囲を絞って撮り直します。</div>
   <div class="box box-term"><span class="box-title">📗 用語</span>
     <dl>
@@ -147,21 +139,9 @@
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_koko_daiji_board.png" alt="">
   </div>
-  <p>アプリの操作は、<strong>画面側 → 通信 → サーバー側 → 保存</strong>の順に進みます。たとえば記録型で「保存」を押すと、ブラウザの中の JavaScript が入力を集め（画面側）、自分のサーバーへ要求を送り（通信）、サーバーのプログラムが受け取って保存先に書き込みます（サーバー側・保存）。AI の機能なら、サーバー側が AI のサービスの API を呼び、返ってきた文章を画面へ返します。<strong>不具合は、この順番のどこかで止まっています。上から順に見て、どこまで正常かを確かめます。</strong></p>
-  <figure class="fig">
-    <a class="zoom" href="../../assets/figs/l07_layers.webp"><img src="../../assets/figs/l07_layers.webp" alt="上から下へ4つの箱。画面側（見る場所：コンソール）→ 通信（ネットワークの欄）→ サーバー側（ターミナル）→ 保存（置き場の中身）。左に「上から順に見る」の縦の矢印" width="1536" height="995"></a>
-    <figcaption>切り分けの4段階と、段ごとに見る場所。上から順に、どこまで正常かを確かめます</figcaption>
-  </figure>
-  <div class="table-wrap"><table>
-    <thead><tr><th>順</th><th>見る場所</th><th>見るもの</th><th>ここで見つかる不具合</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td><strong>画面側</strong>（ブラウザの中の JavaScript）</td><td>開発者ツールのコンソール。赤い文字が出ていないか</td><td>ボタンが反応しない、表示が崩れる、入力のチェックが働かない</td></tr>
-      <tr><td>2</td><td><strong>通信</strong>（画面と自分のサーバーの間）</td><td>開発者ツールのネットワークの欄。要求が送られているか、答えが返っているか、答えのステータス</td><td>押しても保存されない、答えが返ってこない、1回押したのに2回送られている</td></tr>
-      <tr><td>3</td><td><strong>サーバー側</strong>（自分のサーバー。AI のサービスの API と、データの置き場を扱う）</td><td>サーバーを起動しているターミナルに出ている文</td><td>保存のときのエラー、AI の呼び出しの失敗（キーの誤り・使える量の上限・AI の種類の名前の誤り）</td></tr>
-      <tr><td>4</td><td><strong>保存</strong>（データの置き場）</td><td>置き場の中身を実際に見る（下の表）</td><td>保存されていない、消えている、二重に入っている</td></tr>
-    </tbody>
-  </table></div>
-  <p><span class="why">なぜ順番に見るのか：</span>切り分けずに「動きません」とだけ伝えると、AI は推測で何か所も書き換え、<strong>もともと動いていた機能が壊れます</strong>。どの段階で止まっているかが分かれば、AI に直させる場所を1か所に絞れます。<strong>切り分けた結果は、そのまま AI への指示になります。</strong></p>
+  <p><strong>調べる場所は4つ。操作に関係する場所を順に見て、どこまで期待どおりかを確かめます。</strong>サーバーに保存する操作なら1〜4、localStorageへの保存なら1→4、AI の呼び出しなら1→2→3を見ます。</p>
+  <figure class="fig lv-diagram" data-diagram="l07_layers"><a class="zoom lv-image" href="../../assets/figs/lesson07/l07_layers.webp"><img src="../../assets/figs/lesson07/l07_layers.webp" alt="4つの場所を見て、原因を絞る。画面側 → コンソール：押した操作への反応と、エラーの文を見る。。通信 → ネットワーク：要求・返答・ステータス・送信回数を見る。。サーバー側 → ターミナル：保存やAI呼び出しで出た内容を見る。。保存 → 保存先の中身：記録が無い・二重にある・正しく入っているかを見る。。localStorageの保存は1→4。AI機能は1→2→3。表示と保存先の両方を確かめる。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">4つの場所を見て、原因を絞る</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>画面側 → コンソール</strong><p>押した操作への反応と、エラーの文を見る。</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>通信 → ネットワーク</strong><p>要求・返答・ステータス・送信回数を見る。</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>サーバー側 → ターミナル</strong><p>保存やAI呼び出しで出た内容を見る。</p></div></li><li><span class="lv-step" aria-hidden="true">4</span><div><strong>保存 → 保存先の中身</strong><p>記録が無い・二重にある・正しく入っているかを見る。</p></div></li></ol><p class="lv-note">localStorageの保存は1→4。AI機能は1→2→3。表示と保存先の両方を確かめる。</p><a class="lv-original" href="../../assets/figs/lesson07/l07_layers.webp">図解を画像で開く ↗</a></div><figcaption>調べる場所と道具の対応。保存方式によって見る順番が変わる（仕組みを示す模式図）</figcaption></figure>
+  <p><span class="why">なぜ切り分けるのか：</span>画面・通信・サーバー・保存先の記録を比べると、原因の候補を絞れます。調べた結果を AI に渡せば、推測で関係のない場所まで書き換えるのを防げます。</p>
   <div class="box box-term"><span class="box-title">📗 用語</span>
     <dl>
       <dt>切り分け</dt><dd>不具合が、画面側・通信・サーバー側・保存のどこで起きているかを、順に確かめて絞り込むこと。</dd>
@@ -345,17 +325,10 @@
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_teaching.png" alt="">
   </div>
-  <p><strong>3つの状態</strong>の表示は、画面の中だけで動かしていたときに作ったものだと、本物の AI のサービスや保存先につないだあとでは、出なかったり、まちがった場面で出たりします。保存先から読み込むのに時間がかかるようになり、失敗の起き方も増えるためです。<strong>仕上げの前に、つないだ状態で見直します。</strong></p>
-  <div class="table-wrap"><table>
-    <thead><tr><th>状態</th><th>用意するもの</th><th>省くと何が起きるか</th><th>つないだあとに見直すところ</th></tr></thead>
-    <tbody>
-      <tr><td><strong>1件も無いとき</strong></td><td>次に何をすればよいかが分かる案内</td><td>真っ白な画面が出て、壊れたと思われる</td><td>読み込みの途中で案内が一瞬出て消えないか／<strong>読み込みに失敗したときに「1件も無い」と出ていないか</strong></td></tr>
-      <tr><td><strong>処理中</strong></td><td>待っていることが分かる表示と、押せなくしたボタン</td><td>何度も押される。保存なら同じ記録が2件できる。AI の機能なら押した回数だけ料金がかかる</td><td>AI の呼び出しだけでなく、保存・読み込みにも出るか／続けて押しても、ネットワークの欄の要求が1回だけか</td></tr>
-      <tr><td><strong>失敗したとき</strong></td><td>何が起きたかと、次にどうすればよいか。入力は消さない</td><td>止まった理由が分からず、使うのをやめる。入力が消えると、最初から打ち直すことになる</td><td>本当に失敗させたときに出るか／<strong>画面にエラーの詳しい内容（ファイルの場所・キーの一部）が出ていないか</strong></td></tr>
-    </tbody>
-  </table></div>
-  <p><span class="why">なぜ「読み込みに失敗したのに、1件も無いと出る」が危ないのか：</span>記録が消えたと思った人は、同じ記録を入れ直します。読み込みが戻ったとき、同じ記録が2件ずつ並びます。</p>
-  <p><span class="why">なぜエラーの詳しい内容を画面に出さないのか：</span>エラーの文には、サーバーの中のファイルの場所や、場合によってはキーの一部が入っています。画面に出すのは利用者向けの短い文だけにし、原因を調べるための内容はターミナルに出します。</p>
+  <p>本物の AI のサービスや保存先につなぐと、待ち時間や失敗が増えます。<strong>仕上げの前に、保存・読み込み・AI の呼び出しで、3つの状態を見直します。</strong></p>
+  <figure class="fig lv-diagram" data-diagram="l07_states"><a class="zoom lv-image" href="../../assets/figs/lesson07/l07_states.webp"><img src="../../assets/figs/lesson07/l07_states.webp" alt="つないだあとも、3つの状態を確認。1件も無いとき：読み込み成功・0件のときに、次の操作を案内。。読み込み失敗を「0件」にしない。。処理中：待機表示と、押せないボタン。。保存・読み込み・AIでも、送信回数を確認。。失敗したとき：利用者向けの短い案内を出し、入力を残す。。詳しい原因は画面に出さず、ターミナルで調べる。。試す → 元に戻す → よく使う操作を1回確認。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">つないだあとも、3つの状態を確認</p><div class="lv-stack"><div class="lv-card"><strong>1件も無いとき</strong><p>読み込み成功・0件のときに、次の操作を案内。<br>読み込み失敗を「0件」にしない。</p></div><div class="lv-card"><strong>処理中</strong><p>待機表示と、押せないボタン。<br>保存・読み込み・AIでも、送信回数を確認。</p></div><div class="lv-card"><strong>失敗したとき</strong><p>利用者向けの短い案内を出し、入力を残す。<br>詳しい原因は画面に出さず、ターミナルで調べる。</p></div></div><p class="lv-note">試す → 元に戻す → よく使う操作を1回確認。</p><a class="lv-original" href="../../assets/figs/lesson07/l07_states.webp">図解を画像で開く ↗</a></div><figcaption>0件・処理中・失敗を分けて表示し、次にできる操作を示す（仕組みを示す模式図）</figcaption></figure>
+  <p><span class="why">なぜ分けるのか：</span>読み込み失敗を「0件」と見せると、利用者が消えたと思って同じ記録を入れ直します。待機表示と連打防止がなければ、二重保存や AI の重複呼び出しにもつながります。読み込み中に「0件」の案内が一瞬出ないかも見ます。</p>
+  <p><strong>失敗したときは、短い案内と入力を残します。</strong>打ち直しを減らし、再操作できるようにします。ファイルの場所やキーの一部が含まれうる詳しいエラーは、利用者の画面に出さずターミナルで調べます。</p>
   <div class="box box-term"><span class="box-title">📗 用語：3つの状態</span>「1件も無いとき」「処理中」「失敗したとき」の表示。正しく使ったときの画面とは別に用意しておきます。</div>
 
   <h3>4-1. 見直しの進め方：一覧にさせる → 自分の手で試す → 1つずつ直させる</h3>
@@ -473,21 +446,10 @@
   <p><span class="why">なぜ作り直さないのか：</span>作り直すと、ここまで確かめてきたことが全部やり直しになります。このゼミで身につけたいのは「作れた」ではなく、「AI を使って、自分で決めて、作って、確かめて、直せる」状態です。それは、いまのアプリを仕上げる過程に出ます。</p>
 
   <h3>6-1. 出すものと、評価の観点</h3>
-  <p>評価は、<strong>作った量（機能の数・見た目の作り込み）では見ません。</strong>次の4つで見ます。4つは、6-2 で作る <code>docs/graduation.md</code> に書きます。</p>
-  <figure class="fig">
-    <a class="zoom" href="../../assets/figs/l07_grad.webp"><img src="../../assets/figs/l07_grad.webp" alt="左から右へ4つの箱。決めた機能 → 完成条件 → 試した結果 → まだ直っていない点。試した結果の×印から、まだ直っていない点へ細い矢印が伸びている。4つの下に「1つのファイルに書く」" width="1536" height="720"></a>
-    <figcaption>卒業制作に出す4つ。機能ごとに完成条件があり、完成条件ごとに試した結果があり、NG の結果がまだ直っていない点に書かれている、という対応を見ます</figcaption>
-  </figure>
-  <div class="table-wrap"><table>
-    <thead><tr><th>出すもの</th><th>書くこと</th><th>評価で見るところ</th></tr></thead>
-    <tbody>
-      <tr><td><strong>① 決めた機能</strong></td><td>卒業制作で扱う機能。<code>docs/spec.md</code> の「やること」から選ぶ</td><td>範囲が、仕様書といまのアプリに合っているか</td></tr>
-      <tr><td><strong>② 完成条件</strong></td><td>機能ごとに、何を入れて、何を押すと、何が見えれば完成か（1〜2文）</td><td>画面の操作だけで OK／NG を決められる文になっているか</td></tr>
-      <tr><td><strong>③ 試した結果</strong></td><td>完成条件のとおりに自分の手で押した結果（OK／NG。NG なら何が起きたか）と、テストを流した結果（通った数と落ちた数）。スクリーンショットを添える（6-3 の 6）</td><td>完成条件の1つずつに、結果があるか</td></tr>
-      <tr><td><strong>④ まだ直っていない点</strong></td><td>NG のまま残ったもの・分かっているのに直していない不具合。症状と、4段階のどこまで切り分けたかと、次に何をするか</td><td>③ の NG がすべて書かれているか。どこまで切り分けたかが書けているか</td></tr>
-    </tbody>
-  </table></div>
-  <p><strong>4つが互いに合っているかも見ます</strong>：決めた機能のそれぞれに完成条件があり、完成条件のそれぞれに試した結果があり、NG の結果が、まだ直っていない点に書かれていること。</p>
+  <p>評価で見る4項目は、6-2 で作る <strong><code>docs/graduation.md</code></strong> にまとめます。<strong>機能ごとに完成条件、条件ごとに結果、NG ごとに残った課題が対応していること</strong>が大切です。</p>
+  <figure class="fig lv-diagram" data-diagram="l07_graduation"><a class="zoom lv-image" href="../../assets/figs/lesson07/l07_graduation.webp"><img src="../../assets/figs/lesson07/l07_graduation.webp" alt="卒業制作は、4項目を対応させる。決めた機能：仕様書と今のアプリから、今回仕上げる範囲を選ぶ。。完成条件：機能ごとに「何を入れ、何を押し、何が見えるか」を書く。。試した結果：完成条件ごとにOK／NG、テストの結果、画面の証拠を残す。。まだ直っていない点：NGと分かっている不具合を全部書く。症状・切り分けた範囲・次の作業を残す。。docs/graduation.md に記録する。機能数より、条件・結果・残った課題の対応を見る。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">卒業制作は、4項目を対応させる</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>決めた機能</strong><p>仕様書と今のアプリから、今回仕上げる範囲を選ぶ。</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>完成条件</strong><p>機能ごとに「何を入れ、何を押し、何が見えるか」を書く。</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>試した結果</strong><p>完成条件ごとにOK／NG、テストの結果、画面の証拠を残す。</p></div></li></ol><div class="lv-arrow">↓ 結果に応じて分ける</div><div class="lv-branches"><div class="lv-card lv-teal"><strong>OK：その条件の確認は完了</strong><p>確認した結果と証拠を残します。</p></div><div class="lv-card"><p class="lv-error">NG・分かっている不具合はすべて記録</p><strong>まだ直っていない点</strong><p>NGと分かっている不具合を全部書く。症状・切り分けた範囲・次の作業を残す。</p></div></div><p class="lv-note">docs/graduation.md に記録する。機能数より、条件・結果・残った課題の対応を見る。</p><a class="lv-original" href="../../assets/figs/lesson07/l07_graduation.webp">図解を画像で開く ↗</a></div><figcaption>決めた機能から結果までをつなぎ、NGは残った課題として記録する（仕組みを示す模式図）</figcaption></figure>
+  <p>範囲は <code>docs/spec.md</code> の「やること」と今のアプリから選びます。完成条件は「何を入れ、何を押し、何が見えるか」を1〜2文で書き、自分の手で OK／NG を判定します。</p>
+  <p>試した結果には、<strong>各条件の OK／NG、NG の症状、テストの通過数・失敗数、スクリーンショット</strong>を残します（6-3 の 6）。残った NG と分かっている不具合はすべて「まだ直っていない点」に書き、切り分けた範囲と次の作業を添えます。</p>
   <p><strong>同じファイルに、あわせて書くもの</strong>：不具合ログ（3件以上。ゼミの間に直した不具合も入れて構いません。3件に満たないときは、見つかった分と、どこまで試したかを書きます）と、卒業後に回すもの。不具合ログのうち1件には、Claude Code に再現させたときの報告のスクリーンショットを添えます。</p>
   <p><span class="why">なぜ量ではなく、この4つで見るのか：</span>機能の数は、元の困りごとの大きさで決まり、人によって違います。数を比べても、自分で作れるようになったかは分かりません。卒業制作で見たいのは完成ではなく、決めた範囲を決めた条件で確かめ、直せなかったものもどこまで切り分けたかを書けることです。それができれば、ゼミが終わってもひとりで同じことを続けられます。直っていない点を書かずに隠すと、使い始めてから同じ不具合で止まります。</p>
   <p><span class="why">なぜ不具合ログは3件以上なのか：</span>1件だと「たまたま直った」で終わります。3件書くと、自分が毎回同じ順で見ていることに気づきます。その順番が、ひとりで直すときの手順になります。</p>

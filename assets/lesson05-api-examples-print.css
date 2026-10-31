@@ -1,0 +1,39 @@
+/* APIの活用例は、PDFでもカードの途中で改ページしない。 */
+@media print {
+  .api-examples-cards { display: block; }
+  .api-examples-cards > .card {
+    margin-bottom: 12px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* .envの手順は、見出しと説明・1操作を同じページに保つ。 */
+@media print {
+  #env-about, #env-prepare, #env-open, #env-paste, #env-check {
+    break-before: page;
+    page-break-before: always;
+  }
+  #key .steps > li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* 実画面の下の余白は印刷時の改ページ判定にも含めない */
+@media print {
+  .env-capture a.zoom {
+    height: auto !important;
+    aspect-ratio: auto !important;
+    min-width: 0 !important;
+  }
+  .env-capture img {
+    height: 140px !important;
+    object-fit: cover;
+    object-position: top;
+  }
+}
+
+@media print {
+  .env-prepare-prompt { break-inside: avoid; page-break-inside: avoid; }
+}

@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第2回 要件定義 ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第2回 要件定義。アプリのフォルダを作って Claude デスクトップアプリで開き、AI と壁打ちして要件を噛み砕き、使う技術の提案をもらい、仕様書（docs/spec.md）と作業の順番（docs/tasks.md）をフォルダに残すまでの手順。">
-<link rel="stylesheet" href="../../assets/lesson.css">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
 <script src="../../assets/site.js" defer></script>
 </head>
-<body>
+<body class="lesson-visual-reading">
 <div class="page">
 <main class="sheet">
 
@@ -81,8 +81,8 @@
 <div class="cover-map" id="map">
   <h3>この回の地図</h3>
   <p>この回は、上から順に7つ進めます。前半（フォルダ・開く・壁打ち・削る）で決め、後半（技術・仕様書・作る順番）でフォルダに残します。</p>
-  <figure class="fig">
-    <a class="zoom" href="../../assets/figs/l02_map.webp"><img src="../../assets/figs/l02_map.webp" alt="左上から右下へ2段に折り返す7つの箱。フォルダを作る → Claude Codeで開く → AIと壁打ち → 削る・決める → 技術の提案 → 仕様書 spec.md → 作る順番 tasks.md。最後の2つは書類の形" width="1536" height="722"></a>
+  <figure class="fig reading-map">
+    <a class="zoom" href="../../assets/figs/l02_map.webp"><img src="../../assets/figs/l02_map.webp" alt="左上から右下へ2段に折り返す7つの箱。フォルダを作る → Claude Codeで開く → AIと壁打ち → 削る・決める → 技術の提案 → 仕様書 spec.md → 作る順番 tasks.md。最後の2つは書類の形" width="1536" height="722"><span class="map-link">全体図を画像で開く ↗</span></a>
     <figcaption>この回の7つの手順。最後の2つ（仕様書と作る順番）がフォルダに残り、作り始めてから Claude Code に読ませます</figcaption>
   </figure>
   <ol class="route">
@@ -211,7 +211,7 @@
     </ol>
 
     <div class="box box-note">次の節で出てくる Claude デスクトップアプリの「フォルダを選ぶ画面」にも「新規フォルダ」ボタンがあります。そこで作っても同じです。</div>
-  
+
 </section>
 <section class="chapter ch-3" id="open">
   <div class="chapter-head c-3">
@@ -265,7 +265,7 @@
 
     <p>入力欄の下に、いまの<strong>権限モード</strong>の名前が出ています。<strong>「手動」になっていなければ、その名前を押して、出てきた一覧から「手動」を選びます</strong>。「手動」は、まだ許可していないファイルの書き換えやコマンドの実行の前に、確認画面が出る設定です。2026年10月30日時点では、新しいセッションは「自動」で始まることが多く、「編集を受け入れる」で始まることもあります。一度「手動」を選ぶと、そのフォルダでは次のセッションも「手動」で始まります。表示される名前や選べる設定は、アプリの更新や契約の種類で変わることがあります。</p>
     <p><span class="why">なぜ「手動」にするのか：</span>このあと、仕様書のファイルを Claude Code に書かせます。「自動」や「編集を受け入れる」のままだと、確認画面が出ないまま書き込まれることがあり、書く場所と中身を見てから許可する手順（「仕様書」の節）が踏めません。</p>
-  
+
 </section>
 <section class="chapter ch-4" id="brainstorm">
   <div class="chapter-head c-4">
@@ -368,13 +368,10 @@
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>CSV</dt><dd>表の中身をカンマ区切りの文字で書き出したファイル。Excel などで開けます。</dd>
       </dl></div>
-    <figure class="fig">
-      <a class="zoom" href="../../assets/images/lesson02/diagram_mvp.svg"><picture><source media="(max-width:720px)" srcset="../../assets/images/lesson02/diagram_mvp_sp.svg"><img src="../../assets/images/lesson02/diagram_mvp.svg" alt="自分が書いた4つを元に AI が出した提案5つを、必須（MVP に入れる）とあとまわし（やらないことへ）に仕分ける図" loading="lazy"></picture></a>
-      <figcaption>AI の提案を「必須」と「あとまわし」に仕分けて MVP を決めます。判断の基準は「① 目的の流れに必要か」「② 無いと、間違った結果が出る・データが消える・危ない、が起きるか」の2つ。決めるのは自分です</figcaption>
-    </figure>
+    <p>仕分けの基準は、次の「MVP の考え方と削り方」の図で確認します。</p>
     <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_teaching.png" alt=""><div class="box-body"><strong>AI の提案を全部採用しない。</strong>提案はどれも「あると良い」ものなので、全部入れると MVP が膨らみ、7回で終わらなくなります。
       採用するかどうかの判断基準は、次の節で扱います。</div></div>
-  
+
 </section>
 <section class="chapter ch-5" id="decide">
   <div class="chapter-head c-5">
@@ -413,27 +410,10 @@
     <p><span class="why">なぜ最初に確認するのか：</span>AI 機能を組み込む段になって気づくと、そこまで作ったものが使えなくなります。</p>
 
     <h3>5-3. MVP の考え方と削り方</h3>
-    <ul>
-      <li><strong>MVP</strong> とは、1つの流れが最初から最後まで通る、いちばん小さい状態のことです。まずこれを作ります</li>
-      <li>残す基準は2つ。<strong>① 目的の流れを最初から最後まで通すのに必要か</strong>、<strong>② 無いと、間違った結果が出る・データが消える・危ない、のどれかが起きるか</strong>。どちらにも当てはまらない機能は「無くても1回使える」ので、今は要りません。AI に仕分けさせた「あとまわし」は、この基準で見直します（上の例で「入力の修正・削除」が必須になったのは ② に当たるためです）</li>
-      <li><span class="why">なぜ削るのか：</span>機能を10個並べたまま作り始めると、どれも半分できた状態で7回が終わります</li>
-      <li><strong>この回の LIVE講義の中で削り切ります。</strong>「やらないこと」は仕様書の必須項目です</li>
-    </ul>
-
-    <h3>5-4. 3類型への当てはめ</h3>
-    <p>主たる型を1つ選びます（記録型／変換型／相談型）。両方の性格を持つ場合も<strong>主たる型を1つ</strong>に決めます。<br><span class="why">なぜ：</span>この先の解説を型ごとに進めるためです。型が決まらないと、自分がどの例を見ればよいか分からなくなります。</p>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="型・何をするアプリか・例 の表">
-      <table>
-        <thead><tr><th>型</th><th>何をするアプリか</th><th>例</th></tr></thead>
-        <tbody>
-          <tr><td><strong>記録型</strong></td><td>入れて、ためて、見返す</td><td>食費メモ・読書記録・体調メモ</td></tr>
-          <tr><td><strong>変換型</strong></td><td>入れたものを別の形にして返す</td><td>議事録の要約・文章の言い換え・表の整形</td></tr>
-          <tr><td><strong>相談型</strong></td><td>質問して、答えをもらう。やり取りが残る</td><td>自分の資料だけを元に答える相談窓口</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3>5-5. 使いやすい画面の4条件</h3>
+<figure class="fig lv-diagram" data-diagram="l02_mvp"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l02_mvp.webp"><img src="../../assets/figs/lessons01-05/l02_mvp.webp" alt="MVPは「1回使える最小の範囲」。残す① 目的に必要：食費を入力 → 一覧を見る → 合計を確認。残す② 間違い・消失・危険を防ぐ：入力のチェック、必要な修正・削除など。今回は作らない：無くても1回使える機能。例：CSV出力。①にも②にも当てはまらない機能は、あとまわし。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">MVPは「1回使える最小の範囲」</p><div class="lv-stack"><div class="lv-card"><strong>残す① 目的に必要</strong><p>食費を入力 → 一覧を見る → 合計を確認</p></div><div class="lv-card"><strong>残す② 間違い・消失・危険を防ぐ</strong><p>入力のチェック、必要な修正・削除など</p></div><div class="lv-card"><strong>今回は作らない</strong><p>無くても1回使える機能。例：CSV出力</p></div></div><p class="lv-note">①にも②にも当てはまらない機能は、あとまわし。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l02_mvp.webp">図解を画像で開く ↗</a></div><figcaption>MVPは「1回使える最小の範囲」（仕組みを示す模式図）</figcaption></figure><p><span class="why">なぜ削るのか：</span>機能を増やしすぎると、どれも途中で終わります。この回のLIVEで範囲を決め、「今回は作らない」ものも仕様書に残します。AIの仕分けは参考にし、採用は自分で決めます。</p>
+<h3>5-4. 3類型への当てはめ</h3>
+<figure class="fig lv-diagram" data-diagram="l02_types"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l02_types.webp"><img src="../../assets/figs/lessons01-05/l02_types.webp" alt="主な使い方で、型を1つ選ぶ。記録型：入力 → ためる → 見返す。例：食費メモ・読書記録。変換型：入力 → 別の形に変える → 結果。例：要約・文章の言い換え。相談型：質問 → 回答 → やり取りを残す。例：自分の資料に基づく相談。複数の特徴があっても、主な型を1つ決める。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">主な使い方で、型を1つ選ぶ</p><div class="lv-stack"><div class="lv-card"><strong>記録型</strong><p>入力 → ためる → 見返す<br>例：食費メモ・読書記録</p></div><div class="lv-card"><strong>変換型</strong><p>入力 → 別の形に変える → 結果<br>例：要約・文章の言い換え</p></div><div class="lv-card"><strong>相談型</strong><p>質問 → 回答 → やり取りを残す<br>例：自分の資料に基づく相談</p></div></div><p class="lv-note">複数の特徴があっても、主な型を1つ決める。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l02_types.webp">図解を画像で開く ↗</a></div><figcaption>主な使い方で、型を1つ選ぶ（仕組みを示す模式図）</figcaption></figure><p><span class="why">なぜ主な型を決めるのか：</span>この先の解説で、自分がどの例を見ればよいか分かるようにするためです。</p>
+<h3>5-5. 使いやすい画面の4条件</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="使いやすい画面の4条件の表">
       <table>
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
@@ -475,7 +455,7 @@
 型：（記録型）
 
 画面は2〜4枚に収めてください。装飾の話は不要です。まだコードは書かないでください。</pre>
-  
+
 </section>
 <section class="chapter ch-6" id="stack">
   <div class="chapter-head c-6">
@@ -551,7 +531,7 @@
         <dt>React</dt><dd>画面を作るための大がかりな部品集。世の中でよく使われますが、このゼミの規模では大きすぎます。</dd>
       </dl></div>
     <div class="box box-note">ゼミとして全員共通の構成をご案内する場合は、別途お伝えします。提案と違っていたら、そのときに <code>docs/spec.md</code> の「使う技術」の欄だけを書き換えます（作り直しではありません）。</div>
-  
+
 </section>
 <section class="chapter ch-7" id="spec">
   <div class="chapter-head c-7">
@@ -655,7 +635,7 @@
         <span class="card-desc">入力欄に「<code>docs/spec.md</code> の『やらないこと』から『予算設定・グラフ』の行を消してください」のように、<strong>直す内容を文で</strong>指示します。確認画面で変更箇所を見て「一度だけ許可」。自分で直したあとに Claude に続きを頼むときは「<code>docs/spec.md</code> を自分で直したので、読み直してください」と一言添えます。<br><span class="why">なぜ：</span>Claude Code は前に読んだ内容を覚えているので、直したことを伝えないと古い内容で進めることがあります。</span>
       </div>
     </div>
-  
+
 </section>
 <section class="chapter ch-8" id="tasks">
   <div class="chapter-head c-8">
@@ -675,13 +655,8 @@
       </dl></div>
 
     <h3>8-1. なぜタスクに分けるのか</h3>
-    <ul>
-      <li>仕様書をまるごと渡して「作って」と言うと、一度に全部ができあがり、どこが指示と違うのか判断できなくなります（指示は1つずつ出す、という進め方の土台です）</li>
-      <li>1つずつ作れば、<strong>どこまでできたか</strong>が目に見えます。詰まったとき、直前のタスクまでは動いていたと分かるので、原因を探す範囲が狭くなります</li>
-      <li>順番を先に決めておくと、「次に何を指示するか」で毎回迷いません</li>
-    </ul>
-
-    <h3>8-2. 良いタスクの3条件</h3>
+<figure class="fig lv-diagram" data-diagram="l02_documents"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l02_documents.webp"><img src="../../assets/figs/lessons01-05/l02_documents.webp" alt="仕様書を、確かめられる作業に分ける。docs/spec.md：何を作るか：目的／やること／やらないこと／データ／画面／使う技術。docs/tasks.md：どの順で作るか：1回の指示で作れる単位に分ける。作業ごとに完了条件：例：500円を入力して保存すると、一覧に1件増える。小さく分ければ、できた範囲と不具合の範囲を追える。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">仕様書を、確かめられる作業に分ける</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>docs/spec.md：何を作るか</strong><p>目的／やること／やらないこと／データ／画面／使う技術</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>docs/tasks.md：どの順で作るか</strong><p>1回の指示で作れる単位に分ける</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>作業ごとに完了条件</strong><p>例：500円を入力して保存すると、一覧に1件増える</p></div></li></ol><p class="lv-note">小さく分ければ、できた範囲と不具合の範囲を追える。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l02_documents.webp">図解を画像で開く ↗</a></div><figcaption>仕様書を、確かめられる作業に分ける（仕組みを示す模式図）</figcaption></figure><p>一度に全部を作らせると、違いも不具合の原因も追いにくくなります。1回の指示で作り、ブラウザで確かめられる大きさに分けます。</p>
+<h3>8-2. 良いタスクの3条件</h3>
     <div class="table-wrap" tabindex="0" role="region" aria-label="良いタスクの3条件の表">
       <table>
         <thead><tr><th>条件</th><th>なぜ</th></tr></thead>
@@ -740,7 +715,7 @@
     </ul>
     <p><strong>「使う技術」を書き換えたら見直します。</strong>ゼミ共通の構成が案内されて仕様書の「使う技術」を書き換えた場合は、<code>docs/tasks.md</code> を Claude Code に読み直させ、順番や分け方を直します。作り直しではなく、順番の確認です。</p>
     <div class="box box-point"><strong>確認のしかた：</strong>仕様書と同じく、<strong>1箇所は自分で直してください</strong>。順番に納得できないところを入れ替える、大きすぎるタスク（1回の指示で作れそうにないもの）を分ける、などです。直した箇所は提出時に書きます。</div>
-  
+
 </section>
 <section class="chapter ch-wrap" id="deliverables">
   <div class="chapter-head c-wrap">
@@ -769,7 +744,7 @@
       <a class="zoom" href="../../assets/images/lesson02/r2_finder_docs.png"><img src="../../assets/images/lesson02/r2_finder_docs.png" alt="my-app/docs に spec.md と tasks.md ができた状態" loading="lazy" data-taken="2026-09-06" title="撮影 2026年9月"></a>
       <figcaption>my-app/docs に spec.md と tasks.md ができた状態。作り始めるときは、ここから始めます</figcaption>
     </figure>
-  
+
 </section>
 <section class="chapter ch-wrap" id="pitfalls">
   <div class="chapter-head c-wrap">
@@ -806,7 +781,7 @@
         <p>フォルダを開くところから先に進めません。</p>
         <p><strong>対処：</strong>LIVE講義では講師の画面で流れを見て、あとからご自身のPCで同じ手順を追ってください。導入で詰まったら、スクショを撮って AI に聞く → ゼミ掲示板 → 課題提出フォームの質問欄の順で。</p></div>
     </div>
-  
+
 </section>
 <section class="chapter ch-wrap" id="glossary">
   <div class="chapter-head c-wrap">
@@ -841,7 +816,7 @@
       </table>
     </div>
     <p><a href="../../">← Home（ゼミ全体の案内）へ戻る</a></p>
-  
+
 </section>
 
 <section class="chapter ch-wrap" id="guides">

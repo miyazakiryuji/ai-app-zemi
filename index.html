@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AIアプリ開発入門ゼミ ｜ 第1回 オリエンテーション</title>
 <meta name="description" content="AIアプリ開発入門ゼミの受講生向けページ。第1回オリエンテーションはこのページです。ゼミの進め方・全7回の流れ・修了要件・開催スケジュール・参加方法をまとめています。">
-<link rel="stylesheet" href="assets/lesson.css">
+<link rel="stylesheet" href="assets/lesson.css?v=20261101-reading2">
 <script src="assets/site.js" defer></script>
 </head>
-<body>
+<body class="lesson-visual-reading">
 <div class="page">
 <main class="sheet">
 
@@ -79,8 +79,8 @@
 <div class="cover-map" id="lessons">
   <h3>全7回の流れ</h3>
   <p>全7回は「決める → 作る → 仕上げる」の3つの段に分かれます。第1〜2回で何を作るかを決め、第3〜6回で見た目 → 動き → 裏側 → テストの順に1段ずつ作り、第7回で落ちないアプリに仕上げます。各回のページは、その回の LIVE講義に合わせて順次公開します。</p>
-  <figure class="fig">
-    <a class="zoom" href="assets/figs/l01_course.webp"><img src="assets/figs/l01_course.webp" alt="左から右へ3つの帯。決める（オリエンテーション → 要件定義）、作る（モックを作る → 画面側を作る → API連携 → テスト）、仕上げる（デバッグと卒業制作）。7つの回が矢印で順につながっている" width="1536" height="464"></a>
+  <figure class="fig reading-map">
+    <a class="zoom" href="assets/figs/l01_course.webp"><img src="assets/figs/l01_course.webp" alt="左から右へ3つの帯。決める（オリエンテーション → 要件定義）、作る（モックを作る → 画面側を作る → API連携 → テスト）、仕上げる（デバッグと卒業制作）。7つの回が矢印で順につながっている" width="1536" height="464"><span class="map-link">全体図を画像で開く ↗</span></a>
     <figcaption>全7回の流れ。前の回の成果物が、次の回の土台になります</figcaption>
   </figure>
   <div class="cards">
@@ -134,9 +134,8 @@
     <img class="penguin penguin-ch" src="assets/penguins/penguin_koko_daiji_board.png" alt="">
   </div>
   <p>アーカイブを見返す際の指針にどうぞ。</p>
-  <ol class="steps">
-    <li><p class="step-title">人が決めること と AI が担うこと は分かれている</p>
-      <p>人が決めるのは、何を作るか／どこまで作るか／出てきたものが正しいかの判断／直す指示。AI が担うのは、コードを書くこと／エラーの原因を推測すること／直すこと。<strong>コードが読めなくても進められるのは、この分担があるからです。</strong></p></li>
+  <figure class="fig lv-diagram" data-diagram="l01_roles"><a class="zoom lv-image" href="assets/figs/lessons01-05/l01_roles.webp"><img src="assets/figs/lessons01-05/l01_roles.webp" alt="人が決めて、AIが作り、人が確かめる。人：決める：目的・作る範囲・完成の条件。AI：作る・直す：コード作成、原因の推測、修正。人：確かめる：実物を操作し、期待した結果と比べる。人：次の指示：違いを具体的に伝えて修正を頼む。「作りました」という返答だけで、完成にしない。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">人が決めて、AIが作り、人が確かめる</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>人：決める</strong><p>目的・作る範囲・完成の条件</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>AI：作る・直す</strong><p>コード作成、原因の推測、修正</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>人：確かめる</strong><p>実物を操作し、期待した結果と比べる</p></div></li><li><span class="lv-step" aria-hidden="true">4</span><div><strong>人：次の指示</strong><p>違いを具体的に伝えて修正を頼む</p></div></li></ol><p class="lv-note">「作りました」という返答だけで、完成にしない。</p><a class="lv-original" href="assets/figs/lessons01-05/l01_roles.webp">図解を画像で開く ↗</a></div><figcaption>人が決めて、AIが作り、人が確かめる（仕組みを示す模式図）</figcaption></figure><ol class="steps">
+    <li><p class="step-title">人が決めることと、AIに頼むこと</p></li>
     <li><p class="step-title">使うのは Claude デスクトップアプリと Claude Code</p>
       <p>Claude Code は、本来はターミナル（文字で PC に命令する画面）から使いますが、このゼミでは <strong>Claude デスクトップアプリ</strong>の中から使います。
       <br><span class="why">なぜ：</span>最初につまずきやすい箇所を1つ減らすためです。</p>
@@ -253,13 +252,7 @@
     </div>
     <img class="penguin penguin-ch" src="assets/penguins/penguin_magnifying_front.png" alt="">
   </div>
-  <p>LIVE講義のたびに「事前準備（各自で）」と「LIVE講義」の流れをくり返します。</p>
-  <ol class="steps">
-    <li><p class="step-title">事前準備：Lesson の自習</p><p>講師が指定する DMM 生成AI CAMP の Lesson を、LIVE講義の前までに視聴・実践してきていただきます。</p></li>
-    <li><p class="step-title">事前準備：事前課題の提出</p><p>Lesson に対応した事前提出課題を、専用フォームから提出していただきます（第1回までの課題はありません）。</p></li>
-    <li><p class="step-title">LIVE講義：公開添削・Q&amp;A ／ インプット解説</p><p>提出課題から、みなさんが引っかかる点・改善点・良かった点を取り上げて共有し、補強したい内容を解説します。</p></li>
-    <li><p class="step-title">LIVE講義：次の課題の確認</p><p>次の LIVE講義までの Lesson と事前提出課題を確認して、次のサイクルへつなぎます。</p></li>
-  </ol>
+  <p>事前準備からLIVEでの確認、次の課題へ。この流れを毎回くり返します。</p><figure class="fig lv-diagram" data-diagram="l01_cycle"><a class="zoom lv-image" href="assets/figs/lessons01-05/l01_cycle.webp"><img src="assets/figs/lessons01-05/l01_cycle.webp" alt="自習・実践・振り返りを繰り返す。LIVEの前：指定Lessonを視聴・実践し、事前課題を提出。LIVEで共有：課題の講評とQ&amp;Aで、つまずきを確認。自分のアプリで実践：補足解説をもとに、自分のアプリを進める。次回までに：次の自習と課題に取り組む。第1回までの事前課題はありません。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">自習・実践・振り返りを繰り返す</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>LIVEの前</strong><p>指定Lessonを視聴・実践し、事前課題を提出</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>LIVEで共有</strong><p>課題の講評とQ&amp;Aで、つまずきを確認</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>自分のアプリで実践</strong><p>補足解説をもとに、自分のアプリを進める</p></div></li><li><span class="lv-step" aria-hidden="true">4</span><div><strong>次回までに</strong><p>次の自習と課題に取り組む</p></div></li></ol><p class="lv-note">第1回までの事前課題はありません。</p><a class="lv-original" href="assets/figs/lessons01-05/l01_cycle.webp">図解を画像で開く ↗</a></div><figcaption>自習・実践・振り返りを繰り返す（仕組みを示す模式図）</figcaption></figure>
 </section>
 
 <!-- ============================================================ 修了要件 -->
@@ -364,16 +357,7 @@
     <img class="penguin penguin-ch" src="assets/penguins/penguin_warning_sign.png" alt="">
   </div>
   <p>学習中・課題実施中に詰まったら、以下の順で進めてください。1人で抱え込まないことが一番大事です。作り始めるとエラーが必ず出ますが、エラーは失敗ではなく作業の一部です。</p>
-  <ol class="steps">
-    <li><p class="step-title">まずはスクショして AI に聞く</p>
-      <p>エラー画面・つまずいた画面を<strong>スクリーンショット</strong>で撮り、Claude／ChatGPT／Gemini など普段使っている生成AIに貼り付けて質問してみてください。精度を上げるコツは、「何をしようとしていたか」「どうなる予定だったか」「実際にどうなったか」の3つをスクショに添えることです。
-      <br><span class="why">なぜ：</span>環境まわり・コマンドのエラー・画面の操作迷子は、多くがここで解決します。いちばん早く答えが返ってくる手段から使います。</p></li>
-    <li><p class="step-title">それでも解決しなければ、ゼミ掲示板へ</p>
-      <p>AI に聞いても解決しない／そもそも何を聞けばいいか分からない場合は、<strong>DMM 生成AI CAMP 学び放題</strong>の上部ナビゲーション<strong>「ゼミ掲示板」</strong>から投稿してください。他の受講生・運営・講師が回答できます。投稿には、①実現したかったこと ②試したこと（STEP 1 の AI とのやり取りも含めるとなお良い）③つまずきポイント（スクショ歓迎）④環境（OS／ツール／バージョン）を書いてください。
-      <br><span class="why">なぜ：</span>同じ「動かない」でも、環境と試したことが違えば原因はまったく別です。4つがそろっていると、答える人が前提をそろえて回答でき、同じところで詰まったほかの人もあとから探せます。</p></li>
-    <li><p class="step-title">それでも解決しなければ、課題提出フォームの質問欄へ</p>
-      <p>掲示板でも解決しないときは、<strong>「ゼミ参加者向け 事前課題提出受付フォーム」</strong>の質問欄に書いてください。書くことは STEP 2 の4つと、掲示板に投稿した場合はそのことと返ってきた回答です。共通の内容は LIVE講義で回答します。1件ずつの個別の返信はお約束できません。</p></li>
-  </ol>
+  <figure class="fig lv-diagram" data-diagram="l01_help"><a class="zoom lv-image" href="assets/figs/lessons01-05/l01_help.webp"><img src="assets/figs/lessons01-05/l01_help.webp" alt="困ったときは、この順に聞く。1 スクショを撮ってAIへ：やりたいこと・期待した結果・実際の結果を添える。2 ゼミ掲示板へ：試したこと・詰まった箇所・環境も伝える。3 課題提出フォームへ：質問欄に記入。共通の内容はLIVEで回答。解決しないときに次へ。個別返信は約束されません。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">困ったときは、この順に聞く</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>1 スクショを撮ってAIへ</strong><p>やりたいこと・期待した結果・実際の結果を添える</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>2 ゼミ掲示板へ</strong><p>試したこと・詰まった箇所・環境も伝える</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>3 課題提出フォームへ</strong><p>質問欄に記入。共通の内容はLIVEで回答</p></div></li></ol><p class="lv-note">解決しないときに次へ。個別返信は約束されません。</p><a class="lv-original" href="assets/figs/lessons01-05/l01_help.webp">図解を画像で開く ↗</a></div><figcaption>困ったときは、この順に聞く（仕組みを示す模式図）</figcaption></figure><p>掲示板は、DMM 生成AI CAMP 学び放題の上部「ゼミ掲示板」から開きます。投稿には、実現したかったこと・試したこと・詰まった箇所・環境（OS／ツール／バージョン）を添えてください。<br><span class="why">なぜ：</span>環境と試した操作が分かると、原因を調べやすくなります。</p><p>フォームの正式名は「ゼミ参加者向け 事前課題提出受付フォーム」です。質問欄には掲示板と同じ4点に加え、投稿した内容と返ってきた回答も添えてください。</p>
   <div class="box box-point"><span class="box-title">✅ 迷わず出してください</span>「これは聞いていいレベルか…」と迷う必要はありません。1 → 2 → 3 の順番で、気軽に出してください。</div>
 </section>
 

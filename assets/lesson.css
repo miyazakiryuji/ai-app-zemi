@@ -469,3 +469,244 @@ details.cohort > .cohort-body { padding: 10px 14px 12px; }
 
 /* 読み上げだけに残す文字 */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+/* BEGIN LESSON06 READING */
+/* 第6回：本文と図解の文字階層。元の画像はPC・印刷で使用する。 */
+.l6-diagram { margin: 28px auto; text-align: left; break-inside: avoid; }
+.l6-diagram .l6-image { display: block; position: relative; }
+.l6-diagram .l6-image img { width: 100%; height: auto; border: 0; box-shadow: none; }
+.l6-diagram .l6-mobile { display: none; }
+.l6-diagram figcaption { line-height: 1.7; color: #4b5361; }
+
+@media screen {
+  .lesson06-reading { font-size: 18px; line-height: 1.85; }
+  .sheet:has(> .lesson06-reading) { max-width: 860px; padding: 34px 40px 44px; }
+  .lesson06-reading { overflow-wrap: anywhere; }
+  .lesson06-reading .cover-band .subtitle { font-size: 17px; }
+  .lesson06-reading .chapter-head h2 { font-size: 26px; }
+  .lesson06-reading h3 { font-size: 22px; line-height: 1.55; }
+  .lesson06-reading h4 { font-size: 20px; }
+  .lesson06-reading .goal-title,
+  .lesson06-reading .goalbox-title { font-size: 20px; }
+  .lesson06-reading pre,
+  .lesson06-reading pre.prompt,
+  .lesson06-reading table,
+  .lesson06-reading th,
+  .lesson06-reading td { font-size: 17px; line-height: 1.8; }
+  .lesson06-reading .code-label,
+  .lesson06-reading .smallnote,
+  .lesson06-reading .footer,
+  .lesson06-reading figcaption { font-size: 16px; }
+  .lesson06-reading .toc-title { font-size: 18px; }
+  .l6-diagram { max-width: 660px; }
+  .l6-diagram figcaption { margin-top: 12px; font-size: 16px; }
+  .lesson06-reading .l6-diagram .l6-image img:hover { transform: none; }
+}
+
+/* 画像の縮小で文字がつぶれる幅では、同じ内容を通常の文字と図形で組む。 */
+@media screen and (max-width: 760px) {
+  .lesson06-reading .chapter-head h2 { font-size: 23px; }
+  .lesson06-reading h3 { font-size: 21px; }
+  .lesson06-reading .page { padding: 12px 8px 48px; }
+  .lesson06-reading .sheet { padding: 20px 16px 28px; }
+  .sheet:has(> .lesson06-reading) { margin: 12px 8px; padding: 20px 16px 28px; }
+  .l6-diagram { max-width: 100%; break-inside: auto; }
+  .l6-diagram .l6-image { display: none; }
+  .l6-diagram .l6-mobile {
+    display: block; padding: 20px 16px 16px;
+    border: 1px solid #cddfe8; border-radius: 14px;
+    background: #f7fafc; color: #183249;
+    font-family: inherit; font-size: 18px; line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+  .l6-mobile .l6-title {
+    font-size: 21px; font-weight: 700; line-height: 1.5;
+    margin: 0 0 20px; padding: 0 0 12px; border-bottom: 2px solid #087f8c; text-wrap: balance;
+  }
+  .l6-mobile p { margin: 8px 0 0; font-size: 18px; }
+  .l6-mobile .l6-stack { display: grid; gap: 12px; }
+  .l6-mobile .l6-card {
+    min-width: 0; padding: 14px; border: 1px solid #d4e1e9;
+    border-radius: 10px; background: #fff;
+  }
+  .l6-mobile .l6-card-title { display: block; margin-bottom: 10px; font-size: 18px; line-height: 1.6; }
+  .l6-mobile .l6-teal { border-color: #81bcb9; background: #f0faf8; }
+  .l6-mobile .l6-example { margin-top: 10px; padding: 10px 12px; border-radius: 6px; background: #eef4f8; }
+  .l6-mobile .l6-records { font-variant-numeric: tabular-nums; }
+  .l6-mobile .l6-records > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; padding: 8px 0; border-bottom: 1px solid #e3ebf0; }
+  .l6-mobile .l6-records .l6-total { border-bottom: 0; border-top: 2px solid #abc9d8; margin-top: 6px; font-weight: 700; }
+  .l6-mobile .l6-arrow { padding: 10px 0; text-align: center; color: #126477; font-weight: 700; }
+  .l6-mobile .l6-note { margin: 16px 0; border-left: 4px solid #087f8c; padding: 10px 12px; background: #e9f5f4; font-weight: 600; }
+  .l6-mobile .l6-note:last-child { margin-bottom: 0; }
+  .l6-mobile .l6-warn { background: #fff1eb; border-color: #bb4225; color: #92321e; }
+  .l6-mobile .l6-error { color: #a72e24; }
+  .l6-mobile .l6-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .l6-mobile .l6-tags span { padding: 4px 12px; border: 1px solid #81bcb9; border-radius: 6px; background: white; }
+  .l6-mobile .l6-flow { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; }
+  .l6-mobile .l6-flow > li { position: relative; display: grid; grid-template-columns: 28px minmax(0,1fr); gap: 10px; margin: 0; }
+  .l6-mobile .l6-flow > li:not(:last-child)::after { content: ''; position: absolute; left: 13px; top: 34px; bottom: -13px; width: 2px; background: #b9d6e0; }
+  .l6-mobile .l6-step { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: white; background: #087784; font-size: 16px; line-height: 1; font-weight: 700; }
+  .l6-mobile ul { padding-left: 1.2em; margin: 8px 0 0; }
+  .l6-mobile .l6-branches { display: grid; gap: 12px; border-left: 2px solid #91bdcc; padding-left: 14px; }
+  .l6-mobile .l6-original { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; font-size: 16px; color: #116181; text-decoration: underline; text-underline-offset: 3px; }
+  .l6-mobile a:focus-visible { outline: 3px solid #0d7da5; outline-offset: 4px; }
+}
+
+@media print {
+  .lesson06-reading { font-size: 11.5pt; line-height: 1.75; }
+  .l6-diagram { margin: 10px 0 12px; }
+  .l6-diagram .l6-mobile { display: none; }
+  .l6-diagram .l6-image { display: block; }
+  .l6-diagram figcaption { font-size: 8.8pt; margin-top: 5px; text-align: center; }
+}
+
+/* END LESSON06 READING */
+
+/* BEGIN LESSON01-05 VISUAL READING */
+/* 第1〜5回：本文と図解の文字階層。元の画像はPC・印刷で使用する。 */
+.lv-diagram { margin: 28px auto; text-align: left; break-inside: avoid; }
+.lv-diagram .lv-image { display: block; position: relative; }
+.lv-diagram .lv-image img { width: 100%; height: auto; border: 0; box-shadow: none; }
+.lv-diagram .lv-mobile { display: none; }
+.lv-diagram figcaption { line-height: 1.7; color: #4b5361; }
+
+@media screen {
+  .lesson-visual-reading { font-size: 18px; line-height: 1.85; }
+  .sheet:has(> .lesson-visual-reading) { max-width: 860px; padding: 34px 40px 44px; }
+  .lesson-visual-reading { overflow-wrap: anywhere; }
+  .lesson-visual-reading .cover-band .subtitle { font-size: 17px; }
+  .lesson-visual-reading .chapter-head h2 { font-size: 26px; }
+  .lesson-visual-reading h3 { font-size: 22px; line-height: 1.55; }
+  .lesson-visual-reading h4 { font-size: 20px; }
+  .lesson-visual-reading .goal-title,
+  .lesson-visual-reading .goalbox-title { font-size: 20px; }
+  .lesson-visual-reading pre,
+  .lesson-visual-reading pre.prompt,
+  .lesson-visual-reading table,
+  .lesson-visual-reading th,
+  .lesson-visual-reading td { font-size: 17px; line-height: 1.8; }
+  .lesson-visual-reading .code-label,
+  .lesson-visual-reading .smallnote,
+  .lesson-visual-reading .footer,
+  .lesson-visual-reading figcaption { font-size: 16px; }
+  .lesson-visual-reading .toc-title { font-size: 18px; }
+  .lv-diagram { max-width: 660px; }
+  .lv-diagram figcaption { margin-top: 12px; font-size: 16px; }
+  .lesson-visual-reading .lv-diagram .lv-image img:hover { transform: none; }
+}
+
+/* 画像の縮小で文字がつぶれる幅では、同じ内容を通常の文字と図形で組む。 */
+@media screen and (max-width: 760px) {
+  .lesson-visual-reading .chapter-head h2 { font-size: 23px; }
+  .lesson-visual-reading h3 { font-size: 21px; }
+  .lesson-visual-reading .page { padding: 12px 8px 48px; }
+  .lesson-visual-reading .sheet { padding: 20px 16px 28px; }
+  .sheet:has(> .lesson-visual-reading) { margin: 12px 8px; padding: 20px 16px 28px; }
+  .lv-diagram { max-width: 100%; break-inside: auto; }
+  .lv-diagram .lv-image { display: none; }
+  .lv-diagram .lv-mobile {
+    display: block; padding: 20px 16px 16px;
+    border: 1px solid #cddfe8; border-radius: 14px;
+    background: #f7fafc; color: #183249;
+    font-family: inherit; font-size: 18px; line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+  .lv-mobile .lv-title {
+    font-size: 21px; font-weight: 700; line-height: 1.5;
+    margin: 0 0 20px; padding: 0 0 12px; border-bottom: 2px solid #087f8c; text-wrap: balance;
+  }
+  .lv-mobile p { margin: 8px 0 0; font-size: 18px; }
+  .lv-mobile .lv-stack { display: grid; gap: 12px; }
+  .lv-mobile .lv-card {
+    min-width: 0; padding: 14px; border: 1px solid #d4e1e9;
+    border-radius: 10px; background: #fff;
+  }
+  .lv-mobile .lv-card-title { display: block; margin-bottom: 10px; font-size: 18px; line-height: 1.6; }
+  .lv-mobile .lv-teal { border-color: #81bcb9; background: #f0faf8; }
+  .lv-mobile .lv-example { margin-top: 10px; padding: 10px 12px; border-radius: 6px; background: #eef4f8; }
+  .lv-mobile .lv-records { font-variant-numeric: tabular-nums; }
+  .lv-mobile .lv-records > div { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; padding: 8px 0; border-bottom: 1px solid #e3ebf0; }
+  .lv-mobile .lv-records .lv-total { border-bottom: 0; border-top: 2px solid #abc9d8; margin-top: 6px; font-weight: 700; }
+  .lv-mobile .lv-arrow { padding: 10px 0; text-align: center; color: #126477; font-weight: 700; }
+  .lv-mobile .lv-note { margin: 16px 0; border-left: 4px solid #087f8c; padding: 10px 12px; background: #e9f5f4; font-weight: 600; }
+  .lv-mobile .lv-note:last-child { margin-bottom: 0; }
+  .lv-mobile .lv-warn { background: #fff1eb; border-color: #bb4225; color: #92321e; }
+  .lv-mobile .lv-error { color: #a72e24; }
+  .lv-mobile .lv-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .lv-mobile .lv-tags span { padding: 4px 12px; border: 1px solid #81bcb9; border-radius: 6px; background: white; }
+  .lv-mobile .lv-flow { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; }
+  .lv-mobile .lv-flow > li { position: relative; display: grid; grid-template-columns: 28px minmax(0,1fr); gap: 10px; margin: 0; }
+  .lv-mobile .lv-flow > li:not(:last-child)::after { content: ''; position: absolute; left: 13px; top: 34px; bottom: -13px; width: 2px; background: #b9d6e0; }
+  .lv-mobile .lv-step { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: white; background: #087784; font-size: 16px; line-height: 1; font-weight: 700; }
+  .lv-mobile ul { padding-left: 1.2em; margin: 8px 0 0; }
+  .lv-mobile .lv-branches { display: grid; gap: 12px; border-left: 2px solid #91bdcc; padding-left: 14px; }
+  .lv-mobile .lv-original { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; font-size: 16px; color: #116181; text-decoration: underline; text-underline-offset: 3px; }
+  .lv-mobile a:focus-visible { outline: 3px solid #0d7da5; outline-offset: 4px; }
+}
+
+@media print {
+  .lesson-visual-reading { font-size: 11.5pt; line-height: 1.75; }
+  .lesson-visual-reading .instructor { break-inside: auto; page-break-inside: auto; }
+  .lv-diagram { margin: 10px 0 12px; }
+  .lv-diagram .lv-mobile { display: none; }
+  .lv-diagram .lv-image { display: block; }
+  .lv-diagram figcaption { font-size: 8.8pt; margin-top: 5px; text-align: center; }
+}
+/* 図解一覧。教材と同じ読み幅で見比べる。 */
+.visual-index { box-sizing: border-box; max-width: 820px; margin: auto; padding: 40px; color: #183249; font-family: "Hiragino Sans", sans-serif; }
+.visual-index * { box-sizing: border-box; }
+.visual-index h1 { font-size: 30px; line-height: 1.5; }
+.visual-index h2 { font-size: 26px; margin: 44px 0 12px; padding-bottom: 12px; border-bottom: 2px solid #087f8c; }
+.visual-index p { line-height: 1.85; }
+.visual-index a { color: #116181; text-underline-offset: 3px; }
+.visual-index nav { display: flex; flex-wrap: wrap; gap: 12px; }
+.visual-index nav a { display: inline-block; padding: 8px 16px; border: 1px solid #abc9d8; border-radius: 8px; }
+.visual-index .visual-eyebrow { font-size: 16px; font-weight: 700; color: #126477; }
+.visual-index article { background: white; border: 1px solid #d5e0e8; border-radius: 16px; margin: 24px 0; padding: 12px 16px; }
+.visual-index img { max-width: 100%; height: auto; }
+@media(max-width:760px) { .visual-index { padding: 24px 16px; } .visual-index h1 { font-size: 26px; } .visual-index h2 { font-size: 23px; } .visual-index article { border: 0; padding: 0; } }
+
+/* END LESSON01-05 VISUAL READING */
+
+/* BEGIN COMMON LESSON READING */
+/* 第1〜7回共通。画面上の説明文の文字階層をそろえる。印刷設定は変えない。 */
+.reading-map .map-link { display: none; }
+@media screen {
+  :is(.lesson-visual-reading, .lesson06-reading) .cards .card-desc,
+  :is(.lesson-visual-reading, .lesson06-reading) .ba > div,
+  :is(.lesson-visual-reading, .lesson06-reading) .ba .ba-h,
+  :is(.lesson-visual-reading, .lesson06-reading) .diff-grid > div,
+  :is(.lesson-visual-reading, .lesson06-reading) .os-grid > div,
+  :is(.lesson-visual-reading, .lesson06-reading) .diff-do,
+  :is(.lesson-visual-reading, .lesson06-reading) .diff-ok,
+  :is(.lesson-visual-reading, .lesson06-reading) .explain-why {
+    font-size: 18px;
+    line-height: 1.85;
+  }
+  :is(.lesson-visual-reading, .lesson06-reading) .chapter-head .lead,
+  :is(.lesson-visual-reading, .lesson06-reading) .prep-item dl {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+  :is(.lesson-visual-reading, .lesson06-reading) .cards .card-desc { margin-top: 8px; }
+  :is(.lesson-visual-reading, .lesson06-reading) .cards { gap: 16px; }
+  :is(.lesson-visual-reading, .lesson06-reading) .cards > .card { padding: 16px; }
+  .reading-map { max-width: 660px; margin: 28px auto; }
+  .reading-map figcaption { margin-top: 12px; line-height: 1.7; }
+  :is(.lesson-visual-reading, .lesson06-reading) .reading-map img:hover { transform: none; }
+}
+@media screen and (max-width: 760px) {
+  /* 全体図の直後にある章リンク・各回カードを、読みやすい本文として使う。 */
+  .reading-map { margin: 16px 0; }
+  .reading-map img, .reading-map figcaption { display: none; }
+  .reading-map a.zoom {
+    display: inline-flex; align-items: center; min-height: 44px;
+    padding: 8px 14px; border: 1px solid #abc9d8; border-radius: 8px;
+    font-size: 16px; line-height: 1.7; color: #116181;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .reading-map .map-link { display: inline; }
+  .reading-map a.zoom::after { content: none; }
+}
+
+/* END COMMON LESSON READING */

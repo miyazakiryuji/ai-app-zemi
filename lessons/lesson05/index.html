@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>第5回 API 連携とデータの持ち方 ｜ AIアプリ開発入門ゼミ</title>
 <meta name="description" content="AIアプリ開発入門ゼミ 第5回。API 連携の仕組み、Claude・OpenAI・Gemini の API キーの発行と安全な置き方、経路を先に通してから AI に差し替える手順、上限設定、そしてデータの4つの置き場（ブラウザ・PC のファイル・Turso・スプレッドシート）の選び方。">
-<link rel="stylesheet" href="../../assets/lesson.css">
+<link rel="stylesheet" href="../../assets/lesson.css?v=20261101-reading2">
+<link rel="stylesheet" href="../../assets/lesson05-api-examples-print.css">
 <script src="../../assets/site.js" defer></script>
 </head>
-<body>
+<body class="lesson-visual-reading">
 <div class="page">
 <main class="sheet">
 
@@ -17,7 +18,7 @@
   <div class="cover-text">
     <div class="kicker">AIアプリ開発入門ゼミ ｜ 第5回</div>
     <h1>API 連携で AI 機能を入れ、データの持ち方を決める</h1>
-    <div class="subtitle">自分のアプリから AI のサービスを API で呼び出して、AI 機能を1つ入れる回です。Claude・OpenAI・Gemini から1つ選んでキーを発行し、.env に置き、決まった文章を返すだけの経路を先に通してから AI に差し替えます。あわせて、データをどこに置くか（ブラウザ・PC のファイル・Turso・スプレッドシート）を、消える条件から自分で選びます。この回で初めて、データが自分の PC の外に出ます。</div>
+    <div class="subtitle">自分のアプリからAIにお願いして、返ってきた答えを画面に出せるようにします。まずはAPIを「受付窓口」として理解し、Claude・OpenAI・Geminiから1つ選びます。秘密の利用証であるAPIキーを安全に置き、AIとの往復を1回成功させます。あわせて、アプリのデータをどこに保存するかを決めます。</div>
     <div class="chips"><span class="chip">Claude／OpenAI／Gemini から1つ</span><span class="chip">API キーと .env</span><span class="chip">経路を先に通す</span><span class="chip">データの置き場を選ぶ</span></div>
   </div>
   <img class="penguin penguin-cover" src="../../assets/penguins/penguin_idea_lightbulb.png" alt="">
@@ -64,8 +65,11 @@
   <ol>
     <li><a href="#map">この回の地図</a></li>
     <li><a href="#what">API 連携とは</a></li>
+    <li><a href="#api-examples">こんなツールもAPIを提供しています！</a></li>
     <li><a href="#choose">AI のサービスを選ぶ：Claude／OpenAI／Gemini</a></li>
-    <li><a href="#key">API キー：パスワードと同じ扱いをする</a></li>
+    <li><a href="#key">API キー：窓口を使うための「秘密の利用証」</a></li>
+    <li><a href="#env-about">そもそも .env とは？</a></li>
+    <li><a href="#env-prepare">.env の準備・貼り付け・保存</a></li>
     <li><a href="#issue">各サービスでキーを発行する</a></li>
     <li><a href="#ai">AI 機能を入れる：経路を先に通してから、中身を差し替える</a></li>
     <li><a href="#storage">データの持ち方：4つの置き場と、消える条件</a></li>
@@ -79,12 +83,12 @@
 <div class="cover-map" id="map">
   <h3>この回の地図</h3>
   <p>この回は、サービスを選んでキーを発行し、経路を先に通してから AI に差し替えます。最後にデータの置き場を決めます。順番を守ると、キーの流出と課金の暴走を防げます。</p>
-  <figure class="fig">
-    <a class="zoom" href="../../assets/figs/l05_map.webp"><img src="../../assets/figs/l05_map.webp" alt="左から右へ6つの箱。サービスを選ぶ → キーの扱いを知る → キーを発行して.envに置く → 経路を先に通す → AIに差し替える → データの置き場を決める。4つ目と5つ目の上に「順番を守る」の札" width="1536" height="516"></a>
+  <figure class="fig reading-map">
+    <a class="zoom" href="../../assets/figs/l05_map.webp"><img src="../../assets/figs/l05_map.webp" alt="左から右へ6つの箱。サービスを選ぶ → キーの扱いを知る → キーを発行して.envに置く → 経路を先に通す → AIに差し替える → データの置き場を決める。4つ目と5つ目の上に「順番を守る」の札" width="1536" height="516"><span class="map-link">全体図を画像で開く ↗</span></a>
     <figcaption>この回の流れ。「経路を先に通す → AI に差し替える」の順番を入れ替えないことが、この回でいちばん大事です</figcaption>
   </figure>
   <ol class="route">
-    <li><a href="#what"><b>API を知る</b></a>　呼び出しの形と、サーバー経由の理由</li>
+    <li><a href="#what"><b>API を知る</b></a>　受付窓口にお願いして、結果を受け取る</li>
     <li><a href="#choose"><b>サービスを選ぶ</b></a>　Claude／OpenAI／Gemini</li>
     <li><a href="#key"><b>API キー</b></a>　パスワードと同じ扱いで、.env に置く</li>
     <li><a href="#issue"><b>キーを発行</b></a>　管理画面で作る</li>
@@ -102,34 +106,30 @@
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_pointing.png" alt="">
   </div>
-    <p>
-      <strong>API</strong> とは、他のプログラムやサービスの機能を、決められた形式の要求を送って使う仕組みです。要求の送り先（URL）、送る内容の形、返ってくる内容の形があらかじめ決まっていて、その決まりに従って送れば、相手のプログラムを自分のアプリから動かせます。<strong>API 連携</strong>は、自分のアプリの中から外部サービスの API を呼び出して、その結果を自分の画面に使うことです。
-    </p>
-    <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>API</dt><dd>Application Programming Interface の頭文字。プログラムから別のプログラムやサービスの機能を呼び出すための、決められた呼び出し方。送り先の URL、送る内容の形、返る内容の形が決まっています。</dd>
-        <dt>リクエスト／レスポンス</dt><dd>リクエストは API に送る要求。レスポンスはそれに対して返ってくる答え。API の呼び出しは、この1往復で成り立ちます。</dd>
-        <dt>URL</dt><dd>インターネット上の場所を表す文字列。ブラウザのアドレス欄に入れるものと同じです。API では「どこに要求を送るか」を表します。</dd>
-        <dt>JSON</dt><dd>データを決まった書き方の文字で表す形式。項目名と値の組を <code>{ "amount": 500, "memo": "昼食" }</code> のように書きます。API のリクエストとレスポンスの多くはこの形です。</dd>
-      </dl></div>
-    <p>ふだん使っているアプリも、裏では API を呼んでいます。たとえば、天気アプリは気象情報のサービスの API から今日の予報を受け取って表示し、地図アプリは経路検索の API に出発地と目的地を送って経路を受け取っています。<strong>AI 機能も同じ形</strong>で、自分のアプリから AI のサービスの API に文章を送り、生成された文章を受け取って画面に出します。</p>
-
-    <h3>1-1. API 連携をするときの形（この回でいちばん大事なこと）</h3>
-    <p>自分のアプリから AI のサービスを呼ぶときは、<strong>画面（ブラウザ）から直接呼ばず、自分のサーバーを経由します。</strong></p>
-    <figure class="fig">
-      <a class="zoom" href="../../assets/images/lesson04/diagram_api_route.svg"><picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04/diagram_api_route_sp.svg"><img src="../../assets/images/lesson04/diagram_api_route.svg" alt="API 連携の形。画面はまず自分のサーバーに要求を送り、サーバーが API キーを付けて AI のサービスを呼ぶ。生成された文章はサーバーを通って画面に表示される。画面から AI のサービスを直接呼ぶ形は取らない" loading="lazy"></picture></a>
-      <figcaption>API 連携の形。画面はまず自分のサーバーに要求を送り、サーバーが API キーを付けて AI のサービスを呼びます。画面から AI のサービスを直接呼ぶ形にはしません</figcaption>
-    </figure>
-    <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>画面側（フロントエンド）</dt><dd>ブラウザの中で動く部分。HTML／CSS／JavaScript でできていて、<strong>その中身は開発者ツールで誰でも見られます。</strong></dd>
-        <dt>サーバー側（バックエンド）</dt><dd>利用者から見えない場所で動く部分。自分の PC で <code>node server.js</code> のように起動しているプログラムがこれに当たります。秘密の文字列を使う処理や、ファイルの読み書きはここで行います。</dd>
-        <dt>開発者ツール</dt><dd>ブラウザに標準で付いている、画面の中身や通信の内容やエラーを調べる機能。Chrome では <kbd>F12</kbd>（Mac は <kbd>⌥⌘I</kbd>）で開きます。</dd>
-      </dl></div>
-    <h3>1-2. なぜサーバーを経由するのか</h3>
-    <ul>
-      <li>AI のサービスを呼ぶには、03 で扱う <strong>API キー</strong>が要ります。画面側のコードに書くと、開発者ツールで誰でもそのキーを読めます（読まれると何が起きるかは 03 で説明します）</li>
-      <li>サーバー側に置いたキーは、画面に返す内容やエラー表示に含めなければ、ブラウザからは見えません。<strong>キーを使う処理は、必ず見えない場所に置きます</strong></li>
-      <li>自分のサーバーを間にはさんでおくと、あとで AI のサービスを別のものに変えるときも、画面側は一切直さずに済みます</li>
-    </ul>
+    <p><strong>API（エーピーアイ）は、アプリから外部サービスにお願いするための「受付窓口」</strong>です。ここでは、AIのサービスが用意した窓口を使います。</p>
+    <p>普段は、人がChatGPTやClaudeの画面に文章を入力して、返事を受け取ります。自分で作ったアプリから同じようにお願いしたいときに使うのが、APIです。</p>
+    <h3>1-1. 要約アプリなら、こんな往復</h3>
+    <ol class="steps">
+      <li><p class="step-title">アプリからお願いを送る</p><p>「この文章を短くまとめてください」と、まとめたい文章をAPIへ送ります。</p></li>
+      <li><p class="step-title">AIが処理する</p><p>APIという受付窓口で依頼を受け取り、その先のAIが文章をまとめます。</p></li>
+      <li><p class="step-title">結果をアプリに表示する</p><p>返ってきた要約を、自分のアプリの画面に出します。</p></li>
+    </ol>
+    <p><strong>APIは受付窓口で、文章を考えるのはその先のAI</strong>です。この「お願いを送る → 結果を受け取って使う」つながりを、<strong>API連携</strong>と呼びます。送るお願いは「リクエスト」、返ってくる答えは「レスポンス」とも呼びます。</p>
+    <div class="box box-point"><span class="box-title">🔑 まずは、この3つ</span><dl>
+      <dt>API</dt><dd>お願いするための受付窓口。</dd>
+      <dt>APIキー</dt><dd>その窓口を使うための秘密の利用証。扱い方は<a href="#key">第3章</a>で確認します。</dd>
+      <dt>API連携</dt><dd>お願いを送り、返ってきた結果を自分のアプリで使うこと。</dd>
+    </dl></div>
+    <h3 id="api-examples">1-2. こんなツールもAPIを提供しています！</h3>
+    <p>APIはAI専用ではありません。身近なツールにも「アプリから使うための窓口」があります。次は、APIを使って作れる機能の例です。</p>
+    <div class="cards api-examples-cards">
+      <div class="card"><span class="card-title">LINE</span><span class="card-desc"><strong>LINE公式アカウントからメッセージを送る</strong><br>例：自分のアプリで受け付けた予約の完了を知らせる。<br><a href="https://developers.line.biz/ja/docs/messaging-api/overview/" target="_blank" rel="noopener">公式のAPI説明 ↗</a></span></div>
+      <div class="card"><span class="card-title">Slack</span><span class="card-desc"><strong>チャンネルにメッセージを投稿する</strong><br>例：AIがまとめた日報を、指定したチャンネルへ送る。<br><a href="https://docs.slack.dev/reference/methods/chat.postMessage/" target="_blank" rel="noopener">公式のAPI説明 ↗</a></span></div>
+      <div class="card"><span class="card-title">Google スプレッドシート</span><span class="card-desc"><strong>表のデータを読み書きする</strong><br>例：自分のアプリに入力した支出を、シートに1行ずつ残す。<br><a href="https://developers.google.com/workspace/sheets/api/guides/concepts?hl=ja" target="_blank" rel="noopener">公式のAPI説明 ↗</a></span></div>
+      <div class="card"><span class="card-title">Google マップ</span><span class="card-desc"><strong>出発地と目的地から経路を調べる</strong><br>例：訪問先までの経路や所要時間を、自分のアプリに表示する。<br><a href="https://developers.google.com/maps/documentation/routes/compute-route-over?hl=ja" target="_blank" rel="noopener">公式のAPI説明 ↗</a></span></div>
+    </div>
+    <p><strong>「AIで考える」「LINEやSlackで知らせる」「スプレッドシートに残す」</strong>のように、別々のサービスを組み合わせることもできます。この回では、まずAIへのお願いと返答を1往復させます。</p>
+    <div class="box box-note">ツールごとに、利用の申請・接続の許可・料金や回数の条件が異なります。LINEの例はLINE公式アカウントから送る仕組みで、個人のLINEから誰にでも送れるわけではありません。APIキー以外の方法で利用を許可するサービスもあります。使うときは上の公式説明を確認します。</div>
 </section>
 <section class="chapter ch-2" id="choose">
   <div class="chapter-head c-2">
@@ -188,65 +188,98 @@
       </dl></div>
     <p><span class="why">なぜ推奨を置かないのか：</span>料金も無料枠も短い期間で変わります。1社を推奨として固定すると、条件が変わったときに全員が不利な選択をしたままになります。観点を渡して、その時点でご自身に合うものを選べる状態にしておきます。</p>
     <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_pointing.png" alt=""><div class="box-body"><strong>選んだサービスは、この回の課題を出すときに一緒に書いてください。</strong>同じサービスの環境で見ないと、詰まったときに再現できず、講評ができません。迷ったら、ゼミで使っている Claude と同じ提供元の Claude API にすると、ログインするアカウントを1つにできます（ただし Claude の月額プランと API の支払いは別です）。</div></div>
-  
+
 </section>
 <section class="chapter ch-3" id="key">
   <div class="chapter-head c-3">
     <div class="ch-text">
       <div class="ep">第3章</div>
-      <h2>API キー：パスワードと同じ扱いをする</h2>
+      <h2>API キー：窓口を使うための「秘密の利用証」</h2>
     </div>
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_holding_book.png" alt="">
   </div>
     <p>
-      <strong>API キー</strong>は、そのサービスに「自分として」アクセスするための長い文字列です。これを付けて要求を送ると、サービスは「この人からの要求」と判断し、使った分をその人に請求します。
+      <strong>APIキーは、受付窓口を使うための「秘密の利用証」</strong>です。実物は、サービスが発行する長い文字列。今回使うAIのサービスは、この文字列で利用者やプロジェクトを確認し、使用量や料金を記録します。
     </p>
+    <p>他人に渡すと、その人も自分の利用分として使えてしまいます。<strong>パスワードと同じように、人に見せずに扱います。</strong></p>
+<h3 id="env-about">まず、.env とは？</h3>
+<p><strong><code>.env</code>（ドットエンブ）は、アプリに渡す設定を、プログラムとは別に書いておくテキストファイルです。</strong>「設定」は、どのAPIキーを使うかなど、アプリを動かすために渡す情報のこと。中身は文字なので、メモ帳やテキストエディットで開けます。新しくインストールするツールではありません。</p>
+<p>この回では、<strong>「自分のAPIキーを書いておくファイル」</strong>として使います。ファイル名が <code>.env</code> で、<code>env</code> は environment（環境）の略です。APIキー以外の設定を書くこともあります。</p>
+<figure class="fig lv-diagram" data-diagram="l05_env_anatomy"><a class="zoom lv-image" href="../../assets/figs/lesson05-env/l05_env_anatomy.png"><img src="../../assets/figs/lesson05-env/l05_env_anatomy.png" alt=".env は、設定を書いておくファイル。左：設定の名前：OPENAI_API_KEY。アプリが探す目印。右：設定の値：DEMO_KEY。自分のキーに置き換える。DEMO_KEY は説明用のダミーです。中身は文字だけです。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">.env は、設定を書いておくファイル</p><div class="lv-card"><strong>.env の中身</strong><p style="overflow-wrap:anywhere"><code>OPENAI_API_KEY=DEMO_KEY</code></p></div><div class="lv-arrow">↓ 名前と値に分けて読む</div><div class="lv-stack"><div class="lv-card"><strong>左：設定の名前</strong><p>OPENAI_API_KEY<br>アプリが探す目印</p></div><div class="lv-card"><strong>右：設定の値</strong><p>DEMO_KEY<br>自分のキーに置き換える</p></div></div><p class="lv-note">DEMO_KEY は説明用のダミーです。中身は文字だけです。</p><a class="lv-original" href="../../assets/figs/lesson05-env/l05_env_anatomy.png">図解を画像で開く ↗</a></div><figcaption>.env の1行は「名前=値」。左が設定の名前、右が自分のキー（仕組みを示す模式図）</figcaption></figure>
+<figure class="fig lv-diagram" data-diagram="l05_env_flow"><a class="zoom lv-image" href="../../assets/figs/lesson05-env/l05_env_flow.png"><img src="../../assets/figs/lesson05-env/l05_env_flow.png" alt="保存した設定を、アプリが読み込む。自分で保存：.env にキーを書いて保存する。起動時に読む：サーバー側（画面の外で動く部分）が設定を読み込む。APIへ送る：読み込んだキーを付けて、AIサービスへお願いを送る。置くだけでは読まれません。読み込む処理も必要です。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">保存した設定を、アプリが読み込む</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>自分で保存</strong><p>.env にキーを書いて保存する</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>起動時に読む</strong><p>サーバー側（画面の外で動く部分）が設定を読み込む</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>APIへ送る</strong><p>読み込んだキーを付けて、AIサービスへお願いを送る</p></div></li></ol><p class="lv-note">置くだけでは読まれません。読み込む処理も必要です。</p><a class="lv-original" href="../../assets/figs/lesson05-env/l05_env_flow.png">図解を画像で開く ↗</a></div><figcaption>自分で保存 → 起動時に読む → キー付きでAPIへ送る（仕組みを示す模式図）</figcaption></figure>
+<p>このように、プログラムの外から渡す設定値を<strong>環境変数</strong>と呼びます。<code>.env</code> は、その値を書いておく方法の1つです。<strong>ファイルを置くだけで自動的に読まれるわけではなく、読み込む処理も必要です。</strong>その処理は第5章でClaude Codeに作ってもらいます。</p>
+<p><strong>なぜ、プログラムと別のファイルにする？</strong><br>プログラムの中に本物のキーを直接書くと、コードを共有するときにキーまで一緒に渡してしまいます。分けておくと、<strong>コードは共有し、キーの入った <code>.env</code> は自分のPCに残す</strong>という扱いができます。キーを変更するときも、プログラムの処理を書き換えずに値を差し替えられます。</p>
+<div class="box box-point"><span class="box-title">🔑 .env に入れただけで、秘密が守られるわけではありません</span><p><code>.env</code> 自体は暗号化されていないので、ファイルを開ける人はキーを読めます。<strong>ファイルを人に渡さない・画面側のコードから使わない・共有する対象から外す</strong>ことも必要です。続けて、その置き方を確認します。</p></div>
+    <h3>3-1. 秘密の利用証は、アプリの裏側に置く</h3>
+    <p>秘密の利用証を画面に置くと、画面を使う人に見られてしまいます。そこで、<strong>APIキーは自分のアプリのサーバー側で保管して使い、画面には渡しません。</strong>サーバー側は、画面の外で動くプログラムのこと。この回では自分のPCで動かします。</p>
+    <figure class="fig lv-diagram" data-diagram="l05_route"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l05_route.webp"><img src="../../assets/figs/lessons01-05/l05_route.webp" alt="APIキーは、サーバー側で使う。画面：ブラウザ：入力を自分のサーバーへ送る。キーは持たない。自分のサーバー：APIキーを付けて、AIサービスへ要求。AIサービス：生成した結果を、サーバーへ返す。画面に表示：サーバーから受け取った結果を表示。キーを画面のコード・共有リポジトリ・提出画像に入れない。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">APIキーは、サーバー側で使う</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>画面：ブラウザ</strong><p>入力を自分のサーバーへ送る。キーは持たない</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>自分のサーバー</strong><p>APIキーを付けて、AIサービスへ要求</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>AIサービス</strong><p>生成した結果を、サーバーへ返す</p></div></li><li><span class="lv-step" aria-hidden="true">4</span><div><strong>画面に表示</strong><p>サーバーから受け取った結果を表示</p></div></li></ol><p class="lv-note">キーを画面のコード・共有リポジトリ・提出画像に入れない。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l05_route.webp">図解を画像で開く ↗</a></div><figcaption>APIキーは、サーバー側で使う（仕組みを示す模式図）</figcaption></figure>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
-        <dt>API キー</dt><dd>サービスが発行する、本人確認のための長い文字列。<code>sk-ant-…</code>（Claude）、<code>sk-…</code>（OpenAI）、<code>AQ.…</code>（Gemini。2026年5月28日より前に作られたキーは <code>AIza…</code>）のような決まった文字で始まることが多いです（形式は変わることがあります）。</dd>
-        <dt>.env</dt><dd>API キーのような秘密の文字列を書いておくファイル。アプリのフォルダの直下に置きます。名前は「環境（environment）」の略です。</dd>
-        <dt>環境変数</dt><dd>プログラムの外側から渡す設定値。<code>.env</code> に書いた内容は、起動時に環境変数として読み込まれ、サーバー側のプログラムから <code>process.env.ANTHROPIC_API_KEY</code> のような名前で取り出せます。</dd>
-        <dt>.gitignore</dt><dd>共有の場所に上げないファイルの名前を書いておく一覧。ここに <code>.env</code> を書いておくと、コードを共有するときに <code>.env</code> だけが除かれます。</dd>
+        <dt>画面側（フロントエンド）</dt><dd>ブラウザの中で動く部分。HTML／CSS／JavaScript でできていて、<strong>その中身は開発者ツールで誰でも見られます。</strong></dd>
+        <dt>サーバー側（バックエンド）</dt><dd>利用者から見えない場所で動く部分。自分の PC で <code>node server.js</code> のように起動しているプログラムがこれに当たります。秘密の文字列を使う処理や、ファイルの読み書きはここで行います。</dd>
+        <dt>開発者ツール</dt><dd>ブラウザに標準で付いている、画面の中身や通信の内容やエラーを調べる機能。Chrome では <kbd>F12</kbd>（Mac は <kbd>⌥⌘I</kbd>）で開きます。</dd>
+      </dl></div>
+    <p><span class="why">なぜサーバーを経由するのか：</span>画面側のコードと通信は利用者が調べられます。キーはサーバー側でだけ読み、返答やエラー表示に含めず、画面には結果だけを返します。AIサービスを替えるときも、呼び出す処理をサーバー側にまとめておけば変更範囲を絞れます。</p>
+    <div class="box box-term"><span class="box-title">📗 用語</span><dl>
+        <dt>.gitignore</dt><dd>Gitで新しく共有する対象から外すファイルの一覧。すでにGitで管理しているファイルや、zipの中身には効きません。</dd>
         <dt>node_modules</dt><dd>アプリが使う部品（ライブラリ）を入れるフォルダ。部品を入れる命令を打つと自動で作られ、中身はとても多くなります。部品の一覧があればいつでも作り直せるので、共有や提出には含めません。</dd>
       </dl></div>
     <div class="box box-warn box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_warning_sign.png" alt=""><div class="box-body"><strong>絶対にやってはいけないこと（3つ）</strong><br>
       ① 画面側のコード（HTML や JavaScript）に書く<br>
       ② GitHub などコードを共有する場所に上げる<br>
       ③ スクリーンショットに写ったまま提出する・掲示板に貼る</div></div>
-    <p><span class="why">なぜ画面側に書いてはいけないのか：</span>ブラウザで動くコードは、開発者ツールを開けば誰でも読めます。キーが読まれると、他人がご自身の請求でそのサービスを使い放題になります。<strong>キーは「使うと請求が来るパスワード」</strong>であって、設定値ではありません。</p>
+    <p><span class="why">なぜ画面側に書いてはいけないのか：</span>ブラウザで動くコードは、開発者ツールを開けば誰でも読めます。キーが読まれると、他人がご自身の請求でそのサービスを使い放題になります。<strong>キーは「使うと請求が来るパスワード」</strong>です。ほかの設定と同じように公開しないでください。</p>
     <p><span class="why">なぜスクリーンショットまで気にするのか：</span>管理画面でキーを作った直後の画面や、<code>.env</code> を開いた画面をそのまま撮ると、キーの全文が写ります。掲示板や提出物に貼った時点で、見た人全員がそのキーを使えます。</p>
     <p><strong>キーが写ってしまったときの対処：</strong>まだどこにも貼っていなければ、キーが写らない範囲で撮り直します。一度でも掲示板・提出フォーム・共有の場所に出したら、貼り直すのではなく、管理画面でそのキーを無効化して作り直します。<br><span class="why">なぜ出したら作り直すのか：</span>貼った画像を消しても、消すまでの間に見た人や、画像を保存した人の手元にはキーが残ります。無効化すれば、そのキーで送られた要求はすべて断られます。</p>
 
-    <h3>3-1. キーの置き方（この順で）</h3>
-    <ol class="steps">
-      <li><p class="step-title">下の指示の型を Claude Code に送り、<code>.gitignore</code> を先に用意してから、値が空の <code>.env</code> を作らせる</p><p><span class="why">なぜ先に .gitignore か：</span><code>.env</code> を先に作ると、<code>.gitignore</code> を確かめる前に共有の場所へ上がる事故が起きます。上げない設定を先に済ませてから、キーの置き場を作ります。</p></li>
-      <li><p class="step-title">04 でキーを発行したら、<code>.env</code> の <code>=</code> の後ろに自分で貼る</p><p><code>ANTHROPIC_API_KEY=sk-ant-…</code> のように、<code>=</code> の前がプログラムから呼ぶときの名前、後ろが発行したキーです。<strong>引用符も空白も付けません。</strong>開き方は、この節の最後に書きます。</p></li>
-      <li><p class="step-title">サーバー側のプログラムからだけ読む</p><p>画面側からは読めないのが正しい状態です。<br><span class="why">なぜ：</span>画面側から読めるなら、開発者ツールで誰でも読めるということだからです。</p></li>
-    </ol>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="サービスごとの .env の名前の表">
-      <table>
-        <thead><tr><th>サービス</th><th><code>.env</code> に書く名前（例）</th><th>公式の説明で確認するもの</th></tr></thead>
-        <tbody>
-          <tr><td>Claude API</td><td><code>ANTHROPIC_API_KEY</code></td><td>キーの発行場所・モデル名・上限設定の場所</td></tr>
-          <tr><td>OpenAI API</td><td><code>OPENAI_API_KEY</code></td><td>同上</td></tr>
-          <tr><td>Gemini API</td><td><code>GEMINI_API_KEY</code></td><td>同上</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="box box-note">名前はご自身で決めてもよいのですが、上の名前にしておくと、Claude Code が公式の書き方どおりのコードを作りやすくなります（各社の公式ライブラリが、この名前の環境変数を自動で読む作りになっています）。</div>
-    <p>手順1で Claude Code に送る指示の型です。（ ）の中は、上の表から選んだサービスの名前に差し替えます。</p>
-<span class="code-label">キーの置き場を用意させる指示 ― （ ）を選んだサービスのキーの名前に差し替えて貼る</span>
-<pre class="prompt">APIキーを安全に置く準備をしてください。まだAIは呼びません。
-1. アプリのフォルダ直下に .gitignore が無ければ作り、.env と node_modules の2行を入れてください（あれば追記）
-2. 1が終わってから、同じ場所に .env を作ってください。中身は （ANTHROPIC_API_KEY）= の1行だけで、値は空のままにしてください。キーは私が自分で貼ります
-3. .env を作ったあとは、.env の中身を読まないでください（読むと、私が貼ったキーがこのやり取りの記録に残るため）
-完成条件：.gitignore に .env と node_modules が入っていること。.env が （ANTHROPIC_API_KEY）= の1行だけで、値が空であること。</pre>
-    <p><span class="why">なぜキーは自分で貼るのか：</span>キーの文字列を Claude Code の入力欄に貼ったり、キーを貼ったあとの <code>.env</code> を Claude Code に読ませたりすると、キーがやり取りの記録に残ります。キーはご自身の手でファイルに貼り、AI には「<code>.env</code> から読む」とだけ伝えます。</p>
-    <p><strong><code>.env</code> の開き方：</strong>名前が <code>.</code> で始まるファイルは、ふだんは隠れていて見えません。</p>
-    <ul>
-      <li><strong>Mac：</strong>Finder でアプリのフォルダを開き、<kbd>⌘</kbd>＋<kbd>⇧</kbd>＋<kbd>.</kbd>（Command＋Shift＋ピリオド）を押すと、<code>.</code> で始まるファイルが見えるようになります。<code>.env</code> を「テキストエディット」で開いてキーを貼り、保存します</li>
-      <li><strong>Windows：</strong><code>.env</code> を「メモ帳」で開いてキーを貼り、保存します。「名前を付けて保存」になったときは、「ファイルの種類」を「すべてのファイル」にしてから、名前を <code>.env</code> のまま保存します。<br><span class="why">なぜ：</span>「テキスト文書」のまま保存すると <code>.env.txt</code> という名前になり、プログラムが読みません</li>
-    </ul>
-  
+<h3 id="env-prepare">3-2. まず、空の .env を用意する</h3>
+<p><strong>Claude Codeに任せるのは、空のファイルの準備まで。本物のキーは、自分でファイルに貼ります。</strong> まだキーがなくても、ここまでは進められます。すでに <code>.env</code> がある場合は、作り直さず使います。</p>
+<p>置く場所は、いま作っているアプリのフォルダの直下です。「直下」は、そのフォルダを開いてすぐの場所。<code>app</code> や <code>docs</code> の中には入れません。</p>
+<figure class="fig lv-diagram" data-diagram="l05_env_location"><a class="zoom lv-image" href="../../assets/figs/lesson05-env/l05_env_location.png"><img src="../../assets/figs/lesson05-env/l05_env_location.png" alt=".env は、アプリのフォルダ直下へ。.env：APIキーを書くファイル。.gitignore：Gitで新しく共有する対象から外す設定。app：画面のファイル。docs：仕様書など。my-app は自分のアプリのフォルダ名です。.env は app や docs の中には入れません。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">.env は、アプリのフォルダ直下へ</p><div class="lv-card" style="border:2px solid #8cc9e7"><strong>📁 my-app</strong><p>開いてすぐの場所に、次の4つが並びます。</p><div class="lv-stack" style="margin-left:12px;border-left:3px solid #8cc9e7;padding-left:12px"><div class="lv-card"><strong>.env</strong><p>APIキーを書くファイル</p></div><div class="lv-card"><strong>.gitignore</strong><p>Gitで新しく共有する対象から外す設定</p></div><div class="lv-card"><strong>app</strong><p>画面のファイル</p></div><div class="lv-card"><strong>docs</strong><p>仕様書など</p></div></div></div><p class="lv-note">my-app は自分のアプリのフォルダ名です。.env は app や docs の中には入れません。</p><a class="lv-original" href="../../assets/figs/lesson05-env/l05_env_location.png">図解を画像で開く ↗</a></div><figcaption>.env は app・docs と同じ階層。アプリのフォルダを開いてすぐの場所に置く（仕組みを示す模式図）</figcaption></figure>
+<p><code>my-app</code> は、自分のアプリのフォルダ名に読み替えます。</p>
+
+<div class="table-wrap" tabindex="0" role="region" aria-label="使うサービス"><table><thead><tr><th>使うサービス</th><th>用意する1行</th></tr></thead><tbody><tr><td>Claude API</td><td><code>ANTHROPIC_API_KEY=</code></td></tr><tr><td>OpenAI API</td><td><code>OPENAI_API_KEY=</code></td></tr><tr><td>Gemini API</td><td><code>GEMINI_API_KEY=</code></td></tr></tbody></table></div>
+<p><strong>選んだサービスの1行だけ</strong>を使います。下の指示の <code>ANTHROPIC_API_KEY</code> は、OpenAIなら <code>OPENAI_API_KEY</code>、Geminiなら <code>GEMINI_API_KEY</code> に差し替えて送ります。</p>
+<div class="env-prepare-prompt"><span class="code-label">Claude Codeに送る指示（サービス名を差し替える）</span><pre class="prompt">APIキーを入れる空のファイルを準備してください。まだAIのAPIは呼びません。
+1. いま開いているアプリのフォルダ直下の .gitignore に .env と node_modules を追加してください。既存の行は残してください。
+2. .env が無い場合だけ、同じ場所に ANTHROPIC_API_KEY= の1行を持つ .env を作ってください。値は空にしてください。
+3. .env がすでにある場合は、中身を読まず、上書きもせず、ファイルがあることだけ教えてください。
+4. 作業したフォルダの場所と、用意したファイル名だけを報告してください。
+本物のキーは私が自分で貼ります。以後、.env の内容やキーをチャット・ログ・画面に出さないでください。</pre></div>
+<p><strong>なぜこの順か：</strong>先に <code>.gitignore</code> へ書き、Gitで新しく共有する対象から <code>.env</code> を外します。<strong>確認：</strong>アプリのフォルダに <code>.env</code> があり、<code>.gitignore</code> に <code>.env</code> の行があれば、準備完了です。<code>.gitignore</code> は、すでに共有したファイルを取り消したり、zipへの混入を防いだりするものではありません。</p>
+<h3 id="env-open">3-3. .env を自分で開く</h3>
+<p><strong>使っているPCの手順だけ</strong>読みます。Claude Codeの「中身を見せて」という依頼ではなく、PCのファイルを自分で開きます。</p>
+<ol class="steps"><li><p class="step-title">Mac：Finderでアプリのフォルダを開く</p><p><code>.env</code> が見えなければ <strong>Command＋Shift＋.（ピリオド）</strong> を押します。<br><strong>なぜ：</strong>Macでは、名前がドットで始まるファイルは通常隠れています。薄い色で <code>.env</code> が見えれば大丈夫です。</p></li><li><p class="step-title">Mac：.envを右クリックし「このアプリケーションで開く」→「テキストエディット」</p><p>見つからなければ「その他」からテキストエディットを選びます。文字に太字や色を付けずに編集します。「フォーマット」に「標準テキストにする」が出る場合は選びます。「リッチテキストにする」と出ていれば、すでに標準テキストです。<br><strong>なぜ：</strong><code>.env</code> は装飾を含まない文字だけのファイルとして保存するためです。</p></li></ol>
+<ol class="steps"><li><p class="step-title">Windows：エクスプローラーでアプリのフォルダを開く</p><p>「表示」→「表示」→「ファイル名拡張子」をオンにします。Windowsの版により表示場所は異なります。<br><strong>なぜ：</strong><code>.env.txt</code> を <code>.env</code> と見間違えないよう、名前を最後まで表示します。</p></li><li><p class="step-title">Windows：.envを右クリックし「プログラムから開く」→「メモ帳」</p><p>メモ帳がなければ「別のプログラムを選択」から選びます。既存の <code>.env</code> を開き、新しいテキスト文書は作りません。<br><strong>確認：</strong>開いたファイル名が <code>.env</code> で、選んだサービスの行を確認します。無ければ、次の手順で自分で追加します。</p></li></ol>
+<h3 id="env-paste">3-4. キーを発行したら「= の右側」に貼る</h3>
+<p><strong>まだキーがない人は、第4章で選んだサービスのキーを発行してから、ここへ戻ります。</strong> 次はOpenAIを選んだ場合の書き換え例です。Claude・Geminiも、選んだ名前の右側へ貼る操作は同じです。</p>
+<p>Macのテキストエディットで、教材用の <code>.env</code> を実際に開いた画面です。読みやすいよう表示を拡大しています。<strong>下の値はダミーです。本物のキーを写した画像は共有しません。</strong></p>
+<figure class="env-capture" style="margin:20px 0;break-inside:avoid;page-break-inside:avoid">
+<figcaption style="font-size:18px;line-height:1.7;margin-bottom:10px"><strong>① 貼る前：名前と「=」だけ</strong><br>上部のファイル名が .env になっています。右側はまだ空欄です。</figcaption>
+<div style="overflow-x:auto;border-radius:12px;background:#202020" tabindex="0" role="region" aria-label="① 貼る前：名前と「=」だけの実画面。狭い画面では横にスクロールできます">
+<a class="zoom" href="../../assets/images/lesson05/env-empty.jpg" style="display:block;width:100%;min-width:620px;height:auto;aspect-ratio:1312/240;overflow:hidden"><img src="../../assets/images/lesson05/env-empty.jpg" alt="Macのテキストエディットで.envを開いた実画面。OPENAI_API_KEY= の右側が空欄" style="display:block;width:100%;height:auto;max-width:none;border:0" loading="lazy" data-taken="2026-11-01" title="撮影 2026年11月"></a>
+</div>
+</figure>
+<p>表示されている文字：<code>OPENAI_API_KEY=</code></p>
+<figure class="env-capture" style="margin:20px 0;break-inside:avoid;page-break-inside:avoid">
+<figcaption style="font-size:18px;line-height:1.7;margin-bottom:10px"><strong>② 貼って保存した後：右側に値が入る</strong><br>DEMO_KEY_REPLACE_ME は説明用のダミーで、APIには使えません。</figcaption>
+<div style="overflow-x:auto;border-radius:12px;background:#202020" tabindex="0" role="region" aria-label="② 貼って保存した後：右側に値が入るの実画面。狭い画面では横にスクロールできます">
+<a class="zoom" href="../../assets/images/lesson05/env-filled.jpg" style="display:block;width:100%;min-width:620px;height:auto;aspect-ratio:1312/240;overflow:hidden"><img src="../../assets/images/lesson05/env-filled.jpg" alt="Macのテキストエディットで.envを開いた実画面。OPENAI_API_KEY=DEMO_KEY_REPLACE_ME の1行を保存済み" style="display:block;width:100%;height:auto;max-width:none;border:0" loading="lazy" data-taken="2026-11-01" title="撮影 2026年11月"></a>
+</div>
+</figure>
+<p>表示されている文字：<code>OPENAI_API_KEY=DEMO_KEY_REPLACE_ME</code></p>
+<p>小さい画面では画像を横にスクロールできます。画像を押すと全体を拡大できます。</p>
+<ol class="steps"><li><p class="step-title">発行画面の「コピー」で、本物のキーをコピーする</p><p>キーの全文が表示されている間に行います。<br><strong>なぜ：</strong>画面を閉じると、同じキーの全文を再表示できないサービスがあるためです。</p></li><li><p class="step-title">自分で開いた .env の「= の右側」に貼り付ける</p><p>Macは <strong>Command＋V</strong>、Windowsは <strong>Ctrl＋V</strong>。<code>your_api_key_here</code> など仮の文字があれば、その部分を選んで置き換えます。左側の名前と <code>=</code> は残します。<br><strong>なぜ：</strong>左側はアプリが設定を探す名前、右側が実際に使うキーだからです。仮の文字の後ろに継ぎ足さないでください。</p></li><li><p class="step-title">1行になっているか、自分の画面で確認する</p><p>今回は引用符や余分な空白を付けずに書きます。キーの途中でEnterを押しません。画面幅による自動の折り返しは、そのままで大丈夫です。同じ名前の行がすでにあれば、その行を書き換えます。<strong>選んだ名前の行が無ければ、ほかの行は残し、末尾の新しい行に選んだ名前と <code>=</code> を書いてからキーを貼ります。</strong><br><strong>確認：</strong>選んだ名前が1つだけあり、<code>=</code> の右側に本物のキーが入っています。本物のキーをチャットや提出画像には載せません。</p></li></ol>
+<h3 id="env-check">3-5. 保存して、読み込めることを確かめる</h3>
+<ol class="steps"><li><p class="step-title">ファイルを上書き保存する</p><p>Macは <strong>Command＋S</strong>、Windowsは <strong>Ctrl＋S</strong>。Windowsで「名前を付けて保存」が出たら、ファイルの種類を「すべてのファイル」、名前を <code>.env</code>、文字コードをUTF-8にします。<br><strong>なぜ：</strong>編集しただけでは、サーバーが読むファイルに変更が反映されないためです。</p></li><li><p class="step-title">いったん閉じ、自分でもう一度開く</p><p>ファイル名が <code>.env</code> のままで、貼った値が残っていることを確認します。<code>.env.txt</code> や <code>.env.rtf</code> は別のファイルです。<br><strong>ここまでできれば保存完了です。</strong>まだサーバーを作っていなければ、第5章へ進みます。</p></li><li><p class="step-title">第5章で読み込み設定を用意し、サーバーを起動する</p><p><strong><code>.env</code> は置くだけで自動的に使われるわけではありません。</strong>第5章の指示④で、起動時に <code>.env</code> を読み込む処理もClaude Codeに用意してもらいます。動いているサーバーの設定を変えた場合は、止めて起動し直します。<br><strong>なぜ：</strong>この教材では起動時に読み込む構成にするため、保存だけでは実行中の設定が変わらないからです。</p></li></ol>
+<span class="code-label">第5章の指示④のあと、設定だけを確認したいとき</span><pre class="prompt">選んだサービスのAPIキーが、サーバー側で読み込めるか確認してください。
+.env の内容は開いて表示せず、実際のサーバーと同じ読み込み方法で確認してください。
+キーの値・先頭や末尾・長さは出さず、「設定あり」か「未設定」だけを報告してください。
+未設定なら、値を読まずにファイルの場所・設定名・起動時の読み込み処理を確認してください。
+今回は外部のAPIを呼ばないでください。</pre>
+<p><strong>「設定あり」は、値を読み込めたという意味です。キーの有効性や利用料金の設定までは確認していません。</strong>その後、第5章の動作確認でボタンを1回押し、AIの返答が出ることを確かめます。</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="困ったとき"><table><thead><tr><th>困ったとき</th><th>まず確かめること</th></tr></thead><tbody><tr><td><code>.env</code> が見つからない</td><td>アプリのフォルダが合っているかを確認。Macは隠しファイルを表示。無ければ3-2の準備指示を使う。</td></tr><tr><td>保存したのに「未設定」</td><td>名前が <code>.env</code> か、<code>app/</code> の中に置いていないか、保存済みかを確認。その後、サーバーを再起動する。</td></tr><tr><td>「設定あり」なのに認証エラー</td><td>発行元と左側の名前が合っているか、キーが有効かを自分で確認。第5章のエラー早見表も参照する。</td></tr><tr><td>キーがチャットや提出画像に入った</td><td>発行元の管理画面で無効化し、新しいキーに入れ替える。投稿やファイルを消すだけではキーは無効にならない。</td></tr></tbody></table></div>
+<p>手順の参考：<a href="https://support.apple.com/ja-jp/guide/textedit/txtee6663a0e/mac">Macのテキストエディット</a> ／ <a href="https://support.microsoft.com/en-us/windows/experience/storage-filemanagement/common-file-name-extensions-in-windows">Windowsのファイル名拡張子</a> ／ <a href="https://nodejs.org/api/environment_variables.html">.envを読み込む仕組み（Node.js）</a>。画面の表記はOSの版により変わることがあります。</p>
+
 </section>
 <section class="chapter ch-4" id="issue">
   <div class="chapter-head c-4">
@@ -257,7 +290,7 @@
     <img class="penguin penguin-ch" src="../../assets/penguins/penguin_teaching.png" alt="">
   </div>
     <p>
-      3つとも「ログイン → API キーの画面 → 作成 → 表示されたキーをその場で <code>.env</code> に貼る」の流れです。<strong>キーは作った直後にしか全文が表示されないサービスが多いです。</strong>画面を閉じる前に <code>.env</code> に貼り、貼れたことを確認してから閉じます。選んだサービスの節だけ読めば足ります。
+      3つとも「ログイン → API キーの画面 → 作成 → 表示されたキーをその場で <code>.env</code> に貼る」の流れです。<strong>キーは作った直後にしか全文が表示されないサービスが多いです。</strong>画面を閉じる前に <code>.env</code> に貼り、貼れたことを確認してから閉じます。選んだサービスの節だけ読めば足ります。貼り付ける操作は<a href="#env-paste">3-4「= の右側に貼る」</a>で確認できます。
     </p>
     <nav class="toc-mini" aria-label="この節の中（キーを発行する）">
       <a href="#key-claude">4-1 Claude API</a>
@@ -367,7 +400,7 @@
         <dt>Google Cloud のプロジェクト</dt><dd>Google のサービスで、キーや使用量や請求をまとめる単位。Gemini のキーはどれかのプロジェクトに属します。</dd>
         <dt>ステータスコード</dt><dd>API が答えと一緒に返す3桁の番号。何が起きたかの種類を表します。たとえば <code>401</code>＝キーが違う・読めていない、<code>404</code>＝送り先（モデル名など）が見つからない、<code>429</code>＝回数や残高の上限に当たった、です。</dd>
       </dl></div>
-  
+
 </section>
 <section class="chapter ch-5" id="ai">
   <div class="chapter-head c-5">
@@ -395,10 +428,7 @@
     </ol>
     <p>この 5-1 では、まずサーバーを立てて、いまの画面をサーバーから開けるようにします。要求を送る部分は 5-2 で足します。</p>
     <p>アプリは<strong>「見た目 → 動き → 裏側」の順に1段ずつ足して作ります。</strong>見た目と、画面の中だけで動く動きができていれば、ここで足すのは裏側だけです。<br><span class="why">なぜ1段ずつか：</span>一度に全部を作らせると、うまくいかないときに、見た目・動き・裏側のどこが原因か分かりません。1段足すたびに確かめておけば、先に調べるのは最後に足した1段で済みます。</p>
-    <figure class="fig">
-      <a class="zoom" href="../../assets/images/lesson04/diagram_build_order.svg"><picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04/diagram_build_order_sp.svg"><img src="../../assets/images/lesson04/diagram_build_order.svg" alt="作る順番。見た目 → 動き → 裏側の順に1段ずつ足す。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済む" loading="lazy"></picture></a>
-      <figcaption>作る順番。見た目 → 動き → 裏側の順に1段ずつ足します。1段ごとに確かめてから次を足すので、うまくいかないとき、先に調べるのは最後に足した1段で済みます</figcaption>
-    </figure>
+
     <p><span class="why">なぜ画面を作り直さないのか：</span>いまある HTML と CSS は、ご自身で見て決めた配置と見た目そのものです。動きがある場合は、それもご自身の手で押して確かめたものです。作り直させると配置も文言も動きも変わり、確かめ直しになります。足すのはサーバーと、画面からサーバーを呼ぶ処理だけで、画面のファイルは土台としてそのまま使います。</p>
     <p>仕様書の「使う技術」で、HTML をそのまま使わない構成（React など）を選んだ場合は、いまの画面の配置・文言・色・余白を変えずに、その構成の書き方へ移させます。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
@@ -465,17 +495,7 @@
     </div>
     <p><span class="why">なぜ保存より先に動きだけを足すのか：</span>保存まで一度に作らせると、一覧に出ないときに、画面の書き換えが悪いのか、保存が悪いのかが分かりません。まず画面の中だけで動くことを確かめておけば、あとで保存を足してうまくいかないとき、調べるのは保存の側だけで済みます。<br>データをどこに残すかは、この回の最後の<a href="#storage">「データの持ち方」</a>で、置き場ごとの違いを知ってから決めます。</p>
 
-    <h3 id="ai-route">5-2. 経路を先に通してから、AI に差し替える</h3>
-    <ol class="steps">
-      <li><p class="step-title"><code>.gitignore</code> と、値が空の <code>.env</code> を用意する（<a href="#key">03</a> の指示）</p><p><span class="why">なぜこの順か：</span><strong>キーを貼る前に、上げない設定と貼る先を用意しておきます。</strong>先にキーを発行すると、貼る先が無く、確かめる前の場所に置いてしまう事故が起きます。</p></li>
-      <li><p class="step-title">サービスを決めてキーを発行し、その場で <code>.env</code> に貼る（<a href="#issue">04</a>）</p><p><span class="why">なぜこの順か：</span>キーの全文は作った直後にしか表示されないためです。キーが無いと、手順4で AI を呼べません。</p></li>
-      <li><p class="step-title">AI を呼ばずに、決まった文章を返すだけのサーバー側の処理を作り、画面から呼んで表示させる（指示③）</p><p><span class="why">なぜこの順か：</span><strong>ここがいちばん大事です。</strong>画面 → サーバー → 画面の経路を先に1本通しておきます。同時に作ると、動かないときに<strong>経路の問題なのか AI 呼び出しの問題なのか切り分けられません。</strong>原因が2つある状態で詰まると、ほぼ抜けられません。<br>
-        画面側に、仮の文章を返す関数（例：<code>app/ai.js</code>）がすでにある場合は、新しいボタンを置かずに、その関数の中身を差し替えます（指示③の下の注記）。</p></li>
-      <li><p class="step-title">その処理の中身を、AI の呼び出しに差し替える（指示④）</p><p>Claude API を選んだ方は、送る前に <a href="#claude-credit">4-1</a> の手順4（クレジットの購入と上限）を済ませます。<br><span class="why">なぜこの順か：</span>経路が通っていることが分かっているので、うまくいかなければ原因は AI の呼び出し側に絞られます。</p></li>
-      <li><p class="step-title">返ってきた内容を画面に出し、待機中の表示と失敗したときの表示も入れる（指示⑤）</p><p><span class="why">なぜこの順か：</span>応答は数秒かかります。何も出ないと壊れたと思われ、<strong>何度も押される＝そのたびに課金されます</strong>。<br>
-        手順3で関数の中身を差し替えた場合は、この2つの表示はもうあるので、指示⑤は送らずに確かめるだけにします（指示③の下の注記）。</p></li>
-      <li><p class="step-title">管理画面で上限を設定し、スクリーンショットを撮る（<a href="#issue">04</a> の選んだサービスの節）</p><p><span class="why">なぜ：</span>この回の提出物です。作りを間違えたとき、被害が金額で止まります。<br>無料枠のまま使う Gemini の方は、無料枠であることが分かる画面を撮ります。</p></li>
-    </ol>
+    <h3 id="ai-route">5-2. 経路を先に通してから、AI に差し替える</h3><figure class="fig lv-diagram" data-diagram="l05_switch"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l05_switch.webp"><img src="../../assets/figs/lessons01-05/l05_switch.webp" alt="固定の文章で通してから、AIへ。先に：経路を確認：画面 → サーバー →「テスト応答です」→ 画面。次に：中身を差し替え：画面 → サーバー → AI → サーバー → 画面。確認する：要求は1回か、処理中・失敗の表示も出るか。一度に作らず、通信の問題とAI側の問題を分けて調べる。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">固定の文章で通してから、AIへ</p><ol class="lv-flow"><li><span class="lv-step" aria-hidden="true">1</span><div><strong>先に：経路を確認</strong><p>画面 → サーバー →「テスト応答です」→ 画面</p></div></li><li><span class="lv-step" aria-hidden="true">2</span><div><strong>次に：中身を差し替え</strong><p>画面 → サーバー → AI → サーバー → 画面</p></div></li><li><span class="lv-step" aria-hidden="true">3</span><div><strong>確認する</strong><p>要求は1回か、処理中・失敗の表示も出るか</p></div></li></ol><p class="lv-note">一度に作らず、通信の問題とAI側の問題を分けて調べる。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l05_switch.webp">図解を画像で開く ↗</a></div><figcaption>固定の文章で通してから、AIへ（仕組みを示す模式図）</figcaption></figure><ol class="steps"><li><p><a href="#key">03の指示</a>で、先に <code>.gitignore</code> と空の <code>.env</code> を用意します。共有しない設定と貼る場所を確かめるためです。</p></li><li><p><a href="#issue">04</a>でキーを発行し、その場で <code>.env</code> に貼ります。全文は発行直後にしか表示されないためです。</p></li><li><p><strong>指示③：</strong>固定の応答で、画面とサーバーの往復を確認します。既存の <code>app/ai.js</code> がある場合は、下の代替指示を使います。</p></li><li><p><strong>指示④：</strong>サーバーの処理をAI呼び出しに替えます。Claude APIは先に<a href="#claude-credit">クレジットと上限</a>を確認します。</p></li><li><p><strong>指示⑤：</strong>処理中・失敗の表示を用意します。既にある場合は追加せず、表示と連打防止を確かめます。</p></li><li><p><a href="#issue">選んだサービス</a>の上限設定の画面を撮ります。Geminiを無料枠で使う場合は、無料枠と分かる画面を撮ります。</p></li></ol>
 
     <h4>例：食費メモ（記録型）に「今月の食費をひとことで振り返る」ボタンを足す</h4>
     <p>手順3で送る指示です。AI はまだ呼びません。（ ）の中はご自身のアプリの機能に合わせて書き換えます。</p>
@@ -506,7 +526,7 @@
 <span class="code-label">指示④（AI に差し替える）― （ ）を自分のアプリに合わせて貼る</span>
 <pre class="prompt">さきほど作った入口の中身を、AIの呼び出しに差し替えてください。
 使うサービスは（Claude API）です。公式のライブラリを使ってください。
-APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側からだけ使ってください。画面側には出さないでください。.env の中身は開いて読まないでください。
+起動時に .env を読み込む設定を用意してください。APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側からだけ使ってください。画面側には出さないでください。.env の中身は開いて読まないでください。
 送る内容は、（いま画面の一覧に出ている記録の日付・金額・メモ）と、「（これを3行以内で振り返ってください）」という指示文です。
 モデル名は、公式ドキュメントに載っている現在の標準的なものを使い、コードの中の1箇所にまとめてください。
 （Gemini を選んだ場合だけ、この行を残す）モデルは gemini-3.5-flash-lite、ライブラリは @google/genai（Python なら google-genai）を使ってください。
@@ -568,7 +588,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     <div class="box box-warn"><strong>Gemini を有料枠で使う場合：</strong>送った内容と返ってきた内容が、ログとしてプロジェクトに保存されることがあります。文章を作るふつうの呼び出し（Generate Content API）では、2026年10月26日以降に作ったプロジェクトは保存される設定で始まり、それより前に作ったプロジェクトは、自分でオンにしていなければ既定では保存されません。Interactions API という別の呼び出し方は、プロジェクトを作った日に関係なく、既定で保存されます。ログの保存期間は標準で最大55日です。ログは自分のプロジェクトの中のもので、自分で Google に共有しない限り、製品の改善には使われません（<a href="https://ai.google.dev/gemini-api/docs/logs-policy" target="_blank" rel="noopener">公式の説明</a>）。<br>
       仕事の実データを送るなら、AI Studio の Logs and Datasets の画面の設定で保存を切るか（Generate Content API と Interactions API は別々に切り替えます）、Claude Code に「Gemini の呼び出しに store: false を付けてください」と頼みます。Generate Content API で store を指定するには、ライブラリが <code>@google/genai</code> 2.31.0 以上（Python は <code>google-genai</code> 2.33.0 以上）である必要があります（<a href="https://ai.google.dev/gemini-api/docs/logs-datasets" target="_blank" rel="noopener">公式の手順</a>。画面の文言は変わることがあります）。<br>
       <span class="why">なぜ：</span>製品の改善に使われなくても、送った実データが AI Studio の画面であとから読める形で残るためです。</div>
-  
+
 </section>
 <section class="chapter ch-6" id="storage">
   <div class="chapter-head c-6">
@@ -593,10 +613,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
         <dt>消える条件</dt><dd>その置き場に入れたデータが無くなる操作や状況。置き場を選ぶときの最初の観点です。</dd>
         <dt>永続化</dt><dd>ブラウザを閉じても、PC を再起動しても残るように保存すること。「画面の中に持っている」状態は永続化されていません。</dd>
       </dl></div>
-    <figure class="fig">
-      <a class="zoom" href="../../assets/images/lesson04/diagram_storage.svg"><picture><source media="(max-width:720px)" srcset="../../assets/images/lesson04/diagram_storage_sp.svg"><img src="../../assets/images/lesson04/diagram_storage.svg" alt="データの4つの置き場。ブラウザの中（localStorage）、PC のファイル（JSON ファイル／SQLite）、データベース（Turso）、スプレッドシート（Google スプレッドシート）。それぞれの消える条件・設定の手間・向いている場面を並べた図" loading="lazy"></picture></a>
-      <figcaption>4つの置き場。ブラウザの中／自分の PC のフォルダ／インターネット上のデータベース／スプレッドシート。ブラウザの中・PC のファイルは自分の PC の中、データベース・スプレッドシートは PC の外に置きます。外に置く2つは、PC が壊れても、アプリを置き直しても消えません。外に置くほど設定の手間が増えます</figcaption>
-    </figure>
+
     <div class="box box-point"><strong>置き場は、<a href="#store-choose">6-5 の選び方</a>で1つに決めてから、その置き場の指示の型を1つだけ送ります。4つ全部は送りません。</strong>6-1〜6-4 は、それぞれの置き場の仕組みと消える条件を読んで比べるための説明です。<br><span class="why">なぜ1つだけか：</span>続けて送ると、保存の処理が置き場の数だけ作られ、記録がどこに保存されているのか分からなくなります。</div>
 
     <h3 id="store-local">6-1. ブラウザの中に持つ（localStorage）</h3>
@@ -634,6 +651,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
     <h3 id="store-file">6-2. 自分の PC のファイルに持つ（JSON ファイル／SQLite）</h3>
     <p>サーバー側のプログラムが、アプリのフォルダの中のファイルにデータを読み書きします。ファイルの形は、JSON ファイル1つ（<code>data.json</code>）か、<strong>SQLite</strong> のファイル1つ（<code>data.db</code>）です。</p>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
+        <dt>JSON（ジェイソン）</dt><dd>項目名と値の組でデータを表す書き方。たとえば「タイトル」と「入力した文章」をひとまとまりにして保存できます。</dd>
         <dt>SQLite</dt><dd>データを1つのファイルに表の形で保存する仕組み。検索や並べ替えを SQL という決まった書き方で頼めます。別のプログラムを起動しておく必要がありません。</dd>
         <dt>SQL</dt><dd>データベースに「この条件の行を取り出して」「この行を書き換えて」と頼むための、決まった書き方の文。</dd>
         <dt>バックアップ</dt><dd>データの写しを別の場所に取っておくこと。ファイルに持っている場合は、そのファイルをコピーするだけで済みます。</dd>
@@ -788,29 +806,10 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
 完成条件：アプリで1件登録すると、シートに1行増えること。シートで直した内容がアプリの一覧に反映されること。</pre>
     <p><span class="why">なぜ認証用の JSON ファイルを .gitignore に入れるのか：</span>このファイルを持っていれば、誰でもそのサービスアカウントとして、共有したシートを読み書きできるためです。提出する zip にも入れません。</p>
 
-    <h3 id="store-choose">6-5. 4つの比較と、選び方</h3>
-    <div class="table-wrap" tabindex="0" role="region" aria-label="4つの置き場の比較表">
-      <table>
-        <thead><tr><th>置き場</th><th>どこにあるか</th><th>消える条件</th><th>設定の手間</th><th>向いている場面</th></tr></thead>
-        <tbody>
-          <tr><td><strong>ブラウザの中</strong>（localStorage）</td><td>自分の PC のブラウザ</td><td>履歴削除／容量不足や Safari で長く開かないとブラウザが消す／別ブラウザ・別 PC・別のアドレス（ポート番号）では見えない</td><td>ゼロ</td><td>試作・設定値・PC 1台で自分だけ</td></tr>
-          <tr><td><strong>PC のファイル</strong>（JSON／SQLite）</td><td>アプリのフォルダ</td><td>フォルダ削除／PC 故障／公開先で置き直すと初期化</td><td>少ない</td><td>自分の PC だけで使う</td></tr>
-          <tr><td><strong>データベース</strong>（Turso）</td><td>インターネット上</td><td>管理画面で削除／契約停止／無料プランは長く使わないと休止（データは残る）</td><td>中くらい</td><td>公開してスマホからも使う・PC を替える</td></tr>
-          <tr><td><strong>スプレッドシート</strong></td><td>Google ドライブ</td><td>シート削除／共有解除／列の手直し</td><td>多い</td><td>表を人が眺めて直す・共有</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p><strong>選び方：</strong>まず「<strong>誰が、どこから使うか</strong>」で決めます。</p>
-    <ul>
-      <li>自分の PC だけで使う → <strong>PC のファイル</strong>。SQLite にしておけば、あとで Turso に移せます</li>
-      <li>公開して外からも使う、PC を替えても続ける → <strong>Turso</strong></li>
-      <li>表を人が直接眺めて直す、家族と共有する → <strong>スプレッドシート</strong>（まずは CSV 書き出しで足りないかを考えます）</li>
-      <li>試作や、並び順のような表示の設定だけ → <strong>localStorage</strong></li>
-    </ul>
-    <div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_koko_daiji_board.png" alt=""><div class="box-body"><strong>保存の処理は、1つのファイルにまとめておきます。</strong>PC のファイル・Turso・スプレッドシートなら、サーバー側の1つのファイルにまとめ、画面側は「自分のサーバーに頼む」だけにします。localStorage なら、画面側の1つのファイル（例：<code>app/storage.js</code>）にまとめます。置き場の違いは、そのファイルの中だけに閉じ込めます。
+    <h3 id="store-choose">6-5. 4つの比較と、選び方</h3><figure class="fig lv-diagram" data-diagram="l05_storage"><a class="zoom lv-image" href="../../assets/figs/lessons01-05/l05_storage.webp"><img src="../../assets/figs/lessons01-05/l05_storage.webp" alt="保存先は「どこで使うか」で選ぶ。試作・表示設定：localStorage：ブラウザ内。サイトデータ削除で消える。別ブラウザでは別のデータ。自分のPCだけ：JSON／SQLite：PCのファイル。削除・PC故障に備えてバックアップ。複数の端末から：Turso：インターネット上のDB。削除・契約停止などに注意。表を人が見て直す：Google スプレッドシート。共有権限・列の変更に注意。選んだ保存先を docs/spec.md に記録する。" width="1536" height="1024" loading="lazy"></a><div class="lv-mobile"><p class="lv-title">保存先は「どこで使うか」で選ぶ</p><div class="lv-stack"><div class="lv-card"><strong>試作・表示設定</strong><p>localStorage：ブラウザ内<br>サイトデータ削除で消える。別ブラウザでは別のデータ</p></div><div class="lv-card"><strong>自分のPCだけ</strong><p>JSON／SQLite：PCのファイル<br>削除・PC故障に備えてバックアップ</p></div><div class="lv-card"><strong>複数の端末から</strong><p>Turso：インターネット上のDB<br>削除・契約停止などに注意</p></div><div class="lv-card"><strong>表を人が見て直す</strong><p>Google スプレッドシート<br>共有権限・列の変更に注意</p></div></div><p class="lv-note">選んだ保存先を docs/spec.md に記録する。</p><a class="lv-original" href="../../assets/figs/lessons01-05/l05_storage.webp">図解を画像で開く ↗</a></div><figcaption>保存先は「どこで使うか」で選ぶ（仕組みを示す模式図）</figcaption></figure><p>PCだけで使うならJSON／SQLite、複数端末から使うならTursoを検討します。人が表を編集するならスプレッドシート、試作や表示設定ならlocalStorage。表の受け渡しだけなら、まずCSV書き出しで足りるか確認してください。</p><p>保存先ごとの設定や消える条件は、上の各節にあります。<strong>別ブラウザ・別PC・別アドレスで見えないことと、削除されたことは別です。</strong>共有権限や契約の状態によっては、データが残っていても使えない場合があります。</p><div class="box box-point box-with-penguin"><img class="penguin" src="../../assets/penguins/penguin_koko_daiji_board.png" alt=""><div class="box-body"><strong>保存の処理は、1つのファイルにまとめておきます。</strong>PC のファイル・Turso・スプレッドシートなら、サーバー側の1つのファイルにまとめ、画面側は「自分のサーバーに頼む」だけにします。localStorage なら、画面側の1つのファイル（例：<code>app/storage.js</code>）にまとめます。置き場の違いは、そのファイルの中だけに閉じ込めます。
       <br><span class="why">なぜ：</span>置き場を変えるとき、直す場所が1つで済みます。画面側にまで保存の処理が散らばっていると、置き場を変えるたびにアプリ全体を作り直すことになります。</div></div>
     <p><strong>決めたら <code>docs/spec.md</code> の「使う技術」の「保存の仕組み」の行を書き換えます</strong>（Claude Code に「<code>docs/spec.md</code> の保存の仕組みを Turso に書き換えてください」と指示すれば済みます）。<br><span class="why">なぜ：</span>仕様書と実物がずれたままだと、次に Claude Code に指示したとき、古い保存先の前提でコードが作られます。</p>
-  
+
 </section>
 <section class="chapter ch-wrap" id="deliverables">
   <div class="chapter-head c-wrap">
@@ -844,7 +843,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       </div>
     </div>
     <div class="box box-warn"><strong>提出前に必ず確認：</strong>スクリーンショットとソースに <strong>API キーやトークンが写っていないか</strong>。まだどこにも貼っていなければ、キーが写らない範囲で撮り直します。一度でも掲示板・提出フォーム・共有の場所に出したら、貼り直すのではなく、管理画面でそのキーを無効化して作り直してください。</div>
-  
+
 </section>
 <section class="chapter ch-wrap" id="pitfalls">
   <div class="chapter-head c-wrap">
@@ -885,7 +884,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
         <p><strong>対処：</strong>月額プランと API は別の製品で、支払いも別です。OpenAI は OpenAI Platform の「Billing」で、Claude は Claude Platform の「請求」で、API 用のクレジットを買います（4-1・4-2）。Claude の Max・Ultra・Team に付く毎月の API クレジットも、受け取る手続きをするまでは使えません（4-1）。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 .env を直したのに反映されない</span>
         <p>認証エラーが続きます。</p>
-        <p><strong>対処：</strong>5-1 で起動したサーバーを、5-1 で教えてもらった止め方（多くはターミナルで <kbd>Ctrl</kbd>＋<kbd>C</kbd>）で止めて起動し直します（<code>.env</code> は起動時にしか読まれません）。それでも直らなければ、05 のエラーの表の「キーが <code>undefined</code>」の行を見ます。</p></div>
+        <p><strong>対処：</strong>5-1 で起動したサーバーを、5-1 で教えてもらった止め方（多くはターミナルで <kbd>Ctrl</kbd>＋<kbd>C</kbd>）で止めて起動し直します（この教材では <code>.env</code> を起動時に読み込む構成にします）。それでも直らなければ、05 のエラーの表の「キーが <code>undefined</code>」の行を見ます。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 モデル名のエラーが出る</span>
         <p><code>404</code> や <code>model not found</code> が返ります。</p>
         <p><strong>対処：</strong>公式ページで現在の名前を確認し、1箇所にまとめた場所を直します。Gemini で <code>no longer available to new users</code> と出たときは 2.5 系を呼んでいるので、4-3 の注記のモデル名に直します。</p></div>
@@ -911,7 +910,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
         <p>情報の持ち出しになります。</p>
         <p><strong>対処：</strong>送る項目を Claude Code に一覧させて確認します。開発中は架空のデータで進めます。Gemini の無料枠では、送った内容が Google の製品の改善に使われます（05 の注意）。</p></div>
     </div>
-  
+
 </section>
 <section class="chapter ch-wrap" id="glossary">
   <div class="chapter-head c-wrap">
@@ -925,7 +924,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       <table>
         <thead><tr><th>用語</th><th>意味</th></tr></thead>
         <tbody>
-          <tr><td><strong>API</strong></td><td>Application Programming Interface の頭文字。プログラムから別のプログラムやサービスの機能を呼び出すための、決められた呼び出し方</td></tr>
+          <tr><td><strong>API</strong></td><td>アプリから外部サービスにお願いするための受付窓口。実際には、お願いの送り方と結果の受け取り方が決まっています。Application Programming Interface の略</td></tr>
           <tr><td><strong>API 連携</strong></td><td>自分のアプリの中から外部サービスの API を呼び出して、その結果を自分の画面に使うこと</td></tr>
           <tr><td><strong>リクエスト／レスポンス</strong></td><td>API に送る要求と、返ってくる答え</td></tr>
           <tr><td><strong>URL</strong></td><td>インターネット上の場所を表す文字列。API では要求の送り先</td></tr>
@@ -934,10 +933,10 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
           <tr><td><strong>サーバー側（バックエンド）</strong></td><td>利用者から見えない場所で動く部分。秘密の文字列を使う処理とファイルの読み書きはここで行う</td></tr>
           <tr><td><strong>開発者ツール</strong></td><td>ブラウザに標準で付いている、画面の中身・通信・エラーを調べる機能</td></tr>
           <tr><td><strong>ネットワークの欄</strong></td><td>開発者ツールの中で、ブラウザが送った要求と答えを一覧で見られる画面</td></tr>
-          <tr><td><strong>API キー</strong></td><td>サービスが発行する本人確認用の長い文字列。使うと請求が来るパスワード</td></tr>
-          <tr><td><strong>.env</strong></td><td>秘密の文字列を書いておくファイル。アプリのフォルダ直下に置き、.gitignore に入れる</td></tr>
-          <tr><td><strong>環境変数</strong></td><td>プログラムの外側から渡す設定値。.env の内容は起動時に環境変数として読み込まれる</td></tr>
-          <tr><td><strong>.gitignore</strong></td><td>共有の場所に上げないファイルの名前を書いておく一覧</td></tr>
+          <tr><td><strong>API キー</strong></td><td>窓口を使うための秘密の利用証に当たる長い文字列。サービスが利用者やプロジェクトを確認するために使います</td></tr>
+          <tr><td><strong>.env</strong></td><td>アプリに渡す設定を「名前=値」で書くテキストファイル。この回ではAPIキーを置き、共有しない</td></tr>
+          <tr><td><strong>環境変数</strong></td><td>プログラムの外側から渡す設定値。この教材では、.env を読み込む設定を用意し、起動時に値を渡す</td></tr>
+          <tr><td><strong>.gitignore</strong></td><td>Gitで新しく共有する対象から外すファイルの一覧。すでに管理しているファイルやzipには効かない</td></tr>
           <tr><td><strong>node_modules</strong></td><td>アプリが使う部品（ライブラリ）を入れるフォルダ。作り直せるので共有や提出には含めない</td></tr>
           <tr><td><strong>モデル</strong></td><td>呼び出す AI の種類。名前を指定して呼び分ける。名前は変わる</td></tr>
           <tr><td><strong>トークン（AI の）</strong></td><td>AI のサービスが文章を数える単位。料金の元になる</td></tr>
@@ -979,7 +978,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
       </table>
     </div>
     <p><a href="../../">← Home（ゼミ全体の案内）へ戻る</a></p>
-  
+
 </section>
 
 <section class="chapter ch-wrap" id="guides">
@@ -1014,7 +1013,7 @@ APIキーは .env の（ANTHROPIC_API_KEY）から読み込み、サーバー側
 </main>
 </div>
 <!-- shot-stamp:start -->
-<aside style="max-width:980px;margin:32px auto 0;padding:14px 18px;border:1px solid #e4e4ef;border-radius:12px;background:#fafafd;color:#3f3f52;font-size:13.5px;line-height:1.9;break-inside:avoid;page-break-inside:avoid"><b>この資料の画面について</b><br>載せているスクリーンショットは <b>2026年9月〜2026年10月</b> に撮影したものです。ツールの更新で、ボタンの名前や画面の見た目が変わっていることがあります。手元の画面と違っても、<b>やることは同じ</b>ことがほとんどです。同じ意味のボタンを探しても見つからないときは、手元の画面のスクリーンショットを普段使っている生成AIに見せて聞くか、課題提出フォームの質問欄に書いてください（共通の内容は LIVE 講義で回答します）。各画像にマウスを乗せると、その 1 枚の撮影時期が出ます。</aside>
+<aside style="max-width:980px;margin:32px auto 0;padding:14px 18px;border:1px solid #e4e4ef;border-radius:12px;background:#fafafd;color:#3f3f52;font-size:13.5px;line-height:1.9;break-inside:avoid;page-break-inside:avoid"><b>この資料の画面について</b><br>載せているスクリーンショットは <b>2026年9月〜2026年11月</b> に撮影したものです。ツールの更新で、ボタンの名前や画面の見た目が変わっていることがあります。手元の画面と違っても、<b>やることは同じ</b>ことがほとんどです。同じ意味のボタンを探しても見つからないときは、手元の画面のスクリーンショットを普段使っている生成AIに見せて聞くか、課題提出フォームの質問欄に書いてください（共通の内容は LIVE 講義で回答します）。各画像にマウスを乗せると、その 1 枚の撮影時期が出ます。</aside>
 <!-- shot-stamp:end -->
 </body>
 </html>
