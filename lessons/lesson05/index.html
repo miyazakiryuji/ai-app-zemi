@@ -334,7 +334,7 @@ AIに任せること：（例：選んだメモを3つの要点にまとめる�
 
     <h3 id="key-claude">4-1. Claude API（Anthropic）</h3>
     <ol class="steps">
-      <li><p class="step-title"><a href="https://platform.claude.com/" target="_blank" rel="noopener">platform.claude.com</a>（Claude Platform。旧 Claude Console）を開き、Google アカウントかメールアドレスでログインする</p><p><span class="why">なぜ：</span>API キーはアカウントに紐づきます。ゼミで使っている Claude と同じアカウントでログインできます。ただし Claude の有料プランと API の支払いは別で、API は Claude Platform の「請求」でクレジットを買います。Max・Ultra・Team のプランには毎月の API クレジットが付きますが、受け取るには Claude Platform の組織をプランにつなぐ手続きが要ります（Pro には付きません。<a href="https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-and-team-plans" target="_blank" rel="noopener">Claude の公式ヘルプ</a>）。</p></li>
+      <li><p class="step-title"><a href="https://platform.claude.com/" target="_blank" rel="noopener">platform.claude.com</a>（Claude Platform。旧 Claude Console）を開き、Google アカウントかメールアドレスでログインする</p><p><span class="why">なぜ：</span>API キーはアカウントに紐づきます。ゼミで使っている Claude と同じアカウントでログインできます。ただし Claude の有料プランと API の支払いは別で、API は Claude Platform の「請求」でクレジットを買います。Max（旧 Max 5x）・Ultra（旧 Max 20x）・Team のプランには毎月の API クレジットが付きますが、受け取るには Claude Platform の組織をプランにつなぐ手続きが要ります（Pro には付きません。<a href="https://support.claude.com/en/articles/17154008-monthly-api-credits-for-max-and-team-plans" target="_blank" rel="noopener">Claude の公式ヘルプ</a>）。</p></li>
       <li><p class="step-title">「使用クレジットを購入して開始する」が出たら、ここでは買わず「今はスキップ」</p><p><span class="why">なぜ：</span>AI を呼ぶまでは費用はかからないため、買うのは経路が通ってからにします。<br>左のメニュー「組織の設定」→「API キー」を開きます。</p></li>
       <li><p class="step-title">「キーを作成」を押し、名前と有効期限を決めて「キーを作成」</p><p>途中で「ID 連携を使用すれば、API キーは不要です」という案内が出たら「API キーで続ける」を選びます（ID 連携はクラウド上で動かす場合の仕組みで、ご自身の PC で動かすアプリには使いません）。キーの全文が1回だけ表示されるので、<strong>その場で <code>.env</code> に貼ります。</strong></p></li>
       <li id="claude-credit"><p class="step-title">（5-2 の手順3 で「テスト応答です」が出たら）「請求」の画面でクレジットを購入し、自動リロードはオフのまま、「Spend limits」で月の上限を置く</p><p>Claude API は<strong>前払い</strong>で、買ったクレジットの範囲で使います。最初は少額で十分です。購入のときに「自動リロード（Auto-reload）」を入れる欄があれば、<strong>オフのまま</strong>にします。<br><span class="why">なぜ：</span>自動リロードを入れると、残高が減るたびに自動で買い足され、残高が上限の役目をしなくなります。<br>
@@ -422,12 +422,12 @@ AIに任せること：（例：選んだメモを3つの要点にまとめる�
       <a class="zoom" href="../../assets/images/lesson04/r4_gemini_spend_free.png"><img src="../../assets/images/lesson04/r4_gemini_spend_free.png" alt="Google AI Studio の「Gemini API の利用額」画面。無料枠の印があり、「このプロジェクトには現在、請求先が設定されていません」と「お支払い情報を設定」ボタンが出ている。左のメニューの「利用額」が囲まれている" loading="lazy" data-taken="2026-10-03" title="撮影 2026年10月"></a>
       <figcaption>無料枠のまま使う場合の「利用額」の画面。「このプロジェクトには現在、請求先が設定されていません」と出ていれば、支払い方法が未設定（無料枠）です。無料枠のまま使う方は、この画面を上限設定の代わりの提出物として撮ります</figcaption>
     </figure>
-    <div class="box box-note"><strong>Gemini のモデル名とライブラリ（2026年10月30日時点）：</strong>新しく始める人に Google が勧めているモデルは <code>gemini-3.5-flash-lite</code> と <code>gemini-3.8-flash</code> の2つで、どちらも無料枠があります（<code>gemini-3.8-flash</code> は、無料枠で1日に呼べる回数が少なめです）。このページでは、軽くて回数の多い <code>gemini-3.5-flash-lite</code> を使います（2026年9月24日に講師のプロジェクトで確かめたとき、無料枠は1日500回でした）。<br>
+    <div class="box box-note"><strong>Gemini のモデル名とライブラリ（2026年11月8日時点）：</strong>新しく始める人に Google が勧めているモデルは <code>gemini-3.5-flash-lite</code> と <code>gemini-3.8-flash</code> の2つで、どちらも無料枠があります（<code>gemini-3.8-flash</code> は、無料枠で1日に呼べる回数が少なめです）。このページでは、軽くて回数の多い <code>gemini-3.5-flash-lite</code> を使います（2026年9月24日に講師のプロジェクトで確かめたとき、無料枠は1日500回でした）。<br>
       2026年10月13日に一般提供が始まった <code>gemini-4-argon</code>（Gemini 4 Argon）は、公式ドキュメントで新しいモデルとして案内されていますが、無料枠では使えません（支払い方法を設定した有料の利用だけです）。無料枠のまま使う方は選びません。<br>
       <span class="why">なぜ：</span>支払い方法を設定していないプロジェクトからは、このモデルを呼び出せません。この回の指示ではモデル名を <code>gemini-3.5-flash-lite</code> と指定しているので、指示のまま使えば当たりません。<br>
       有料枠で使う方へ：<a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener">公式の料金ページ</a>では、<code>gemini-3.8-flash</code> と <code>gemini-3.6-flash</code> の有料枠の料金は2027年1月1日から、<code>gemini-4-argon</code> の料金は2026年12月1日から、いまの2倍になると案内されています。<code>gemini-3.5-flash-lite</code> の欄と無料枠の欄には、この変更の案内はありません。<br>
       <span class="why">なぜ：</span>呼ぶ回数が同じでも請求額が変わるので、月の上限の金額を決めるときに見込んでおきます。<br>
-      <code>gemini-2.5-flash</code> などの 2.5 系は、廃止ではありませんが、2026年9月18日の Gemini API の変更履歴で、以前から使っていた人だけが使えるものになりました。新しく始める人が呼ぶと <code>404</code>（<code>no longer available to new users</code>）で止まります。Claude Code が 2.5 系の名前を書くことがあるので、指示の中でモデル名を渡します。<br>
+      <code>gemini-2.5-flash</code> と <code>gemini-2.5-pro</code> は、2026年11月2日に非推奨になり、Google AI Studio では選べなくなりました。API で呼べるのは以前から使っていた人だけで、2026年11月30日までは、新しく始める人が呼ぶと <code>404</code>（<code>no longer available to new users</code>）で止まります。2026年12月1日からは、<code>gemini-2.5-flash</code> への呼び出しは <code>gemini-3.5-flash-lite</code> へ、<code>gemini-2.5-pro</code> への呼び出しは <code>gemini-3.8-flash</code> へ自動で回され、回った先のモデルの料金で請求されます。回った先のモデルでは、考える量の指定が <code>thinking_budget</code> から <code>thinking_level</code> に変わるなど書き方が違うところがあり、前のコードのままでは失敗することがあります（<a href="https://ai.google.dev/gemini-api/docs/changelog" target="_blank" rel="noopener">Gemini API の変更履歴</a>・<a href="https://ai.google.dev/gemini-api/docs/deprecations" target="_blank" rel="noopener">非推奨のモデルの一覧</a>）。<code>gemini-2.5-flash-lite</code> は非推奨になっていませんが、以前から使っていた人だけが使える点は同じで、新しく始める人は使えません。Claude Code が 2.5 系の名前を書くことがあるので、指示の中でモデル名を渡します。<br>
       ライブラリは Google の新しいもの（JavaScript は <code>@google/genai</code>、Python は <code>google-genai</code>）を使います。古いライブラリは 2025年11月30日に非推奨になりました。名前は変わることがあるので、最新は <a href="https://ai.google.dev/gemini-api/docs/models" target="_blank" rel="noopener">Gemini API の公式のモデル一覧</a>で確かめます。</div>
     <div class="box box-term"><span class="box-title">📗 用語</span><dl>
         <dt>Google Cloud のプロジェクト</dt><dd>Google のサービスで、キーや使用量や請求をまとめる単位。Gemini のキーはどれかのプロジェクトに属します。</dd>
@@ -600,7 +600,7 @@ APIキーは.envから読み込み、必要な設定名だけを教えてくだ�
           <tr><td>短時間に何度も呼んで制限がかかる（<code>429</code> や <code>rate limit</code>）</td><td>画面の再描画のたびに呼び出している／連打</td><td>「ボタンを押したときだけ呼ぶように」と指示します。<strong>課金にも直結するので必ず直します</strong></td></tr>
           <tr><td>Gemini の無料枠で、ふつうに使っているのに <code>429</code>（<code>RESOURCE_EXHAUSTED</code>）が返る</td><td>無料枠の1分あたり・1日あたりの回数の上限に当たった</td><td>1分あたりの上限なら、少し待ってから押し直します。1日の上限なら、回数が戻るまで待ちます（戻る時刻は公式の<a href="https://ai.google.dev/gemini-api/docs/rate-limits" target="_blank" rel="noopener">レート制限のページ</a>で確認）。自分の上限は AI Studio の「レート制限」で見られます</td></tr>
           <tr><td>応答が返る前に止まる</td><td>待ち時間の上限に達している</td><td>送る文章を短くします。長い入力を分けて渡します</td></tr>
-          <tr><td>モデル名が違う・見つからないと言われる（<code>404</code> や <code>model not found</code>）</td><td>モデル名は変わる</td><td>公式ページで現在の名前を確認し、まとめてある1箇所を直します。Gemini で <code>no longer available to new users</code> と出たときは、新しく始める人は使えない 2.5 系を呼んでいます。<a href="#key-gemini">4-3</a> の注記のモデル名に直します</td></tr>
+          <tr><td>モデル名が違う・見つからないと言われる（<code>404</code> や <code>model not found</code>）</td><td>モデル名は変わる</td><td>公式ページで現在の名前を確認し、まとめてある1箇所を直します。Gemini で <code>no longer available to new users</code> と出たときは、新しく始める人は使えない 2.5 系を呼んでいます。<a href="#key-gemini">4-3</a> の注記のモデル名に直します。2026年12月1日以降は、<code>404</code> ではなく、回った先のモデルでのエラーになることがあります</td></tr>
           <tr><td>画面側でキーが読めない（<code>undefined</code> になる）</td><td>キーを画面側から使おうとしている</td><td><strong>画面側からは読めないのが正しい状態です。</strong>サーバー側の処理から使います</td></tr>
         </tbody>
       </table>
@@ -750,7 +750,7 @@ APIキーは.envから読み込み、必要な設定名だけを教えてくだ�
     <ul>
       <li><strong>手元の SQLite と同じ SQL が使えます。</strong>6-2 で SQLite にしておけば、変える場所は主に接続の部分です（使う部品の違いで、少し直しが入ることがあります）。保存・読み出しの処理を一から書き直さずに済みます</li>
       <li>Supabase や Firebase には、画面側から直接データベースにつなぐ使い方が多くあります。この作りは便利ですが、<strong>アクセス制限の設定を1つ誤ると、データが誰からでも読める状態になります。</strong>このゼミでは「データベースにつなぐのはサーバー側だけ」という作りに統一し、その形が自然に取れる Turso にします</li>
-      <li>無料で使える範囲がありますが、内容は変わることがあります。2026年10月2日に、Turso は Supabase に加わると発表しました（サービスは続くと案内されています。料金・無料プラン・画面がいつ変わるかは、2026年10月30日時点で発表されていません）。画面やプランが変わることがあるので、最新は <a href="https://turso.tech/" target="_blank" rel="noopener">Turso の公式ページ</a>でご確認ください</li>
+      <li>無料で使える範囲がありますが、内容は変わることがあります。2026年10月2日に、Turso は Supabase に加わると発表しました（サービスは続くと案内されています。料金・無料プラン・画面がいつ変わるかは、2026年11月8日時点で発表されていません）。画面やプランが変わることがあるので、最新は <a href="https://turso.tech/" target="_blank" rel="noopener">Turso の公式ページ</a>でご確認ください</li>
     </ul>
     <h4>Turso を用意する手順</h4>
     <ol class="steps">
@@ -897,7 +897,7 @@ APIキーは.envから読み込み、必要な設定名だけを教えてくだ�
         <p><strong>対処：</strong>5-1 で起動したサーバーを、5-1 で教えてもらった止め方（多くはターミナルで <kbd>Ctrl</kbd>＋<kbd>C</kbd>）で止めて起動し直します（この教材では <code>.env</code> を起動時に読み込む構成にします）。それでも直らなければ、05 のエラーの表の「キーが <code>undefined</code>」の行を見ます。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 モデル名のエラーが出る</span>
         <p><code>404</code> や <code>model not found</code> が返ります。</p>
-        <p><strong>対処：</strong>公式ページで現在の名前を確認し、1箇所にまとめた場所を直します。Gemini で <code>no longer available to new users</code> と出たときは 2.5 系を呼んでいるので、4-3 の注記のモデル名に直します。</p></div>
+        <p><strong>対処：</strong>公式ページで現在の名前を確認し、1箇所にまとめた場所を直します。Gemini で <code>no longer available to new users</code> と出たときは 2.5 系を呼んでいるので、4-3 の注記のモデル名に直します。2026年12月1日以降は、<code>404</code> ではなく、回った先のモデルでのエラーになることがあります。</p></div>
       <div class="box box-trouble"><span class="box-title">🧯 出力が毎回違う</span>
         <p>表示が崩れる・合っているか確認できません。</p>
         <p><strong>対処：</strong>形式を指示文で指定し、守られなかったときの表示を用意します。「形式が守られているか」で確認します。</p></div>
